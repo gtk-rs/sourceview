@@ -64,7 +64,6 @@ manual = [
     "Gtk.WrapMode",
     "Gio.Cancellable",
     "Gio.File",
-    "Gio.Icon",
     "Gio.InputStream",
     "Pango.FontDescription",
     "Pango.Underline",

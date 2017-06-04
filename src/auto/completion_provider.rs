@@ -7,8 +7,6 @@ use CompletionInfo;
 use CompletionProposal;
 use ffi;
 use gdk_pixbuf;
-#[cfg(feature = "v3_18")]
-use gio;
 use glib::object::IsA;
 use glib::translate::*;
 use gtk;
@@ -26,8 +24,8 @@ pub trait CompletionProviderExt {
 
     fn get_activation(&self) -> CompletionActivation;
 
-    #[cfg(feature = "v3_18")]
-    fn get_gicon(&self) -> Option<gio::Icon>;
+    //#[cfg(feature = "v3_18")]
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon>;
 
     fn get_icon(&self) -> Option<gdk_pixbuf::Pixbuf>;
 
@@ -64,12 +62,10 @@ impl<O: IsA<CompletionProvider>> CompletionProviderExt for O {
         }
     }
 
-    #[cfg(feature = "v3_18")]
-    fn get_gicon(&self) -> Option<gio::Icon> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_completion_provider_get_gicon(self.to_glib_none().0))
-        }
-    }
+    //#[cfg(feature = "v3_18")]
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon> {
+    //    unsafe { TODO: call ffi::gtk_source_completion_provider_get_gicon() }
+    //}
 
     fn get_icon(&self) -> Option<gdk_pixbuf::Pixbuf> {
         unsafe {

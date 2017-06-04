@@ -3,8 +3,6 @@
 
 use ffi;
 use gdk_pixbuf;
-#[cfg(feature = "v3_18")]
-use gio;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
@@ -27,8 +25,8 @@ pub trait CompletionProposalExt {
 
     fn equal<P: IsA<CompletionProposal>>(&self, other: &P) -> bool;
 
-    #[cfg(feature = "v3_18")]
-    fn get_gicon(&self) -> Option<gio::Icon>;
+    //#[cfg(feature = "v3_18")]
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon>;
 
     fn get_icon(&self) -> Option<gdk_pixbuf::Pixbuf>;
 
@@ -61,12 +59,10 @@ impl<O: IsA<CompletionProposal> + IsA<glib::object::Object>> CompletionProposalE
         }
     }
 
-    #[cfg(feature = "v3_18")]
-    fn get_gicon(&self) -> Option<gio::Icon> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_completion_proposal_get_gicon(self.to_glib_none().0))
-        }
-    }
+    //#[cfg(feature = "v3_18")]
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon> {
+    //    unsafe { TODO: call ffi::gtk_source_completion_proposal_get_gicon() }
+    //}
 
     fn get_icon(&self) -> Option<gdk_pixbuf::Pixbuf> {
         unsafe {

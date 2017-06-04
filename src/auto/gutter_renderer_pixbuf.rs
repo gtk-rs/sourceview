@@ -4,7 +4,6 @@
 use GutterRenderer;
 use ffi;
 use gdk_pixbuf;
-use gio;
 use glib::object::Downcast;
 use glib::object::IsA;
 use glib::translate::*;
@@ -26,7 +25,7 @@ impl GutterRendererPixbuf {
 }
 
 pub trait GutterRendererPixbufExt {
-    fn get_gicon(&self) -> Option<gio::Icon>;
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon>;
 
     fn get_icon_name(&self) -> Option<String>;
 
@@ -34,7 +33,7 @@ pub trait GutterRendererPixbufExt {
 
     fn get_stock_id(&self) -> Option<String>;
 
-    fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q);
+    //fn set_gicon<'a, P: IsA</*Ignored*/gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q);
 
     fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
 
@@ -44,11 +43,9 @@ pub trait GutterRendererPixbufExt {
 }
 
 impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
-    fn get_gicon(&self) -> Option<gio::Icon> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_gutter_renderer_pixbuf_get_gicon(self.to_glib_none().0))
-        }
-    }
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon> {
+    //    unsafe { TODO: call ffi::gtk_source_gutter_renderer_pixbuf_get_gicon() }
+    //}
 
     fn get_icon_name(&self) -> Option<String> {
         unsafe {
@@ -68,13 +65,9 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
         }
     }
 
-    fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q) {
-        let icon = icon.into();
-        let icon = icon.to_glib_none();
-        unsafe {
-            ffi::gtk_source_gutter_renderer_pixbuf_set_gicon(self.to_glib_none().0, icon.0);
-        }
-    }
+    //fn set_gicon<'a, P: IsA</*Ignored*/gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q) {
+    //    unsafe { TODO: call ffi::gtk_source_gutter_renderer_pixbuf_set_gicon() }
+    //}
 
     fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P) {
         let icon_name = icon_name.into();

@@ -4,8 +4,6 @@
 use CompletionProposal;
 use ffi;
 use gdk_pixbuf;
-#[cfg(feature = "v3_18")]
-use gio;
 use glib;
 use glib::Value;
 use glib::object::IsA;
@@ -53,8 +51,8 @@ impl CompletionItem {
 }
 
 pub trait CompletionItemExt {
-    #[cfg(feature = "v3_18")]
-    fn set_property_gicon<P: IsA<gio::Icon> + IsA<glib::object::Object>>(&self, gicon: Option<&P>);
+    //#[cfg(feature = "v3_18")]
+    //fn set_property_gicon<P: IsA</*Ignored*/gio::Icon> + IsA<glib::object::Object>>(&self, gicon: Option<&P>);
 
     fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
@@ -71,12 +69,12 @@ pub trait CompletionItemExt {
 }
 
 impl<O: IsA<CompletionItem> + IsA<glib::object::Object>> CompletionItemExt for O {
-    #[cfg(feature = "v3_18")]
-    fn set_property_gicon<P: IsA<gio::Icon> + IsA<glib::object::Object>>(&self, gicon: Option<&P>) {
-        unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0, "gicon".to_glib_none().0, Value::from(gicon).to_glib_none().0);
-        }
-    }
+    //#[cfg(feature = "v3_18")]
+    //fn set_property_gicon<P: IsA</*Ignored*/gio::Icon> + IsA<glib::object::Object>>(&self, gicon: Option<&P>) {
+    //    unsafe {
+    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "gicon".to_glib_none().0, Value::from(gicon).to_glib_none().0);
+    //    }
+    //}
 
     fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>) {
         unsafe {

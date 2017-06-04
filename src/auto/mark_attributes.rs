@@ -5,7 +5,6 @@ use Mark;
 use ffi;
 use gdk;
 use gdk_pixbuf;
-use gio;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
@@ -36,7 +35,7 @@ impl MarkAttributes {
 pub trait MarkAttributesExt {
     fn get_background(&self) -> Option<gdk::RGBA>;
 
-    fn get_gicon(&self) -> Option<gio::Icon>;
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon>;
 
     fn get_icon_name(&self) -> Option<String>;
 
@@ -52,7 +51,7 @@ pub trait MarkAttributesExt {
 
     fn set_background(&self, background: &gdk::RGBA);
 
-    fn set_gicon<P: IsA<gio::Icon>>(&self, gicon: &P);
+    //fn set_gicon<P: IsA</*Ignored*/gio::Icon>>(&self, gicon: &P);
 
     fn set_icon_name(&self, icon_name: &str);
 
@@ -74,11 +73,9 @@ impl<O: IsA<MarkAttributes> + IsA<glib::object::Object>> MarkAttributesExt for O
         }
     }
 
-    fn get_gicon(&self) -> Option<gio::Icon> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_mark_attributes_get_gicon(self.to_glib_none().0))
-        }
-    }
+    //fn get_gicon(&self) -> /*Ignored*/Option<gio::Icon> {
+    //    unsafe { TODO: call ffi::gtk_source_mark_attributes_get_gicon() }
+    //}
 
     fn get_icon_name(&self) -> Option<String> {
         unsafe {
@@ -122,11 +119,9 @@ impl<O: IsA<MarkAttributes> + IsA<glib::object::Object>> MarkAttributesExt for O
         }
     }
 
-    fn set_gicon<P: IsA<gio::Icon>>(&self, gicon: &P) {
-        unsafe {
-            ffi::gtk_source_mark_attributes_set_gicon(self.to_glib_none().0, gicon.to_glib_none().0);
-        }
-    }
+    //fn set_gicon<P: IsA</*Ignored*/gio::Icon>>(&self, gicon: &P) {
+    //    unsafe { TODO: call ffi::gtk_source_mark_attributes_set_gicon() }
+    //}
 
     fn set_icon_name(&self, icon_name: &str) {
         unsafe {
