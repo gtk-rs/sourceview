@@ -1,0 +1,13 @@
+[options]
+work_mode = "sys"
+library = "GtkSource"
+version = "3.0"
+external_libraries = [
+   "GLib",
+   "GObject",
+   "Gtk",
+   "GdkPixbuf",
+   "Gio",
+   "Gdk",
+   "Cairo",
+]
