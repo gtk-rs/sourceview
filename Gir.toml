@@ -1,0 +1,154 @@
+[options]
+girs_dir = "gir-files"
+library = "GtkSource"
+version = "3.0"
+target_path = "."
+work_mode = "normal"
+
+generate = [
+    "GtkSource.BackgroundPatternType",
+    "GtkSource.ChangeCaseType",
+    "GtkSource.CompletionActivation",
+    "GtkSource.CompletionItem",
+    "GtkSource.CompletionProposal",
+    "GtkSource.CompletionProvider",
+    "GtkSource.CompletionWords",
+    "GtkSource.CompressionType",
+    "GtkSource.DrawSpacesFlags",
+    "GtkSource.Encoding",
+    "GtkSource.File",
+    "GtkSource.FileLoader",
+    "GtkSource.FileSaver",
+    "GtkSource.FileSaverFlags",
+    "GtkSource.GutterRendererAlignmentMode",
+    "GtkSource.GutterRendererPixbuf",
+    "GtkSource.GutterRendererState",
+    "GtkSource.GutterRendererText",
+    "GtkSource.Language",
+    "GtkSource.LanguageManager",
+    "GtkSource.Map",
+    "GtkSource.Mark",
+    "GtkSource.NewlineType",
+    "GtkSource.PrintCompositor",
+    "GtkSource.SearchContext",
+    "GtkSource.SearchSettings",
+    "GtkSource.SmartHomeEndType",
+    "GtkSource.StyleScheme",
+    "GtkSource.StyleSchemeManager",
+    "GtkSource.StyleSchemeChooser",
+    "GtkSource.Tag",
+    "GtkSource.UndoManager",
+]
+
+ignore = [
+]
+
+manual = [
+    "cairo.Context",
+    "Gdk.Event",
+    "Gdk.Rectangle",
+    "Gdk.RGBA",
+    "Gdk.Window",
+    "GdkPixbuf.Pixbuf",
+    "GLib.Error",
+    "Gtk.PrintContext",
+    "Gtk.ScrollStep",
+    "Gtk.TextBuffer",
+    "Gtk.TextIter",
+    "Gtk.TextMark",
+    "Gtk.TextTagTable",
+    "Gtk.TextView",
+    "Gtk.TextWindowType",
+    "Gtk.Tooltip",
+    "Gtk.Unit",
+    "Gtk.Widget",
+    "Gtk.WrapMode",
+    "Gio.Cancellable",
+    "Gio.File",
+    "Gio.Icon",
+    "Gio.InputStream",
+    "Pango.FontDescription",
+    "Pango.Underline",
+]
+
+[[object]]
+name = "GtkSource.Buffer"
+status = "generate"
+    [[object.function]]
+    name = "set_undo_manager"
+    version = "2.10"
+    [[object.function]]
+    name = "get_undo_manager"
+    version = "2.10"
+
+[[object]]
+name = "GtkSource.Completion"
+status = "generate"
+    [[object.function]]
+    name = "create_context"
+    ignore = true
+
+[[object]]
+name = "GtkSource.CompletionContext"
+status = "generate"
+    [[object.property]]
+    name = "iter"
+    ignore = true
+
+[[object]]
+name = "GtkSource.CompletionInfo"
+status = "generate"
+    [[object.function]]
+    name = "move_to_iter"
+    ignore = true
+
+[[object]]
+name = "GtkSource.MarkAttributes"
+status = "generate"
+version = "2.2"
+
+[[object]]
+name = "GtkSource.View"
+status = "generate"
+    [[object.function]]
+    name = "get_mark_attributes"
+    version = "2.2"
+    [[object.function]]
+    name = "set_mark_attributes"
+    version = "2.2"
+
+[[object]]
+name = "GtkSource.StyleSchemeChooserButton"
+version = "3.16"
+
+[[object]]
+name = "GtkSource.StyleSchemeChooserWidget"
+version = "3.16"
+
+[[object]]
+name = "GtkSource.Gutter"
+status = "generate"
+    [[object.function]]
+    name = "get_padding"
+    ignore = true
+
+[[object]]
+name = "GtkSource.GutterRenderer"
+status = "generate"
+    [[object.function]]
+    name = "begin"
+        [[object.function.parameter]]
+        name = "cr"
+        const = true
+    [[object.function]]
+    name = "draw"
+        [[object.function.parameter]]
+        name = "cr"
+        const = true
+
+[[object]]
+name = "GtkSource.Style"
+status = "generate"
+    [[object.function]]
+    name = "copy"
+    ignore = true
