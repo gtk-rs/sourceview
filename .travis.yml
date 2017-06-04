@@ -13,7 +13,6 @@ addons:
     - libgtksourceview-3.0-dev
 script:
   - rustc --version
-  - ./check_init_asserts
   - cargo test --features embed-lgpl-docs
   # catch any sneaked in lgpl docs
   - cargo build --features purge-lgpl-docs
