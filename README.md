@@ -1,4 +1,4 @@
-# gdk [![Build Status](https://travis-ci.org/gtk-rs/sourceview.png?branch=master)](https://travis-ci.org/gtk-rs/sourceview) [![Build status](https://ci.appveyor.com/api/projects/status/x49sdkx68n0sa22g?svg=true)](https://ci.appveyor.com/project/GuillaumeGomez/sourceview) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gtk-rs/gtk)
+# gdk [![Build Status](https://travis-ci.org/gtk-rs/sourceview.png?branch=master)](https://travis-ci.org/gtk-rs/sourceview) [![Build status](https://ci.appveyor.com/api/projects/status/d2ibj4soirbbjbdt?svg=true)](https://ci.appveyor.com/project/GuillaumeGomez/sourceview) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gtk-rs/gtk)
 
 GtkSourceView bindings for Rust.
 
