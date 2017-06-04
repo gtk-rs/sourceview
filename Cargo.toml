@@ -34,7 +34,7 @@ default = ["v2_0"]
 
 [build-dependencies.gtk-rs-lgpl-docs]
 git = "https://github.com/gtk-rs/lgpl-docs"
-version = "0.1.1"
+version = "0.1.2"
 optional = true
 
 [dependencies]
