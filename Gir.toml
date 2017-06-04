@@ -51,7 +51,6 @@ manual = [
     "Gdk.Window",
     "GdkPixbuf.Pixbuf",
     "GLib.Error",
-    "Gtk.PrintContext",
     "Gtk.ScrollStep",
     "Gtk.TextBuffer",
     "Gtk.TextIter",

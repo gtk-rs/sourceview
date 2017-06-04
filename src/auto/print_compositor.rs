@@ -8,6 +8,7 @@ use View;
 use ffi;
 use glib::object::IsA;
 use glib::translate::*;
+#[cfg(feature = "v2_2")]
 use gtk;
 
 glib_wrapper! {
@@ -35,7 +36,7 @@ impl PrintCompositor {
 }
 
 pub trait PrintCompositorExt {
-    fn draw_page(&self, context: &gtk::PrintContext, page_nr: i32);
+    //fn draw_page(&self, context: /*Ignored*/&gtk::PrintContext, page_nr: i32);
 
     #[cfg(feature = "v2_2")]
     fn get_body_font_name(&self) -> Option<String>;
@@ -88,8 +89,8 @@ pub trait PrintCompositorExt {
     #[cfg(feature = "v2_2")]
     fn get_wrap_mode(&self) -> gtk::WrapMode;
 
-    #[cfg(feature = "v2_2")]
-    fn paginate(&self, context: &gtk::PrintContext) -> bool;
+    //#[cfg(feature = "v2_2")]
+    //fn paginate(&self, context: /*Ignored*/&gtk::PrintContext) -> bool;
 
     #[cfg(feature = "v2_2")]
     fn set_body_font_name(&self, font_name: &str);
@@ -141,11 +142,9 @@ pub trait PrintCompositorExt {
 }
 
 impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
-    fn draw_page(&self, context: &gtk::PrintContext, page_nr: i32) {
-        unsafe {
-            ffi::gtk_source_print_compositor_draw_page(self.to_glib_none().0, context.to_glib_none().0, page_nr);
-        }
-    }
+    //fn draw_page(&self, context: /*Ignored*/&gtk::PrintContext, page_nr: i32) {
+    //    unsafe { TODO: call ffi::gtk_source_print_compositor_draw_page() }
+    //}
 
     #[cfg(feature = "v2_2")]
     fn get_body_font_name(&self) -> Option<String> {
@@ -266,12 +265,10 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
         }
     }
 
-    #[cfg(feature = "v2_2")]
-    fn paginate(&self, context: &gtk::PrintContext) -> bool {
-        unsafe {
-            from_glib(ffi::gtk_source_print_compositor_paginate(self.to_glib_none().0, context.to_glib_none().0))
-        }
-    }
+    //#[cfg(feature = "v2_2")]
+    //fn paginate(&self, context: /*Ignored*/&gtk::PrintContext) -> bool {
+    //    unsafe { TODO: call ffi::gtk_source_print_compositor_paginate() }
+    //}
 
     #[cfg(feature = "v2_2")]
     fn set_body_font_name(&self, font_name: &str) {

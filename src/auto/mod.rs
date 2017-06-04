@@ -99,8 +99,11 @@ pub use self::mark_attributes::MarkAttributes;
 #[cfg(feature = "v2_2")]
 pub use self::mark_attributes::MarkAttributesExt;
 
+#[cfg(feature = "v2_2")]
 mod print_compositor;
+#[cfg(feature = "v2_2")]
 pub use self::print_compositor::PrintCompositor;
+#[cfg(feature = "v2_2")]
 pub use self::print_compositor::PrintCompositorExt;
 
 #[cfg(feature = "v3_10")]
@@ -229,6 +232,7 @@ pub mod traits {
     pub use super::MarkExt;
     #[cfg(feature = "v2_2")]
     pub use super::MarkAttributesExt;
+    #[cfg(feature = "v2_2")]
     pub use super::PrintCompositorExt;
     #[cfg(feature = "v3_10")]
     pub use super::SearchContextExt;
