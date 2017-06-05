@@ -77,9 +77,6 @@ pub trait ViewExt {
 
     fn get_insert_spaces_instead_of_tabs(&self) -> bool;
 
-    #[cfg(feature = "v2_2")]
-    fn get_mark_attributes(&self, category: &str, priority: i32) -> Option<MarkAttributes>;
-
     fn get_right_margin_position(&self) -> u32;
 
     #[cfg(feature = "v2_2")]
@@ -226,13 +223,6 @@ impl<O: IsA<View> + IsA<glib::object::Object>> ViewExt for O {
     fn get_insert_spaces_instead_of_tabs(&self) -> bool {
         unsafe {
             from_glib(ffi::gtk_source_view_get_insert_spaces_instead_of_tabs(self.to_glib_none().0))
-        }
-    }
-
-    #[cfg(feature = "v2_2")]
-    fn get_mark_attributes(&self, category: &str, priority: i32) -> Option<MarkAttributes> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_view_get_mark_attributes(self.to_glib_none().0, category.to_glib_none().0, priority))
         }
     }
 

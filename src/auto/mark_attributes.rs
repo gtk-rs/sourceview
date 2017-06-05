@@ -7,12 +7,13 @@ use gdk;
 use gdk_pixbuf;
 use gio;
 use glib;
+use glib::Value;
 use glib::object::Downcast;
 use glib::object::IsA;
 use glib::signal::connect;
 use glib::translate::*;
 use glib_ffi;
-use gtk;
+use gobject_ffi;
 use libc;
 use std::boxed::Box as Box_;
 use std::mem::transmute;
@@ -40,15 +41,11 @@ pub trait MarkAttributesExt {
 
     fn get_icon_name(&self) -> Option<String>;
 
-    fn get_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf>;
-
     fn get_stock_id(&self) -> Option<String>;
 
     fn get_tooltip_markup(&self, mark: &Mark) -> Option<String>;
 
     fn get_tooltip_text(&self, mark: &Mark) -> Option<String>;
-
-    fn render_icon<P: IsA<gtk::Widget>>(&self, widget: &P, size: i32) -> Option<gdk_pixbuf::Pixbuf>;
 
     fn set_background(&self, background: &gdk::RGBA);
 
@@ -59,6 +56,8 @@ pub trait MarkAttributesExt {
     fn set_pixbuf(&self, pixbuf: &gdk_pixbuf::Pixbuf);
 
     fn set_stock_id(&self, stock_id: &str);
+
+    fn get_property_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf>;
 
     fn connect_query_tooltip_markup<F: Fn(&Self, &Mark) -> String + 'static>(&self, f: F) -> u64;
 
@@ -86,12 +85,6 @@ impl<O: IsA<MarkAttributes> + IsA<glib::object::Object>> MarkAttributesExt for O
         }
     }
 
-    fn get_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_mark_attributes_get_pixbuf(self.to_glib_none().0))
-        }
-    }
-
     fn get_stock_id(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::gtk_source_mark_attributes_get_stock_id(self.to_glib_none().0))
@@ -107,12 +100,6 @@ impl<O: IsA<MarkAttributes> + IsA<glib::object::Object>> MarkAttributesExt for O
     fn get_tooltip_text(&self, mark: &Mark) -> Option<String> {
         unsafe {
             from_glib_full(ffi::gtk_source_mark_attributes_get_tooltip_text(self.to_glib_none().0, mark.to_glib_none().0))
-        }
-    }
-
-    fn render_icon<P: IsA<gtk::Widget>>(&self, widget: &P, size: i32) -> Option<gdk_pixbuf::Pixbuf> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_mark_attributes_render_icon(self.to_glib_none().0, widget.to_glib_none().0, size))
         }
     }
 
@@ -144,6 +131,14 @@ impl<O: IsA<MarkAttributes> + IsA<glib::object::Object>> MarkAttributesExt for O
         unsafe {
             ffi::gtk_source_mark_attributes_set_stock_id(self.to_glib_none().0, stock_id.to_glib_none().0);
         }
+    }
+
+    fn get_property_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf> {
+        let mut value = Value::from(None::<&gdk_pixbuf::Pixbuf>);
+        unsafe {
+            gobject_ffi::g_object_get_property(self.to_glib_none().0, "pixbuf".to_glib_none().0, value.to_glib_none_mut().0);
+        }
+        value.get()
     }
 
     fn connect_query_tooltip_markup<F: Fn(&Self, &Mark) -> String + 'static>(&self, f: F) -> u64 {

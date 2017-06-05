@@ -11,7 +11,6 @@ use glib::translate::*;
 use gobject_ffi;
 use gtk;
 use gtk_ffi;
-use pango;
 
 glib_wrapper! {
     pub struct Map(Object<ffi::GtkSourceMap>): [
@@ -41,10 +40,6 @@ pub trait MapExt {
     #[cfg(feature = "v3_18")]
     fn set_view<P: IsA<View>>(&self, view: &P);
 
-    fn get_property_font_desc(&self) -> Option<pango::FontDescription>;
-
-    fn set_property_font_desc(&self, font_desc: Option<&pango::FontDescription>);
-
     fn get_property_view(&self) -> Option<View>;
 
     fn set_property_view<P: IsA<View> + IsA<glib::object::Object>>(&self, view: Option<&P>);
@@ -62,20 +57,6 @@ impl<O: IsA<Map> + IsA<glib::object::Object>> MapExt for O {
     fn set_view<P: IsA<View>>(&self, view: &P) {
         unsafe {
             ffi::gtk_source_map_set_view(self.to_glib_none().0, view.to_glib_none().0);
-        }
-    }
-
-    fn get_property_font_desc(&self) -> Option<pango::FontDescription> {
-        let mut value = Value::from(None::<&pango::FontDescription>);
-        unsafe {
-            gobject_ffi::g_object_get_property(self.to_glib_none().0, "font-desc".to_glib_none().0, value.to_glib_none_mut().0);
-        }
-        value.get()
-    }
-
-    fn set_property_font_desc(&self, font_desc: Option<&pango::FontDescription>) {
-        unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0, "font-desc".to_glib_none().0, Value::from(font_desc).to_glib_none().0);
         }
     }
 

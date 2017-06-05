@@ -29,6 +29,10 @@ pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
 pub use gutter::*;
+#[cfg(feature = "v2_2")]
+pub use mark_attributes::*;
+#[cfg(feature = "v2_2")]
+pub use view::*;
 
 pub mod signal {
     pub use glib::signal::Inhibit;
@@ -48,3 +52,7 @@ mod auto;
 mod completion;
 mod completion_info;
 mod gutter;
+#[cfg(feature = "v2_2")]
+mod mark_attributes;
+#[cfg(feature = "v2_2")]
+mod view;
