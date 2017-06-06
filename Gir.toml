@@ -2,6 +2,7 @@
 girs_dir = "gir-files"
 library = "GtkSource"
 version = "3.0"
+min_cfg_version = "3.0"
 target_path = "."
 work_mode = "normal"
 
