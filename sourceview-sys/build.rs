@@ -32,20 +32,8 @@ fn find() -> Result<(), Error> {
         "3.8"
     } else if cfg!(feature = "v3_4") {
         "3.4"
-    } else if cfg!(feature = "v3_0") {
-        "3.0"
-    } else if cfg!(feature = "v2_12") {
-        "2.12"
-    } else if cfg!(feature = "v2_10") {
-        "2.10"
-    } else if cfg!(feature = "v2_8") {
-        "2.8"
-    } else if cfg!(feature = "v2_4") {
-        "2.4"
-    } else if cfg!(feature = "v2_2") {
-        "2.2"
     } else {
-        "0.0"
+        "3.0"
     };
 
     if let Ok(lib_dir) = env::var("GTK_LIB_DIR") {

@@ -2,6 +2,7 @@
 girs_dir = "gir-files"
 library = "GtkSource"
 version = "3.0"
+min_cfg_version = "3.0"
 target_path = "."
 work_mode = "normal"
 
@@ -26,7 +27,6 @@ generate = [
     "GtkSource.GutterRendererText",
     "GtkSource.Language",
     "GtkSource.LanguageManager",
-    "GtkSource.Map",
     "GtkSource.Mark",
     "GtkSource.NewlineType",
     "GtkSource.PrintCompositor",
@@ -106,16 +106,30 @@ status = "generate"
 name = "GtkSource.MarkAttributes"
 status = "generate"
 version = "2.2"
+    [[object.function]]
+    name = "get_pixbuf"
+    ignore = true
+    [[object.function]]
+    name = "render_icon"
+    ignore = true
 
 [[object]]
 name = "GtkSource.View"
 status = "generate"
     [[object.function]]
     name = "get_mark_attributes"
-    version = "2.2"
+    ignore = true
     [[object.function]]
     name = "set_mark_attributes"
     version = "2.2"
+
+
+[[object]]
+name = "GtkSource.Map"
+status = "generate"
+    [[object.property]]
+    name = "font-desc"
+    ignore = true
 
 [[object]]
 name = "GtkSource.StyleSchemeChooserButton"
