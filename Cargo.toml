@@ -18,7 +18,7 @@ name = "sourceview"
 [features]
 embed-lgpl-docs = ["gtk-rs-lgpl-docs", "gio/embed-lgpl-docs"]
 purge-lgpl-docs = ["gtk-rs-lgpl-docs", "gio/purge-lgpl-docs"]
-v3_0  = ["gtk-source-sys/v3_0"]
+v3_0  = []
 v3_10 = ["v3_0", "gtk-source-sys/v3_10"]
 v3_12 = ["v3_10", "gtk-source-sys/v3_12"]
 v3_16 = ["v3_12", "gtk-source-sys/v3_16"]
