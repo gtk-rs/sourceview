@@ -26,8 +26,6 @@ pub use glib::{
 };
 
 pub use auto::*;
-pub use completion::*;
-pub use completion_info::*;
 pub use gutter::*;
 #[cfg(feature = "v2_2")]
 pub use mark_attributes::*;
@@ -49,8 +47,6 @@ macro_rules! callback_guard {
 }
 
 mod auto;
-mod completion;
-mod completion_info;
 mod gutter;
 #[cfg(feature = "v2_2")]
 mod mark_attributes;
