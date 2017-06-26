@@ -9,7 +9,9 @@ work_mode = "normal"
 generate = [
     "GtkSource.BackgroundPatternType",
     "GtkSource.ChangeCaseType",
+    "GtkSource.Completion",
     "GtkSource.CompletionActivation",
+    "GtkSource.CompletionInfo",
     "GtkSource.CompletionItem",
     "GtkSource.CompletionProposal",
     "GtkSource.CompletionProvider",
@@ -82,24 +84,10 @@ status = "generate"
     version = "2.10"
 
 [[object]]
-name = "GtkSource.Completion"
-status = "generate"
-    [[object.function]]
-    name = "create_context"
-    ignore = true
-
-[[object]]
 name = "GtkSource.CompletionContext"
 status = "generate"
     [[object.property]]
     name = "iter"
-    ignore = true
-
-[[object]]
-name = "GtkSource.CompletionInfo"
-status = "generate"
-    [[object.function]]
-    name = "move_to_iter"
     ignore = true
 
 [[object]]
