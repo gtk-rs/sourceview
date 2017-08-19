@@ -3,6 +3,7 @@ name = "sourceview"
 version = "0.1.3"
 authors = ["The Gtk-rs Project Developers"]
 build = "build.rs"
+readme = "README.md"
 
 description = "Rust bindings for the GtkSourceView 3 library"
 repository = "https://github.com/gtk-rs/sourceview"
