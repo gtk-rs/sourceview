@@ -21,7 +21,6 @@ generate = [
     "GtkSource.FileLoader",
     "GtkSource.FileSaver",
     "GtkSource.FileSaverFlags",
-    "GtkSource.GutterRendererAlignmentMode",
     "GtkSource.GutterRendererPixbuf",
     "GtkSource.GutterRendererState",
     "GtkSource.GutterRendererText",
@@ -157,6 +156,13 @@ status = "generate"
         [[object.function.parameter]]
         name = "cr"
         const = true
+
+[[object]]
+name = "GtkSource.GutterRendererAlignmentMode"
+status = "generate"
+    [[object.property]]
+    name = "get_type"
+    ignore = true
 
 [[object]]
 name = "GtkSource.Style"
