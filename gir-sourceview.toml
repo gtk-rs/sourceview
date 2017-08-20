@@ -2,6 +2,7 @@
 work_mode = "sys"
 library = "GtkSource"
 version = "3.0"
+min_cfg_version = "3.0"
 external_libraries = [
    "GLib",
    "GObject",
