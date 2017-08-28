@@ -16,7 +16,11 @@ fn main() {
 fn find() -> Result<(), Error> {
     let package_name = "gtksourceview-3.0";
     let shared_libs = ["gtksourceview-3.0"];
-    let version = if cfg!(feature = "v3_20") {
+    let version = if cfg!(feature = "v3_24") {
+        "3.24"
+    } else if cfg!(feature = "v3_22") {
+        "3.22"
+    } else if cfg!(feature = "v3_20") {
         "3.20"
     } else if cfg!(feature = "v3_18") {
         "3.18"
