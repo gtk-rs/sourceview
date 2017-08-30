@@ -168,6 +168,7 @@ status = "generate"
 [[object]]
 name = "GtkSource.Style"
 status = "generate"
+version = "2.0"
     [[object.function]]
     name = "copy"
     ignore = true
