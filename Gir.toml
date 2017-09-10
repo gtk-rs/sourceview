@@ -172,3 +172,6 @@ version = "2.0"
     [[object.function]]
     name = "copy"
     ignore = true
+    [[object.function]]
+    name = "apply"
+    ignore = true
