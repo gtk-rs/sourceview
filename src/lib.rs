@@ -31,6 +31,8 @@ pub use completion_info::*;
 pub use gutter::*;
 #[cfg(feature = "v2_2")]
 pub use mark_attributes::*;
+#[cfg(feature = "v3_22")]
+pub use style::*;
 #[cfg(feature = "v2_2")]
 pub use view::*;
 
@@ -54,5 +56,7 @@ mod completion_info;
 mod gutter;
 #[cfg(feature = "v2_2")]
 mod mark_attributes;
+#[cfg(feature = "v3_22")]
+mod style;
 #[cfg(feature = "v2_2")]
 mod view;
