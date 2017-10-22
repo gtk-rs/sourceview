@@ -10,7 +10,7 @@ use MarkAttributes;
 use View;
 
 impl View {
-    #[cfg(feature = "v2_2")]
+    #[cfg(any(feature = "v2_2", feature = "dox"))]
     pub fn get_mark_attributes(&self, category: &str, priority: &mut i32) -> Option<MarkAttributes> {
         unsafe {
             from_glib_none(ffi::gtk_source_view_get_mark_attributes(self.to_glib_none().0,

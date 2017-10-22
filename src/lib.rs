@@ -29,11 +29,11 @@ pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
 pub use gutter::*;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use mark_attributes::*;
-#[cfg(feature = "v3_22")]
+#[cfg(any(feature = "v3_22", feature = "dox"))]
 pub use style::*;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use view::*;
 
 pub mod signal {
@@ -54,9 +54,9 @@ mod auto;
 mod completion;
 mod completion_info;
 mod gutter;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 mod mark_attributes;
-#[cfg(feature = "v3_22")]
+#[cfg(any(feature = "v3_22", feature = "dox"))]
 mod style;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 mod view;

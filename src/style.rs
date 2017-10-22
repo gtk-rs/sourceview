@@ -11,7 +11,7 @@ use gtk;
 use Style;
 
 impl Style {
-    #[cfg(feature = "v3_22")]
+    #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn apply<P: IsA<gtk::TextTag>>(&self, tag: &P) {
         unsafe {
             let tmp: *mut ffi::GtkSourceStyle = self.to_glib_none().0;
