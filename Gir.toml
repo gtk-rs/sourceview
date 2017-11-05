@@ -69,7 +69,7 @@ manual = [
     "Gio.Cancellable",
     "Gio.File",
     "Gio.Icon",
-    "Gio.InputStream",
+#    "Gio.InputStream",
     "Pango.FontDescription",
     "Pango.Underline",
 ]

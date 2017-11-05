@@ -48,12 +48,10 @@ impl FileLoader {
         }
     }
 
-    #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn new_from_stream<P: IsA<gio::InputStream>>(buffer: &Buffer, file: &File, stream: &P) -> FileLoader {
-        unsafe {
-            from_glib_full(ffi::gtk_source_file_loader_new_from_stream(buffer.to_glib_none().0, file.to_glib_none().0, stream.to_glib_none().0))
-        }
-    }
+    //#[cfg(any(feature = "v3_14", feature = "dox"))]
+    //pub fn new_from_stream<P: IsA</*Ignored*/gio::InputStream>>(buffer: &Buffer, file: &File, stream: &P) -> FileLoader {
+    //    unsafe { TODO: call ffi::gtk_source_file_loader_new_from_stream() }
+    //}
 }
 
 pub trait FileLoaderExt {
@@ -69,8 +67,8 @@ pub trait FileLoaderExt {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_file(&self) -> Option<File>;
 
-    #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn get_input_stream(&self) -> Option<gio::InputStream>;
+    //#[cfg(any(feature = "v3_14", feature = "dox"))]
+    //fn get_input_stream(&self) -> /*Ignored*/Option<gio::InputStream>;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_location(&self) -> Option<gio::File>;
@@ -129,12 +127,10 @@ impl<O: IsA<FileLoader> + IsA<glib::object::Object>> FileLoaderExt for O {
         }
     }
 
-    #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn get_input_stream(&self) -> Option<gio::InputStream> {
-        unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_input_stream(self.to_glib_none().0))
-        }
-    }
+    //#[cfg(any(feature = "v3_14", feature = "dox"))]
+    //fn get_input_stream(&self) -> /*Ignored*/Option<gio::InputStream> {
+    //    unsafe { TODO: call ffi::gtk_source_file_loader_get_input_stream() }
+    //}
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_location(&self) -> Option<gio::File> {
