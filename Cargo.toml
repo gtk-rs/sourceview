@@ -31,7 +31,6 @@ dox = ["gtk/dox", "gtk-source-sys/dox"]
 [build-dependencies.gtk-rs-lgpl-docs]
 version = "0.1.3"
 optional = true
-git = "https://github.com/gtk-rs/lgpl-docs"
 
 [dependencies]
 bitflags = "1.0"
