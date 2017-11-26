@@ -28,10 +28,12 @@ generate = [
     "GtkSource.LanguageManager",
     "GtkSource.Mark",
     "GtkSource.NewlineType",
+    "GtkSource.SortFlags",
     "GtkSource.PrintCompositor",
     "GtkSource.SearchContext",
     "GtkSource.SearchSettings",
     "GtkSource.SmartHomeEndType",
+    "GtkSource.SpaceDrawer",
     "GtkSource.StyleScheme",
     "GtkSource.StyleSchemeManager",
     "GtkSource.StyleSchemeChooser",
@@ -54,6 +56,7 @@ manual = [
     "Gtk.TextBuffer",
     "Gtk.TextIter",
     "Gtk.TextMark",
+    "Gtk.TextTag",
     "Gtk.TextTagTable",
     "Gtk.TextView",
     "Gtk.TextWindowType",
@@ -63,7 +66,8 @@ manual = [
     "Gtk.WrapMode",
     "Gio.Cancellable",
     "Gio.File",
-    "Gio.InputStream",
+    "Gio.Icon",
+#    "Gio.InputStream",
     "Pango.FontDescription",
     "Pango.Underline",
 ]
@@ -130,10 +134,12 @@ status = "generate"
 
 [[object]]
 name = "GtkSource.StyleSchemeChooserButton"
+status = "generate"
 version = "3.16"
 
 [[object]]
 name = "GtkSource.StyleSchemeChooserWidget"
+status = "generate"
 version = "3.16"
 
 [[object]]
@@ -167,6 +173,10 @@ status = "generate"
 [[object]]
 name = "GtkSource.Style"
 status = "generate"
+version = "2.0"
     [[object.function]]
     name = "copy"
+    ignore = true
+    [[object.function]]
+    name = "apply"
     ignore = true

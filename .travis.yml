@@ -14,6 +14,7 @@ addons:
 script:
   - rustc --version
   - cargo test --features embed-lgpl-docs
+  - cargo doc --features "dox"
   # catch any sneaked in lgpl docs
   - cargo build --features purge-lgpl-docs
   - git diff -R --exit-code

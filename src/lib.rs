@@ -7,6 +7,7 @@ extern crate glib;
 extern crate glib_sys as glib_ffi;
 extern crate gtk_source_sys as ffi;
 extern crate gobject_sys as gobject_ffi;
+extern crate gio_sys as gio_ffi;
 extern crate gdk_sys as gdk_ffi;
 extern crate gtk_sys as gtk_ffi;
 extern crate gio;
@@ -29,9 +30,11 @@ pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
 pub use gutter::*;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use mark_attributes::*;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+pub use style::*;
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use view::*;
 
 pub mod signal {
@@ -52,7 +55,9 @@ mod auto;
 mod completion;
 mod completion_info;
 mod gutter;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 mod mark_attributes;
-#[cfg(feature = "v2_2")]
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+mod style;
+#[cfg(any(feature = "v2_2", feature = "dox"))]
 mod view;
