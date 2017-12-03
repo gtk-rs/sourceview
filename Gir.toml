@@ -115,6 +115,9 @@ version = "2.2"
     [[object.function]]
     name = "render_icon"
     ignore = true
+    [[object.property]]
+    pattern = ".+"
+    version = "2.2"
 
 [[object]]
 name = "GtkSource.View"
