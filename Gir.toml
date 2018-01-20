@@ -27,13 +27,17 @@ generate = [
     "GtkSource.Language",
     "GtkSource.LanguageManager",
     "GtkSource.Mark",
+    "GtkSource.MountOperationFactory",
     "GtkSource.NewlineType",
+    "GtkSource.Region",
     "GtkSource.SortFlags",
     "GtkSource.PrintCompositor",
     "GtkSource.SearchContext",
     "GtkSource.SearchSettings",
     "GtkSource.SmartHomeEndType",
     "GtkSource.SpaceDrawer",
+    "GtkSource.SpaceLocationFlags",
+    "GtkSource.SpaceTypeFlags",
     "GtkSource.StyleScheme",
     "GtkSource.StyleSchemeManager",
     "GtkSource.StyleSchemeChooser",
@@ -52,6 +56,8 @@ manual = [
     "Gdk.Window",
     "GdkPixbuf.Pixbuf",
     "GLib.Error",
+    "GLib.Variant",
+    "Gtk.PrintContext",
     "Gtk.ScrollStep",
     "Gtk.TextBuffer",
     "Gtk.TextIter",
@@ -68,6 +74,8 @@ manual = [
     "Gio.File",
     "Gio.Icon",
 #    "Gio.InputStream",
+    "Gio.Settings",
+    "Gio.SettingsBindFlags",
     "Pango.FontDescription",
     "Pango.Underline",
 ]
@@ -113,6 +121,9 @@ version = "2.2"
     [[object.function]]
     name = "render_icon"
     ignore = true
+    [[object.property]]
+    pattern = ".+"
+    version = "2.2"
 
 [[object]]
 name = "GtkSource.View"
