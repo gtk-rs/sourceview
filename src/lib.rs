@@ -45,6 +45,12 @@ pub mod prelude {
     pub use auto::traits::*;
 }
 
+macro_rules! callback_guard {
+    () => (
+        let _guard = ::glib::CallbackGuard::new();
+    )
+}
+
 mod auto;
 mod completion;
 mod completion_info;
