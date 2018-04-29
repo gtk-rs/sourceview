@@ -21,6 +21,11 @@ extern crate libc;
 #[macro_use]
 extern crate bitflags;
 
+#[cfg(feature = "futures")]
+extern crate send_cell;
+#[cfg(feature = "futures")]
+extern crate futures_core;
+
 pub use glib::{
     Error,
     Object,

@@ -14,4 +14,4 @@ script:
     make regen_check;
     fi
   - cargo build
-  - cargo build --features v3_10
+  - cargo build --features "v3_10 futures"
