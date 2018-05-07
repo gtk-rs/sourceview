@@ -37,6 +37,7 @@ glib_wrapper! {
     pub struct View(Object<ffi::GtkSourceView, ffi::GtkSourceViewClass>): [
         gtk::TextView => gtk_ffi::GtkTextView,
         gtk::Widget => gtk_ffi::GtkWidget,
+        gtk::Scrollable => gtk_ffi::GtkScrollable,
     ];
 
     match fn {

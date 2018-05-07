@@ -26,6 +26,7 @@ glib_wrapper! {
         View,
         gtk::TextView => gtk_ffi::GtkTextView,
         gtk::Widget => gtk_ffi::GtkWidget,
+        gtk::Scrollable => gtk_ffi::GtkScrollable,
     ];
 
     match fn {

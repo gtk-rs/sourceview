@@ -38,6 +38,8 @@ pub use gutter::*;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use mark_attributes::*;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
+pub use region_iter::*;
+#[cfg(any(feature = "v3_22", feature = "dox"))]
 pub use style::*;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use view::*;
@@ -62,6 +64,8 @@ mod completion_info;
 mod gutter;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
 mod mark_attributes;
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+mod region_iter;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 mod style;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
