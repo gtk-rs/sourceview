@@ -2,6 +2,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+use RegionIter;
 use ffi;
 use glib;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
@@ -61,8 +63,8 @@ pub trait RegionExt {
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     fn get_buffer(&self) -> Option<gtk::TextBuffer>;
 
-    //#[cfg(any(feature = "v3_22", feature = "dox"))]
-    //fn get_start_region_iter(&self, iter: /*Ignored*/RegionIter);
+    #[cfg(any(feature = "v3_22", feature = "dox"))]
+    fn get_start_region_iter(&self) -> RegionIter;
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     fn intersect_region<'a, P: Into<Option<&'a Region>>>(&self, region2: P) -> Option<Region>;
@@ -120,10 +122,14 @@ impl<O: IsA<Region> + IsA<glib::object::Object>> RegionExt for O {
         }
     }
 
-    //#[cfg(any(feature = "v3_22", feature = "dox"))]
-    //fn get_start_region_iter(&self, iter: /*Ignored*/RegionIter) {
-    //    unsafe { TODO: call ffi::gtk_source_region_get_start_region_iter() }
-    //}
+    #[cfg(any(feature = "v3_22", feature = "dox"))]
+    fn get_start_region_iter(&self) -> RegionIter {
+        unsafe {
+            let mut iter = RegionIter::uninitialized();
+            ffi::gtk_source_region_get_start_region_iter(self.to_glib_none().0, iter.to_glib_none_mut().0);
+            iter
+        }
+    }
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     fn intersect_region<'a, P: Into<Option<&'a Region>>>(&self, region2: P) -> Option<Region> {
