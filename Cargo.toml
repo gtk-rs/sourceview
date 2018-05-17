@@ -14,6 +14,10 @@ exclude = [
     "gir-files/*",
 ]
 
+[badges]
+appveyor = { repository = "GuillaumeGomez/sourceview", service = "github" }
+travis-ci = { repository = "gtk-rs/sourceview" }
+
 [lib]
 name = "sourceview"
 
