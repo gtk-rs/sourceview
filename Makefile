@@ -7,7 +7,9 @@ gir : src/auto/mod.rs
 
 regen_check: $(GIR) $(GIR_FILES)
 	rm src/auto/*
+	rm sourceview-sys/tests/*
 	$(GIR) -c Gir.toml
+	$(GIR) -c sourceview-sys/Gir.toml
 	git diff -R --exit-code
 
 src/auto/mod.rs : Gir.toml $(GIR) $(GIR_FILES)
