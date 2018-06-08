@@ -49,6 +49,7 @@ glib_wrapper! {
 impl SearchContext {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     pub fn new<'a, P: Into<Option<&'a SearchSettings>>>(buffer: &Buffer, settings: P) -> SearchContext {
+        skip_assert_initialized!();
         let settings = settings.into();
         let settings = settings.to_glib_none();
         unsafe {

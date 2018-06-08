@@ -44,6 +44,7 @@ glib_wrapper! {
 impl File {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn new() -> File {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_file_new())
         }

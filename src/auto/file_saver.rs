@@ -46,6 +46,7 @@ glib_wrapper! {
 impl FileSaver {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn new(buffer: &Buffer, file: &File) -> FileSaver {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_file_saver_new(buffer.to_glib_none().0, file.to_glib_none().0))
         }
@@ -53,6 +54,7 @@ impl FileSaver {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn new_with_target<P: IsA<gio::File>>(buffer: &Buffer, file: &File, target_location: &P) -> FileSaver {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_file_saver_new_with_target(buffer.to_glib_none().0, file.to_glib_none().0, target_location.to_glib_none().0))
         }

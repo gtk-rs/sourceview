@@ -40,6 +40,7 @@ glib_wrapper! {
 
 impl Buffer {
     pub fn new<'a, P: Into<Option<&'a gtk::TextTagTable>>>(table: P) -> Buffer {
+        assert_initialized_main_thread!();
         let table = table.into();
         let table = table.to_glib_none();
         unsafe {
@@ -48,6 +49,7 @@ impl Buffer {
     }
 
     pub fn new_with_language(language: &Language) -> Buffer {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_buffer_new_with_language(language.to_glib_none().0))
         }

@@ -39,6 +39,7 @@ impl ToGlib for BackgroundPatternType {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceBackgroundPatternType> for BackgroundPatternType {
     fn from_glib(value: ffi::GtkSourceBackgroundPatternType) -> Self {
+        skip_assert_initialized!();
         match value {
             0 => BackgroundPatternType::None,
             1 => BackgroundPatternType::Grid,
@@ -106,6 +107,7 @@ impl ToGlib for ChangeCaseType {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceChangeCaseType> for ChangeCaseType {
     fn from_glib(value: ffi::GtkSourceChangeCaseType) -> Self {
+        skip_assert_initialized!();
         match value {
             0 => ChangeCaseType::Lower,
             1 => ChangeCaseType::Upper,
@@ -171,6 +173,7 @@ impl ToGlib for CompressionType {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceCompressionType> for CompressionType {
     fn from_glib(value: ffi::GtkSourceCompressionType) -> Self {
+        skip_assert_initialized!();
         match value {
             0 => CompressionType::None,
             1 => CompressionType::Gzip,
@@ -233,6 +236,7 @@ impl ToGlib for GutterRendererAlignmentMode {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceGutterRendererAlignmentMode> for GutterRendererAlignmentMode {
     fn from_glib(value: ffi::GtkSourceGutterRendererAlignmentMode) -> Self {
+        skip_assert_initialized!();
         match value {
             0 => GutterRendererAlignmentMode::Cell,
             1 => GutterRendererAlignmentMode::First,
@@ -295,6 +299,7 @@ impl ToGlib for NewlineType {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceNewlineType> for NewlineType {
     fn from_glib(value: ffi::GtkSourceNewlineType) -> Self {
+        skip_assert_initialized!();
         match value {
             0 => NewlineType::Lf,
             1 => NewlineType::Cr,
@@ -360,6 +365,7 @@ impl ToGlib for SmartHomeEndType {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceSmartHomeEndType> for SmartHomeEndType {
     fn from_glib(value: ffi::GtkSourceSmartHomeEndType) -> Self {
+        skip_assert_initialized!();
         match value {
             0 => SmartHomeEndType::Disabled,
             1 => SmartHomeEndType::Before,

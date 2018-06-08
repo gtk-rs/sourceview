@@ -33,6 +33,7 @@ glib_wrapper! {
 
 impl CompletionWords {
     pub fn new<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b gdk_pixbuf::Pixbuf>>>(name: P, icon: Q) -> CompletionWords {
+        assert_initialized_main_thread!();
         let name = name.into();
         let name = name.to_glib_none();
         let icon = icon.into();

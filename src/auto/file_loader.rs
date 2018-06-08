@@ -44,6 +44,7 @@ glib_wrapper! {
 impl FileLoader {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn new(buffer: &Buffer, file: &File) -> FileLoader {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_file_loader_new(buffer.to_glib_none().0, file.to_glib_none().0))
         }
@@ -51,6 +52,7 @@ impl FileLoader {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn new_from_stream<P: IsA<gio::InputStream>>(buffer: &Buffer, file: &File, stream: &P) -> FileLoader {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_file_loader_new_from_stream(buffer.to_glib_none().0, file.to_glib_none().0, stream.to_glib_none().0))
         }

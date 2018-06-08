@@ -29,12 +29,14 @@ glib_wrapper! {
 
 impl PrintCompositor {
     pub fn new(buffer: &Buffer) -> PrintCompositor {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_print_compositor_new(buffer.to_glib_none().0))
         }
     }
 
     pub fn new_from_view<P: IsA<View>>(view: &P) -> PrintCompositor {
+        skip_assert_initialized!();
         unsafe {
             from_glib_full(ffi::gtk_source_print_compositor_new_from_view(view.to_glib_none().0))
         }

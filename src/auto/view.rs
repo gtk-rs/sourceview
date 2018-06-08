@@ -47,12 +47,14 @@ glib_wrapper! {
 
 impl View {
     pub fn new() -> View {
+        assert_initialized_main_thread!();
         unsafe {
             gtk::Widget::from_glib_none(ffi::gtk_source_view_new()).downcast_unchecked()
         }
     }
 
     pub fn new_with_buffer(buffer: &Buffer) -> View {
+        skip_assert_initialized!();
         unsafe {
             gtk::Widget::from_glib_none(ffi::gtk_source_view_new_with_buffer(buffer.to_glib_none().0)).downcast_unchecked()
         }
