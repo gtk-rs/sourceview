@@ -32,6 +32,7 @@ impl ToGlib for CompletionActivation {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceCompletionActivation> for CompletionActivation {
     fn from_glib(value: ffi::GtkSourceCompletionActivation) -> CompletionActivation {
+        skip_assert_initialized!();
         CompletionActivation::from_bits_truncate(value)
     }
 }
@@ -88,6 +89,7 @@ impl ToGlib for DrawSpacesFlags {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceDrawSpacesFlags> for DrawSpacesFlags {
     fn from_glib(value: ffi::GtkSourceDrawSpacesFlags) -> DrawSpacesFlags {
+        skip_assert_initialized!();
         DrawSpacesFlags::from_bits_truncate(value)
     }
 }
@@ -144,6 +146,7 @@ impl ToGlib for FileSaverFlags {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceFileSaverFlags> for FileSaverFlags {
     fn from_glib(value: ffi::GtkSourceFileSaverFlags) -> FileSaverFlags {
+        skip_assert_initialized!();
         FileSaverFlags::from_bits_truncate(value)
     }
 }
@@ -197,6 +200,7 @@ impl ToGlib for GutterRendererState {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceGutterRendererState> for GutterRendererState {
     fn from_glib(value: ffi::GtkSourceGutterRendererState) -> GutterRendererState {
+        skip_assert_initialized!();
         GutterRendererState::from_bits_truncate(value)
     }
 }
@@ -249,6 +253,7 @@ impl ToGlib for SortFlags {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceSortFlags> for SortFlags {
     fn from_glib(value: ffi::GtkSourceSortFlags) -> SortFlags {
+        skip_assert_initialized!();
         SortFlags::from_bits_truncate(value)
     }
 }
@@ -306,6 +311,7 @@ impl ToGlib for SpaceLocationFlags {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceSpaceLocationFlags> for SpaceLocationFlags {
     fn from_glib(value: ffi::GtkSourceSpaceLocationFlags) -> SpaceLocationFlags {
+        skip_assert_initialized!();
         SpaceLocationFlags::from_bits_truncate(value)
     }
 }
@@ -364,6 +370,7 @@ impl ToGlib for SpaceTypeFlags {
 #[doc(hidden)]
 impl FromGlib<ffi::GtkSourceSpaceTypeFlags> for SpaceTypeFlags {
     fn from_glib(value: ffi::GtkSourceSpaceTypeFlags) -> SpaceTypeFlags {
+        skip_assert_initialized!();
         SpaceTypeFlags::from_bits_truncate(value)
     }
 }

@@ -30,6 +30,7 @@ glib_wrapper! {
 
 impl Mark {
     pub fn new(name: &str, category: &str) -> Mark {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_mark_new(name.to_glib_none().0, category.to_glib_none().0))
         }

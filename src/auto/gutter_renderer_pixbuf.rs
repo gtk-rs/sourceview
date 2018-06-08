@@ -29,6 +29,7 @@ glib_wrapper! {
 
 impl GutterRendererPixbuf {
     pub fn new() -> GutterRendererPixbuf {
+        assert_initialized_main_thread!();
         unsafe {
             GutterRenderer::from_glib_full(ffi::gtk_source_gutter_renderer_pixbuf_new()).downcast_unchecked()
         }

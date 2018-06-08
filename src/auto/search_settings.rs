@@ -32,6 +32,7 @@ glib_wrapper! {
 impl SearchSettings {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     pub fn new() -> SearchSettings {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_search_settings_new())
         }

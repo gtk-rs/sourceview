@@ -30,6 +30,7 @@ glib_wrapper! {
 
 impl CompletionInfo {
     pub fn new() -> CompletionInfo {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_none(ffi::gtk_source_completion_info_new())
         }

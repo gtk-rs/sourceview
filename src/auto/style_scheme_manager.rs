@@ -27,12 +27,14 @@ glib_wrapper! {
 
 impl StyleSchemeManager {
     pub fn new() -> StyleSchemeManager {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_style_scheme_manager_new())
         }
     }
 
     pub fn get_default() -> Option<StyleSchemeManager> {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_none(ffi::gtk_source_style_scheme_manager_get_default())
         }

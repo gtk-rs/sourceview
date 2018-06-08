@@ -37,6 +37,7 @@ glib_wrapper! {
 impl Map {
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn new() -> Map {
+        assert_initialized_main_thread!();
         unsafe {
             gtk::Widget::from_glib_none(ffi::gtk_source_map_new()).downcast_unchecked()
         }

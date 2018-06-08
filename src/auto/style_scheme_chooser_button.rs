@@ -27,6 +27,7 @@ glib_wrapper! {
 impl StyleSchemeChooserButton {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     pub fn new() -> StyleSchemeChooserButton {
+        assert_initialized_main_thread!();
         unsafe {
             gtk::Widget::from_glib_none(ffi::gtk_source_style_scheme_chooser_button_new()).downcast_unchecked()
         }

@@ -39,6 +39,7 @@ glib_wrapper! {
 impl Tag {
     #[cfg(any(feature = "v3_20", feature = "dox"))]
     pub fn new<'a, P: Into<Option<&'a str>>>(name: P) -> Tag {
+        assert_initialized_main_thread!();
         let name = name.into();
         let name = name.to_glib_none();
         unsafe {

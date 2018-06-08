@@ -37,6 +37,7 @@ glib_wrapper! {
 impl Region {
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn new<P: IsA<gtk::TextBuffer>>(buffer: &P) -> Region {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_region_new(buffer.to_glib_none().0))
         }

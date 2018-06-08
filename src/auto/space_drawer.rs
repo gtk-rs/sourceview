@@ -38,6 +38,7 @@ glib_wrapper! {
 impl SpaceDrawer {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub fn new() -> SpaceDrawer {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_space_drawer_new())
         }

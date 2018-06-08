@@ -33,6 +33,7 @@ glib_wrapper! {
 
 impl MarkAttributes {
     pub fn new() -> MarkAttributes {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_mark_attributes_new())
         }

@@ -44,6 +44,7 @@ impl Encoding {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_all() -> Vec<Encoding> {
+        assert_initialized_main_thread!();
         unsafe {
             FromGlibPtrContainer::from_glib_container(ffi::gtk_source_encoding_get_all())
         }
@@ -51,6 +52,7 @@ impl Encoding {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_current() -> Option<Encoding> {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_none(ffi::gtk_source_encoding_get_current())
         }
@@ -58,6 +60,7 @@ impl Encoding {
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn get_default_candidates() -> Vec<Encoding> {
+        assert_initialized_main_thread!();
         unsafe {
             FromGlibPtrContainer::from_glib_container(ffi::gtk_source_encoding_get_default_candidates())
         }
@@ -65,6 +68,7 @@ impl Encoding {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_from_charset(charset: &str) -> Option<Encoding> {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_none(ffi::gtk_source_encoding_get_from_charset(charset.to_glib_none().0))
         }
@@ -72,6 +76,7 @@ impl Encoding {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_utf8() -> Option<Encoding> {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_none(ffi::gtk_source_encoding_get_utf8())
         }

@@ -29,6 +29,7 @@ glib_wrapper! {
 
 impl GutterRendererText {
     pub fn new() -> GutterRendererText {
+        assert_initialized_main_thread!();
         unsafe {
             GutterRenderer::from_glib_full(ffi::gtk_source_gutter_renderer_text_new()).downcast_unchecked()
         }

@@ -32,6 +32,7 @@ glib_wrapper! {
 impl CompletionItem {
     #[cfg_attr(feature = "v3_24", deprecated)]
     pub fn new<'a, 'b, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>, Q: Into<Option<&'b str>>>(label: &str, text: &str, icon: P, info: Q) -> CompletionItem {
+        assert_initialized_main_thread!();
         let icon = icon.into();
         let icon = icon.to_glib_none();
         let info = info.into();
@@ -43,6 +44,7 @@ impl CompletionItem {
 
     #[cfg_attr(feature = "v3_10", deprecated)]
     pub fn new_from_stock<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>>(label: P, text: &str, stock: &str, info: Q) -> CompletionItem {
+        assert_initialized_main_thread!();
         let label = label.into();
         let label = label.to_glib_none();
         let info = info.into();
@@ -54,6 +56,7 @@ impl CompletionItem {
 
     #[cfg_attr(feature = "v3_24", deprecated)]
     pub fn new_with_markup<'a, 'b, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>, Q: Into<Option<&'b str>>>(markup: &str, text: &str, icon: P, info: Q) -> CompletionItem {
+        assert_initialized_main_thread!();
         let icon = icon.into();
         let icon = icon.to_glib_none();
         let info = info.into();
@@ -65,6 +68,7 @@ impl CompletionItem {
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub fn new2() -> Option<CompletionItem> {
+        assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::gtk_source_completion_item_new2())
         }
