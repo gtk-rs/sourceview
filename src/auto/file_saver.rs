@@ -84,11 +84,11 @@ pub trait FileSaverExt {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<'a, 'b, 'c, P: Into<Option<&'a gio::Cancellable>>, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, T: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: /*Ignored*/glib::Priority, cancellable: P, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S, callback: T);
+    //fn save_async<'a, 'b, 'c, P: Into<Option<&'a gio::Cancellable>>, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, T: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: P, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S, callback: T);
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: /*Ignored*/glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    //fn save_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType);
@@ -175,13 +175,13 @@ impl<O: IsA<FileSaver> + IsA<glib::object::Object>> FileSaverExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<'a, 'b, 'c, P: Into<Option<&'a gio::Cancellable>>, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, T: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: /*Ignored*/glib::Priority, cancellable: P, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S, callback: T) {
+    //fn save_async<'a, 'b, 'c, P: Into<Option<&'a gio::Cancellable>>, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, T: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: P, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S, callback: T) {
     //    unsafe { TODO: call ffi::gtk_source_file_saver_save_async() }
     //}
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: /*Ignored*/glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    //fn save_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
         //use gio::GioFuture;
         //use send_cell::SendCell;
 

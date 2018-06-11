@@ -186,6 +186,7 @@ pub use self::enums::GutterRendererAlignmentMode;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 pub use self::enums::NewlineType;
 pub use self::enums::SmartHomeEndType;
+pub use self::enums::ViewGutterPosition;
 
 mod flags;
 pub use self::flags::CompletionActivation;
