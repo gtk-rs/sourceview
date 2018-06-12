@@ -47,6 +47,7 @@ generate = [
     "GtkSource.StyleSchemeChooser",
     "GtkSource.Tag",
     "GtkSource.UndoManager",
+    "GtkSource.ViewGutterPosition",
 ]
 
 ignore = [
@@ -60,6 +61,7 @@ manual = [
     "Gdk.Window",
     "GdkPixbuf.Pixbuf",
     "GLib.Error",
+    "GLib.Priority",
     "GLib.Variant",
     "Gtk.PrintContext",
     "Gtk.Scrollable",
