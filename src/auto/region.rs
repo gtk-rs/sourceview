@@ -191,7 +191,6 @@ impl<O: IsA<Region> + IsA<glib::object::Object>> RegionExt for O {
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 unsafe extern "C" fn notify_buffer_trampoline<P>(this: *mut ffi::GtkSourceRegion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Region> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Region::from_glib_borrow(this).downcast_unchecked())
 }

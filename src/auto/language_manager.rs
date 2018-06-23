@@ -117,14 +117,12 @@ impl<O: IsA<LanguageManager> + IsA<glib::object::Object>> LanguageManagerExt for
 
 unsafe extern "C" fn notify_language_ids_trampoline<P>(this: *mut ffi::GtkSourceLanguageManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<LanguageManager> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&LanguageManager::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_search_path_trampoline<P>(this: *mut ffi::GtkSourceLanguageManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<LanguageManager> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&LanguageManager::from_glib_borrow(this).downcast_unchecked())
 }

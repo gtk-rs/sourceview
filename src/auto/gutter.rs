@@ -216,28 +216,24 @@ impl<O: IsA<Gutter> + IsA<glib::object::Object>> GutterExt for O {
 
 unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Gutter> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Gutter::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_window_type_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Gutter> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Gutter::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_xpad_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Gutter> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Gutter::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_ypad_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Gutter> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Gutter::from_glib_borrow(this).downcast_unchecked())
 }

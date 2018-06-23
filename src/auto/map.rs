@@ -105,7 +105,6 @@ impl<O: IsA<Map> + IsA<glib::object::Object>> MapExt for O {
 
 unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceMap, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Map> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Map::from_glib_borrow(this).downcast_unchecked())
 }

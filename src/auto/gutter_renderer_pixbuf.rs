@@ -163,28 +163,24 @@ impl<O: IsA<GutterRendererPixbuf> + IsA<glib::object::Object>> GutterRendererPix
 
 unsafe extern "C" fn notify_gicon_trampoline<P>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRendererPixbuf::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_icon_name_trampoline<P>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRendererPixbuf::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_pixbuf_trampoline<P>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRendererPixbuf::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_stock_id_trampoline<P>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRendererPixbuf::from_glib_borrow(this).downcast_unchecked())
 }

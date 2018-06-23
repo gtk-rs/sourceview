@@ -87,7 +87,6 @@ impl<O: IsA<CompletionInfo> + IsA<glib::object::Object> + glib::object::ObjectEx
 
 unsafe extern "C" fn before_show_trampoline<P>(this: *mut ffi::GtkSourceCompletionInfo, f: glib_ffi::gpointer)
 where P: IsA<CompletionInfo> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionInfo::from_glib_borrow(this).downcast_unchecked())
 }

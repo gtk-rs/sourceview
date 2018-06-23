@@ -215,7 +215,6 @@ impl<O: IsA<SearchSettings> + IsA<glib::object::Object>> SearchSettingsExt for O
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_at_word_boundaries_trampoline<P>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchSettings::from_glib_borrow(this).downcast_unchecked())
 }
@@ -223,7 +222,6 @@ where P: IsA<SearchSettings> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_case_sensitive_trampoline<P>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchSettings::from_glib_borrow(this).downcast_unchecked())
 }
@@ -231,7 +229,6 @@ where P: IsA<SearchSettings> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_regex_enabled_trampoline<P>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchSettings::from_glib_borrow(this).downcast_unchecked())
 }
@@ -239,7 +236,6 @@ where P: IsA<SearchSettings> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_search_text_trampoline<P>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchSettings::from_glib_borrow(this).downcast_unchecked())
 }
@@ -247,7 +243,6 @@ where P: IsA<SearchSettings> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_wrap_around_trampoline<P>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchSettings::from_glib_borrow(this).downcast_unchecked())
 }

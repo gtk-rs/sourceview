@@ -79,7 +79,6 @@ impl<O: IsA<Mark> + IsA<glib::object::Object>> MarkExt for O {
 
 unsafe extern "C" fn notify_category_trampoline<P>(this: *mut ffi::GtkSourceMark, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Mark> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Mark::from_glib_borrow(this).downcast_unchecked())
 }

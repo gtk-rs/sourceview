@@ -494,112 +494,96 @@ impl<O: IsA<GutterRenderer> + IsA<glib::object::Object>> GutterRendererExt for O
 
 unsafe extern "C" fn activate_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event))
 }
 
 unsafe extern "C" fn query_activatable_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer) -> glib_ffi::gboolean
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event)).to_glib()
 }
 
 unsafe extern "C" fn query_data_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, state: ffi::GtkSourceGutterRendererState, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked(), &from_glib_borrow(start), &from_glib_borrow(end), from_glib(state))
 }
 
 unsafe extern "C" fn query_tooltip_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_ffi::GtkTooltip, f: glib_ffi::gpointer) -> glib_ffi::gboolean
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked(), &from_glib_borrow(iter), &from_glib_borrow(area), x, y, &from_glib_borrow(tooltip)).to_glib()
 }
 
 unsafe extern "C" fn queue_draw_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_alignment_mode_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_background_rgba_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_background_set_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_size_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_visible_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_window_type_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_xalign_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_xpad_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_yalign_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_ypad_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
 }

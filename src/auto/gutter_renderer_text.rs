@@ -128,14 +128,12 @@ impl<O: IsA<GutterRendererText> + IsA<glib::object::Object>> GutterRendererTextE
 
 unsafe extern "C" fn notify_markup_trampoline<P>(this: *mut ffi::GtkSourceGutterRendererText, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererText> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRendererText::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_text_trampoline<P>(this: *mut ffi::GtkSourceGutterRendererText, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererText> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRendererText::from_glib_borrow(this).downcast_unchecked())
 }
