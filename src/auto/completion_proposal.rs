@@ -133,7 +133,6 @@ impl<O: IsA<CompletionProposal> + IsA<glib::object::Object> + glib::object::Obje
 
 unsafe extern "C" fn changed_trampoline<P>(this: *mut ffi::GtkSourceCompletionProposal, f: glib_ffi::gpointer)
 where P: IsA<CompletionProposal> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionProposal::from_glib_borrow(this).downcast_unchecked())
 }

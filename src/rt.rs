@@ -16,12 +16,6 @@ macro_rules! assert_initialized_main_thread {
     )
 }
 
-macro_rules! callback_guard {
-    () => (
-        let _guard = ::glib::CallbackGuard::new();
-    )
-}
-
 /// No-op.
 macro_rules! skip_assert_initialized {
     () => ()

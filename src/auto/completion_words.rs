@@ -245,56 +245,48 @@ impl<O: IsA<CompletionWords> + IsA<glib::object::Object>> CompletionWordsExt for
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_activation_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_icon_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_interactive_delay_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_minimum_word_size_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_name_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_priority_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_proposals_batch_size_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_scan_batch_size_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
 }

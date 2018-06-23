@@ -247,7 +247,6 @@ impl<O: IsA<File> + IsA<glib::object::Object>> FileExt for O {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_compression_type_trampoline<P>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&File::from_glib_borrow(this).downcast_unchecked())
 }
@@ -255,7 +254,6 @@ where P: IsA<File> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_encoding_trampoline<P>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&File::from_glib_borrow(this).downcast_unchecked())
 }
@@ -263,7 +261,6 @@ where P: IsA<File> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_location_trampoline<P>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&File::from_glib_borrow(this).downcast_unchecked())
 }
@@ -271,7 +268,6 @@ where P: IsA<File> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_newline_type_trampoline<P>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&File::from_glib_borrow(this).downcast_unchecked())
 }
@@ -279,7 +275,6 @@ where P: IsA<File> {
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_read_only_trampoline<P>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&File::from_glib_borrow(this).downcast_unchecked())
 }

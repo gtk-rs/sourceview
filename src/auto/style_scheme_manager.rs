@@ -129,14 +129,12 @@ impl<O: IsA<StyleSchemeManager> + IsA<glib::object::Object>> StyleSchemeManagerE
 
 unsafe extern "C" fn notify_scheme_ids_trampoline<P>(this: *mut ffi::GtkSourceStyleSchemeManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<StyleSchemeManager> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&StyleSchemeManager::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_search_path_trampoline<P>(this: *mut ffi::GtkSourceStyleSchemeManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<StyleSchemeManager> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&StyleSchemeManager::from_glib_borrow(this).downcast_unchecked())
 }

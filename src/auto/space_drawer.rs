@@ -155,7 +155,6 @@ impl<O: IsA<SpaceDrawer> + IsA<glib::object::Object>> SpaceDrawerExt for O {
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 unsafe extern "C" fn notify_enable_matrix_trampoline<P>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SpaceDrawer::from_glib_borrow(this).downcast_unchecked())
 }
@@ -163,7 +162,6 @@ where P: IsA<SpaceDrawer> {
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 unsafe extern "C" fn notify_matrix_trampoline<P>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SpaceDrawer::from_glib_borrow(this).downcast_unchecked())
 }

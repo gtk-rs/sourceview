@@ -239,7 +239,6 @@ impl<O: IsA<FileLoader> + IsA<glib::object::Object>> FileLoaderExt for O {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_buffer_trampoline<P>(this: *mut ffi::GtkSourceFileLoader, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileLoader> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileLoader::from_glib_borrow(this).downcast_unchecked())
 }
@@ -247,7 +246,6 @@ where P: IsA<FileLoader> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_file_trampoline<P>(this: *mut ffi::GtkSourceFileLoader, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileLoader> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileLoader::from_glib_borrow(this).downcast_unchecked())
 }
@@ -255,7 +253,6 @@ where P: IsA<FileLoader> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_input_stream_trampoline<P>(this: *mut ffi::GtkSourceFileLoader, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileLoader> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileLoader::from_glib_borrow(this).downcast_unchecked())
 }
@@ -263,7 +260,6 @@ where P: IsA<FileLoader> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_location_trampoline<P>(this: *mut ffi::GtkSourceFileLoader, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileLoader> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileLoader::from_glib_borrow(this).downcast_unchecked())
 }

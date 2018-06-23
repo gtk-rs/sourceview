@@ -300,14 +300,12 @@ impl<O: IsA<CompletionItem> + IsA<glib::object::Object>> CompletionItemExt for O
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_gicon_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_icon_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }
@@ -315,35 +313,30 @@ where P: IsA<CompletionItem> {
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_icon_name_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_info_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_label_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_markup_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_text_trampoline<P>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionItem::from_glib_borrow(this).downcast_unchecked())
 }

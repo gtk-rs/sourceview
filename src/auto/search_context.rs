@@ -182,7 +182,6 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
         let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
         unsafe extern "C" fn backward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer)
         {
-            callback_guard!();
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
@@ -255,7 +254,6 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
         let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
         unsafe extern "C" fn forward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer)
         {
-            callback_guard!();
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
@@ -462,7 +460,6 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_buffer_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }
@@ -470,7 +467,6 @@ where P: IsA<SearchContext> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_highlight_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }
@@ -478,7 +474,6 @@ where P: IsA<SearchContext> {
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn notify_match_style_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }
@@ -486,7 +481,6 @@ where P: IsA<SearchContext> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_occurrences_count_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }
@@ -494,7 +488,6 @@ where P: IsA<SearchContext> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_regex_error_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }
@@ -502,7 +495,6 @@ where P: IsA<SearchContext> {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_settings_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }

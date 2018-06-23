@@ -309,7 +309,6 @@ impl<O: IsA<FileSaver> + IsA<glib::object::Object>> FileSaverExt for O {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_buffer_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }
@@ -317,7 +316,6 @@ where P: IsA<FileSaver> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_compression_type_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }
@@ -325,7 +323,6 @@ where P: IsA<FileSaver> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_encoding_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }
@@ -333,7 +330,6 @@ where P: IsA<FileSaver> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_file_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }
@@ -341,7 +337,6 @@ where P: IsA<FileSaver> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_flags_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }
@@ -349,7 +344,6 @@ where P: IsA<FileSaver> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_location_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }
@@ -357,7 +351,6 @@ where P: IsA<FileSaver> {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_newline_type_trampoline<P>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<FileSaver> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&FileSaver::from_glib_borrow(this).downcast_unchecked())
 }

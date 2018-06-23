@@ -126,14 +126,12 @@ impl<O: IsA<UndoManager> + IsA<glib::object::Object> + glib::object::ObjectExt> 
 
 unsafe extern "C" fn can_redo_changed_trampoline<P>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
 where P: IsA<UndoManager> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&UndoManager::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn can_undo_changed_trampoline<P>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
 where P: IsA<UndoManager> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&UndoManager::from_glib_borrow(this).downcast_unchecked())
 }

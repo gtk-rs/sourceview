@@ -123,7 +123,6 @@ impl<O: IsA<Tag> + IsA<glib::object::Object>> TagExt for O {
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 unsafe extern "C" fn notify_draw_spaces_trampoline<P>(this: *mut ffi::GtkSourceTag, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Tag> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Tag::from_glib_borrow(this).downcast_unchecked())
 }
@@ -131,7 +130,6 @@ where P: IsA<Tag> {
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 unsafe extern "C" fn notify_draw_spaces_set_trampoline<P>(this: *mut ffi::GtkSourceTag, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Tag> {
-    callback_guard!();
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Tag::from_glib_borrow(this).downcast_unchecked())
 }
