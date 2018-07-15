@@ -48,57 +48,43 @@ send-cell = { version = "0.1", optional = true }
 futures-core = { version = "0.2", optional = true }
 
 [dependencies.gtk-source-sys]
-version = "0.6.0"
 path = "./sourceview-sys"
 
 [dependencies.glib-sys]
-version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 
 [dependencies.gobject-sys]
-version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 
 [dependencies.gio-sys]
-version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 
 [dependencies.gtk-sys]
-version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 
 [dependencies.gdk-sys]
-version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 
 [dependencies.gdk-pixbuf-sys]
-version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 
 [dependencies.glib]
-version = "0.5.0"
 git = "https://github.com/gtk-rs/glib"
 
 [dependencies.pango]
-version = "0.4.0"
 git = "https://github.com/gtk-rs/pango"
 
 [dependencies.gtk]
-version = "0.4.0"
 git = "https://github.com/gtk-rs/gtk"
 
 [dependencies.gdk]
-version = "0.8.0"
 git = "https://github.com/gtk-rs/gdk"
 
 [dependencies.cairo-rs]
-version = "0.4.0"
 git = "https://github.com/gtk-rs/cairo"
 
 [dependencies.gdk-pixbuf]
-version = "0.4.0"
 git = "https://github.com/gtk-rs/gdk-pixbuf"
 
 [dependencies.gio]
-version = "0.4.0"
 git = "https://github.com/gtk-rs/gio"
