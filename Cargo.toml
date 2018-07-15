@@ -88,3 +88,6 @@ git = "https://github.com/gtk-rs/gdk-pixbuf"
 
 [dependencies.gio]
 git = "https://github.com/gtk-rs/gio"
+
+[dev-dependencies]
+gir-format-check = "^0.1"
