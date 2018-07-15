@@ -6,13 +6,13 @@
 #![cfg_attr(feature = "cargo-clippy", allow(approx_constant, type_complexity, unreadable_literal))]
 
 extern crate libc;
+extern crate cairo_sys as cairo;
+extern crate gdk_sys as gdk;
+extern crate gdk_pixbuf_sys as gdk_pixbuf;
+extern crate gio_sys as gio;
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
-extern crate gio_sys as gio;
 extern crate gtk_sys as gtk;
-extern crate gdk_pixbuf_sys as gdk_pixbuf;
-extern crate gdk_sys as gdk;
-extern crate cairo_sys as cairo;
 
 #[allow(unused_imports)]
 use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
