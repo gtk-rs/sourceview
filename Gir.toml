@@ -33,18 +33,18 @@ generate = [
     "GtkSource.Mark",
     "GtkSource.MountOperationFactory",
     "GtkSource.NewlineType",
-    "GtkSource.Region",
-    "GtkSource.SortFlags",
     "GtkSource.PrintCompositor",
+    "GtkSource.Region",
     "GtkSource.SearchContext",
     "GtkSource.SearchSettings",
     "GtkSource.SmartHomeEndType",
+    "GtkSource.SortFlags",
     "GtkSource.SpaceDrawer",
     "GtkSource.SpaceLocationFlags",
     "GtkSource.SpaceTypeFlags",
     "GtkSource.StyleScheme",
-    "GtkSource.StyleSchemeManager",
     "GtkSource.StyleSchemeChooser",
+    "GtkSource.StyleSchemeManager",
     "GtkSource.Tag",
     "GtkSource.UndoManager",
     "GtkSource.ViewGutterPosition",
@@ -60,6 +60,12 @@ manual = [
     "Gdk.RGBA",
     "Gdk.Window",
     "GdkPixbuf.Pixbuf",
+    "Gio.Cancellable",
+    "Gio.File",
+    "Gio.Icon",
+    "Gio.InputStream",
+    "Gio.Settings",
+    "Gio.SettingsBindFlags",
     "GLib.Error",
     "GLib.Priority",
     "GLib.Variant",
@@ -78,12 +84,6 @@ manual = [
     "Gtk.Widget",
     "Gtk.WrapMode",
     "GtkSource.RegionIter",
-    "Gio.Cancellable",
-    "Gio.File",
-    "Gio.Icon",
-    "Gio.InputStream",
-    "Gio.Settings",
-    "Gio.SettingsBindFlags",
     "Pango.FontDescription",
     "Pango.Underline",
 ]
@@ -120,48 +120,6 @@ status = "generate"
     ignore = true
 
 [[object]]
-name = "GtkSource.MarkAttributes"
-status = "generate"
-version = "2.2"
-    [[object.function]]
-    name = "get_pixbuf"
-    ignore = true
-    [[object.function]]
-    name = "render_icon"
-    ignore = true
-    [[object.property]]
-    pattern = ".+"
-    version = "2.2"
-
-[[object]]
-name = "GtkSource.View"
-status = "generate"
-    [[object.function]]
-    name = "get_mark_attributes"
-    ignore = true
-    [[object.function]]
-    name = "set_mark_attributes"
-    version = "2.2"
-
-
-[[object]]
-name = "GtkSource.Map"
-status = "generate"
-    [[object.property]]
-    name = "font-desc"
-    ignore = true
-
-[[object]]
-name = "GtkSource.StyleSchemeChooserButton"
-status = "generate"
-version = "3.16"
-
-[[object]]
-name = "GtkSource.StyleSchemeChooserWidget"
-status = "generate"
-version = "3.16"
-
-[[object]]
 name = "GtkSource.Gutter"
 status = "generate"
     [[object.function]]
@@ -183,6 +141,27 @@ status = "generate"
         const = true
 
 [[object]]
+name = "GtkSource.Map"
+status = "generate"
+    [[object.property]]
+    name = "font-desc"
+    ignore = true
+
+[[object]]
+name = "GtkSource.MarkAttributes"
+status = "generate"
+version = "2.2"
+    [[object.function]]
+    name = "get_pixbuf"
+    ignore = true
+    [[object.function]]
+    name = "render_icon"
+    ignore = true
+    [[object.property]]
+    pattern = ".+"
+    version = "2.2"
+
+[[object]]
 name = "GtkSource.Style"
 status = "generate"
 version = "2.0"
@@ -192,3 +171,23 @@ version = "2.0"
     [[object.function]]
     name = "apply"
     ignore = true
+
+[[object]]
+name = "GtkSource.StyleSchemeChooserButton"
+status = "generate"
+version = "3.16"
+
+[[object]]
+name = "GtkSource.StyleSchemeChooserWidget"
+status = "generate"
+version = "3.16"
+
+[[object]]
+name = "GtkSource.View"
+status = "generate"
+    [[object.function]]
+    name = "get_mark_attributes"
+    ignore = true
+    [[object.function]]
+    name = "set_mark_attributes"
+    version = "2.2"
