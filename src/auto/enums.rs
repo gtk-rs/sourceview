@@ -13,7 +13,8 @@ use glib::value::Value;
 use gobject_ffi;
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum BackgroundPatternType {
     None,
     Grid,
@@ -77,7 +78,8 @@ impl SetValue for BackgroundPatternType {
 }
 
 #[cfg(any(feature = "v3_12", feature = "dox"))]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum ChangeCaseType {
     Lower,
     Upper,
@@ -147,7 +149,8 @@ impl SetValue for ChangeCaseType {
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum CompressionType {
     None,
     Gzip,
@@ -210,7 +213,8 @@ impl SetValue for CompressionType {
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum GutterRendererAlignmentMode {
     Cell,
     First,
@@ -271,7 +275,8 @@ impl SetValue for GutterRendererAlignmentMode {
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum NewlineType {
     Lf,
     Cr,
@@ -337,7 +342,8 @@ impl SetValue for NewlineType {
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum SmartHomeEndType {
     Disabled,
     Before,
@@ -400,7 +406,8 @@ impl SetValue for SmartHomeEndType {
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
 pub enum ViewGutterPosition {
     Lines,
     Marks,
