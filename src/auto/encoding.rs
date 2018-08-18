@@ -11,6 +11,7 @@ use std::mem;
 use std::ptr;
 
 glib_wrapper! {
+    #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct Encoding(Boxed<ffi::GtkSourceEncoding>);
 
     match fn {

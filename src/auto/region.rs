@@ -20,7 +20,6 @@ use gobject_ffi;
 use gtk;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 use std::boxed::Box as Box_;
-use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 use std::mem::transmute;
@@ -41,13 +40,6 @@ impl Region {
         unsafe {
             from_glib_full(ffi::gtk_source_region_new(buffer.to_glib_none().0))
         }
-    }
-}
-
-impl fmt::Display for Region {
-    #[inline]
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", RegionExt::to_string(self))
     }
 }
 
