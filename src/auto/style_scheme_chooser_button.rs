@@ -15,7 +15,12 @@ use std::ptr;
 
 glib_wrapper! {
     pub struct StyleSchemeChooserButton(Object<ffi::GtkSourceStyleSchemeChooserButton, ffi::GtkSourceStyleSchemeChooserButtonClass>): [
+        gtk::Button => gtk_ffi::GtkButton,
+        gtk::Bin => gtk_ffi::GtkBin,
+        gtk::Container => gtk_ffi::GtkContainer,
         gtk::Widget => gtk_ffi::GtkWidget,
+        gtk::Buildable => gtk_ffi::GtkBuildable,
+        gtk::Actionable => gtk_ffi::GtkActionable,
         StyleSchemeChooser,
     ];
 

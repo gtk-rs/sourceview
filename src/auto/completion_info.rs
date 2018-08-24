@@ -20,7 +20,11 @@ use std::ptr;
 
 glib_wrapper! {
     pub struct CompletionInfo(Object<ffi::GtkSourceCompletionInfo, ffi::GtkSourceCompletionInfoClass>): [
+        gtk::Window => gtk_ffi::GtkWindow,
+        gtk::Bin => gtk_ffi::GtkBin,
+        gtk::Container => gtk_ffi::GtkContainer,
         gtk::Widget => gtk_ffi::GtkWidget,
+        gtk::Buildable => gtk_ffi::GtkBuildable,
     ];
 
     match fn {

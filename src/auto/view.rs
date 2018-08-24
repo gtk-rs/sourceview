@@ -36,7 +36,9 @@ use std::ptr;
 glib_wrapper! {
     pub struct View(Object<ffi::GtkSourceView, ffi::GtkSourceViewClass>): [
         gtk::TextView => gtk_ffi::GtkTextView,
+        gtk::Container => gtk_ffi::GtkContainer,
         gtk::Widget => gtk_ffi::GtkWidget,
+        gtk::Buildable => gtk_ffi::GtkBuildable,
         gtk::Scrollable => gtk_ffi::GtkScrollable,
     ];
 

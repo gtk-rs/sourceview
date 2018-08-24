@@ -25,7 +25,9 @@ glib_wrapper! {
     pub struct Map(Object<ffi::GtkSourceMap, ffi::GtkSourceMapClass>): [
         View,
         gtk::TextView => gtk_ffi::GtkTextView,
+        gtk::Container => gtk_ffi::GtkContainer,
         gtk::Widget => gtk_ffi::GtkWidget,
+        gtk::Buildable => gtk_ffi::GtkBuildable,
         gtk::Scrollable => gtk_ffi::GtkScrollable,
     ];
 
