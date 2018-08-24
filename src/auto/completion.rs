@@ -27,7 +27,9 @@ use std::mem::transmute;
 use std::ptr;
 
 glib_wrapper! {
-    pub struct Completion(Object<ffi::GtkSourceCompletion, ffi::GtkSourceCompletionClass>);
+    pub struct Completion(Object<ffi::GtkSourceCompletion, ffi::GtkSourceCompletionClass>): [
+        gtk::Buildable => gtk_ffi::GtkBuildable,
+    ];
 
     match fn {
         get_type => || ffi::gtk_source_completion_get_type(),
