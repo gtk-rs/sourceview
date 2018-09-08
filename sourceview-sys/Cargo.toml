@@ -54,7 +54,13 @@ v3_8 = ["v3_4"]
 name = "gtk_source_sys"
 
 [package]
+authors = ["The Gtk-rs Project Developers"]
 build = "build.rs"
+description = "FFI bindings to libgtksourceview-3"
+homepage = "http://gtk-rs.org/"
+keywords = ["gtk", "ffi", "gtk-rs", "gnome", "sourceview"]
+license = "MIT"
 links = "gtk_source"
 name = "gtk-source-sys"
+repository = "https://github.com/gtk-rs/sourceview"
 version = "0.6.0"
