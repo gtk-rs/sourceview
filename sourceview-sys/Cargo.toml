@@ -12,6 +12,10 @@ gobject-sys = "0.6.0"
 gtk-sys = "0.6.0"
 libc = "0.2"
 
+[dev-dependencies]
+shell-words = "0.1.0"
+tempdir = "0.3"
+
 [features]
 dox = []
 v3_10 = ["v3_8"]

@@ -5,15 +5,16 @@ version = "3.0"
 min_cfg_version = "3.0"
 target_path = "."
 work_mode = "sys"
+single_version_file = "."
 
 external_libraries = [
+   "Cairo",
+   "Gdk",
+   "GdkPixbuf",
+   "Gio",
    "GLib",
    "GObject",
-   "Gio",
    "Gtk",
-   "GdkPixbuf",
-   "Gdk",
-   "Cairo",
 ]
 
 ignore = [
