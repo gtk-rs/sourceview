@@ -25,7 +25,7 @@ extern crate libc;
 extern crate bitflags;
 
 #[cfg(feature = "futures")]
-extern crate send_cell;
+extern crate fragile;
 #[cfg(feature = "futures")]
 extern crate futures_core;
 

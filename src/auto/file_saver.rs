@@ -183,7 +183,7 @@ impl<O: IsA<FileSaver> + IsA<glib::object::Object>> FileSaverExt for O {
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn save_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
         //use gio::GioFuture;
-        //use send_cell::SendCell;
+        //use fragile::Fragile;
 
         //let progress_callback = progress_callback.into();
         //let progress_callback = progress_callback.map(ToOwned::to_owned);
@@ -193,8 +193,8 @@ impl<O: IsA<FileSaver> + IsA<glib::object::Object>> FileSaverExt for O {
         //let progress_callback_notify = progress_callback_notify.map(ToOwned::to_owned);
         //GioFuture::new(self, move |obj, send| {
         //    let cancellable = gio::Cancellable::new();
-        //    let send = SendCell::new(send);
-        //    let obj_clone = SendCell::new(obj.clone());
+        //    let send = Fragile::new(send);
+        //    let obj_clone = Fragile::new(obj.clone());
         //    obj.save_async(
         //         io_priority,
         //         Some(&cancellable),

@@ -200,13 +200,13 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> {
         use gio::GioFuture;
-        use send_cell::SendCell;
+        use fragile::Fragile;
 
         let iter = iter.clone();
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.backward_async(
                  &iter,
                  Some(&cancellable),
@@ -272,13 +272,13 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> {
         use gio::GioFuture;
-        use send_cell::SendCell;
+        use fragile::Fragile;
 
         let iter = iter.clone();
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.forward_async(
                  &iter,
                  Some(&cancellable),
