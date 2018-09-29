@@ -129,8 +129,6 @@ pub trait CompletionExt {
     fn connect_property_show_headers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_show_icons_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
 impl<O: IsA<Completion> + IsA<glib::object::Object> + glib::object::ObjectExt> CompletionExt for O {
@@ -445,14 +443,6 @@ impl<O: IsA<Completion> + IsA<glib::object::Object> + glib::object::ObjectExt> C
                 transmute(notify_show_icons_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
-
-    fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::view",
-                transmute(notify_view_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
-        }
-    }
 }
 
 unsafe extern "C" fn activate_proposal_trampoline<P>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
@@ -534,12 +524,6 @@ where P: IsA<Completion> {
 }
 
 unsafe extern "C" fn notify_show_icons_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
-where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&Completion::from_glib_borrow(this).downcast_unchecked())
-}
-
-unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Completion::from_glib_borrow(this).downcast_unchecked())
