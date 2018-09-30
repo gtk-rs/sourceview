@@ -135,9 +135,6 @@ pub trait SearchContextExt: Sized {
     fn set_settings<'a, P: Into<Option<&'a SearchSettings>>>(&self, settings: P);
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_buffer_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_highlight_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
@@ -403,15 +400,6 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_buffer_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::buffer",
-                transmute(notify_buffer_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
-        }
-    }
-
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_highlight_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -455,13 +443,6 @@ impl<O: IsA<SearchContext> + IsA<glib::object::Object> + Clone + 'static> Search
                 transmute(notify_settings_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
-}
-
-#[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_buffer_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
-where P: IsA<SearchContext> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
