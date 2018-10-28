@@ -60,7 +60,7 @@ pub trait CompletionWordsExt {
 
     fn set_property_minimum_word_size(&self, minimum_word_size: u32);
 
-    fn set_property_name(&self, name: Option<&str>);
+    fn set_property_name<'a, P: Into<Option<&'a str>>>(&self, name: P);
 
     fn set_property_priority(&self, priority: i32);
 
@@ -136,7 +136,8 @@ impl<O: IsA<CompletionWords> + IsA<glib::object::Object>> CompletionWordsExt for
         }
     }
 
-    fn set_property_name(&self, name: Option<&str>) {
+    fn set_property_name<'a, P: Into<Option<&'a str>>>(&self, name: P) {
+        let name = name.into();
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0, "name".to_glib_none().0, Value::from(name).to_glib_none().0);
         }
