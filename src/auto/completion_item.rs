@@ -103,15 +103,15 @@ pub trait CompletionItemExt {
     fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_icon_name(&self, icon_name: Option<&str>);
+    fn set_property_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
 
-    fn set_property_info(&self, info: Option<&str>);
+    fn set_property_info<'a, P: Into<Option<&'a str>>>(&self, info: P);
 
-    fn set_property_label(&self, label: Option<&str>);
+    fn set_property_label<'a, P: Into<Option<&'a str>>>(&self, label: P);
 
-    fn set_property_markup(&self, markup: Option<&str>);
+    fn set_property_markup<'a, P: Into<Option<&'a str>>>(&self, markup: P);
 
-    fn set_property_text(&self, text: Option<&str>);
+    fn set_property_text<'a, P: Into<Option<&'a str>>>(&self, text: P);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -208,31 +208,36 @@ impl<O: IsA<CompletionItem> + IsA<glib::object::Object>> CompletionItemExt for O
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_icon_name(&self, icon_name: Option<&str>) {
+    fn set_property_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P) {
+        let icon_name = icon_name.into();
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0, "icon-name".to_glib_none().0, Value::from(icon_name).to_glib_none().0);
         }
     }
 
-    fn set_property_info(&self, info: Option<&str>) {
+    fn set_property_info<'a, P: Into<Option<&'a str>>>(&self, info: P) {
+        let info = info.into();
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0, "info".to_glib_none().0, Value::from(info).to_glib_none().0);
         }
     }
 
-    fn set_property_label(&self, label: Option<&str>) {
+    fn set_property_label<'a, P: Into<Option<&'a str>>>(&self, label: P) {
+        let label = label.into();
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0, "label".to_glib_none().0, Value::from(label).to_glib_none().0);
         }
     }
 
-    fn set_property_markup(&self, markup: Option<&str>) {
+    fn set_property_markup<'a, P: Into<Option<&'a str>>>(&self, markup: P) {
+        let markup = markup.into();
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0, "markup".to_glib_none().0, Value::from(markup).to_glib_none().0);
         }
     }
 
-    fn set_property_text(&self, text: Option<&str>) {
+    fn set_property_text<'a, P: Into<Option<&'a str>>>(&self, text: P) {
+        let text = text.into();
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0, "text".to_glib_none().0, Value::from(text).to_glib_none().0);
         }
