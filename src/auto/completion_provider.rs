@@ -15,6 +15,7 @@ use glib::translate::*;
 use glib_ffi;
 use gobject_ffi;
 use gtk;
+use std::fmt;
 use std::mem;
 use std::ptr;
 
@@ -137,5 +138,11 @@ impl<O: IsA<CompletionProvider>> CompletionProviderExt for O {
         unsafe {
             ffi::gtk_source_completion_provider_update_info(self.to_glib_none().0, proposal.to_glib_none().0, info.to_glib_none().0);
         }
+    }
+}
+
+impl fmt::Display for CompletionProvider {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "CompletionProvider")
     }
 }

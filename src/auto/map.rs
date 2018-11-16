@@ -17,6 +17,7 @@ use gobject_ffi;
 use gtk;
 use gtk_ffi;
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
@@ -109,4 +110,10 @@ unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceMap, _pa
 where P: IsA<Map> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Map::from_glib_borrow(this).downcast_unchecked())
+}
+
+impl fmt::Display for Map {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Map")
+    }
 }

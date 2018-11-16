@@ -19,6 +19,7 @@ use glib::object::IsA;
 use glib::translate::*;
 use glib_ffi;
 use gobject_ffi;
+use std::fmt;
 use std::mem;
 use std::ptr;
 
@@ -174,5 +175,11 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
         unsafe {
             ffi::gtk_source_file_loader_set_candidate_encodings(self.to_glib_none().0, candidate_encodings.to_glib_none().0);
         }
+    }
+}
+
+impl fmt::Display for FileLoader {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "FileLoader")
     }
 }

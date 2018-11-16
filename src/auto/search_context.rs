@@ -33,6 +33,7 @@ use gobject_ffi;
 use gtk;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use std::mem::transmute;
@@ -478,4 +479,10 @@ unsafe extern "C" fn notify_settings_trampoline<P>(this: *mut ffi::GtkSourceSear
 where P: IsA<SearchContext> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&SearchContext::from_glib_borrow(this).downcast_unchecked())
+}
+
+impl fmt::Display for SearchContext {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "SearchContext")
+    }
 }
