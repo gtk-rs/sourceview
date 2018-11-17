@@ -9,6 +9,7 @@ use glib_ffi;
 use gobject_ffi;
 use gtk;
 use gtk_ffi;
+use std::fmt;
 use std::mem;
 use std::ptr;
 
@@ -58,5 +59,11 @@ impl<O: IsA<Mark>> MarkExt for O {
         unsafe {
             from_glib_none(ffi::gtk_source_mark_prev(self.to_glib_none().0, category.to_glib_none().0))
         }
+    }
+}
+
+impl fmt::Display for Mark {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Mark")
     }
 }

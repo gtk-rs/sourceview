@@ -11,6 +11,7 @@ use glib::translate::*;
 use glib_ffi;
 use gobject_ffi;
 use pango;
+use std::fmt;
 use std::mem;
 use std::ptr;
 
@@ -214,5 +215,11 @@ impl<O: IsA<Style> + IsA<glib::object::Object>> StyleExt for O {
             gobject_ffi::g_object_get_property(self.to_glib_none().0, "underline-set".to_glib_none().0, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
+    }
+}
+
+impl fmt::Display for Style {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Style")
     }
 }

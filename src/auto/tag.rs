@@ -21,6 +21,7 @@ use gtk;
 use gtk_ffi;
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 use std::mem::transmute;
@@ -132,4 +133,10 @@ unsafe extern "C" fn notify_draw_spaces_set_trampoline<P>(this: *mut ffi::GtkSou
 where P: IsA<Tag> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Tag::from_glib_borrow(this).downcast_unchecked())
+}
+
+impl fmt::Display for Tag {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Tag")
+    }
 }

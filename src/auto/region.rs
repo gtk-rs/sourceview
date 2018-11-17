@@ -11,6 +11,7 @@ use glib_ffi;
 use gobject_ffi;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 use gtk;
+use std::fmt;
 use std::mem;
 use std::ptr;
 
@@ -154,5 +155,11 @@ impl<O: IsA<Region>> RegionExt for O {
         unsafe {
             from_glib_full(ffi::gtk_source_region_to_string(self.to_glib_none().0))
         }
+    }
+}
+
+impl fmt::Display for Region {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Region")
     }
 }

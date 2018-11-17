@@ -19,6 +19,7 @@ use glib_ffi;
 use gobject_ffi;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use std::mem::transmute;
@@ -73,4 +74,10 @@ unsafe extern "C" fn notify_style_scheme_trampoline<P>(this: *mut ffi::GtkSource
 where P: IsA<StyleSchemeChooser> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&StyleSchemeChooser::from_glib_borrow(this).downcast_unchecked())
+}
+
+impl fmt::Display for StyleSchemeChooser {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "StyleSchemeChooser")
+    }
 }

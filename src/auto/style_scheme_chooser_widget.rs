@@ -10,6 +10,7 @@ use glib_ffi;
 use gobject_ffi;
 use gtk;
 use gtk_ffi;
+use std::fmt;
 use std::mem;
 use std::ptr;
 
@@ -41,5 +42,11 @@ impl StyleSchemeChooserWidget {
 impl Default for StyleSchemeChooserWidget {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+impl fmt::Display for StyleSchemeChooserWidget {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "StyleSchemeChooserWidget")
     }
 }

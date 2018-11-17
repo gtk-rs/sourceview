@@ -22,6 +22,7 @@ use gtk;
 use gtk_ffi;
 use libc;
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
@@ -586,4 +587,10 @@ unsafe extern "C" fn notify_ypad_trampoline<P>(this: *mut ffi::GtkSourceGutterRe
 where P: IsA<GutterRenderer> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).downcast_unchecked())
+}
+
+impl fmt::Display for GutterRenderer {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "GutterRenderer")
+    }
 }

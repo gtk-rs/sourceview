@@ -19,6 +19,7 @@ use glib_ffi;
 use gobject_ffi;
 use gtk;
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
@@ -290,4 +291,10 @@ unsafe extern "C" fn notify_scan_batch_size_trampoline<P>(this: *mut ffi::GtkSou
 where P: IsA<CompletionWords> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).downcast_unchecked())
+}
+
+impl fmt::Display for CompletionWords {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "CompletionWords")
+    }
 }
