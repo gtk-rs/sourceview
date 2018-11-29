@@ -76,7 +76,7 @@ pub trait SearchContextExt: 'static {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async_future<P: IsA<gio::Cancellable> + Clone + 'static>(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
+    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn backward_finish2<P: IsA</*Ignored*/gio::AsyncResult>>(&self, result: &P) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
@@ -93,7 +93,7 @@ pub trait SearchContextExt: 'static {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async_future<P: IsA<gio::Cancellable> + Clone + 'static>(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
+    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn forward_finish2<P: IsA</*Ignored*/gio::AsyncResult>>(&self, result: &P) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
@@ -199,7 +199,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async_future<P: IsA<gio::Cancellable> + Clone + 'static>(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone {
+    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone {
         use gio::GioFuture;
         use fragile::Fragile;
 
@@ -270,7 +270,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async_future<P: IsA<gio::Cancellable> + Clone + 'static>(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone {
+    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone {
         use gio::GioFuture;
         use fragile::Fragile;
 

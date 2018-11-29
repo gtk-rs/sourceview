@@ -3,7 +3,7 @@
 // DO NOT EDIT
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![cfg_attr(feature = "cargo-clippy", allow(approx_constant, type_complexity, unreadable_literal))]
+#![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
 
 extern crate libc;
 extern crate cairo_sys as cairo;
@@ -226,14 +226,17 @@ impl ::std::fmt::Debug for GtkSourceCompletionContextPrivate {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct GtkSourceCompletionInfoClass {
-    _truncated_record_marker: c_void,
-    // /*Ignored*/field parent_class has incomplete type
+    pub parent_class: gtk::GtkWindowClass,
+    pub before_show: Option<unsafe extern "C" fn(*mut GtkSourceCompletionInfo)>,
 }
 
 impl ::std::fmt::Debug for GtkSourceCompletionInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceCompletionInfoClass @ {:?}", self as *const _))
+         .field("parent_class", &self.parent_class)
+         .field("before_show", &self.before_show)
          .finish()
     }
 }
@@ -643,14 +646,17 @@ impl ::std::fmt::Debug for GtkSourceLanguagePrivate {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct GtkSourceMapClass {
-    _truncated_record_marker: c_void,
-    // /*Ignored*/field parent_class has incomplete type
+    pub parent_class: GtkSourceViewClass,
+    pub padding: [gpointer; 10],
 }
 
 impl ::std::fmt::Debug for GtkSourceMapClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceMapClass @ {:?}", self as *const _))
+         .field("parent_class", &self.parent_class)
+         .field("padding", &self.padding)
          .finish()
     }
 }
@@ -854,14 +860,15 @@ impl ::std::fmt::Debug for GtkSourceStyleClass {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct GtkSourceStyleSchemeChooserButtonClass {
-    _truncated_record_marker: c_void,
-    // /*Ignored*/field parent has incomplete type
+    pub parent: gtk::GtkButtonClass,
 }
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserButtonClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceStyleSchemeChooserButtonClass @ {:?}", self as *const _))
+         .field("parent", &self.parent)
          .finish()
     }
 }
@@ -887,14 +894,15 @@ impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserInterface {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct GtkSourceStyleSchemeChooserWidgetClass {
-    _truncated_record_marker: c_void,
-    // /*Ignored*/field parent has incomplete type
+    pub parent: gtk::GtkBinClass,
 }
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserWidgetClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceStyleSchemeChooserWidgetClass @ {:?}", self as *const _))
+         .field("parent", &self.parent)
          .finish()
     }
 }
@@ -1006,14 +1014,27 @@ impl ::std::fmt::Debug for GtkSourceUndoManagerIface {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct GtkSourceViewClass {
-    _truncated_record_marker: c_void,
-    // /*Ignored*/field parent_class has incomplete type
+    pub parent_class: gtk::GtkTextViewClass,
+    pub undo: Option<unsafe extern "C" fn(*mut GtkSourceView)>,
+    pub redo: Option<unsafe extern "C" fn(*mut GtkSourceView)>,
+    pub line_mark_activated: Option<unsafe extern "C" fn(*mut GtkSourceView, *mut gtk::GtkTextIter, *mut gdk::GdkEvent)>,
+    pub show_completion: Option<unsafe extern "C" fn(*mut GtkSourceView)>,
+    pub move_lines: Option<unsafe extern "C" fn(*mut GtkSourceView, gboolean, c_int)>,
+    pub move_words: Option<unsafe extern "C" fn(*mut GtkSourceView, c_int)>,
 }
 
 impl ::std::fmt::Debug for GtkSourceViewClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceViewClass @ {:?}", self as *const _))
+         .field("parent_class", &self.parent_class)
+         .field("undo", &self.undo)
+         .field("redo", &self.redo)
+         .field("line_mark_activated", &self.line_mark_activated)
+         .field("show_completion", &self.show_completion)
+         .field("move_lines", &self.move_lines)
+         .field("move_words", &self.move_words)
          .finish()
     }
 }
