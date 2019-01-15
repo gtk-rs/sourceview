@@ -9,27 +9,26 @@ use SpaceTypeFlags;
 use ffi;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use gio;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-use glib::object::Downcast;
+use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::translate::*;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib_ffi;
-use gobject_ffi;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use std::mem::transmute;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct SpaceDrawer(Object<ffi::GtkSourceSpaceDrawer, ffi::GtkSourceSpaceDrawerClass>);
+    pub struct SpaceDrawer(Object<ffi::GtkSourceSpaceDrawer, ffi::GtkSourceSpaceDrawerClass, SpaceDrawerClass>);
 
     match fn {
         get_type => || ffi::gtk_source_space_drawer_get_type(),
@@ -53,9 +52,11 @@ impl Default for SpaceDrawer {
     }
 }
 
-pub trait SpaceDrawerExt {
+pub const NONE_SPACE_DRAWER: Option<&SpaceDrawer> = None;
+
+pub trait SpaceDrawerExt: 'static {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn bind_matrix_setting(&self, settings: &gio::Settings, key: &str, flags: gio::SettingsBindFlags);
+    fn bind_matrix_setting<P: IsA<gio::Settings>>(&self, settings: &P, key: &str, flags: gio::SettingsBindFlags);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn get_enable_matrix(&self) -> bool;
@@ -82,55 +83,54 @@ pub trait SpaceDrawerExt {
     fn connect_property_matrix_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SpaceDrawer> + IsA<glib::object::Object>> SpaceDrawerExt for O {
+impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn bind_matrix_setting(&self, settings: &gio::Settings, key: &str, flags: gio::SettingsBindFlags) {
+    fn bind_matrix_setting<P: IsA<gio::Settings>>(&self, settings: &P, key: &str, flags: gio::SettingsBindFlags) {
         unsafe {
-            ffi::gtk_source_space_drawer_bind_matrix_setting(self.to_glib_none().0, settings.to_glib_none().0, key.to_glib_none().0, flags.to_glib());
+            ffi::gtk_source_space_drawer_bind_matrix_setting(self.as_ref().to_glib_none().0, settings.as_ref().to_glib_none().0, key.to_glib_none().0, flags.to_glib());
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn get_enable_matrix(&self) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_space_drawer_get_enable_matrix(self.to_glib_none().0))
+            from_glib(ffi::gtk_source_space_drawer_get_enable_matrix(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn get_matrix(&self) -> Option<glib::Variant> {
         unsafe {
-            from_glib_full(ffi::gtk_source_space_drawer_get_matrix(self.to_glib_none().0))
+            from_glib_full(ffi::gtk_source_space_drawer_get_matrix(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn get_types_for_locations(&self, locations: SpaceLocationFlags) -> SpaceTypeFlags {
         unsafe {
-            from_glib(ffi::gtk_source_space_drawer_get_types_for_locations(self.to_glib_none().0, locations.to_glib()))
+            from_glib(ffi::gtk_source_space_drawer_get_types_for_locations(self.as_ref().to_glib_none().0, locations.to_glib()))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn set_enable_matrix(&self, enable_matrix: bool) {
         unsafe {
-            ffi::gtk_source_space_drawer_set_enable_matrix(self.to_glib_none().0, enable_matrix.to_glib());
+            ffi::gtk_source_space_drawer_set_enable_matrix(self.as_ref().to_glib_none().0, enable_matrix.to_glib());
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn set_matrix<'a, P: Into<Option<&'a glib::Variant>>>(&self, matrix: P) {
         let matrix = matrix.into();
-        let matrix = matrix.to_glib_none();
         unsafe {
-            ffi::gtk_source_space_drawer_set_matrix(self.to_glib_none().0, matrix.0);
+            ffi::gtk_source_space_drawer_set_matrix(self.as_ref().to_glib_none().0, matrix.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn set_types_for_locations(&self, locations: SpaceLocationFlags, types: SpaceTypeFlags) {
         unsafe {
-            ffi::gtk_source_space_drawer_set_types_for_locations(self.to_glib_none().0, locations.to_glib(), types.to_glib());
+            ffi::gtk_source_space_drawer_set_types_for_locations(self.as_ref().to_glib_none().0, locations.to_glib(), types.to_glib());
         }
     }
 
@@ -138,7 +138,7 @@ impl<O: IsA<SpaceDrawer> + IsA<glib::object::Object>> SpaceDrawerExt for O {
     fn connect_property_enable_matrix_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::enable-matrix",
+            connect_raw(self.as_ptr() as *mut _, b"notify::enable-matrix\0".as_ptr() as *const _,
                 transmute(notify_enable_matrix_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
@@ -147,7 +147,7 @@ impl<O: IsA<SpaceDrawer> + IsA<glib::object::Object>> SpaceDrawerExt for O {
     fn connect_property_matrix_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::matrix",
+            connect_raw(self.as_ptr() as *mut _, b"notify::matrix\0".as_ptr() as *const _,
                 transmute(notify_matrix_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
@@ -157,14 +157,14 @@ impl<O: IsA<SpaceDrawer> + IsA<glib::object::Object>> SpaceDrawerExt for O {
 unsafe extern "C" fn notify_enable_matrix_trampoline<P>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&SpaceDrawer::from_glib_borrow(this).downcast_unchecked())
+    f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 unsafe extern "C" fn notify_matrix_trampoline<P>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&SpaceDrawer::from_glib_borrow(this).downcast_unchecked())
+    f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for SpaceDrawer {

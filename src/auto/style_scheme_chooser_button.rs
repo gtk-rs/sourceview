@@ -4,26 +4,13 @@
 
 use StyleSchemeChooser;
 use ffi;
-use glib::object::Downcast;
+use glib::object::Cast;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
 use gtk;
-use gtk_ffi;
 use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct StyleSchemeChooserButton(Object<ffi::GtkSourceStyleSchemeChooserButton, ffi::GtkSourceStyleSchemeChooserButtonClass>): [
-        gtk::Button => gtk_ffi::GtkButton,
-        gtk::Bin => gtk_ffi::GtkBin,
-        gtk::Container => gtk_ffi::GtkContainer,
-        gtk::Widget => gtk_ffi::GtkWidget,
-        gtk::Buildable => gtk_ffi::GtkBuildable,
-        gtk::Actionable => gtk_ffi::GtkActionable,
-        StyleSchemeChooser,
-    ];
+    pub struct StyleSchemeChooserButton(Object<ffi::GtkSourceStyleSchemeChooserButton, ffi::GtkSourceStyleSchemeChooserButtonClass, StyleSchemeChooserButtonClass>) @extends gtk::Button, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, gtk::Actionable, StyleSchemeChooser;
 
     match fn {
         get_type => || ffi::gtk_source_style_scheme_chooser_button_get_type(),
@@ -35,7 +22,7 @@ impl StyleSchemeChooserButton {
     pub fn new() -> StyleSchemeChooserButton {
         assert_initialized_main_thread!();
         unsafe {
-            gtk::Widget::from_glib_none(ffi::gtk_source_style_scheme_chooser_button_new()).downcast_unchecked()
+            gtk::Widget::from_glib_none(ffi::gtk_source_style_scheme_chooser_button_new()).unsafe_cast()
         }
     }
 }
@@ -46,6 +33,8 @@ impl Default for StyleSchemeChooserButton {
         Self::new()
     }
 }
+
+pub const NONE_STYLE_SCHEME_CHOOSER_BUTTON: Option<&StyleSchemeChooserButton> = None;
 
 impl fmt::Display for StyleSchemeChooserButton {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
