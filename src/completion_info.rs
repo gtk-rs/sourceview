@@ -14,7 +14,7 @@ impl CompletionInfo {
         let mut iter = iter.into();
         let iter = iter.to_glib_none_mut();
         unsafe {
-            ffi::gtk_source_completion_info_move_to_iter(self.to_glib_none().0, view.to_glib_none().0, iter.0);
+            ffi::gtk_source_completion_info_move_to_iter(self.to_glib_none().0, view.as_ref().to_glib_none().0, iter.0);
         }
     }
 }

@@ -4,28 +4,29 @@
 
 use ffi;
 use glib;
-use glib::object::Downcast;
+use glib::object::Cast;
 use glib::object::IsA;
+use glib::object::ObjectExt;
 use glib::signal::SignalHandlerId;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::translate::*;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct UndoManager(Object<ffi::GtkSourceUndoManager, ffi::GtkSourceUndoManagerIface>);
+    pub struct UndoManager(Interface<ffi::GtkSourceUndoManager>);
 
     match fn {
         get_type => || ffi::gtk_source_undo_manager_get_type(),
     }
 }
 
-pub trait UndoManagerExt {
+pub const NONE_UNDO_MANAGER: Option<&UndoManager> = None;
+
+pub trait UndoManagerExt: 'static {
     fn begin_not_undoable_action(&self);
 
     fn can_redo(&self) -> bool;
@@ -51,90 +52,90 @@ pub trait UndoManagerExt {
     fn emit_can_undo_changed(&self);
 }
 
-impl<O: IsA<UndoManager> + IsA<glib::object::Object> + glib::object::ObjectExt> UndoManagerExt for O {
+impl<O: IsA<UndoManager>> UndoManagerExt for O {
     fn begin_not_undoable_action(&self) {
         unsafe {
-            ffi::gtk_source_undo_manager_begin_not_undoable_action(self.to_glib_none().0);
+            ffi::gtk_source_undo_manager_begin_not_undoable_action(self.as_ref().to_glib_none().0);
         }
     }
 
     fn can_redo(&self) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_undo_manager_can_redo(self.to_glib_none().0))
+            from_glib(ffi::gtk_source_undo_manager_can_redo(self.as_ref().to_glib_none().0))
         }
     }
 
     fn can_redo_changed(&self) {
         unsafe {
-            ffi::gtk_source_undo_manager_can_redo_changed(self.to_glib_none().0);
+            ffi::gtk_source_undo_manager_can_redo_changed(self.as_ref().to_glib_none().0);
         }
     }
 
     fn can_undo(&self) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_undo_manager_can_undo(self.to_glib_none().0))
+            from_glib(ffi::gtk_source_undo_manager_can_undo(self.as_ref().to_glib_none().0))
         }
     }
 
     fn can_undo_changed(&self) {
         unsafe {
-            ffi::gtk_source_undo_manager_can_undo_changed(self.to_glib_none().0);
+            ffi::gtk_source_undo_manager_can_undo_changed(self.as_ref().to_glib_none().0);
         }
     }
 
     fn end_not_undoable_action(&self) {
         unsafe {
-            ffi::gtk_source_undo_manager_end_not_undoable_action(self.to_glib_none().0);
+            ffi::gtk_source_undo_manager_end_not_undoable_action(self.as_ref().to_glib_none().0);
         }
     }
 
     fn redo(&self) {
         unsafe {
-            ffi::gtk_source_undo_manager_redo(self.to_glib_none().0);
+            ffi::gtk_source_undo_manager_redo(self.as_ref().to_glib_none().0);
         }
     }
 
     fn undo(&self) {
         unsafe {
-            ffi::gtk_source_undo_manager_undo(self.to_glib_none().0);
+            ffi::gtk_source_undo_manager_undo(self.as_ref().to_glib_none().0);
         }
     }
 
     fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "can-redo-changed",
+            connect_raw(self.as_ptr() as *mut _, b"can-redo-changed\0".as_ptr() as *const _,
                 transmute(can_redo_changed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
     fn emit_can_redo_changed(&self) {
-        let _ = self.emit("can-redo-changed", &[]).unwrap();
+        let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_ffi::GObject).emit("can-redo-changed", &[]).unwrap() };
     }
 
     fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "can-undo-changed",
+            connect_raw(self.as_ptr() as *mut _, b"can-undo-changed\0".as_ptr() as *const _,
                 transmute(can_undo_changed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
     fn emit_can_undo_changed(&self) {
-        let _ = self.emit("can-undo-changed", &[]).unwrap();
+        let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_ffi::GObject).emit("can-undo-changed", &[]).unwrap() };
     }
 }
 
 unsafe extern "C" fn can_redo_changed_trampoline<P>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
 where P: IsA<UndoManager> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&UndoManager::from_glib_borrow(this).downcast_unchecked())
+    f(&UndoManager::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn can_undo_changed_trampoline<P>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
 where P: IsA<UndoManager> {
     let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&UndoManager::from_glib_borrow(this).downcast_unchecked())
+    f(&UndoManager::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for UndoManager {

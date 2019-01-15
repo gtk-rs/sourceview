@@ -4,24 +4,13 @@
 
 use StyleSchemeChooser;
 use ffi;
-use glib::object::Downcast;
+use glib::object::Cast;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
 use gtk;
-use gtk_ffi;
 use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct StyleSchemeChooserWidget(Object<ffi::GtkSourceStyleSchemeChooserWidget, ffi::GtkSourceStyleSchemeChooserWidgetClass>): [
-        gtk::Bin => gtk_ffi::GtkBin,
-        gtk::Container => gtk_ffi::GtkContainer,
-        gtk::Widget => gtk_ffi::GtkWidget,
-        gtk::Buildable => gtk_ffi::GtkBuildable,
-        StyleSchemeChooser,
-    ];
+    pub struct StyleSchemeChooserWidget(Object<ffi::GtkSourceStyleSchemeChooserWidget, ffi::GtkSourceStyleSchemeChooserWidgetClass, StyleSchemeChooserWidgetClass>) @extends gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, StyleSchemeChooser;
 
     match fn {
         get_type => || ffi::gtk_source_style_scheme_chooser_widget_get_type(),
@@ -33,7 +22,7 @@ impl StyleSchemeChooserWidget {
     pub fn new() -> StyleSchemeChooserWidget {
         assert_initialized_main_thread!();
         unsafe {
-            gtk::Widget::from_glib_none(ffi::gtk_source_style_scheme_chooser_widget_new()).downcast_unchecked()
+            gtk::Widget::from_glib_none(ffi::gtk_source_style_scheme_chooser_widget_new()).unsafe_cast()
         }
     }
 }
@@ -44,6 +33,8 @@ impl Default for StyleSchemeChooserWidget {
         Self::new()
     }
 }
+
+pub const NONE_STYLE_SCHEME_CHOOSER_WIDGET: Option<&StyleSchemeChooserWidget> = None;
 
 impl fmt::Display for StyleSchemeChooserWidget {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

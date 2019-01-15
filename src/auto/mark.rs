@@ -3,20 +3,14 @@
 // DO NOT EDIT
 
 use ffi;
+use glib::GString;
 use glib::object::IsA;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
 use gtk;
-use gtk_ffi;
 use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct Mark(Object<ffi::GtkSourceMark, ffi::GtkSourceMarkClass>): [
-        gtk::TextMark => gtk_ffi::GtkTextMark,
-    ];
+    pub struct Mark(Object<ffi::GtkSourceMark, ffi::GtkSourceMarkClass, MarkClass>) @extends gtk::TextMark;
 
     match fn {
         get_type => || ffi::gtk_source_mark_get_type(),
@@ -32,8 +26,10 @@ impl Mark {
     }
 }
 
-pub trait MarkExt {
-    fn get_category(&self) -> Option<String>;
+pub const NONE_MARK: Option<&Mark> = None;
+
+pub trait MarkExt: 'static {
+    fn get_category(&self) -> Option<GString>;
 
     fn next<'a, P: Into<Option<&'a str>>>(&self, category: P) -> Option<Mark>;
 
@@ -41,23 +37,22 @@ pub trait MarkExt {
 }
 
 impl<O: IsA<Mark>> MarkExt for O {
-    fn get_category(&self) -> Option<String> {
+    fn get_category(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(ffi::gtk_source_mark_get_category(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_mark_get_category(self.as_ref().to_glib_none().0))
         }
     }
 
     fn next<'a, P: Into<Option<&'a str>>>(&self, category: P) -> Option<Mark> {
         let category = category.into();
-        let category = category.to_glib_none();
         unsafe {
-            from_glib_none(ffi::gtk_source_mark_next(self.to_glib_none().0, category.0))
+            from_glib_none(ffi::gtk_source_mark_next(self.as_ref().to_glib_none().0, category.to_glib_none().0))
         }
     }
 
     fn prev(&self, category: &str) -> Option<Mark> {
         unsafe {
-            from_glib_none(ffi::gtk_source_mark_prev(self.to_glib_none().0, category.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_mark_prev(self.as_ref().to_glib_none().0, category.to_glib_none().0))
         }
     }
 }

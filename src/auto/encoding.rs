@@ -3,12 +3,11 @@
 // DO NOT EDIT
 
 use ffi;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+use glib::GString;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
 use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -23,21 +22,21 @@ glib_wrapper! {
 
 impl Encoding {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn get_charset(&self) -> Option<String> {
+    pub fn get_charset(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::gtk_source_encoding_get_charset(self.to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn get_name(&self) -> Option<String> {
+    pub fn get_name(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::gtk_source_encoding_get_name(self.to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn to_string(&self) -> String {
+    fn to_string(&self) -> GString {
         unsafe {
             from_glib_full(ffi::gtk_source_encoding_to_string(self.to_glib_none().0))
         }

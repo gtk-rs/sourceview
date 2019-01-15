@@ -17,14 +17,10 @@ use ffi;
 use gio;
 use glib::object::IsA;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
 use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct FileLoader(Object<ffi::GtkSourceFileLoader, ffi::GtkSourceFileLoaderClass>);
+    pub struct FileLoader(Object<ffi::GtkSourceFileLoader, ffi::GtkSourceFileLoaderClass, FileLoaderClass>);
 
     match fn {
         get_type => || ffi::gtk_source_file_loader_get_type(),
@@ -33,23 +29,25 @@ glib_wrapper! {
 
 impl FileLoader {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn new(buffer: &Buffer, file: &File) -> FileLoader {
+    pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileLoader {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_file_loader_new(buffer.to_glib_none().0, file.to_glib_none().0))
+            from_glib_full(ffi::gtk_source_file_loader_new(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn new_from_stream<P: IsA<gio::InputStream>>(buffer: &Buffer, file: &File, stream: &P) -> FileLoader {
+    pub fn new_from_stream<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::InputStream>>(buffer: &P, file: &Q, stream: &R) -> FileLoader {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_file_loader_new_from_stream(buffer.to_glib_none().0, file.to_glib_none().0, stream.to_glib_none().0))
+            from_glib_full(ffi::gtk_source_file_loader_new_from_stream(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0, stream.as_ref().to_glib_none().0))
         }
     }
 }
 
-pub trait FileLoaderExt {
+pub const NONE_FILE_LOADER: Option<&FileLoader> = None;
+
+pub trait FileLoaderExt: 'static {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_buffer(&self) -> Option<Buffer>;
 
@@ -72,11 +70,11 @@ pub trait FileLoaderExt {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async<'a, 'b, 'c, P: Into<Option<&'a gio::Cancellable>>, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, T: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: P, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S, callback: T);
+    //fn load_async<'a, 'b, 'c, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, U: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: R, progress_callback_data: S, progress_callback_notify: T, callback: U);
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    //fn load_async_future<'b, 'c, P: IsA<gio::Cancellable> + Clone + 'static, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]);
@@ -86,60 +84,60 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_buffer(&self) -> Option<Buffer> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_buffer(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_file_loader_get_buffer(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_compression_type(&self) -> CompressionType {
         unsafe {
-            from_glib(ffi::gtk_source_file_loader_get_compression_type(self.to_glib_none().0))
+            from_glib(ffi::gtk_source_file_loader_get_compression_type(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_encoding(&self) -> Option<Encoding> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_encoding(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_file_loader_get_encoding(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_file(&self) -> Option<File> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_file(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_file_loader_get_file(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_input_stream(&self) -> Option<gio::InputStream> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_input_stream(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_file_loader_get_input_stream(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_location(&self) -> Option<gio::File> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_location(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_file_loader_get_location(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_newline_type(&self) -> NewlineType {
         unsafe {
-            from_glib(ffi::gtk_source_file_loader_get_newline_type(self.to_glib_none().0))
+            from_glib(ffi::gtk_source_file_loader_get_newline_type(self.as_ref().to_glib_none().0))
         }
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async<'a, 'b, 'c, P: Into<Option<&'a gio::Cancellable>>, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, T: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: P, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S, callback: T) {
+    //fn load_async<'a, 'b, 'c, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, U: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: R, progress_callback_data: S, progress_callback_notify: T, callback: U) {
     //    unsafe { TODO: call ffi::gtk_source_file_loader_load_async() }
     //}
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<'b, 'c, Q: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>, S: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_data: R, progress_callback_notify: S) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    //fn load_async_future<'b, 'c, P: IsA<gio::Cancellable> + Clone + 'static, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone {
         //use gio::GioFuture;
         //use fragile::Fragile;
 
@@ -173,7 +171,7 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]) {
         unsafe {
-            ffi::gtk_source_file_loader_set_candidate_encodings(self.to_glib_none().0, candidate_encodings.to_glib_none().0);
+            ffi::gtk_source_file_loader_set_candidate_encodings(self.as_ref().to_glib_none().0, candidate_encodings.to_glib_none().0);
         }
     }
 }
