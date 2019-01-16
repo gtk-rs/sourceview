@@ -74,7 +74,7 @@ pub trait FileLoaderExt: 'static {
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<'b, 'c, P: IsA<gio::Cancellable> + Clone + 'static, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone;
+    //fn load_async_future<'b, 'c, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]);
@@ -137,7 +137,7 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<'b, 'c, P: IsA<gio::Cancellable> + Clone + 'static, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone {
+    //fn load_async_future<'b, 'c, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone {
         //use gio::GioFuture;
         //use fragile::Fragile;
 
