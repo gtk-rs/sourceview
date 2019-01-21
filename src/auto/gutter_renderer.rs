@@ -64,7 +64,7 @@ pub trait GutterRendererExt: 'static {
 
     fn query_data(&self, start: &mut gtk::TextIter, end: &mut gtk::TextIter, state: GutterRendererState);
 
-    fn query_tooltip<P: IsA<gtk::Tooltip>>(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, x: i32, y: i32, tooltip: &P) -> bool;
+    fn query_tooltip(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, x: i32, y: i32, tooltip: &gtk::Tooltip) -> bool;
 
     fn queue_draw(&self);
 
@@ -230,9 +230,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
         }
     }
 
-    fn query_tooltip<P: IsA<gtk::Tooltip>>(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, x: i32, y: i32, tooltip: &P) -> bool {
+    fn query_tooltip(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, x: i32, y: i32, tooltip: &gtk::Tooltip) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_renderer_query_tooltip(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, x, y, tooltip.as_ref().to_glib_none().0))
+            from_glib(ffi::gtk_source_gutter_renderer_query_tooltip(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, x, y, tooltip.to_glib_none().0))
         }
     }
 

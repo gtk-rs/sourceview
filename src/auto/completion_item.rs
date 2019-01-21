@@ -7,6 +7,7 @@ use ffi;
 use gdk_pixbuf;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 use gio;
+#[cfg(any(feature = "v3_18", feature = "dox"))]
 use glib;
 use glib::Value;
 use glib::object::Cast;
@@ -30,12 +31,12 @@ glib_wrapper! {
 
 impl CompletionItem {
     #[cfg_attr(feature = "v3_24", deprecated)]
-    pub fn new<'a, 'b, P: IsA<gdk_pixbuf::Pixbuf> + 'a, Q: Into<Option<&'a P>>, R: Into<Option<&'b str>>>(label: &str, text: &str, icon: Q, info: R) -> CompletionItem {
+    pub fn new<'a, 'b, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>, Q: Into<Option<&'b str>>>(label: &str, text: &str, icon: P, info: Q) -> CompletionItem {
         assert_initialized_main_thread!();
         let icon = icon.into();
         let info = info.into();
         unsafe {
-            from_glib_full(ffi::gtk_source_completion_item_new(label.to_glib_none().0, text.to_glib_none().0, icon.map(|p| p.as_ref()).to_glib_none().0, info.to_glib_none().0))
+            from_glib_full(ffi::gtk_source_completion_item_new(label.to_glib_none().0, text.to_glib_none().0, icon.to_glib_none().0, info.to_glib_none().0))
         }
     }
 
@@ -50,12 +51,12 @@ impl CompletionItem {
     }
 
     #[cfg_attr(feature = "v3_24", deprecated)]
-    pub fn new_with_markup<'a, 'b, P: IsA<gdk_pixbuf::Pixbuf> + 'a, Q: Into<Option<&'a P>>, R: Into<Option<&'b str>>>(markup: &str, text: &str, icon: Q, info: R) -> CompletionItem {
+    pub fn new_with_markup<'a, 'b, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>, Q: Into<Option<&'b str>>>(markup: &str, text: &str, icon: P, info: Q) -> CompletionItem {
         assert_initialized_main_thread!();
         let icon = icon.into();
         let info = info.into();
         unsafe {
-            from_glib_full(ffi::gtk_source_completion_item_new_with_markup(markup.to_glib_none().0, text.to_glib_none().0, icon.map(|p| p.as_ref()).to_glib_none().0, info.to_glib_none().0))
+            from_glib_full(ffi::gtk_source_completion_item_new_with_markup(markup.to_glib_none().0, text.to_glib_none().0, icon.to_glib_none().0, info.to_glib_none().0))
         }
     }
 
@@ -75,7 +76,7 @@ pub trait CompletionItemExt: 'static {
     fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, gicon: Q);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_icon<'a, P: IsA<gdk_pixbuf::Pixbuf> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q);
+    fn set_icon<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, icon: P);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
@@ -95,7 +96,7 @@ pub trait CompletionItemExt: 'static {
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn set_property_gicon<P: IsA<gio::Icon> + glib::value::SetValueOptional>(&self, gicon: Option<&P>);
 
-    fn set_property_icon<P: IsA<gdk_pixbuf::Pixbuf> + glib::value::SetValueOptional>(&self, icon: Option<&P>);
+    fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn set_property_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
@@ -135,10 +136,10 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_icon<'a, P: IsA<gdk_pixbuf::Pixbuf> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q) {
+    fn set_icon<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, icon: P) {
         let icon = icon.into();
         unsafe {
-            ffi::gtk_source_completion_item_set_icon(self.as_ref().to_glib_none().0, icon.map(|p| p.as_ref()).to_glib_none().0);
+            ffi::gtk_source_completion_item_set_icon(self.as_ref().to_glib_none().0, icon.to_glib_none().0);
         }
     }
 
@@ -189,7 +190,7 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
         }
     }
 
-    fn set_property_icon<P: IsA<gdk_pixbuf::Pixbuf> + glib::value::SetValueOptional>(&self, icon: Option<&P>) {
+    fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"icon\0".as_ptr() as *const _, Value::from(icon).to_glib_none().0);
         }

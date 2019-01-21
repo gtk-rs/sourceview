@@ -44,7 +44,7 @@ impl PrintCompositor {
 pub const NONE_PRINT_COMPOSITOR: Option<&PrintCompositor> = None;
 
 pub trait PrintCompositorExt: 'static {
-    fn draw_page<P: IsA<gtk::PrintContext>>(&self, context: &P, page_nr: i32);
+    fn draw_page(&self, context: &gtk::PrintContext, page_nr: i32);
 
     fn get_body_font_name(&self) -> Option<GString>;
 
@@ -80,7 +80,7 @@ pub trait PrintCompositorExt: 'static {
 
     fn get_wrap_mode(&self) -> gtk::WrapMode;
 
-    fn paginate<P: IsA<gtk::PrintContext>>(&self, context: &P) -> bool;
+    fn paginate(&self, context: &gtk::PrintContext) -> bool;
 
     fn set_body_font_name(&self, font_name: &str);
 
@@ -138,9 +138,9 @@ pub trait PrintCompositorExt: 'static {
 }
 
 impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
-    fn draw_page<P: IsA<gtk::PrintContext>>(&self, context: &P, page_nr: i32) {
+    fn draw_page(&self, context: &gtk::PrintContext, page_nr: i32) {
         unsafe {
-            ffi::gtk_source_print_compositor_draw_page(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0, page_nr);
+            ffi::gtk_source_print_compositor_draw_page(self.as_ref().to_glib_none().0, context.to_glib_none().0, page_nr);
         }
     }
 
@@ -246,9 +246,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
         }
     }
 
-    fn paginate<P: IsA<gtk::PrintContext>>(&self, context: &P) -> bool {
+    fn paginate(&self, context: &gtk::PrintContext) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_print_compositor_paginate(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0))
+            from_glib(ffi::gtk_source_print_compositor_paginate(self.as_ref().to_glib_none().0, context.to_glib_none().0))
         }
     }
 
