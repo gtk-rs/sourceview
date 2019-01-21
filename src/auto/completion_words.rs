@@ -7,7 +7,6 @@ use CompletionActivation;
 use CompletionProvider;
 use ffi;
 use gdk_pixbuf;
-use glib;
 use glib::StaticType;
 use glib::Value;
 use glib::object::Cast;
@@ -31,12 +30,12 @@ glib_wrapper! {
 }
 
 impl CompletionWords {
-    pub fn new<'a, 'b, P: Into<Option<&'a str>>, Q: IsA<gdk_pixbuf::Pixbuf> + 'b, R: Into<Option<&'b Q>>>(name: P, icon: R) -> CompletionWords {
+    pub fn new<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b gdk_pixbuf::Pixbuf>>>(name: P, icon: Q) -> CompletionWords {
         assert_initialized_main_thread!();
         let name = name.into();
         let icon = icon.into();
         unsafe {
-            from_glib_full(ffi::gtk_source_completion_words_new(name.to_glib_none().0, icon.map(|p| p.as_ref()).to_glib_none().0))
+            from_glib_full(ffi::gtk_source_completion_words_new(name.to_glib_none().0, icon.to_glib_none().0))
         }
     }
 }
@@ -51,7 +50,7 @@ pub trait CompletionWordsExt: 'static {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn set_property_activation(&self, activation: CompletionActivation);
 
-    fn set_property_icon<P: IsA<gdk_pixbuf::Pixbuf> + glib::value::SetValueOptional>(&self, icon: Option<&P>);
+    fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
     fn set_property_interactive_delay(&self, interactive_delay: i32);
 
@@ -109,7 +108,7 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
         }
     }
 
-    fn set_property_icon<P: IsA<gdk_pixbuf::Pixbuf> + glib::value::SetValueOptional>(&self, icon: Option<&P>) {
+    fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"icon\0".as_ptr() as *const _, Value::from(icon).to_glib_none().0);
         }

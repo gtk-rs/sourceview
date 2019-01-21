@@ -67,7 +67,7 @@ pub trait MarkAttributesExt: 'static {
 
     fn set_icon_name(&self, icon_name: &str);
 
-    fn set_pixbuf<P: IsA<gdk_pixbuf::Pixbuf>>(&self, pixbuf: &P);
+    fn set_pixbuf(&self, pixbuf: &gdk_pixbuf::Pixbuf);
 
     #[cfg_attr(feature = "v3_10", deprecated)]
     fn set_stock_id(&self, stock_id: &str);
@@ -147,9 +147,9 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
         }
     }
 
-    fn set_pixbuf<P: IsA<gdk_pixbuf::Pixbuf>>(&self, pixbuf: &P) {
+    fn set_pixbuf(&self, pixbuf: &gdk_pixbuf::Pixbuf) {
         unsafe {
-            ffi::gtk_source_mark_attributes_set_pixbuf(self.as_ref().to_glib_none().0, pixbuf.as_ref().to_glib_none().0);
+            ffi::gtk_source_mark_attributes_set_pixbuf(self.as_ref().to_glib_none().0, pixbuf.to_glib_none().0);
         }
     }
 

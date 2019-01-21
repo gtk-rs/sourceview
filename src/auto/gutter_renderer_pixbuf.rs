@@ -56,7 +56,7 @@ pub trait GutterRendererPixbufExt: 'static {
 
     fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
 
-    fn set_pixbuf<'a, P: IsA<gdk_pixbuf::Pixbuf> + 'a, Q: Into<Option<&'a P>>>(&self, pixbuf: Q);
+    fn set_pixbuf<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, pixbuf: P);
 
     #[cfg_attr(feature = "v3_10", deprecated)]
     fn set_stock_id<'a, P: Into<Option<&'a str>>>(&self, stock_id: P);
@@ -110,10 +110,10 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
         }
     }
 
-    fn set_pixbuf<'a, P: IsA<gdk_pixbuf::Pixbuf> + 'a, Q: Into<Option<&'a P>>>(&self, pixbuf: Q) {
+    fn set_pixbuf<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, pixbuf: P) {
         let pixbuf = pixbuf.into();
         unsafe {
-            ffi::gtk_source_gutter_renderer_pixbuf_set_pixbuf(self.as_ref().to_glib_none().0, pixbuf.map(|p| p.as_ref()).to_glib_none().0);
+            ffi::gtk_source_gutter_renderer_pixbuf_set_pixbuf(self.as_ref().to_glib_none().0, pixbuf.to_glib_none().0);
         }
     }
 
