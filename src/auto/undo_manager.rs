@@ -103,9 +103,9 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
 
     fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"can-redo-changed\0".as_ptr() as *const _,
-                transmute(can_redo_changed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(can_redo_changed_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -115,9 +115,9 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
 
     fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"can-undo-changed\0".as_ptr() as *const _,
-                transmute(can_undo_changed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(can_undo_changed_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -126,15 +126,15 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
     }
 }
 
-unsafe extern "C" fn can_redo_changed_trampoline<P>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
+unsafe extern "C" fn can_redo_changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
 where P: IsA<UndoManager> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&UndoManager::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn can_undo_changed_trampoline<P>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
+unsafe extern "C" fn can_undo_changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceUndoManager, f: glib_ffi::gpointer)
 where P: IsA<UndoManager> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&UndoManager::from_glib_borrow(this).unsafe_cast())
 }
 

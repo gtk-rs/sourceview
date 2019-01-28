@@ -365,226 +365,226 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
 
     fn connect_activate<F: Fn(&Self, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"activate\0".as_ptr() as *const _,
-                transmute(activate_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(activate_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_query_activatable<F: Fn(&Self, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"query-activatable\0".as_ptr() as *const _,
-                transmute(query_activatable_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(query_activatable_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_query_data<F: Fn(&Self, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"query-data\0".as_ptr() as *const _,
-                transmute(query_data_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(query_data_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_query_tooltip<F: Fn(&Self, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"query-tooltip\0".as_ptr() as *const _,
-                transmute(query_tooltip_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(query_tooltip_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_queue_draw<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"queue-draw\0".as_ptr() as *const _,
-                transmute(queue_draw_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(queue_draw_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_alignment_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::alignment-mode\0".as_ptr() as *const _,
-                transmute(notify_alignment_mode_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_alignment_mode_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::background-rgba\0".as_ptr() as *const _,
-                transmute(notify_background_rgba_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_background_rgba_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_background_set_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::background-set\0".as_ptr() as *const _,
-                transmute(notify_background_set_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_background_set_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::size\0".as_ptr() as *const _,
-                transmute(notify_size_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_size_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::view\0".as_ptr() as *const _,
-                transmute(notify_view_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_view_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_visible_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::visible\0".as_ptr() as *const _,
-                transmute(notify_visible_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_visible_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_window_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::window-type\0".as_ptr() as *const _,
-                transmute(notify_window_type_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_window_type_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_xalign_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::xalign\0".as_ptr() as *const _,
-                transmute(notify_xalign_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_xalign_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::xpad\0".as_ptr() as *const _,
-                transmute(notify_xpad_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_xpad_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_yalign_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::yalign\0".as_ptr() as *const _,
-                transmute(notify_yalign_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_yalign_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::ypad\0".as_ptr() as *const _,
-                transmute(notify_ypad_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_ypad_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
-unsafe extern "C" fn activate_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
+unsafe extern "C" fn activate_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event))
 }
 
-unsafe extern "C" fn query_activatable_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer) -> glib_ffi::gboolean
+unsafe extern "C" fn query_activatable_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer) -> glib_ffi::gboolean
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event)).to_glib()
 }
 
-unsafe extern "C" fn query_data_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, state: ffi::GtkSourceGutterRendererState, f: glib_ffi::gpointer)
+unsafe extern "C" fn query_data_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, state: ffi::GtkSourceGutterRendererState, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(start), &from_glib_borrow(end), from_glib(state))
 }
 
-unsafe extern "C" fn query_tooltip_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_ffi::GtkTooltip, f: glib_ffi::gpointer) -> glib_ffi::gboolean
+unsafe extern "C" fn query_tooltip_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_ffi::GtkTooltip, f: glib_ffi::gpointer) -> glib_ffi::gboolean
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), x, y, &from_glib_borrow(tooltip)).to_glib()
 }
 
-unsafe extern "C" fn queue_draw_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, f: glib_ffi::gpointer)
+unsafe extern "C" fn queue_draw_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_alignment_mode_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_alignment_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_background_rgba_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_background_rgba_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_background_set_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_background_set_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_size_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_view_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_visible_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_visible_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_window_type_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_window_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_xalign_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_xalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_xpad_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_yalign_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_yalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_ypad_trampoline<P>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRenderer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 

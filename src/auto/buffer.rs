@@ -411,186 +411,186 @@ impl<O: IsA<Buffer>> BufferExt for O {
 
     fn connect_highlight_updated<F: Fn(&Self, &gtk::TextIter, &gtk::TextIter) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, &gtk::TextIter) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"highlight-updated\0".as_ptr() as *const _,
-                transmute(highlight_updated_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(highlight_updated_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_redo<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"redo\0".as_ptr() as *const _,
-                transmute(redo_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(redo_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_source_mark_updated<F: Fn(&Self, &gtk::TextMark) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextMark) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"source-mark-updated\0".as_ptr() as *const _,
-                transmute(source_mark_updated_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(source_mark_updated_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_undo<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"undo\0".as_ptr() as *const _,
-                transmute(undo_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(undo_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_can_redo_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::can-redo\0".as_ptr() as *const _,
-                transmute(notify_can_redo_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_can_redo_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_can_undo_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::can-undo\0".as_ptr() as *const _,
-                transmute(notify_can_undo_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_can_undo_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_highlight_matching_brackets_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::highlight-matching-brackets\0".as_ptr() as *const _,
-                transmute(notify_highlight_matching_brackets_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_highlight_matching_brackets_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_highlight_syntax_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::highlight-syntax\0".as_ptr() as *const _,
-                transmute(notify_highlight_syntax_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_highlight_syntax_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_implicit_trailing_newline_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::implicit-trailing-newline\0".as_ptr() as *const _,
-                transmute(notify_implicit_trailing_newline_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_implicit_trailing_newline_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_language_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::language\0".as_ptr() as *const _,
-                transmute(notify_language_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_language_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_max_undo_levels_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::max-undo-levels\0".as_ptr() as *const _,
-                transmute(notify_max_undo_levels_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_max_undo_levels_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::style-scheme\0".as_ptr() as *const _,
-                transmute(notify_style_scheme_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_style_scheme_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_undo_manager_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::undo-manager\0".as_ptr() as *const _,
-                transmute(notify_undo_manager_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_undo_manager_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
-unsafe extern "C" fn highlight_updated_trampoline<P>(this: *mut ffi::GtkSourceBuffer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, f: glib_ffi::gpointer)
+unsafe extern "C" fn highlight_updated_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter) + 'static>(this: *mut ffi::GtkSourceBuffer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P, &gtk::TextIter, &gtk::TextIter) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(start), &from_glib_borrow(end))
 }
 
-unsafe extern "C" fn redo_trampoline<P>(this: *mut ffi::GtkSourceBuffer, f: glib_ffi::gpointer)
+unsafe extern "C" fn redo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn source_mark_updated_trampoline<P>(this: *mut ffi::GtkSourceBuffer, mark: *mut gtk_ffi::GtkTextMark, f: glib_ffi::gpointer)
+unsafe extern "C" fn source_mark_updated_trampoline<P, F: Fn(&P, &gtk::TextMark) + 'static>(this: *mut ffi::GtkSourceBuffer, mark: *mut gtk_ffi::GtkTextMark, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P, &gtk::TextMark) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(mark))
 }
 
-unsafe extern "C" fn undo_trampoline<P>(this: *mut ffi::GtkSourceBuffer, f: glib_ffi::gpointer)
+unsafe extern "C" fn undo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_can_redo_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_can_redo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_can_undo_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_can_undo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_highlight_matching_brackets_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_highlight_matching_brackets_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_highlight_syntax_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_highlight_syntax_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_implicit_trailing_newline_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_implicit_trailing_newline_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_language_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_language_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_max_undo_levels_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_max_undo_levels_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_style_scheme_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_style_scheme_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_undo_manager_trampoline<P>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_undo_manager_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
