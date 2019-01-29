@@ -359,156 +359,156 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
 
     fn connect_property_body_font_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::body-font-name\0".as_ptr() as *const _,
-                transmute(notify_body_font_name_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_body_font_name_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_footer_font_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::footer-font-name\0".as_ptr() as *const _,
-                transmute(notify_footer_font_name_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_footer_font_name_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_header_font_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::header-font-name\0".as_ptr() as *const _,
-                transmute(notify_header_font_name_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_header_font_name_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_highlight_syntax_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::highlight-syntax\0".as_ptr() as *const _,
-                transmute(notify_highlight_syntax_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_highlight_syntax_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_line_numbers_font_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::line-numbers-font-name\0".as_ptr() as *const _,
-                transmute(notify_line_numbers_font_name_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_line_numbers_font_name_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_n_pages_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::n-pages\0".as_ptr() as *const _,
-                transmute(notify_n_pages_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_n_pages_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_print_footer_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::print-footer\0".as_ptr() as *const _,
-                transmute(notify_print_footer_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_print_footer_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_print_header_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::print-header\0".as_ptr() as *const _,
-                transmute(notify_print_header_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_print_header_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_print_line_numbers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::print-line-numbers\0".as_ptr() as *const _,
-                transmute(notify_print_line_numbers_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_print_line_numbers_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_tab_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::tab-width\0".as_ptr() as *const _,
-                transmute(notify_tab_width_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_tab_width_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_wrap_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::wrap-mode\0".as_ptr() as *const _,
-                transmute(notify_wrap_mode_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_wrap_mode_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
-unsafe extern "C" fn notify_body_font_name_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_body_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_footer_font_name_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_footer_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_header_font_name_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_header_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_highlight_syntax_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_highlight_syntax_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_line_numbers_font_name_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_line_numbers_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_n_pages_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_n_pages_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_print_footer_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_print_footer_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_print_header_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_print_header_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_print_line_numbers_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_print_line_numbers_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_tab_width_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_tab_width_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_wrap_mode_trampoline<P>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_wrap_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 

@@ -311,9 +311,9 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_activate_proposal<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"activate-proposal\0".as_ptr() as *const _,
-                transmute(activate_proposal_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(activate_proposal_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -323,9 +323,9 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_hide<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"hide\0".as_ptr() as *const _,
-                transmute(hide_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(hide_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -335,9 +335,9 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_move_cursor<F: Fn(&Self, gtk::ScrollStep, i32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, gtk::ScrollStep, i32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-cursor\0".as_ptr() as *const _,
-                transmute(move_cursor_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(move_cursor_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -347,9 +347,9 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_move_page<F: Fn(&Self, gtk::ScrollStep, i32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, gtk::ScrollStep, i32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-page\0".as_ptr() as *const _,
-                transmute(move_page_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(move_page_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -359,9 +359,9 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_populate_context<F: Fn(&Self, &CompletionContext) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &CompletionContext) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"populate-context\0".as_ptr() as *const _,
-                transmute(populate_context_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(populate_context_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -371,9 +371,9 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"show\0".as_ptr() as *const _,
-                transmute(show_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(show_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -383,150 +383,150 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn connect_property_accelerators_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::accelerators\0".as_ptr() as *const _,
-                transmute(notify_accelerators_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_accelerators_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_auto_complete_delay_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::auto-complete-delay\0".as_ptr() as *const _,
-                transmute(notify_auto_complete_delay_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_auto_complete_delay_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_proposal_page_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::proposal-page-size\0".as_ptr() as *const _,
-                transmute(notify_proposal_page_size_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_proposal_page_size_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_provider_page_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::provider-page-size\0".as_ptr() as *const _,
-                transmute(notify_provider_page_size_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_provider_page_size_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_remember_info_visibility_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::remember-info-visibility\0".as_ptr() as *const _,
-                transmute(notify_remember_info_visibility_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_remember_info_visibility_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_select_on_show_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::select-on-show\0".as_ptr() as *const _,
-                transmute(notify_select_on_show_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_select_on_show_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_show_headers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-headers\0".as_ptr() as *const _,
-                transmute(notify_show_headers_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_show_headers_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_show_icons_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-icons\0".as_ptr() as *const _,
-                transmute(notify_show_icons_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_show_icons_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
-unsafe extern "C" fn activate_proposal_trampoline<P>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
+unsafe extern "C" fn activate_proposal_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn hide_trampoline<P>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
+unsafe extern "C" fn hide_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn move_cursor_trampoline<P>(this: *mut ffi::GtkSourceCompletion, step: gtk_ffi::GtkScrollStep, num: libc::c_int, f: glib_ffi::gpointer)
+unsafe extern "C" fn move_cursor_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut ffi::GtkSourceCompletion, step: gtk_ffi::GtkScrollStep, num: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P, gtk::ScrollStep, i32) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
 }
 
-unsafe extern "C" fn move_page_trampoline<P>(this: *mut ffi::GtkSourceCompletion, step: gtk_ffi::GtkScrollStep, num: libc::c_int, f: glib_ffi::gpointer)
+unsafe extern "C" fn move_page_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut ffi::GtkSourceCompletion, step: gtk_ffi::GtkScrollStep, num: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P, gtk::ScrollStep, i32) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
 }
 
-unsafe extern "C" fn populate_context_trampoline<P>(this: *mut ffi::GtkSourceCompletion, context: *mut ffi::GtkSourceCompletionContext, f: glib_ffi::gpointer)
+unsafe extern "C" fn populate_context_trampoline<P, F: Fn(&P, &CompletionContext) + 'static>(this: *mut ffi::GtkSourceCompletion, context: *mut ffi::GtkSourceCompletionContext, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P, &CompletionContext) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(context))
 }
 
-unsafe extern "C" fn show_trampoline<P>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
+unsafe extern "C" fn show_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_accelerators_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_accelerators_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_auto_complete_delay_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_auto_complete_delay_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_proposal_page_size_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_proposal_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_provider_page_size_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_provider_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_remember_info_visibility_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_remember_info_visibility_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_select_on_show_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_select_on_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_show_headers_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_show_headers_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_show_icons_trampoline<P>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_show_icons_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 

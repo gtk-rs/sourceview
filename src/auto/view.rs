@@ -451,9 +451,9 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_change_case<F: Fn(&Self, ChangeCaseType) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, ChangeCaseType) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"change-case\0".as_ptr() as *const _,
-                transmute(change_case_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(change_case_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -465,9 +465,9 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_change_number<F: Fn(&Self, i32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, i32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"change-number\0".as_ptr() as *const _,
-                transmute(change_number_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(change_number_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -479,9 +479,9 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_join_lines<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"join-lines\0".as_ptr() as *const _,
-                transmute(join_lines_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(join_lines_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -492,17 +492,17 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn connect_line_mark_activated<F: Fn(&Self, &gtk::TextIter, &gdk::Event) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, &gdk::Event) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"line-mark-activated\0".as_ptr() as *const _,
-                transmute(line_mark_activated_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(line_mark_activated_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_move_lines<F: Fn(&Self, bool, i32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, bool, i32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-lines\0".as_ptr() as *const _,
-                transmute(move_lines_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(move_lines_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -513,9 +513,9 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_move_to_matching_bracket<F: Fn(&Self, bool) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, bool) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-to-matching-bracket\0".as_ptr() as *const _,
-                transmute(move_to_matching_bracket_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(move_to_matching_bracket_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -526,9 +526,9 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn connect_move_words<F: Fn(&Self, i32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, i32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-words\0".as_ptr() as *const _,
-                transmute(move_words_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(move_words_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -538,9 +538,9 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn connect_redo<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"redo\0".as_ptr() as *const _,
-                transmute(redo_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(redo_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -550,9 +550,9 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn connect_show_completion<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"show-completion\0".as_ptr() as *const _,
-                transmute(show_completion_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(show_completion_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -562,17 +562,17 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn connect_smart_home_end<F: Fn(&Self, &gtk::TextIter, i32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self, &gtk::TextIter, i32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"smart-home-end\0".as_ptr() as *const _,
-                transmute(smart_home_end_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(smart_home_end_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_undo<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"undo\0".as_ptr() as *const _,
-                transmute(undo_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(undo_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
@@ -582,302 +582,302 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn connect_property_auto_indent_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::auto-indent\0".as_ptr() as *const _,
-                transmute(notify_auto_indent_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_auto_indent_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_property_background_pattern_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::background-pattern\0".as_ptr() as *const _,
-                transmute(notify_background_pattern_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_background_pattern_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_completion_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::completion\0".as_ptr() as *const _,
-                transmute(notify_completion_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_completion_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_draw_spaces_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::draw-spaces\0".as_ptr() as *const _,
-                transmute(notify_draw_spaces_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_draw_spaces_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_highlight_current_line_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::highlight-current-line\0".as_ptr() as *const _,
-                transmute(notify_highlight_current_line_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_highlight_current_line_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_indent_on_tab_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::indent-on-tab\0".as_ptr() as *const _,
-                transmute(notify_indent_on_tab_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_indent_on_tab_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_indent_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::indent-width\0".as_ptr() as *const _,
-                transmute(notify_indent_width_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_indent_width_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_insert_spaces_instead_of_tabs_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::insert-spaces-instead-of-tabs\0".as_ptr() as *const _,
-                transmute(notify_insert_spaces_instead_of_tabs_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_insert_spaces_instead_of_tabs_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_right_margin_position_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::right-margin-position\0".as_ptr() as *const _,
-                transmute(notify_right_margin_position_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_right_margin_position_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_show_line_marks_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-line-marks\0".as_ptr() as *const _,
-                transmute(notify_show_line_marks_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_show_line_marks_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_show_line_numbers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-line-numbers\0".as_ptr() as *const _,
-                transmute(notify_show_line_numbers_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_show_line_numbers_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_show_right_margin_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-right-margin\0".as_ptr() as *const _,
-                transmute(notify_show_right_margin_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_show_right_margin_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn connect_property_smart_backspace_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::smart-backspace\0".as_ptr() as *const _,
-                transmute(notify_smart_backspace_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_smart_backspace_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_smart_home_end_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::smart-home-end\0".as_ptr() as *const _,
-                transmute(notify_smart_home_end_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_smart_home_end_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn connect_property_space_drawer_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::space-drawer\0".as_ptr() as *const _,
-                transmute(notify_space_drawer_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_space_drawer_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_tab_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::tab-width\0".as_ptr() as *const _,
-                transmute(notify_tab_width_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_tab_width_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn change_case_trampoline<P>(this: *mut ffi::GtkSourceView, case_type: ffi::GtkSourceChangeCaseType, f: glib_ffi::gpointer)
+unsafe extern "C" fn change_case_trampoline<P, F: Fn(&P, ChangeCaseType) + 'static>(this: *mut ffi::GtkSourceView, case_type: ffi::GtkSourceChangeCaseType, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, ChangeCaseType) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), from_glib(case_type))
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn change_number_trampoline<P>(this: *mut ffi::GtkSourceView, count: libc::c_int, f: glib_ffi::gpointer)
+unsafe extern "C" fn change_number_trampoline<P, F: Fn(&P, i32) + 'static>(this: *mut ffi::GtkSourceView, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, i32) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), count)
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn join_lines_trampoline<P>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
+unsafe extern "C" fn join_lines_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn line_mark_activated_trampoline<P>(this: *mut ffi::GtkSourceView, iter: *mut gtk_ffi::GtkTextIter, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
+unsafe extern "C" fn line_mark_activated_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Event) + 'static>(this: *mut ffi::GtkSourceView, iter: *mut gtk_ffi::GtkTextIter, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, &gtk::TextIter, &gdk::Event) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_none(event))
 }
 
-unsafe extern "C" fn move_lines_trampoline<P>(this: *mut ffi::GtkSourceView, copy: glib_ffi::gboolean, count: libc::c_int, f: glib_ffi::gpointer)
+unsafe extern "C" fn move_lines_trampoline<P, F: Fn(&P, bool, i32) + 'static>(this: *mut ffi::GtkSourceView, copy: glib_ffi::gboolean, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, bool, i32) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), from_glib(copy), count)
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn move_to_matching_bracket_trampoline<P>(this: *mut ffi::GtkSourceView, extend_selection: glib_ffi::gboolean, f: glib_ffi::gpointer)
+unsafe extern "C" fn move_to_matching_bracket_trampoline<P, F: Fn(&P, bool) + 'static>(this: *mut ffi::GtkSourceView, extend_selection: glib_ffi::gboolean, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, bool) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), from_glib(extend_selection))
 }
 
-unsafe extern "C" fn move_words_trampoline<P>(this: *mut ffi::GtkSourceView, count: libc::c_int, f: glib_ffi::gpointer)
+unsafe extern "C" fn move_words_trampoline<P, F: Fn(&P, i32) + 'static>(this: *mut ffi::GtkSourceView, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, i32) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), count)
 }
 
-unsafe extern "C" fn redo_trampoline<P>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
+unsafe extern "C" fn redo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn show_completion_trampoline<P>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
+unsafe extern "C" fn show_completion_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn smart_home_end_trampoline<P>(this: *mut ffi::GtkSourceView, iter: *mut gtk_ffi::GtkTextIter, count: libc::c_int, f: glib_ffi::gpointer)
+unsafe extern "C" fn smart_home_end_trampoline<P, F: Fn(&P, &gtk::TextIter, i32) + 'static>(this: *mut ffi::GtkSourceView, iter: *mut gtk_ffi::GtkTextIter, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P, &gtk::TextIter, i32) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), count)
 }
 
-unsafe extern "C" fn undo_trampoline<P>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
+unsafe extern "C" fn undo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_auto_indent_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_auto_indent_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn notify_background_pattern_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_background_pattern_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_completion_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_completion_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_draw_spaces_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_draw_spaces_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_highlight_current_line_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_highlight_current_line_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_indent_on_tab_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_indent_on_tab_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_indent_width_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_indent_width_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_insert_spaces_instead_of_tabs_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_insert_spaces_instead_of_tabs_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_right_margin_position_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_right_margin_position_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_show_line_marks_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_show_line_marks_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_show_line_numbers_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_show_line_numbers_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_show_right_margin_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_show_right_margin_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_18", feature = "dox"))]
-unsafe extern "C" fn notify_smart_backspace_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_smart_backspace_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_smart_home_end_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_smart_home_end_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-unsafe extern "C" fn notify_space_drawer_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_space_drawer_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_tab_width_trampoline<P>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_tab_width_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 

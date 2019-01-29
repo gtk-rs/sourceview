@@ -137,33 +137,33 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn connect_property_enable_matrix_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::enable-matrix\0".as_ptr() as *const _,
-                transmute(notify_enable_matrix_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_enable_matrix_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn connect_property_matrix_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::matrix\0".as_ptr() as *const _,
-                transmute(notify_matrix_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_matrix_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-unsafe extern "C" fn notify_enable_matrix_trampoline<P>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_enable_matrix_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-unsafe extern "C" fn notify_matrix_trampoline<P>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_matrix_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
 }
 

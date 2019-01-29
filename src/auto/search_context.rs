@@ -79,7 +79,7 @@ pub trait SearchContextExt: 'static {
     fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
-    //fn backward_finish2<P: IsA</*Ignored*/gio::AsyncResult>>(&self, result: &P) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
+    //fn backward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
 
     #[cfg_attr(feature = "v3_22", deprecated)]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -96,7 +96,7 @@ pub trait SearchContextExt: 'static {
     fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
-    //fn forward_finish2<P: IsA</*Ignored*/gio::AsyncResult>>(&self, result: &P) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
+    //fn forward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_buffer(&self) -> Option<Buffer>;
@@ -180,15 +180,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn backward_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Q, callback: R) {
         let cancellable = cancellable.into();
-        let user_data: Box<Box<R>> = Box::new(Box::new(callback));
-        unsafe extern "C" fn backward_async_trampoline<R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer)
-        {
+        let user_data: Box<R> = Box::new(callback);
+        unsafe extern "C" fn backward_async_trampoline<R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
             let _ = ffi::gtk_source_search_context_backward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
             let result = if error.is_null() { Ok((match_start, match_end)) } else { Err(from_glib_full(error)) };
-            let callback: Box<Box<R>> = Box::from_raw(user_data as *mut _);
+            let callback: Box<R> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
         let callback = backward_async_trampoline::<R>;
@@ -223,7 +222,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
-    //fn backward_finish2<P: IsA</*Ignored*/gio::AsyncResult>>(&self, result: &P) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error> {
+    //fn backward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error> {
     //    unsafe { TODO: call ffi::gtk_source_search_context_backward_finish2() }
     //}
 
@@ -251,15 +250,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn forward_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Q, callback: R) {
         let cancellable = cancellable.into();
-        let user_data: Box<Box<R>> = Box::new(Box::new(callback));
-        unsafe extern "C" fn forward_async_trampoline<R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer)
-        {
+        let user_data: Box<R> = Box::new(callback);
+        unsafe extern "C" fn forward_async_trampoline<R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
             let _ = ffi::gtk_source_search_context_forward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
             let result = if error.is_null() { Ok((match_start, match_end)) } else { Err(from_glib_full(error)) };
-            let callback: Box<Box<R>> = Box::from_raw(user_data as *mut _);
+            let callback: Box<R> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
         let callback = forward_async_trampoline::<R>;
@@ -294,7 +292,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
-    //fn forward_finish2<P: IsA</*Ignored*/gio::AsyncResult>>(&self, result: &P) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error> {
+    //fn forward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error> {
     //    unsafe { TODO: call ffi::gtk_source_search_context_forward_finish2() }
     //}
 
@@ -403,81 +401,81 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_highlight_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::highlight\0".as_ptr() as *const _,
-                transmute(notify_highlight_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_highlight_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_property_match_style_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::match-style\0".as_ptr() as *const _,
-                transmute(notify_match_style_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_match_style_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_occurrences_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::occurrences-count\0".as_ptr() as *const _,
-                transmute(notify_occurrences_count_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_occurrences_count_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_regex_error_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::regex-error\0".as_ptr() as *const _,
-                transmute(notify_regex_error_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_regex_error_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_settings_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::settings\0".as_ptr() as *const _,
-                transmute(notify_settings_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_settings_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_highlight_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_highlight_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn notify_match_style_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_match_style_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_occurrences_count_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_occurrences_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_regex_error_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_regex_error_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_settings_trampoline<P>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_settings_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 

@@ -178,115 +178,115 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_activation_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::activation\0".as_ptr() as *const _,
-                transmute(notify_activation_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_activation_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::icon\0".as_ptr() as *const _,
-                transmute(notify_icon_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_icon_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_interactive_delay_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::interactive-delay\0".as_ptr() as *const _,
-                transmute(notify_interactive_delay_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_interactive_delay_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_minimum_word_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::minimum-word-size\0".as_ptr() as *const _,
-                transmute(notify_minimum_word_size_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_minimum_word_size_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::name\0".as_ptr() as *const _,
-                transmute(notify_name_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_name_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_priority_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::priority\0".as_ptr() as *const _,
-                transmute(notify_priority_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_priority_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_proposals_batch_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::proposals-batch-size\0".as_ptr() as *const _,
-                transmute(notify_proposals_batch_size_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_proposals_batch_size_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_scan_batch_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::scan-batch-size\0".as_ptr() as *const _,
-                transmute(notify_scan_batch_size_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+                Some(transmute(notify_scan_batch_size_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_activation_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_activation_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_icon_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_icon_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_interactive_delay_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_interactive_delay_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_minimum_word_size_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_minimum_word_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_name_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_priority_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_priority_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_proposals_batch_size_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_proposals_batch_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_scan_batch_size_trampoline<P>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_scan_batch_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
+    let f: &F = transmute(f);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 

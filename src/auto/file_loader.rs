@@ -70,11 +70,11 @@ pub trait FileLoaderExt: 'static {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async<'a, 'b, 'c, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, U: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: R, progress_callback_data: S, progress_callback_notify: T, callback: U);
+    //fn load_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static, callback: R);
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<'b, 'c, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone;
+    //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]);
@@ -131,22 +131,16 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async<'a, 'b, 'c, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>, U: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: R, progress_callback_data: S, progress_callback_notify: T, callback: U) {
+    //fn load_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static, callback: R) {
     //    unsafe { TODO: call ffi::gtk_source_file_loader_load_async() }
     //}
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<'b, 'c, R: Into<Option<&'b /*Ignored*/gio::FileProgressCallback>>, S: Into<Option</*Unimplemented*/Fundamental: Pointer>>, T: Into<Option<&'c /*Ignored*/glib::DestroyNotify>>>(&self, io_priority: glib::Priority, progress_callback: R, progress_callback_data: S, progress_callback_notify: T) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> where Self: Sized + Clone {
+    //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone {
         //use gio::GioFuture;
         //use fragile::Fragile;
 
-        //let progress_callback = progress_callback.into();
-        //let progress_callback = progress_callback.map(ToOwned::to_owned);
-        //let progress_callback_data = progress_callback_data.into();
-        //let progress_callback_data = progress_callback_data.map(ToOwned::to_owned);
-        //let progress_callback_notify = progress_callback_notify.into();
-        //let progress_callback_notify = progress_callback_notify.map(ToOwned::to_owned);
         //GioFuture::new(self, move |obj, send| {
         //    let cancellable = gio::Cancellable::new();
         //    let send = Fragile::new(send);
@@ -154,9 +148,8 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
         //    obj.load_async(
         //         io_priority,
         //         Some(&cancellable),
-        //         progress_callback.as_ref().map(::std::borrow::Borrow::borrow),
-        //         progress_callback_data.as_ref().map(::std::borrow::Borrow::borrow),
-        //         progress_callback_notify.as_ref().map(::std::borrow::Borrow::borrow),
+        //         progress_callback,
+        //         progress_callback_notify,
         //         move |res| {
         //             let obj = obj_clone.into_inner();
         //             let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
