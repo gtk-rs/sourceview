@@ -15,7 +15,7 @@ impl Style {
     pub fn apply<P: IsA<gtk::TextTag>>(&self, tag: &P) {
         unsafe {
             let tmp: *mut ffi::GtkSourceStyle = self.to_glib_none().0;
-            ffi::gtk_source_style_apply(tmp as *const ffi::GtkSourceStyle, tag.to_glib_none().0);
+            ffi::gtk_source_style_apply(tmp as *const ffi::GtkSourceStyle, tag.as_ref().to_glib_none().0);
         }
     }
 }

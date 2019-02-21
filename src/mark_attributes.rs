@@ -26,7 +26,7 @@ impl MarkAttributes {
     pub fn render_icon<P: IsA<gtk::Widget>>(&self, widget: &P, size: i32) -> Option<gdk_pixbuf::Pixbuf> {
         unsafe {
             let ptr = ffi::gtk_source_mark_attributes_render_icon(
-                self.to_glib_none().0, widget.to_glib_none().0, size);
+                self.to_glib_none().0, widget.as_ref().to_glib_none().0, size);
             if ptr.is_null() {
                 None
             } else {

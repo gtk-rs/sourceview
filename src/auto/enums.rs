@@ -11,6 +11,7 @@ use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
 use gobject_ffi;
+use std::fmt;
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
@@ -20,6 +21,17 @@ pub enum BackgroundPatternType {
     Grid,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v3_16", feature = "dox"))]
+impl fmt::Display for BackgroundPatternType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "BackgroundPatternType::{}", match *self {
+            BackgroundPatternType::None => "None",
+            BackgroundPatternType::Grid => "Grid",
+            _ => "Unknown",
+        })
+    }
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
@@ -87,6 +99,19 @@ pub enum ChangeCaseType {
     Title,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v3_12", feature = "dox"))]
+impl fmt::Display for ChangeCaseType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "ChangeCaseType::{}", match *self {
+            ChangeCaseType::Lower => "Lower",
+            ChangeCaseType::Upper => "Upper",
+            ChangeCaseType::Toggle => "Toggle",
+            ChangeCaseType::Title => "Title",
+            _ => "Unknown",
+        })
+    }
 }
 
 #[cfg(any(feature = "v3_12", feature = "dox"))]
@@ -159,6 +184,17 @@ pub enum CompressionType {
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
+impl fmt::Display for CompressionType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "CompressionType::{}", match *self {
+            CompressionType::None => "None",
+            CompressionType::Gzip => "Gzip",
+            _ => "Unknown",
+        })
+    }
+}
+
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 #[doc(hidden)]
 impl ToGlib for CompressionType {
     type GlibType = ffi::GtkSourceCompressionType;
@@ -223,6 +259,17 @@ pub enum GutterRendererAlignmentMode {
     __Unknown(i32),
 }
 
+impl fmt::Display for GutterRendererAlignmentMode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "GutterRendererAlignmentMode::{}", match *self {
+            GutterRendererAlignmentMode::Cell => "Cell",
+            GutterRendererAlignmentMode::First => "First",
+            GutterRendererAlignmentMode::Last => "Last",
+            _ => "Unknown",
+        })
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for GutterRendererAlignmentMode {
     type GlibType = ffi::GtkSourceGutterRendererAlignmentMode;
@@ -283,6 +330,18 @@ pub enum NewlineType {
     CrLf,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+impl fmt::Display for NewlineType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "NewlineType::{}", match *self {
+            NewlineType::Lf => "Lf",
+            NewlineType::Cr => "Cr",
+            NewlineType::CrLf => "CrLf",
+            _ => "Unknown",
+        })
+    }
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -353,6 +412,18 @@ pub enum SmartHomeEndType {
     __Unknown(i32),
 }
 
+impl fmt::Display for SmartHomeEndType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "SmartHomeEndType::{}", match *self {
+            SmartHomeEndType::Disabled => "Disabled",
+            SmartHomeEndType::Before => "Before",
+            SmartHomeEndType::After => "After",
+            SmartHomeEndType::Always => "Always",
+            _ => "Unknown",
+        })
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for SmartHomeEndType {
     type GlibType = ffi::GtkSourceSmartHomeEndType;
@@ -413,6 +484,16 @@ pub enum ViewGutterPosition {
     Marks,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for ViewGutterPosition {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "ViewGutterPosition::{}", match *self {
+            ViewGutterPosition::Lines => "Lines",
+            ViewGutterPosition::Marks => "Marks",
+            _ => "Unknown",
+        })
+    }
 }
 
 #[doc(hidden)]

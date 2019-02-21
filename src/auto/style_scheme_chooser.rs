@@ -6,71 +6,76 @@
 use StyleScheme;
 use ffi;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-use glib;
-#[cfg(any(feature = "v3_16", feature = "dox"))]
-use glib::object::Downcast;
+use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::translate::*;
+#[cfg(any(feature = "v3_16", feature = "dox"))]
 use glib_ffi;
-use gobject_ffi;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use std::boxed::Box as Box_;
-use std::mem;
+use std::fmt;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use std::mem::transmute;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct StyleSchemeChooser(Object<ffi::GtkSourceStyleSchemeChooser, ffi::GtkSourceStyleSchemeChooserInterface>);
+    pub struct StyleSchemeChooser(Interface<ffi::GtkSourceStyleSchemeChooser>);
 
     match fn {
         get_type => || ffi::gtk_source_style_scheme_chooser_get_type(),
     }
 }
 
-pub trait StyleSchemeChooserExt {
+pub const NONE_STYLE_SCHEME_CHOOSER: Option<&StyleSchemeChooser> = None;
+
+pub trait StyleSchemeChooserExt: 'static {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn get_style_scheme(&self) -> Option<StyleScheme>;
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_style_scheme(&self, scheme: &StyleScheme);
+    fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: &P);
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<StyleSchemeChooser> + IsA<glib::object::Object>> StyleSchemeChooserExt for O {
+impl<O: IsA<StyleSchemeChooser>> StyleSchemeChooserExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn get_style_scheme(&self) -> Option<StyleScheme> {
         unsafe {
-            from_glib_none(ffi::gtk_source_style_scheme_chooser_get_style_scheme(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_style_scheme_chooser_get_style_scheme(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_style_scheme(&self, scheme: &StyleScheme) {
+    fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: &P) {
         unsafe {
-            ffi::gtk_source_style_scheme_chooser_set_style_scheme(self.to_glib_none().0, scheme.to_glib_none().0);
+            ffi::gtk_source_style_scheme_chooser_set_style_scheme(self.as_ref().to_glib_none().0, scheme.as_ref().to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::style-scheme",
-                transmute(notify_style_scheme_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(self.as_ptr() as *mut _, b"notify::style-scheme\0".as_ptr() as *const _,
+                Some(transmute(notify_style_scheme_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn notify_style_scheme_trampoline<P>(this: *mut ffi::GtkSourceStyleSchemeChooser, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_style_scheme_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceStyleSchemeChooser, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<StyleSchemeChooser> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&StyleSchemeChooser::from_glib_borrow(this).downcast_unchecked())
+    let f: &F = transmute(f);
+    f(&StyleSchemeChooser::from_glib_borrow(this).unsafe_cast())
+}
+
+impl fmt::Display for StyleSchemeChooser {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "StyleSchemeChooser")
+    }
 }
