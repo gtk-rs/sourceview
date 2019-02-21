@@ -84,11 +84,11 @@ pub trait FileSaverExt: 'static {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static, callback: R);
+    //fn save_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static, callback: R);
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone;
+    //fn save_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType);
@@ -166,13 +166,13 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static, callback: R) {
+    //fn save_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Q, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static, callback: R) {
     //    unsafe { TODO: call ffi::gtk_source_file_saver_save_async() }
     //}
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Fn(i64, i64) + 'static, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone {
+    //fn save_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone {
         //use gio::GioFuture;
         //use fragile::Fragile;
 
