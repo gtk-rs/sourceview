@@ -6,31 +6,31 @@ use GutterRenderer;
 use View;
 use ffi;
 use gdk;
-use glib;
 use glib::StaticType;
 use glib::Value;
-use glib::object::Downcast;
+use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::SignalHandlerId;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::translate::*;
 use glib_ffi;
 use gobject_ffi;
 use gtk;
 use std::boxed::Box as Box_;
-use std::mem;
+use std::fmt;
 use std::mem::transmute;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct Gutter(Object<ffi::GtkSourceGutter, ffi::GtkSourceGutterClass>);
+    pub struct Gutter(Object<ffi::GtkSourceGutter, ffi::GtkSourceGutterClass, GutterClass>);
 
     match fn {
         get_type => || ffi::gtk_source_gutter_get_type(),
     }
 }
 
-pub trait GutterExt {
+pub const NONE_GUTTER: Option<&Gutter> = None;
+
+pub trait GutterExt: 'static {
     fn get_renderer_at_pos(&self, x: i32, y: i32) -> Option<GutterRenderer>;
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
@@ -69,10 +69,6 @@ pub trait GutterExt {
     #[cfg_attr(feature = "v3_12", deprecated)]
     fn set_property_ypad(&self, ypad: i32);
 
-    fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    fn connect_property_window_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
     #[cfg_attr(feature = "v3_12", deprecated)]
     fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -80,67 +76,67 @@ pub trait GutterExt {
     fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Gutter> + IsA<glib::object::Object>> GutterExt for O {
+impl<O: IsA<Gutter>> GutterExt for O {
     fn get_renderer_at_pos(&self, x: i32, y: i32) -> Option<GutterRenderer> {
         unsafe {
-            from_glib_none(ffi::gtk_source_gutter_get_renderer_at_pos(self.to_glib_none().0, x, y))
+            from_glib_none(ffi::gtk_source_gutter_get_renderer_at_pos(self.as_ref().to_glib_none().0, x, y))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn get_view(&self) -> Option<View> {
         unsafe {
-            from_glib_none(ffi::gtk_source_gutter_get_view(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_gutter_get_view(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_window(&self) -> Option<gdk::Window> {
         unsafe {
-            from_glib_none(ffi::gtk_source_gutter_get_window(self.to_glib_none().0))
+            from_glib_none(ffi::gtk_source_gutter_get_window(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn get_window_type(&self) -> gtk::TextWindowType {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_get_window_type(self.to_glib_none().0))
+            from_glib(ffi::gtk_source_gutter_get_window_type(self.as_ref().to_glib_none().0))
         }
     }
 
     fn insert<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_insert(self.to_glib_none().0, renderer.to_glib_none().0, position))
+            from_glib(ffi::gtk_source_gutter_insert(self.as_ref().to_glib_none().0, renderer.as_ref().to_glib_none().0, position))
         }
     }
 
     fn queue_draw(&self) {
         unsafe {
-            ffi::gtk_source_gutter_queue_draw(self.to_glib_none().0);
+            ffi::gtk_source_gutter_queue_draw(self.as_ref().to_glib_none().0);
         }
     }
 
     fn remove<P: IsA<GutterRenderer>>(&self, renderer: &P) {
         unsafe {
-            ffi::gtk_source_gutter_remove(self.to_glib_none().0, renderer.to_glib_none().0);
+            ffi::gtk_source_gutter_remove(self.as_ref().to_glib_none().0, renderer.as_ref().to_glib_none().0);
         }
     }
 
     fn reorder<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) {
         unsafe {
-            ffi::gtk_source_gutter_reorder(self.to_glib_none().0, renderer.to_glib_none().0, position);
+            ffi::gtk_source_gutter_reorder(self.as_ref().to_glib_none().0, renderer.as_ref().to_glib_none().0, position);
         }
     }
 
     fn set_padding(&self, xpad: i32, ypad: i32) {
         unsafe {
-            ffi::gtk_source_gutter_set_padding(self.to_glib_none().0, xpad, ypad);
+            ffi::gtk_source_gutter_set_padding(self.as_ref().to_glib_none().0, xpad, ypad);
         }
     }
 
     fn get_property_view(&self) -> Option<View> {
         unsafe {
             let mut value = Value::from_type(<View as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0, "view".to_glib_none().0, value.to_glib_none_mut().0);
+            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"view\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
@@ -148,7 +144,7 @@ impl<O: IsA<Gutter> + IsA<glib::object::Object>> GutterExt for O {
     fn get_property_window_type(&self) -> gtk::TextWindowType {
         unsafe {
             let mut value = Value::from_type(<gtk::TextWindowType as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0, "window-type".to_glib_none().0, value.to_glib_none_mut().0);
+            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"window-type\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
@@ -156,84 +152,62 @@ impl<O: IsA<Gutter> + IsA<glib::object::Object>> GutterExt for O {
     fn get_property_xpad(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0, "xpad".to_glib_none().0, value.to_glib_none_mut().0);
+            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"xpad\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_xpad(&self, xpad: i32) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0, "xpad".to_glib_none().0, Value::from(&xpad).to_glib_none().0);
+            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"xpad\0".as_ptr() as *const _, Value::from(&xpad).to_glib_none().0);
         }
     }
 
     fn get_property_ypad(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0, "ypad".to_glib_none().0, value.to_glib_none_mut().0);
+            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"ypad\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_ypad(&self, ypad: i32) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0, "ypad".to_glib_none().0, Value::from(&ypad).to_glib_none().0);
-        }
-    }
-
-    fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::view",
-                transmute(notify_view_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
-        }
-    }
-
-    fn connect_property_window_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::window-type",
-                transmute(notify_window_type_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"ypad\0".as_ptr() as *const _, Value::from(&ypad).to_glib_none().0);
         }
     }
 
     fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::xpad",
-                transmute(notify_xpad_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(self.as_ptr() as *mut _, b"notify::xpad\0".as_ptr() as *const _,
+                Some(transmute(notify_xpad_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 
     fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "notify::ypad",
-                transmute(notify_ypad_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(self.as_ptr() as *mut _, b"notify::ypad\0".as_ptr() as *const _,
+                Some(transmute(notify_ypad_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
 }
 
-unsafe extern "C" fn notify_view_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Gutter> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&Gutter::from_glib_borrow(this).downcast_unchecked())
+    let f: &F = transmute(f);
+    f(&Gutter::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_window_type_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Gutter> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&Gutter::from_glib_borrow(this).downcast_unchecked())
+    let f: &F = transmute(f);
+    f(&Gutter::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_xpad_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
-where P: IsA<Gutter> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&Gutter::from_glib_borrow(this).downcast_unchecked())
-}
-
-unsafe extern "C" fn notify_ypad_trampoline<P>(this: *mut ffi::GtkSourceGutter, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
-where P: IsA<Gutter> {
-    let f: &&(Fn(&P) + 'static) = transmute(f);
-    f(&Gutter::from_glib_borrow(this).downcast_unchecked())
+impl fmt::Display for Gutter {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Gutter")
+    }
 }
