@@ -37,6 +37,7 @@ dox = ["gtk/dox", "gtk-source-sys/dox"]
 futures = ["futures-core-preview", "fragile", "gtk/futures"]
 
 [build-dependencies.gtk-rs-lgpl-docs]
+version = "0.1.3"
 optional = true
 
 [dependencies]
