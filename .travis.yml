@@ -1,3 +1,4 @@
+dist: xenial
 language: rust
 rust:
   - nightly
@@ -9,6 +10,7 @@ addons:
     packages:
     - libgtk-3-dev
     - libgtksourceview-3.0-dev
+    - libmount-dev
 script:
   - if [ "$TRAVIS_RUST_VERSION" == "nightly" ]; then
     make regen_check;
