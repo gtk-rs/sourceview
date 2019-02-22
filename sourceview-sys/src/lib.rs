@@ -1972,8 +1972,8 @@ extern "C" {
     pub fn gtk_source_language_manager_new() -> *mut GtkSourceLanguageManager;
     pub fn gtk_source_language_manager_get_default() -> *mut GtkSourceLanguageManager;
     pub fn gtk_source_language_manager_get_language(lm: *mut GtkSourceLanguageManager, id: *const c_char) -> *mut GtkSourceLanguage;
-    pub fn gtk_source_language_manager_get_language_ids(lm: *mut GtkSourceLanguageManager) -> *mut *mut c_char;
-    pub fn gtk_source_language_manager_get_search_path(lm: *mut GtkSourceLanguageManager) -> *mut *mut c_char;
+    pub fn gtk_source_language_manager_get_language_ids(lm: *mut GtkSourceLanguageManager) -> *const *const c_char;
+    pub fn gtk_source_language_manager_get_search_path(lm: *mut GtkSourceLanguageManager) -> *const *const c_char;
     pub fn gtk_source_language_manager_guess_language(lm: *mut GtkSourceLanguageManager, filename: *const c_char, content_type: *const c_char) -> *mut GtkSourceLanguage;
     pub fn gtk_source_language_manager_set_search_path(lm: *mut GtkSourceLanguageManager, dirs: *mut *mut c_char);
 
@@ -2200,7 +2200,7 @@ extern "C" {
     // GtkSourceStyleScheme
     //=========================================================================
     pub fn gtk_source_style_scheme_get_type() -> GType;
-    pub fn gtk_source_style_scheme_get_authors(scheme: *mut GtkSourceStyleScheme) -> *mut *mut c_char;
+    pub fn gtk_source_style_scheme_get_authors(scheme: *mut GtkSourceStyleScheme) -> *const *const c_char;
     pub fn gtk_source_style_scheme_get_description(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
     pub fn gtk_source_style_scheme_get_filename(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
     pub fn gtk_source_style_scheme_get_id(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
@@ -2230,8 +2230,8 @@ extern "C" {
     pub fn gtk_source_style_scheme_manager_append_search_path(manager: *mut GtkSourceStyleSchemeManager, path: *const c_char);
     pub fn gtk_source_style_scheme_manager_force_rescan(manager: *mut GtkSourceStyleSchemeManager);
     pub fn gtk_source_style_scheme_manager_get_scheme(manager: *mut GtkSourceStyleSchemeManager, scheme_id: *const c_char) -> *mut GtkSourceStyleScheme;
-    pub fn gtk_source_style_scheme_manager_get_scheme_ids(manager: *mut GtkSourceStyleSchemeManager) -> *mut *mut c_char;
-    pub fn gtk_source_style_scheme_manager_get_search_path(manager: *mut GtkSourceStyleSchemeManager) -> *mut *mut c_char;
+    pub fn gtk_source_style_scheme_manager_get_scheme_ids(manager: *mut GtkSourceStyleSchemeManager) -> *const *const c_char;
+    pub fn gtk_source_style_scheme_manager_get_search_path(manager: *mut GtkSourceStyleSchemeManager) -> *const *const c_char;
     pub fn gtk_source_style_scheme_manager_prepend_search_path(manager: *mut GtkSourceStyleSchemeManager, path: *const c_char);
     pub fn gtk_source_style_scheme_manager_set_search_path(manager: *mut GtkSourceStyleSchemeManager, path: *mut *mut c_char);
 
