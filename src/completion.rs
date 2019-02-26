@@ -10,8 +10,7 @@ use Completion;
 use CompletionContext;
 
 impl Completion {
-    pub fn create_context<'a, P: Into<Option<&'a mut gtk::TextIter>>>(&self, position: P) -> Option<CompletionContext> {
-        let mut position = position.into();
+    pub fn create_context(&self, mut position: Option<&mut gtk::TextIter>) -> Option<CompletionContext> {
         let position = position.to_glib_none_mut();
         unsafe {
             from_glib_none(ffi::gtk_source_completion_create_context(self.to_glib_none().0, position.0))
