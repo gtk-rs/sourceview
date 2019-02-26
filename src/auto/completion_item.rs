@@ -7,8 +7,6 @@ use ffi;
 use gdk_pixbuf;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 use gio;
-#[cfg(any(feature = "v3_18", feature = "dox"))]
-use glib;
 use glib::Value;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -31,30 +29,24 @@ glib_wrapper! {
 
 impl CompletionItem {
     #[cfg_attr(feature = "v3_24", deprecated)]
-    pub fn new<'a, 'b, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>, Q: Into<Option<&'b str>>>(label: &str, text: &str, icon: P, info: Q) -> CompletionItem {
+    pub fn new(label: &str, text: &str, icon: Option<&gdk_pixbuf::Pixbuf>, info: Option<&str>) -> CompletionItem {
         assert_initialized_main_thread!();
-        let icon = icon.into();
-        let info = info.into();
         unsafe {
             from_glib_full(ffi::gtk_source_completion_item_new(label.to_glib_none().0, text.to_glib_none().0, icon.to_glib_none().0, info.to_glib_none().0))
         }
     }
 
     #[cfg_attr(feature = "v3_10", deprecated)]
-    pub fn new_from_stock<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>>(label: P, text: &str, stock: &str, info: Q) -> CompletionItem {
+    pub fn new_from_stock(label: Option<&str>, text: &str, stock: &str, info: Option<&str>) -> CompletionItem {
         assert_initialized_main_thread!();
-        let label = label.into();
-        let info = info.into();
         unsafe {
             from_glib_full(ffi::gtk_source_completion_item_new_from_stock(label.to_glib_none().0, text.to_glib_none().0, stock.to_glib_none().0, info.to_glib_none().0))
         }
     }
 
     #[cfg_attr(feature = "v3_24", deprecated)]
-    pub fn new_with_markup<'a, 'b, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>, Q: Into<Option<&'b str>>>(markup: &str, text: &str, icon: P, info: Q) -> CompletionItem {
+    pub fn new_with_markup(markup: &str, text: &str, icon: Option<&gdk_pixbuf::Pixbuf>, info: Option<&str>) -> CompletionItem {
         assert_initialized_main_thread!();
-        let icon = icon.into();
-        let info = info.into();
         unsafe {
             from_glib_full(ffi::gtk_source_completion_item_new_with_markup(markup.to_glib_none().0, text.to_glib_none().0, icon.to_glib_none().0, info.to_glib_none().0))
         }
@@ -73,41 +65,41 @@ pub const NONE_COMPLETION_ITEM: Option<&CompletionItem> = None;
 
 pub trait CompletionItemExt: 'static {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, gicon: Q);
+    fn set_gicon<P: IsA<gio::Icon>>(&self, gicon: Option<&P>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_icon<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, icon: P);
+    fn set_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
+    fn set_icon_name(&self, icon_name: Option<&str>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_info<'a, P: Into<Option<&'a str>>>(&self, info: P);
+    fn set_info(&self, info: Option<&str>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_label<'a, P: Into<Option<&'a str>>>(&self, label: P);
+    fn set_label(&self, label: Option<&str>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_markup<'a, P: Into<Option<&'a str>>>(&self, markup: P);
+    fn set_markup(&self, markup: Option<&str>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_text<'a, P: Into<Option<&'a str>>>(&self, text: P);
+    fn set_text(&self, text: Option<&str>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_gicon<P: IsA<gio::Icon> + glib::value::SetValueOptional>(&self, gicon: Option<&P>);
+    fn set_property_gicon(&self, gicon: Option<&gio::Icon>);
 
     fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
+    fn set_property_icon_name(&self, icon_name: Option<&str>);
 
-    fn set_property_info<'a, P: Into<Option<&'a str>>>(&self, info: P);
+    fn set_property_info(&self, info: Option<&str>);
 
-    fn set_property_label<'a, P: Into<Option<&'a str>>>(&self, label: P);
+    fn set_property_label(&self, label: Option<&str>);
 
-    fn set_property_markup<'a, P: Into<Option<&'a str>>>(&self, markup: P);
+    fn set_property_markup(&self, markup: Option<&str>);
 
-    fn set_property_text<'a, P: Into<Option<&'a str>>>(&self, text: P);
+    fn set_property_text(&self, text: Option<&str>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -128,63 +120,56 @@ pub trait CompletionItemExt: 'static {
 
 impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, gicon: Q) {
-        let gicon = gicon.into();
+    fn set_gicon<P: IsA<gio::Icon>>(&self, gicon: Option<&P>) {
         unsafe {
             ffi::gtk_source_completion_item_set_gicon(self.as_ref().to_glib_none().0, gicon.map(|p| p.as_ref()).to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_icon<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, icon: P) {
-        let icon = icon.into();
+    fn set_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>) {
         unsafe {
             ffi::gtk_source_completion_item_set_icon(self.as_ref().to_glib_none().0, icon.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P) {
-        let icon_name = icon_name.into();
+    fn set_icon_name(&self, icon_name: Option<&str>) {
         unsafe {
             ffi::gtk_source_completion_item_set_icon_name(self.as_ref().to_glib_none().0, icon_name.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_info<'a, P: Into<Option<&'a str>>>(&self, info: P) {
-        let info = info.into();
+    fn set_info(&self, info: Option<&str>) {
         unsafe {
             ffi::gtk_source_completion_item_set_info(self.as_ref().to_glib_none().0, info.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_label<'a, P: Into<Option<&'a str>>>(&self, label: P) {
-        let label = label.into();
+    fn set_label(&self, label: Option<&str>) {
         unsafe {
             ffi::gtk_source_completion_item_set_label(self.as_ref().to_glib_none().0, label.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_markup<'a, P: Into<Option<&'a str>>>(&self, markup: P) {
-        let markup = markup.into();
+    fn set_markup(&self, markup: Option<&str>) {
         unsafe {
             ffi::gtk_source_completion_item_set_markup(self.as_ref().to_glib_none().0, markup.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_text<'a, P: Into<Option<&'a str>>>(&self, text: P) {
-        let text = text.into();
+    fn set_text(&self, text: Option<&str>) {
         unsafe {
             ffi::gtk_source_completion_item_set_text(self.as_ref().to_glib_none().0, text.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_gicon<P: IsA<gio::Icon> + glib::value::SetValueOptional>(&self, gicon: Option<&P>) {
+    fn set_property_gicon(&self, gicon: Option<&gio::Icon>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"gicon\0".as_ptr() as *const _, Value::from(gicon).to_glib_none().0);
         }
@@ -197,36 +182,31 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P) {
-        let icon_name = icon_name.into();
+    fn set_property_icon_name(&self, icon_name: Option<&str>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"icon-name\0".as_ptr() as *const _, Value::from(icon_name).to_glib_none().0);
         }
     }
 
-    fn set_property_info<'a, P: Into<Option<&'a str>>>(&self, info: P) {
-        let info = info.into();
+    fn set_property_info(&self, info: Option<&str>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"info\0".as_ptr() as *const _, Value::from(info).to_glib_none().0);
         }
     }
 
-    fn set_property_label<'a, P: Into<Option<&'a str>>>(&self, label: P) {
-        let label = label.into();
+    fn set_property_label(&self, label: Option<&str>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"label\0".as_ptr() as *const _, Value::from(label).to_glib_none().0);
         }
     }
 
-    fn set_property_markup<'a, P: Into<Option<&'a str>>>(&self, markup: P) {
-        let markup = markup.into();
+    fn set_property_markup(&self, markup: Option<&str>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"markup\0".as_ptr() as *const _, Value::from(markup).to_glib_none().0);
         }
     }
 
-    fn set_property_text<'a, P: Into<Option<&'a str>>>(&self, text: P) {
-        let text = text.into();
+    fn set_property_text(&self, text: Option<&str>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"text\0".as_ptr() as *const _, Value::from(text).to_glib_none().0);
         }
@@ -294,44 +274,44 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_icon_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_info_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_label_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_markup_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_text_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionItem, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionItem> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 

@@ -10,8 +10,7 @@ use gtk;
 use CompletionInfo;
 
 impl CompletionInfo {
-    pub fn move_to_iter<'a, P: IsA<gtk::TextView>, Q: Into<Option<&'a mut gtk::TextIter>>>(&self, view: &P, iter: Q) {
-        let mut iter = iter.into();
+    pub fn move_to_iter<'a, P: IsA<gtk::TextView>>(&self, view: &P, mut iter: Option<&mut gtk::TextIter>) {
         let iter = iter.to_glib_none_mut();
         unsafe {
             ffi::gtk_source_completion_info_move_to_iter(self.to_glib_none().0, view.as_ref().to_glib_none().0, iter.0);

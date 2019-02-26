@@ -226,43 +226,43 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
 
 unsafe extern "C" fn query_tooltip_markup_trampoline<P, F: Fn(&P, &Mark) -> String + 'static>(this: *mut ffi::GtkSourceMarkAttributes, mark: *mut ffi::GtkSourceMark, f: glib_ffi::gpointer) -> *mut libc::c_char
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(mark)).to_glib_full()
 }
 
 unsafe extern "C" fn query_tooltip_text_trampoline<P, F: Fn(&P, &Mark) -> String + 'static>(this: *mut ffi::GtkSourceMarkAttributes, mark: *mut ffi::GtkSourceMark, f: glib_ffi::gpointer) -> *mut libc::c_char
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(mark)).to_glib_full()
 }
 
 unsafe extern "C" fn notify_background_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceMarkAttributes, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceMarkAttributes, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceMarkAttributes, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_pixbuf_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceMarkAttributes, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_stock_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceMarkAttributes, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<MarkAttributes> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
 }
 

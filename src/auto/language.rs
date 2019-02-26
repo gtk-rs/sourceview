@@ -152,25 +152,25 @@ impl<O: IsA<Language>> LanguageExt for O {
 
 unsafe extern "C" fn notify_hidden_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceLanguage, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Language> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Language::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceLanguage, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Language> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Language::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceLanguage, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Language> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Language::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_section_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceLanguage, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Language> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Language::from_glib_borrow(this).unsafe_cast())
 }
 

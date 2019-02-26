@@ -448,85 +448,85 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
 unsafe extern "C" fn activate_proposal_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn hide_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn move_cursor_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut ffi::GtkSourceCompletion, step: gtk_ffi::GtkScrollStep, num: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
 }
 
 unsafe extern "C" fn move_page_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut ffi::GtkSourceCompletion, step: gtk_ffi::GtkScrollStep, num: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
 }
 
 unsafe extern "C" fn populate_context_trampoline<P, F: Fn(&P, &CompletionContext) + 'static>(this: *mut ffi::GtkSourceCompletion, context: *mut ffi::GtkSourceCompletionContext, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(context))
 }
 
 unsafe extern "C" fn show_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_accelerators_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_auto_complete_delay_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_proposal_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_provider_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_remember_info_visibility_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_select_on_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_show_headers_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_show_icons_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletion, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Completion> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 

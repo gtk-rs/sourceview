@@ -109,13 +109,13 @@ impl<O: IsA<CompletionContext>> CompletionContextExt for O {
 
 unsafe extern "C" fn cancelled_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionContext, f: glib_ffi::gpointer)
 where P: IsA<CompletionContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionContext::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_activation_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionContext::from_glib_borrow(this).unsafe_cast())
 }
 

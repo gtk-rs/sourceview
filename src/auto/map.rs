@@ -4,7 +4,6 @@
 
 use View;
 use ffi;
-use glib;
 use glib::StaticType;
 use glib::Value;
 use glib::object::Cast;
@@ -55,7 +54,7 @@ pub trait MapExt: 'static {
 
     fn get_property_view(&self) -> Option<View>;
 
-    fn set_property_view<P: IsA<View> + glib::value::SetValueOptional>(&self, view: Option<&P>);
+    fn set_property_view(&self, view: Option<&View>);
 
     fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
@@ -83,7 +82,7 @@ impl<O: IsA<Map>> MapExt for O {
         }
     }
 
-    fn set_property_view<P: IsA<View> + glib::value::SetValueOptional>(&self, view: Option<&P>) {
+    fn set_property_view(&self, view: Option<&View>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"view\0".as_ptr() as *const _, Value::from(view).to_glib_none().0);
         }
@@ -100,7 +99,7 @@ impl<O: IsA<Map>> MapExt for O {
 
 unsafe extern "C" fn notify_view_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceMap, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Map> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Map::from_glib_borrow(this).unsafe_cast())
 }
 

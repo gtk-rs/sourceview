@@ -47,7 +47,7 @@ pub trait CompletionInfoExt: 'static {
     fn get_widget(&self) -> Option<gtk::Widget>;
 
     #[cfg_attr(feature = "v3_8", deprecated)]
-    fn set_widget<'a, P: IsA<gtk::Widget> + 'a, Q: Into<Option<&'a P>>>(&self, widget: Q);
+    fn set_widget<P: IsA<gtk::Widget>>(&self, widget: Option<&P>);
 
     #[cfg_attr(feature = "v3_10", deprecated)]
     fn connect_before_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -63,8 +63,7 @@ impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
         }
     }
 
-    fn set_widget<'a, P: IsA<gtk::Widget> + 'a, Q: Into<Option<&'a P>>>(&self, widget: Q) {
-        let widget = widget.into();
+    fn set_widget<P: IsA<gtk::Widget>>(&self, widget: Option<&P>) {
         unsafe {
             ffi::gtk_source_completion_info_set_widget(self.as_ref().to_glib_none().0, widget.map(|p| p.as_ref()).to_glib_none().0);
         }
@@ -85,7 +84,7 @@ impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
 
 unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionInfo, f: glib_ffi::gpointer)
 where P: IsA<CompletionInfo> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
 }
 

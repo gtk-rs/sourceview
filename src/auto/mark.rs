@@ -31,7 +31,7 @@ pub const NONE_MARK: Option<&Mark> = None;
 pub trait MarkExt: 'static {
     fn get_category(&self) -> Option<GString>;
 
-    fn next<'a, P: Into<Option<&'a str>>>(&self, category: P) -> Option<Mark>;
+    fn next(&self, category: Option<&str>) -> Option<Mark>;
 
     fn prev(&self, category: &str) -> Option<Mark>;
 }
@@ -43,8 +43,7 @@ impl<O: IsA<Mark>> MarkExt for O {
         }
     }
 
-    fn next<'a, P: Into<Option<&'a str>>>(&self, category: P) -> Option<Mark> {
-        let category = category.into();
+    fn next(&self, category: Option<&str>) -> Option<Mark> {
         unsafe {
             from_glib_none(ffi::gtk_source_mark_next(self.as_ref().to_glib_none().0, category.to_glib_none().0))
         }

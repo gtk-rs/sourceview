@@ -54,7 +54,7 @@ pub trait LanguageManagerExt: 'static {
 
     fn get_search_path(&self) -> Vec<GString>;
 
-    fn guess_language<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>>(&self, filename: P, content_type: Q) -> Option<Language>;
+    fn guess_language(&self, filename: Option<&str>, content_type: Option<&str>) -> Option<Language>;
 
     fn set_search_path(&self, dirs: &[&str]);
 
@@ -82,9 +82,7 @@ impl<O: IsA<LanguageManager>> LanguageManagerExt for O {
         }
     }
 
-    fn guess_language<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>>(&self, filename: P, content_type: Q) -> Option<Language> {
-        let filename = filename.into();
-        let content_type = content_type.into();
+    fn guess_language(&self, filename: Option<&str>, content_type: Option<&str>) -> Option<Language> {
         unsafe {
             from_glib_none(ffi::gtk_source_language_manager_guess_language(self.as_ref().to_glib_none().0, filename.to_glib_none().0, content_type.to_glib_none().0))
         }
@@ -115,13 +113,13 @@ impl<O: IsA<LanguageManager>> LanguageManagerExt for O {
 
 unsafe extern "C" fn notify_language_ids_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceLanguageManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<LanguageManager> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&LanguageManager::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceLanguageManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<LanguageManager> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&LanguageManager::from_glib_borrow(this).unsafe_cast())
 }
 

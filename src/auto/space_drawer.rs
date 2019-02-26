@@ -71,7 +71,7 @@ pub trait SpaceDrawerExt: 'static {
     fn set_enable_matrix(&self, enable_matrix: bool);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_matrix<'a, P: Into<Option<&'a glib::Variant>>>(&self, matrix: P);
+    fn set_matrix(&self, matrix: Option<&glib::Variant>);
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     fn set_types_for_locations(&self, locations: SpaceLocationFlags, types: SpaceTypeFlags);
@@ -120,8 +120,7 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    fn set_matrix<'a, P: Into<Option<&'a glib::Variant>>>(&self, matrix: P) {
-        let matrix = matrix.into();
+    fn set_matrix(&self, matrix: Option<&glib::Variant>) {
         unsafe {
             ffi::gtk_source_space_drawer_set_matrix(self.as_ref().to_glib_none().0, matrix.to_glib_none().0);
         }
@@ -156,14 +155,14 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 unsafe extern "C" fn notify_enable_matrix_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 unsafe extern "C" fn notify_matrix_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSpaceDrawer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SpaceDrawer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
 }
 

@@ -36,9 +36,8 @@ glib_wrapper! {
 }
 
 impl Buffer {
-    pub fn new<'a, P: IsA<gtk::TextTagTable> + 'a, Q: Into<Option<&'a P>>>(table: Q) -> Buffer {
+    pub fn new<P: IsA<gtk::TextTagTable>>(table: Option<&P>) -> Buffer {
         assert_initialized_main_thread!();
-        let table = table.into();
         unsafe {
             from_glib_full(ffi::gtk_source_buffer_new(table.map(|p| p.as_ref()).to_glib_none().0))
         }
@@ -55,7 +54,7 @@ impl Buffer {
 pub const NONE_BUFFER: Option<&Buffer> = None;
 
 pub trait BufferExt: 'static {
-    fn backward_iter_to_source_mark<'a, P: Into<Option<&'a str>>>(&self, iter: &mut gtk::TextIter, category: P) -> bool;
+    fn backward_iter_to_source_mark(&self, iter: &mut gtk::TextIter, category: Option<&str>) -> bool;
 
     fn begin_not_undoable_action(&self);
 
@@ -66,16 +65,16 @@ pub trait BufferExt: 'static {
     #[cfg(any(feature = "v3_12", feature = "dox"))]
     fn change_case(&self, case_type: ChangeCaseType, start: &mut gtk::TextIter, end: &mut gtk::TextIter);
 
-    fn create_source_mark<'a, P: Into<Option<&'a str>>>(&self, name: P, category: &str, where_: &gtk::TextIter) -> Option<Mark>;
+    fn create_source_mark(&self, name: Option<&str>, category: &str, where_: &gtk::TextIter) -> Option<Mark>;
 
     //#[cfg(any(feature = "v3_20", feature = "dox"))]
-    //fn create_source_tag<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>>(&self, tag_name: P, first_property_name: Q, : /*Unknown conversion*//*Unimplemented*/Fundamental: VarArgs) -> Option<gtk::TextTag>;
+    //fn create_source_tag(&self, tag_name: Option<&str>, first_property_name: Option<&str>, : /*Unknown conversion*//*Unimplemented*/Fundamental: VarArgs) -> Option<gtk::TextTag>;
 
     fn end_not_undoable_action(&self);
 
     fn ensure_highlight(&self, start: &gtk::TextIter, end: &gtk::TextIter);
 
-    fn forward_iter_to_source_mark<'a, P: Into<Option<&'a str>>>(&self, iter: &mut gtk::TextIter, category: P) -> bool;
+    fn forward_iter_to_source_mark(&self, iter: &mut gtk::TextIter, category: Option<&str>) -> bool;
 
     fn get_context_classes_at_iter(&self, iter: &gtk::TextIter) -> Vec<GString>;
 
@@ -90,9 +89,9 @@ pub trait BufferExt: 'static {
 
     fn get_max_undo_levels(&self) -> i32;
 
-    fn get_source_marks_at_iter<'a, P: Into<Option<&'a str>>>(&self, iter: &mut gtk::TextIter, category: P) -> Vec<Mark>;
+    fn get_source_marks_at_iter(&self, iter: &mut gtk::TextIter, category: Option<&str>) -> Vec<Mark>;
 
-    fn get_source_marks_at_line<'a, P: Into<Option<&'a str>>>(&self, line: i32, category: P) -> Vec<Mark>;
+    fn get_source_marks_at_line(&self, line: i32, category: Option<&str>) -> Vec<Mark>;
 
     fn get_style_scheme(&self) -> Option<StyleScheme>;
 
@@ -109,7 +108,7 @@ pub trait BufferExt: 'static {
 
     fn redo(&self);
 
-    fn remove_source_marks<'a, P: Into<Option<&'a str>>>(&self, start: &gtk::TextIter, end: &gtk::TextIter, category: P);
+    fn remove_source_marks(&self, start: &gtk::TextIter, end: &gtk::TextIter, category: Option<&str>);
 
     fn set_highlight_matching_brackets(&self, highlight: bool);
 
@@ -118,13 +117,13 @@ pub trait BufferExt: 'static {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_implicit_trailing_newline(&self, implicit_trailing_newline: bool);
 
-    fn set_language<'a, P: IsA<Language> + 'a, Q: Into<Option<&'a P>>>(&self, language: Q);
+    fn set_language<P: IsA<Language>>(&self, language: Option<&P>);
 
     fn set_max_undo_levels(&self, max_undo_levels: i32);
 
-    fn set_style_scheme<'a, P: IsA<StyleScheme> + 'a, Q: Into<Option<&'a P>>>(&self, scheme: Q);
+    fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: Option<&P>);
 
-    fn set_undo_manager<'a, P: IsA<UndoManager> + 'a, Q: Into<Option<&'a P>>>(&self, manager: Q);
+    fn set_undo_manager<P: IsA<UndoManager>>(&self, manager: Option<&P>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn sort_lines(&self, start: &mut gtk::TextIter, end: &mut gtk::TextIter, flags: SortFlags, column: i32);
@@ -166,8 +165,7 @@ pub trait BufferExt: 'static {
 }
 
 impl<O: IsA<Buffer>> BufferExt for O {
-    fn backward_iter_to_source_mark<'a, P: Into<Option<&'a str>>>(&self, iter: &mut gtk::TextIter, category: P) -> bool {
-        let category = category.into();
+    fn backward_iter_to_source_mark(&self, iter: &mut gtk::TextIter, category: Option<&str>) -> bool {
         unsafe {
             from_glib(ffi::gtk_source_buffer_backward_iter_to_source_mark(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, category.to_glib_none().0))
         }
@@ -198,15 +196,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
         }
     }
 
-    fn create_source_mark<'a, P: Into<Option<&'a str>>>(&self, name: P, category: &str, where_: &gtk::TextIter) -> Option<Mark> {
-        let name = name.into();
+    fn create_source_mark(&self, name: Option<&str>, category: &str, where_: &gtk::TextIter) -> Option<Mark> {
         unsafe {
             from_glib_none(ffi::gtk_source_buffer_create_source_mark(self.as_ref().to_glib_none().0, name.to_glib_none().0, category.to_glib_none().0, where_.to_glib_none().0))
         }
     }
 
     //#[cfg(any(feature = "v3_20", feature = "dox"))]
-    //fn create_source_tag<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>>(&self, tag_name: P, first_property_name: Q, : /*Unknown conversion*//*Unimplemented*/Fundamental: VarArgs) -> Option<gtk::TextTag> {
+    //fn create_source_tag(&self, tag_name: Option<&str>, first_property_name: Option<&str>, : /*Unknown conversion*//*Unimplemented*/Fundamental: VarArgs) -> Option<gtk::TextTag> {
     //    unsafe { TODO: call ffi::gtk_source_buffer_create_source_tag() }
     //}
 
@@ -222,8 +219,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
         }
     }
 
-    fn forward_iter_to_source_mark<'a, P: Into<Option<&'a str>>>(&self, iter: &mut gtk::TextIter, category: P) -> bool {
-        let category = category.into();
+    fn forward_iter_to_source_mark(&self, iter: &mut gtk::TextIter, category: Option<&str>) -> bool {
         unsafe {
             from_glib(ffi::gtk_source_buffer_forward_iter_to_source_mark(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, category.to_glib_none().0))
         }
@@ -266,15 +262,13 @@ impl<O: IsA<Buffer>> BufferExt for O {
         }
     }
 
-    fn get_source_marks_at_iter<'a, P: Into<Option<&'a str>>>(&self, iter: &mut gtk::TextIter, category: P) -> Vec<Mark> {
-        let category = category.into();
+    fn get_source_marks_at_iter(&self, iter: &mut gtk::TextIter, category: Option<&str>) -> Vec<Mark> {
         unsafe {
             FromGlibPtrContainer::from_glib_container(ffi::gtk_source_buffer_get_source_marks_at_iter(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, category.to_glib_none().0))
         }
     }
 
-    fn get_source_marks_at_line<'a, P: Into<Option<&'a str>>>(&self, line: i32, category: P) -> Vec<Mark> {
-        let category = category.into();
+    fn get_source_marks_at_line(&self, line: i32, category: Option<&str>) -> Vec<Mark> {
         unsafe {
             FromGlibPtrContainer::from_glib_container(ffi::gtk_source_buffer_get_source_marks_at_line(self.as_ref().to_glib_none().0, line, category.to_glib_none().0))
         }
@@ -323,8 +317,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
         }
     }
 
-    fn remove_source_marks<'a, P: Into<Option<&'a str>>>(&self, start: &gtk::TextIter, end: &gtk::TextIter, category: P) {
-        let category = category.into();
+    fn remove_source_marks(&self, start: &gtk::TextIter, end: &gtk::TextIter, category: Option<&str>) {
         unsafe {
             ffi::gtk_source_buffer_remove_source_marks(self.as_ref().to_glib_none().0, start.to_glib_none().0, end.to_glib_none().0, category.to_glib_none().0);
         }
@@ -349,8 +342,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
         }
     }
 
-    fn set_language<'a, P: IsA<Language> + 'a, Q: Into<Option<&'a P>>>(&self, language: Q) {
-        let language = language.into();
+    fn set_language<P: IsA<Language>>(&self, language: Option<&P>) {
         unsafe {
             ffi::gtk_source_buffer_set_language(self.as_ref().to_glib_none().0, language.map(|p| p.as_ref()).to_glib_none().0);
         }
@@ -362,15 +354,13 @@ impl<O: IsA<Buffer>> BufferExt for O {
         }
     }
 
-    fn set_style_scheme<'a, P: IsA<StyleScheme> + 'a, Q: Into<Option<&'a P>>>(&self, scheme: Q) {
-        let scheme = scheme.into();
+    fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: Option<&P>) {
         unsafe {
             ffi::gtk_source_buffer_set_style_scheme(self.as_ref().to_glib_none().0, scheme.map(|p| p.as_ref()).to_glib_none().0);
         }
     }
 
-    fn set_undo_manager<'a, P: IsA<UndoManager> + 'a, Q: Into<Option<&'a P>>>(&self, manager: Q) {
-        let manager = manager.into();
+    fn set_undo_manager<P: IsA<UndoManager>>(&self, manager: Option<&P>) {
         unsafe {
             ffi::gtk_source_buffer_set_undo_manager(self.as_ref().to_glib_none().0, manager.map(|p| p.as_ref()).to_glib_none().0);
         }
@@ -517,80 +507,80 @@ impl<O: IsA<Buffer>> BufferExt for O {
 
 unsafe extern "C" fn highlight_updated_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter) + 'static>(this: *mut ffi::GtkSourceBuffer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(start), &from_glib_borrow(end))
 }
 
 unsafe extern "C" fn redo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn source_mark_updated_trampoline<P, F: Fn(&P, &gtk::TextMark) + 'static>(this: *mut ffi::GtkSourceBuffer, mark: *mut gtk_ffi::GtkTextMark, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(mark))
 }
 
 unsafe extern "C" fn undo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_can_redo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_can_undo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_highlight_matching_brackets_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_highlight_syntax_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_implicit_trailing_newline_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_language_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_max_undo_levels_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_style_scheme_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_undo_manager_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceBuffer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Buffer> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Buffer::from_glib_borrow(this).unsafe_cast())
 }
 
