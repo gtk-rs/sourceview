@@ -35,7 +35,7 @@ pub const NONE_REGION: Option<&Region> = None;
 
 pub trait RegionExt: 'static {
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    fn add_region<'a, P: IsA<Region> + 'a, Q: Into<Option<&'a P>>>(&self, region_to_add: Q);
+    fn add_region<P: IsA<Region>>(&self, region_to_add: Option<&P>);
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     fn add_subregion(&self, _start: &gtk::TextIter, _end: &gtk::TextIter);
@@ -50,7 +50,7 @@ pub trait RegionExt: 'static {
     fn get_start_region_iter(&self) -> RegionIter;
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    fn intersect_region<'a, P: IsA<Region> + 'a, Q: Into<Option<&'a P>>>(&self, region2: Q) -> Option<Region>;
+    fn intersect_region<P: IsA<Region>>(&self, region2: Option<&P>) -> Option<Region>;
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     fn intersect_subregion(&self, _start: &gtk::TextIter, _end: &gtk::TextIter) -> Option<Region>;
@@ -59,7 +59,7 @@ pub trait RegionExt: 'static {
     fn is_empty(&self) -> bool;
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    fn subtract_region<'a, P: IsA<Region> + 'a, Q: Into<Option<&'a P>>>(&self, region_to_subtract: Q);
+    fn subtract_region<P: IsA<Region>>(&self, region_to_subtract: Option<&P>);
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     fn subtract_subregion(&self, _start: &gtk::TextIter, _end: &gtk::TextIter);
@@ -70,8 +70,7 @@ pub trait RegionExt: 'static {
 
 impl<O: IsA<Region>> RegionExt for O {
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    fn add_region<'a, P: IsA<Region> + 'a, Q: Into<Option<&'a P>>>(&self, region_to_add: Q) {
-        let region_to_add = region_to_add.into();
+    fn add_region<P: IsA<Region>>(&self, region_to_add: Option<&P>) {
         unsafe {
             ffi::gtk_source_region_add_region(self.as_ref().to_glib_none().0, region_to_add.map(|p| p.as_ref()).to_glib_none().0);
         }
@@ -111,8 +110,7 @@ impl<O: IsA<Region>> RegionExt for O {
     }
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    fn intersect_region<'a, P: IsA<Region> + 'a, Q: Into<Option<&'a P>>>(&self, region2: Q) -> Option<Region> {
-        let region2 = region2.into();
+    fn intersect_region<P: IsA<Region>>(&self, region2: Option<&P>) -> Option<Region> {
         unsafe {
             from_glib_full(ffi::gtk_source_region_intersect_region(self.as_ref().to_glib_none().0, region2.map(|p| p.as_ref()).to_glib_none().0))
         }
@@ -133,8 +131,7 @@ impl<O: IsA<Region>> RegionExt for O {
     }
 
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    fn subtract_region<'a, P: IsA<Region> + 'a, Q: Into<Option<&'a P>>>(&self, region_to_subtract: Q) {
-        let region_to_subtract = region_to_subtract.into();
+    fn subtract_region<P: IsA<Region>>(&self, region_to_subtract: Option<&P>) {
         unsafe {
             ffi::gtk_source_region_subtract_region(self.as_ref().to_glib_none().0, region_to_subtract.map(|p| p.as_ref()).to_glib_none().0);
         }

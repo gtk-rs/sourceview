@@ -74,7 +74,7 @@ pub trait SearchSettingsExt: 'static {
     fn set_regex_enabled(&self, regex_enabled: bool);
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_search_text<'a, P: Into<Option<&'a str>>>(&self, search_text: P);
+    fn set_search_text(&self, search_text: Option<&str>);
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn set_wrap_around(&self, wrap_around: bool);
@@ -153,8 +153,7 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_search_text<'a, P: Into<Option<&'a str>>>(&self, search_text: P) {
-        let search_text = search_text.into();
+    fn set_search_text(&self, search_text: Option<&str>) {
         unsafe {
             ffi::gtk_source_search_settings_set_search_text(self.as_ref().to_glib_none().0, search_text.to_glib_none().0);
         }
@@ -216,35 +215,35 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_at_word_boundaries_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_case_sensitive_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_regex_enabled_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_search_text_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_wrap_around_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchSettings, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchSettings> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
 }
 

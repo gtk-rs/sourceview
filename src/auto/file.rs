@@ -89,7 +89,7 @@ pub trait FileExt: 'static {
     fn is_readonly(&self) -> bool;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn set_location<'a, P: IsA<gio::File> + 'a, Q: Into<Option<&'a P>>>(&self, location: Q);
+    fn set_location<P: IsA<gio::File>>(&self, location: Option<&P>);
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn set_mount_operation_factory(&self, callback: /*Unimplemented*/Fn(&File, /*Unimplemented*/Fundamental: Pointer) -> /*Ignored*/gio::MountOperation, user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
@@ -178,8 +178,7 @@ impl<O: IsA<File>> FileExt for O {
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn set_location<'a, P: IsA<gio::File> + 'a, Q: Into<Option<&'a P>>>(&self, location: Q) {
-        let location = location.into();
+    fn set_location<P: IsA<gio::File>>(&self, location: Option<&P>) {
         unsafe {
             ffi::gtk_source_file_set_location(self.as_ref().to_glib_none().0, location.map(|p| p.as_ref()).to_glib_none().0);
         }
@@ -248,35 +247,35 @@ impl<O: IsA<File>> FileExt for O {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&File::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&File::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_location_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&File::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&File::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_read_only_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFile, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<File> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&File::from_glib_borrow(this).unsafe_cast())
 }
 

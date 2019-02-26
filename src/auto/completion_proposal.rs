@@ -136,7 +136,7 @@ impl<O: IsA<CompletionProposal>> CompletionProposalExt for O {
 
 unsafe extern "C" fn changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionProposal, f: glib_ffi::gpointer)
 where P: IsA<CompletionProposal> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionProposal::from_glib_borrow(this).unsafe_cast())
 }
 

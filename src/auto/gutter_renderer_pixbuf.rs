@@ -52,14 +52,14 @@ pub trait GutterRendererPixbufExt: 'static {
     #[cfg_attr(feature = "v3_10", deprecated)]
     fn get_stock_id(&self) -> Option<GString>;
 
-    fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q);
+    fn set_gicon<P: IsA<gio::Icon>>(&self, icon: Option<&P>);
 
-    fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P);
+    fn set_icon_name(&self, icon_name: Option<&str>);
 
-    fn set_pixbuf<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, pixbuf: P);
+    fn set_pixbuf(&self, pixbuf: Option<&gdk_pixbuf::Pixbuf>);
 
     #[cfg_attr(feature = "v3_10", deprecated)]
-    fn set_stock_id<'a, P: Into<Option<&'a str>>>(&self, stock_id: P);
+    fn set_stock_id(&self, stock_id: Option<&str>);
 
     fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -96,29 +96,25 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
         }
     }
 
-    fn set_gicon<'a, P: IsA<gio::Icon> + 'a, Q: Into<Option<&'a P>>>(&self, icon: Q) {
-        let icon = icon.into();
+    fn set_gicon<P: IsA<gio::Icon>>(&self, icon: Option<&P>) {
         unsafe {
             ffi::gtk_source_gutter_renderer_pixbuf_set_gicon(self.as_ref().to_glib_none().0, icon.map(|p| p.as_ref()).to_glib_none().0);
         }
     }
 
-    fn set_icon_name<'a, P: Into<Option<&'a str>>>(&self, icon_name: P) {
-        let icon_name = icon_name.into();
+    fn set_icon_name(&self, icon_name: Option<&str>) {
         unsafe {
             ffi::gtk_source_gutter_renderer_pixbuf_set_icon_name(self.as_ref().to_glib_none().0, icon_name.to_glib_none().0);
         }
     }
 
-    fn set_pixbuf<'a, P: Into<Option<&'a gdk_pixbuf::Pixbuf>>>(&self, pixbuf: P) {
-        let pixbuf = pixbuf.into();
+    fn set_pixbuf(&self, pixbuf: Option<&gdk_pixbuf::Pixbuf>) {
         unsafe {
             ffi::gtk_source_gutter_renderer_pixbuf_set_pixbuf(self.as_ref().to_glib_none().0, pixbuf.to_glib_none().0);
         }
     }
 
-    fn set_stock_id<'a, P: Into<Option<&'a str>>>(&self, stock_id: P) {
-        let stock_id = stock_id.into();
+    fn set_stock_id(&self, stock_id: Option<&str>) {
         unsafe {
             ffi::gtk_source_gutter_renderer_pixbuf_set_stock_id(self.as_ref().to_glib_none().0, stock_id.to_glib_none().0);
         }
@@ -159,25 +155,25 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
 
 unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_pixbuf_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_stock_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRendererPixbuf, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<GutterRendererPixbuf> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast())
 }
 

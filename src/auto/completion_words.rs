@@ -30,10 +30,8 @@ glib_wrapper! {
 }
 
 impl CompletionWords {
-    pub fn new<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b gdk_pixbuf::Pixbuf>>>(name: P, icon: Q) -> CompletionWords {
+    pub fn new(name: Option<&str>, icon: Option<&gdk_pixbuf::Pixbuf>) -> CompletionWords {
         assert_initialized_main_thread!();
-        let name = name.into();
-        let icon = icon.into();
         unsafe {
             from_glib_full(ffi::gtk_source_completion_words_new(name.to_glib_none().0, icon.to_glib_none().0))
         }
@@ -58,7 +56,7 @@ pub trait CompletionWordsExt: 'static {
 
     fn set_property_minimum_word_size(&self, minimum_word_size: u32);
 
-    fn set_property_name<'a, P: Into<Option<&'a str>>>(&self, name: P);
+    fn set_property_name(&self, name: Option<&str>);
 
     fn set_property_priority(&self, priority: i32);
 
@@ -134,8 +132,7 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
         }
     }
 
-    fn set_property_name<'a, P: Into<Option<&'a str>>>(&self, name: P) {
-        let name = name.into();
+    fn set_property_name(&self, name: Option<&str>) {
         unsafe {
             gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"name\0".as_ptr() as *const _, Value::from(name).to_glib_none().0);
         }
@@ -244,49 +241,49 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_activation_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_icon_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_interactive_delay_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_minimum_word_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_priority_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_proposals_batch_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_scan_batch_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionWords, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<CompletionWords> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&CompletionWords::from_glib_borrow(this).unsafe_cast())
 }
 

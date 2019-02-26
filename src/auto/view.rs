@@ -715,169 +715,169 @@ impl<O: IsA<View>> ViewExt for O {
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn change_case_trampoline<P, F: Fn(&P, ChangeCaseType) + 'static>(this: *mut ffi::GtkSourceView, case_type: ffi::GtkSourceChangeCaseType, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), from_glib(case_type))
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn change_number_trampoline<P, F: Fn(&P, i32) + 'static>(this: *mut ffi::GtkSourceView, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), count)
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn join_lines_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn line_mark_activated_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Event) + 'static>(this: *mut ffi::GtkSourceView, iter: *mut gtk_ffi::GtkTextIter, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_none(event))
 }
 
 unsafe extern "C" fn move_lines_trampoline<P, F: Fn(&P, bool, i32) + 'static>(this: *mut ffi::GtkSourceView, copy: glib_ffi::gboolean, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), from_glib(copy), count)
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn move_to_matching_bracket_trampoline<P, F: Fn(&P, bool) + 'static>(this: *mut ffi::GtkSourceView, extend_selection: glib_ffi::gboolean, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), from_glib(extend_selection))
 }
 
 unsafe extern "C" fn move_words_trampoline<P, F: Fn(&P, i32) + 'static>(this: *mut ffi::GtkSourceView, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), count)
 }
 
 unsafe extern "C" fn redo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn show_completion_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn smart_home_end_trampoline<P, F: Fn(&P, &gtk::TextIter, i32) + 'static>(this: *mut ffi::GtkSourceView, iter: *mut gtk_ffi::GtkTextIter, count: libc::c_int, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), count)
 }
 
 unsafe extern "C" fn undo_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_auto_indent_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn notify_background_pattern_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_completion_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_draw_spaces_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_highlight_current_line_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_indent_on_tab_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_indent_width_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_insert_spaces_instead_of_tabs_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_right_margin_position_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_show_line_marks_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_show_line_numbers_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_show_right_margin_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 unsafe extern "C" fn notify_smart_backspace_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_smart_home_end_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 unsafe extern "C" fn notify_space_drawer_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_tab_width_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceView, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<View> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&View::from_glib_borrow(this).unsafe_cast())
 }
 

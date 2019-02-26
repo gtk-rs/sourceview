@@ -86,19 +86,19 @@ pub trait PrintCompositorExt: 'static {
 
     fn set_bottom_margin(&self, margin: f64, unit: gtk::Unit);
 
-    fn set_footer_font_name<'a, P: Into<Option<&'a str>>>(&self, font_name: P);
+    fn set_footer_font_name(&self, font_name: Option<&str>);
 
-    fn set_footer_format<'a, 'b, 'c, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>, R: Into<Option<&'c str>>>(&self, separator: bool, left: P, center: Q, right: R);
+    fn set_footer_format(&self, separator: bool, left: Option<&str>, center: Option<&str>, right: Option<&str>);
 
-    fn set_header_font_name<'a, P: Into<Option<&'a str>>>(&self, font_name: P);
+    fn set_header_font_name(&self, font_name: Option<&str>);
 
-    fn set_header_format<'a, 'b, 'c, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>, R: Into<Option<&'c str>>>(&self, separator: bool, left: P, center: Q, right: R);
+    fn set_header_format(&self, separator: bool, left: Option<&str>, center: Option<&str>, right: Option<&str>);
 
     fn set_highlight_syntax(&self, highlight: bool);
 
     fn set_left_margin(&self, margin: f64, unit: gtk::Unit);
 
-    fn set_line_numbers_font_name<'a, P: Into<Option<&'a str>>>(&self, font_name: P);
+    fn set_line_numbers_font_name(&self, font_name: Option<&str>);
 
     fn set_print_footer(&self, print: bool);
 
@@ -264,33 +264,25 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
         }
     }
 
-    fn set_footer_font_name<'a, P: Into<Option<&'a str>>>(&self, font_name: P) {
-        let font_name = font_name.into();
+    fn set_footer_font_name(&self, font_name: Option<&str>) {
         unsafe {
             ffi::gtk_source_print_compositor_set_footer_font_name(self.as_ref().to_glib_none().0, font_name.to_glib_none().0);
         }
     }
 
-    fn set_footer_format<'a, 'b, 'c, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>, R: Into<Option<&'c str>>>(&self, separator: bool, left: P, center: Q, right: R) {
-        let left = left.into();
-        let center = center.into();
-        let right = right.into();
+    fn set_footer_format(&self, separator: bool, left: Option<&str>, center: Option<&str>, right: Option<&str>) {
         unsafe {
             ffi::gtk_source_print_compositor_set_footer_format(self.as_ref().to_glib_none().0, separator.to_glib(), left.to_glib_none().0, center.to_glib_none().0, right.to_glib_none().0);
         }
     }
 
-    fn set_header_font_name<'a, P: Into<Option<&'a str>>>(&self, font_name: P) {
-        let font_name = font_name.into();
+    fn set_header_font_name(&self, font_name: Option<&str>) {
         unsafe {
             ffi::gtk_source_print_compositor_set_header_font_name(self.as_ref().to_glib_none().0, font_name.to_glib_none().0);
         }
     }
 
-    fn set_header_format<'a, 'b, 'c, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>, R: Into<Option<&'c str>>>(&self, separator: bool, left: P, center: Q, right: R) {
-        let left = left.into();
-        let center = center.into();
-        let right = right.into();
+    fn set_header_format(&self, separator: bool, left: Option<&str>, center: Option<&str>, right: Option<&str>) {
         unsafe {
             ffi::gtk_source_print_compositor_set_header_format(self.as_ref().to_glib_none().0, separator.to_glib(), left.to_glib_none().0, center.to_glib_none().0, right.to_glib_none().0);
         }
@@ -308,8 +300,7 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
         }
     }
 
-    fn set_line_numbers_font_name<'a, P: Into<Option<&'a str>>>(&self, font_name: P) {
-        let font_name = font_name.into();
+    fn set_line_numbers_font_name(&self, font_name: Option<&str>) {
         unsafe {
             ffi::gtk_source_print_compositor_set_line_numbers_font_name(self.as_ref().to_glib_none().0, font_name.to_glib_none().0);
         }
@@ -448,67 +439,67 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
 
 unsafe extern "C" fn notify_body_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_footer_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_header_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_highlight_syntax_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_line_numbers_font_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_n_pages_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_print_footer_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_print_header_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_print_line_numbers_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_tab_width_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 
 unsafe extern "C" fn notify_wrap_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourcePrintCompositor, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<PrintCompositor> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
 }
 

@@ -35,9 +35,8 @@ glib_wrapper! {
 
 impl Tag {
     #[cfg(any(feature = "v3_20", feature = "dox"))]
-    pub fn new<'a, P: Into<Option<&'a str>>>(name: P) -> Tag {
+    pub fn new(name: Option<&str>) -> Tag {
         assert_initialized_main_thread!();
-        let name = name.into();
         unsafe {
             gtk::TextTag::from_glib_full(ffi::gtk_source_tag_new(name.to_glib_none().0)).unsafe_cast()
         }
@@ -121,14 +120,14 @@ impl<O: IsA<Tag>> TagExt for O {
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 unsafe extern "C" fn notify_draw_spaces_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceTag, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Tag> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Tag::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 unsafe extern "C" fn notify_draw_spaces_set_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceTag, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Tag> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&Tag::from_glib_borrow(this).unsafe_cast())
 }
 

@@ -52,9 +52,8 @@ glib_wrapper! {
 
 impl SearchContext {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn new<'a, P: IsA<Buffer>, Q: IsA<SearchSettings> + 'a, R: Into<Option<&'a Q>>>(buffer: &P, settings: R) -> SearchContext {
+    pub fn new<P: IsA<Buffer>, Q: IsA<SearchSettings>>(buffer: &P, settings: Option<&Q>) -> SearchContext {
         skip_assert_initialized!();
-        let settings = settings.into();
         unsafe {
             from_glib_full(ffi::gtk_source_search_context_new(buffer.as_ref().to_glib_none().0, settings.map(|p| p.as_ref()).to_glib_none().0))
         }
@@ -72,7 +71,7 @@ pub trait SearchContextExt: 'static {
     fn backward2(&self, iter: &gtk::TextIter) -> Option<(gtk::TextIter, gtk::TextIter, bool)>;
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Q, callback: R);
+    fn backward_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Option<&P>, callback: Q);
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -89,7 +88,7 @@ pub trait SearchContextExt: 'static {
     fn forward2(&self, iter: &gtk::TextIter) -> Option<(gtk::TextIter, gtk::TextIter, bool)>;
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Q, callback: R);
+    fn forward_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Option<&P>, callback: Q);
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -133,11 +132,11 @@ pub trait SearchContextExt: 'static {
     fn set_highlight(&self, highlight: bool);
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_match_style<'a, P: IsA<Style> + 'a, Q: Into<Option<&'a P>>>(&self, match_style: Q);
+    fn set_match_style<P: IsA<Style>>(&self, match_style: Option<&P>);
 
     #[cfg_attr(feature = "v3_24", deprecated)]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_settings<'a, P: IsA<SearchSettings> + 'a, Q: Into<Option<&'a P>>>(&self, settings: Q);
+    fn set_settings<P: IsA<SearchSettings>>(&self, settings: Option<&P>);
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_highlight_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -178,19 +177,18 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Q, callback: R) {
-        let cancellable = cancellable.into();
-        let user_data: Box<R> = Box::new(callback);
-        unsafe extern "C" fn backward_async_trampoline<R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
+    fn backward_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Option<&P>, callback: Q) {
+        let user_data: Box<Q> = Box::new(callback);
+        unsafe extern "C" fn backward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
             let _ = ffi::gtk_source_search_context_backward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
             let result = if error.is_null() { Ok((match_start, match_end)) } else { Err(from_glib_full(error)) };
-            let callback: Box<R> = Box::from_raw(user_data as *mut _);
+            let callback: Box<Q> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = backward_async_trampoline::<R>;
+        let callback = backward_async_trampoline::<Q>;
         unsafe {
             ffi::gtk_source_search_context_backward_async(self.as_ref().to_glib_none().0, iter.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, Some(callback), Box::into_raw(user_data) as *mut _);
         }
@@ -208,13 +206,13 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             let send = Fragile::new(send);
             let obj_clone = Fragile::new(obj.clone());
             obj.backward_async(
-                 &iter,
-                 Some(&cancellable),
-                 move |res| {
-                     let obj = obj_clone.into_inner();
-                     let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
-                     let _ = send.into_inner().send(res);
-                 },
+                &iter,
+                Some(&cancellable),
+                move |res| {
+                    let obj = obj_clone.into_inner();
+                    let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+                    let _ = send.into_inner().send(res);
+                },
             );
 
             cancellable
@@ -248,19 +246,18 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async<'a, P: IsA<gio::Cancellable> + 'a, Q: Into<Option<&'a P>>, R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Q, callback: R) {
-        let cancellable = cancellable.into();
-        let user_data: Box<R> = Box::new(callback);
-        unsafe extern "C" fn forward_async_trampoline<R: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
+    fn forward_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Option<&P>, callback: Q) {
+        let user_data: Box<Q> = Box::new(callback);
+        unsafe extern "C" fn forward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
             let _ = ffi::gtk_source_search_context_forward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
             let result = if error.is_null() { Ok((match_start, match_end)) } else { Err(from_glib_full(error)) };
-            let callback: Box<R> = Box::from_raw(user_data as *mut _);
+            let callback: Box<Q> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = forward_async_trampoline::<R>;
+        let callback = forward_async_trampoline::<Q>;
         unsafe {
             ffi::gtk_source_search_context_forward_async(self.as_ref().to_glib_none().0, iter.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, Some(callback), Box::into_raw(user_data) as *mut _);
         }
@@ -278,13 +275,13 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             let send = Fragile::new(send);
             let obj_clone = Fragile::new(obj.clone());
             obj.forward_async(
-                 &iter,
-                 Some(&cancellable),
-                 move |res| {
-                     let obj = obj_clone.into_inner();
-                     let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
-                     let _ = send.into_inner().send(res);
-                 },
+                &iter,
+                Some(&cancellable),
+                move |res| {
+                    let obj = obj_clone.into_inner();
+                    let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+                    let _ = send.into_inner().send(res);
+                },
             );
 
             cancellable
@@ -383,16 +380,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_match_style<'a, P: IsA<Style> + 'a, Q: Into<Option<&'a P>>>(&self, match_style: Q) {
-        let match_style = match_style.into();
+    fn set_match_style<P: IsA<Style>>(&self, match_style: Option<&P>) {
         unsafe {
             ffi::gtk_source_search_context_set_match_style(self.as_ref().to_glib_none().0, match_style.map(|p| p.as_ref()).to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_settings<'a, P: IsA<SearchSettings> + 'a, Q: Into<Option<&'a P>>>(&self, settings: Q) {
-        let settings = settings.into();
+    fn set_settings<P: IsA<SearchSettings>>(&self, settings: Option<&P>) {
         unsafe {
             ffi::gtk_source_search_context_set_settings(self.as_ref().to_glib_none().0, settings.map(|p| p.as_ref()).to_glib_none().0);
         }
@@ -447,35 +442,35 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_highlight_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 unsafe extern "C" fn notify_match_style_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_occurrences_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_regex_error_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 unsafe extern "C" fn notify_settings_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<SearchContext> {
-    let f: &F = transmute(f);
+    let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
