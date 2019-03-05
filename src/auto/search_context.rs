@@ -10,14 +10,13 @@ use Error;
 use SearchSettings;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use Style;
-use ffi;
 #[cfg(feature = "futures")]
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use futures_core;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use gio;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-use gio_ffi;
+use gio_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
@@ -27,11 +26,12 @@ use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
 use glib::translate::*;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-use glib_ffi;
+use glib_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-use gobject_ffi;
+use gobject_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use gtk;
+use gtk_source_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use std::boxed::Box as Box_;
 use std::fmt;
@@ -43,10 +43,10 @@ use std::mem::transmute;
 use std::ptr;
 
 glib_wrapper! {
-    pub struct SearchContext(Object<ffi::GtkSourceSearchContext, ffi::GtkSourceSearchContextClass, SearchContextClass>);
+    pub struct SearchContext(Object<gtk_source_sys::GtkSourceSearchContext, gtk_source_sys::GtkSourceSearchContextClass, SearchContextClass>);
 
     match fn {
-        get_type => || ffi::gtk_source_search_context_get_type(),
+        get_type => || gtk_source_sys::gtk_source_search_context_get_type(),
     }
 }
 
@@ -55,7 +55,7 @@ impl SearchContext {
     pub fn new<P: IsA<Buffer>, Q: IsA<SearchSettings>>(buffer: &P, settings: Option<&Q>) -> SearchContext {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_search_context_new(buffer.as_ref().to_glib_none().0, settings.map(|p| p.as_ref()).to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_search_context_new(buffer.as_ref().to_glib_none().0, settings.map(|p| p.as_ref()).to_glib_none().0))
         }
     }
 }
@@ -160,7 +160,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         unsafe {
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
-            let ret = from_glib(ffi::gtk_source_search_context_backward(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0));
+            let ret = from_glib(gtk_source_sys::gtk_source_search_context_backward(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0));
             if ret { Some((match_start, match_end)) } else { None }
         }
     }
@@ -171,7 +171,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
             let mut has_wrapped_around = mem::uninitialized();
-            let ret = from_glib(ffi::gtk_source_search_context_backward2(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut has_wrapped_around));
+            let ret = from_glib(gtk_source_sys::gtk_source_search_context_backward2(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut has_wrapped_around));
             if ret { Some((match_start, match_end, from_glib(has_wrapped_around))) } else { None }
         }
     }
@@ -179,18 +179,18 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn backward_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Option<&P>, callback: Q) {
         let user_data: Box<Q> = Box::new(callback);
-        unsafe extern "C" fn backward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
+        unsafe extern "C" fn backward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_sys::GObject, res: *mut gio_sys::GAsyncResult, user_data: glib_sys::gpointer) {
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
-            let _ = ffi::gtk_source_search_context_backward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
+            let _ = gtk_source_sys::gtk_source_search_context_backward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
             let result = if error.is_null() { Ok((match_start, match_end)) } else { Err(from_glib_full(error)) };
             let callback: Box<Q> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
         let callback = backward_async_trampoline::<Q>;
         unsafe {
-            ffi::gtk_source_search_context_backward_async(self.as_ref().to_glib_none().0, iter.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, Some(callback), Box::into_raw(user_data) as *mut _);
+            gtk_source_sys::gtk_source_search_context_backward_async(self.as_ref().to_glib_none().0, iter.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, Some(callback), Box::into_raw(user_data) as *mut _);
         }
     }
 
@@ -221,7 +221,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn backward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error> {
-    //    unsafe { TODO: call ffi::gtk_source_search_context_backward_finish2() }
+    //    unsafe { TODO: call gtk_source_sys:gtk_source_search_context_backward_finish2() }
     //}
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -229,7 +229,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         unsafe {
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
-            let ret = from_glib(ffi::gtk_source_search_context_forward(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0));
+            let ret = from_glib(gtk_source_sys::gtk_source_search_context_forward(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0));
             if ret { Some((match_start, match_end)) } else { None }
         }
     }
@@ -240,7 +240,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
             let mut has_wrapped_around = mem::uninitialized();
-            let ret = from_glib(ffi::gtk_source_search_context_forward2(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut has_wrapped_around));
+            let ret = from_glib(gtk_source_sys::gtk_source_search_context_forward2(self.as_ref().to_glib_none().0, iter.to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut has_wrapped_around));
             if ret { Some((match_start, match_end, from_glib(has_wrapped_around))) } else { None }
         }
     }
@@ -248,18 +248,18 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn forward_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(&self, iter: &gtk::TextIter, cancellable: Option<&P>, callback: Q) {
         let user_data: Box<Q> = Box::new(callback);
-        unsafe extern "C" fn forward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer) {
+        unsafe extern "C" fn forward_async_trampoline<Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static>(_source_object: *mut gobject_sys::GObject, res: *mut gio_sys::GAsyncResult, user_data: glib_sys::gpointer) {
             let mut error = ptr::null_mut();
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
-            let _ = ffi::gtk_source_search_context_forward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
+            let _ = gtk_source_sys::gtk_source_search_context_forward_finish(_source_object as *mut _, res, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, &mut error);
             let result = if error.is_null() { Ok((match_start, match_end)) } else { Err(from_glib_full(error)) };
             let callback: Box<Q> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
         let callback = forward_async_trampoline::<Q>;
         unsafe {
-            ffi::gtk_source_search_context_forward_async(self.as_ref().to_glib_none().0, iter.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, Some(callback), Box::into_raw(user_data) as *mut _);
+            gtk_source_sys::gtk_source_search_context_forward_async(self.as_ref().to_glib_none().0, iter.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, Some(callback), Box::into_raw(user_data) as *mut _);
         }
     }
 
@@ -290,55 +290,55 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn forward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error> {
-    //    unsafe { TODO: call ffi::gtk_source_search_context_forward_finish2() }
+    //    unsafe { TODO: call gtk_source_sys:gtk_source_search_context_forward_finish2() }
     //}
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_buffer(&self) -> Option<Buffer> {
         unsafe {
-            from_glib_none(ffi::gtk_source_search_context_get_buffer(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_search_context_get_buffer(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_highlight(&self) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_search_context_get_highlight(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_search_context_get_highlight(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn get_match_style(&self) -> Option<Style> {
         unsafe {
-            from_glib_none(ffi::gtk_source_search_context_get_match_style(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_search_context_get_match_style(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_occurrence_position(&self, match_start: &gtk::TextIter, match_end: &gtk::TextIter) -> i32 {
         unsafe {
-            ffi::gtk_source_search_context_get_occurrence_position(self.as_ref().to_glib_none().0, match_start.to_glib_none().0, match_end.to_glib_none().0)
+            gtk_source_sys::gtk_source_search_context_get_occurrence_position(self.as_ref().to_glib_none().0, match_start.to_glib_none().0, match_end.to_glib_none().0)
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_occurrences_count(&self) -> i32 {
         unsafe {
-            ffi::gtk_source_search_context_get_occurrences_count(self.as_ref().to_glib_none().0)
+            gtk_source_sys::gtk_source_search_context_get_occurrences_count(self.as_ref().to_glib_none().0)
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_regex_error(&self) -> Option<Error> {
         unsafe {
-            from_glib_full(ffi::gtk_source_search_context_get_regex_error(self.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_search_context_get_regex_error(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn get_settings(&self) -> Option<SearchSettings> {
         unsafe {
-            from_glib_none(ffi::gtk_source_search_context_get_settings(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_search_context_get_settings(self.as_ref().to_glib_none().0))
         }
     }
 
@@ -347,7 +347,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         let replace_length = replace.len() as i32;
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::gtk_source_search_context_replace(self.as_ref().to_glib_none().0, match_start.to_glib_none().0, match_end.to_glib_none().0, replace.to_glib_none().0, replace_length, &mut error);
+            let _ = gtk_source_sys::gtk_source_search_context_replace(self.as_ref().to_glib_none().0, match_start.to_glib_none().0, match_end.to_glib_none().0, replace.to_glib_none().0, replace_length, &mut error);
             if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
@@ -357,7 +357,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         let replace_length = replace.len() as i32;
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::gtk_source_search_context_replace2(self.as_ref().to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, replace.to_glib_none().0, replace_length, &mut error);
+            let _ = gtk_source_sys::gtk_source_search_context_replace2(self.as_ref().to_glib_none().0, match_start.to_glib_none_mut().0, match_end.to_glib_none_mut().0, replace.to_glib_none().0, replace_length, &mut error);
             if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
@@ -367,7 +367,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         let replace_length = replace.len() as i32;
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::gtk_source_search_context_replace_all(self.as_ref().to_glib_none().0, replace.to_glib_none().0, replace_length, &mut error);
+            let _ = gtk_source_sys::gtk_source_search_context_replace_all(self.as_ref().to_glib_none().0, replace.to_glib_none().0, replace_length, &mut error);
             if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
@@ -375,21 +375,21 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn set_highlight(&self, highlight: bool) {
         unsafe {
-            ffi::gtk_source_search_context_set_highlight(self.as_ref().to_glib_none().0, highlight.to_glib());
+            gtk_source_sys::gtk_source_search_context_set_highlight(self.as_ref().to_glib_none().0, highlight.to_glib());
         }
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn set_match_style<P: IsA<Style>>(&self, match_style: Option<&P>) {
         unsafe {
-            ffi::gtk_source_search_context_set_match_style(self.as_ref().to_glib_none().0, match_style.map(|p| p.as_ref()).to_glib_none().0);
+            gtk_source_sys::gtk_source_search_context_set_match_style(self.as_ref().to_glib_none().0, match_style.map(|p| p.as_ref()).to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn set_settings<P: IsA<SearchSettings>>(&self, settings: Option<&P>) {
         unsafe {
-            ffi::gtk_source_search_context_set_settings(self.as_ref().to_glib_none().0, settings.map(|p| p.as_ref()).to_glib_none().0);
+            gtk_source_sys::gtk_source_search_context_set_settings(self.as_ref().to_glib_none().0, settings.map(|p| p.as_ref()).to_glib_none().0);
         }
     }
 
@@ -440,35 +440,35 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_highlight_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_highlight_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<SearchContext> {
     let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn notify_match_style_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_match_style_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<SearchContext> {
     let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_occurrences_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_occurrences_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<SearchContext> {
     let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_regex_error_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_regex_error_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<SearchContext> {
     let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_settings_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceSearchContext, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_settings_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<SearchContext> {
     let f: &F = &*(f as *const F);
     f(&SearchContext::from_glib_borrow(this).unsafe_cast())

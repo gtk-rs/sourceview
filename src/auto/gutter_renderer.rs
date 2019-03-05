@@ -5,9 +5,8 @@
 use GutterRendererAlignmentMode;
 use GutterRendererState;
 use cairo;
-use ffi;
 use gdk;
-use gdk_ffi;
+use gdk_sys;
 use glib::StaticType;
 use glib::Value;
 use glib::object::Cast;
@@ -15,10 +14,11 @@ use glib::object::IsA;
 use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
+use glib_sys;
+use gobject_sys;
 use gtk;
-use gtk_ffi;
+use gtk_source_sys;
+use gtk_sys;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
@@ -26,10 +26,10 @@ use std::mem;
 use std::mem::transmute;
 
 glib_wrapper! {
-    pub struct GutterRenderer(Object<ffi::GtkSourceGutterRenderer, ffi::GtkSourceGutterRendererClass, GutterRendererClass>);
+    pub struct GutterRenderer(Object<gtk_source_sys::GtkSourceGutterRenderer, gtk_source_sys::GtkSourceGutterRendererClass, GutterRendererClass>);
 
     match fn {
-        get_type => || ffi::gtk_source_gutter_renderer_get_type(),
+        get_type => || gtk_source_sys::gtk_source_gutter_renderer_get_type(),
     }
 }
 
@@ -140,25 +140,25 @@ pub trait GutterRendererExt: 'static {
 impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     fn activate(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, event: &mut gdk::Event) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_activate(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, event.to_glib_none_mut().0);
+            gtk_source_sys::gtk_source_gutter_renderer_activate(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, event.to_glib_none_mut().0);
         }
     }
 
     fn begin(&self, cr: &cairo::Context, background_area: &mut gdk::Rectangle, cell_area: &mut gdk::Rectangle, start: &mut gtk::TextIter, end: &mut gtk::TextIter) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_begin(self.as_ref().to_glib_none().0, mut_override(cr.to_glib_none().0), background_area.to_glib_none_mut().0, cell_area.to_glib_none_mut().0, start.to_glib_none_mut().0, end.to_glib_none_mut().0);
+            gtk_source_sys::gtk_source_gutter_renderer_begin(self.as_ref().to_glib_none().0, mut_override(cr.to_glib_none().0), background_area.to_glib_none_mut().0, cell_area.to_glib_none_mut().0, start.to_glib_none_mut().0, end.to_glib_none_mut().0);
         }
     }
 
     fn draw(&self, cr: &cairo::Context, background_area: &mut gdk::Rectangle, cell_area: &mut gdk::Rectangle, start: &mut gtk::TextIter, end: &mut gtk::TextIter, state: GutterRendererState) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_draw(self.as_ref().to_glib_none().0, mut_override(cr.to_glib_none().0), background_area.to_glib_none_mut().0, cell_area.to_glib_none_mut().0, start.to_glib_none_mut().0, end.to_glib_none_mut().0, state.to_glib());
+            gtk_source_sys::gtk_source_gutter_renderer_draw(self.as_ref().to_glib_none().0, mut_override(cr.to_glib_none().0), background_area.to_glib_none_mut().0, cell_area.to_glib_none_mut().0, start.to_glib_none_mut().0, end.to_glib_none_mut().0, state.to_glib());
         }
     }
 
     fn end(&self) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_end(self.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_gutter_renderer_end(self.as_ref().to_glib_none().0);
         }
     }
 
@@ -166,21 +166,21 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
         unsafe {
             let mut xalign = mem::uninitialized();
             let mut yalign = mem::uninitialized();
-            ffi::gtk_source_gutter_renderer_get_alignment(self.as_ref().to_glib_none().0, &mut xalign, &mut yalign);
+            gtk_source_sys::gtk_source_gutter_renderer_get_alignment(self.as_ref().to_glib_none().0, &mut xalign, &mut yalign);
             (xalign, yalign)
         }
     }
 
     fn get_alignment_mode(&self) -> GutterRendererAlignmentMode {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_renderer_get_alignment_mode(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_gutter_renderer_get_alignment_mode(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_background(&self) -> Option<gdk::RGBA> {
         unsafe {
             let mut color = gdk::RGBA::uninitialized();
-            let ret = from_glib(ffi::gtk_source_gutter_renderer_get_background(self.as_ref().to_glib_none().0, color.to_glib_none_mut().0));
+            let ret = from_glib(gtk_source_sys::gtk_source_gutter_renderer_get_background(self.as_ref().to_glib_none().0, color.to_glib_none_mut().0));
             if ret { Some(color) } else { None }
         }
     }
@@ -189,176 +189,176 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
         unsafe {
             let mut xpad = mem::uninitialized();
             let mut ypad = mem::uninitialized();
-            ffi::gtk_source_gutter_renderer_get_padding(self.as_ref().to_glib_none().0, &mut xpad, &mut ypad);
+            gtk_source_sys::gtk_source_gutter_renderer_get_padding(self.as_ref().to_glib_none().0, &mut xpad, &mut ypad);
             (xpad, ypad)
         }
     }
 
     fn get_size(&self) -> i32 {
         unsafe {
-            ffi::gtk_source_gutter_renderer_get_size(self.as_ref().to_glib_none().0)
+            gtk_source_sys::gtk_source_gutter_renderer_get_size(self.as_ref().to_glib_none().0)
         }
     }
 
     fn get_view(&self) -> Option<gtk::TextView> {
         unsafe {
-            from_glib_none(ffi::gtk_source_gutter_renderer_get_view(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_gutter_renderer_get_view(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_visible(&self) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_renderer_get_visible(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_gutter_renderer_get_visible(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_window_type(&self) -> gtk::TextWindowType {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_renderer_get_window_type(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_gutter_renderer_get_window_type(self.as_ref().to_glib_none().0))
         }
     }
 
     fn query_activatable(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, event: &mut gdk::Event) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_renderer_query_activatable(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, event.to_glib_none_mut().0))
+            from_glib(gtk_source_sys::gtk_source_gutter_renderer_query_activatable(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, event.to_glib_none_mut().0))
         }
     }
 
     fn query_data(&self, start: &mut gtk::TextIter, end: &mut gtk::TextIter, state: GutterRendererState) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_query_data(self.as_ref().to_glib_none().0, start.to_glib_none_mut().0, end.to_glib_none_mut().0, state.to_glib());
+            gtk_source_sys::gtk_source_gutter_renderer_query_data(self.as_ref().to_glib_none().0, start.to_glib_none_mut().0, end.to_glib_none_mut().0, state.to_glib());
         }
     }
 
     fn query_tooltip(&self, iter: &mut gtk::TextIter, area: &mut gdk::Rectangle, x: i32, y: i32, tooltip: &gtk::Tooltip) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_gutter_renderer_query_tooltip(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, x, y, tooltip.to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_gutter_renderer_query_tooltip(self.as_ref().to_glib_none().0, iter.to_glib_none_mut().0, area.to_glib_none_mut().0, x, y, tooltip.to_glib_none().0))
         }
     }
 
     fn queue_draw(&self) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_queue_draw(self.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_gutter_renderer_queue_draw(self.as_ref().to_glib_none().0);
         }
     }
 
     fn set_alignment(&self, xalign: f32, yalign: f32) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_set_alignment(self.as_ref().to_glib_none().0, xalign, yalign);
+            gtk_source_sys::gtk_source_gutter_renderer_set_alignment(self.as_ref().to_glib_none().0, xalign, yalign);
         }
     }
 
     fn set_alignment_mode(&self, mode: GutterRendererAlignmentMode) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_set_alignment_mode(self.as_ref().to_glib_none().0, mode.to_glib());
+            gtk_source_sys::gtk_source_gutter_renderer_set_alignment_mode(self.as_ref().to_glib_none().0, mode.to_glib());
         }
     }
 
     fn set_background(&self, color: Option<&gdk::RGBA>) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_set_background(self.as_ref().to_glib_none().0, color.to_glib_none().0);
+            gtk_source_sys::gtk_source_gutter_renderer_set_background(self.as_ref().to_glib_none().0, color.to_glib_none().0);
         }
     }
 
     fn set_padding(&self, xpad: i32, ypad: i32) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_set_padding(self.as_ref().to_glib_none().0, xpad, ypad);
+            gtk_source_sys::gtk_source_gutter_renderer_set_padding(self.as_ref().to_glib_none().0, xpad, ypad);
         }
     }
 
     fn set_size(&self, size: i32) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_set_size(self.as_ref().to_glib_none().0, size);
+            gtk_source_sys::gtk_source_gutter_renderer_set_size(self.as_ref().to_glib_none().0, size);
         }
     }
 
     fn set_visible(&self, visible: bool) {
         unsafe {
-            ffi::gtk_source_gutter_renderer_set_visible(self.as_ref().to_glib_none().0, visible.to_glib());
+            gtk_source_sys::gtk_source_gutter_renderer_set_visible(self.as_ref().to_glib_none().0, visible.to_glib());
         }
     }
 
     fn get_property_background_rgba(&self) -> Option<gdk::RGBA> {
         unsafe {
             let mut value = Value::from_type(<gdk::RGBA as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"background-rgba\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"background-rgba\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
 
     fn set_property_background_rgba(&self, background_rgba: Option<&gdk::RGBA>) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"background-rgba\0".as_ptr() as *const _, Value::from(background_rgba).to_glib_none().0);
+            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"background-rgba\0".as_ptr() as *const _, Value::from(background_rgba).to_glib_none().0);
         }
     }
 
     fn get_property_background_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"background-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"background-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_background_set(&self, background_set: bool) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"background-set\0".as_ptr() as *const _, Value::from(&background_set).to_glib_none().0);
+            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"background-set\0".as_ptr() as *const _, Value::from(&background_set).to_glib_none().0);
         }
     }
 
     fn get_property_xalign(&self) -> f32 {
         unsafe {
             let mut value = Value::from_type(<f32 as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"xalign\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"xalign\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_xalign(&self, xalign: f32) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"xalign\0".as_ptr() as *const _, Value::from(&xalign).to_glib_none().0);
+            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"xalign\0".as_ptr() as *const _, Value::from(&xalign).to_glib_none().0);
         }
     }
 
     fn get_property_xpad(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"xpad\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"xpad\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_xpad(&self, xpad: i32) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"xpad\0".as_ptr() as *const _, Value::from(&xpad).to_glib_none().0);
+            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"xpad\0".as_ptr() as *const _, Value::from(&xpad).to_glib_none().0);
         }
     }
 
     fn get_property_yalign(&self) -> f32 {
         unsafe {
             let mut value = Value::from_type(<f32 as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"yalign\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"yalign\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_yalign(&self, yalign: f32) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"yalign\0".as_ptr() as *const _, Value::from(&yalign).to_glib_none().0);
+            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"yalign\0".as_ptr() as *const _, Value::from(&yalign).to_glib_none().0);
         }
     }
 
     fn get_property_ypad(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"ypad\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"ypad\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
     fn set_property_ypad(&self, ypad: i32) {
         unsafe {
-            gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"ypad\0".as_ptr() as *const _, Value::from(&ypad).to_glib_none().0);
+            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"ypad\0".as_ptr() as *const _, Value::from(&ypad).to_glib_none().0);
         }
     }
 
@@ -491,97 +491,97 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 }
 
-unsafe extern "C" fn activate_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer)
+unsafe extern "C" fn activate_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, event: *mut gdk_sys::GdkEvent, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event))
 }
 
-unsafe extern "C" fn query_activatable_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, event: *mut gdk_ffi::GdkEvent, f: glib_ffi::gpointer) -> glib_ffi::gboolean
+unsafe extern "C" fn query_activatable_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, event: *mut gdk_sys::GdkEvent, f: glib_sys::gpointer) -> glib_sys::gboolean
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event)).to_glib()
 }
 
-unsafe extern "C" fn query_data_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, start: *mut gtk_ffi::GtkTextIter, end: *mut gtk_ffi::GtkTextIter, state: ffi::GtkSourceGutterRendererState, f: glib_ffi::gpointer)
+unsafe extern "C" fn query_data_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, start: *mut gtk_sys::GtkTextIter, end: *mut gtk_sys::GtkTextIter, state: gtk_source_sys::GtkSourceGutterRendererState, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(start), &from_glib_borrow(end), from_glib(state))
 }
 
-unsafe extern "C" fn query_tooltip_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(this: *mut ffi::GtkSourceGutterRenderer, iter: *mut gtk_ffi::GtkTextIter, area: *mut gdk_ffi::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_ffi::GtkTooltip, f: glib_ffi::gpointer) -> glib_ffi::gboolean
+unsafe extern "C" fn query_tooltip_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_sys::GtkTooltip, f: glib_sys::gpointer) -> glib_sys::gboolean
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), x, y, &from_glib_borrow(tooltip)).to_glib()
 }
 
-unsafe extern "C" fn queue_draw_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, f: glib_ffi::gpointer)
+unsafe extern "C" fn queue_draw_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_alignment_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_alignment_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_background_rgba_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_background_rgba_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_background_set_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_background_set_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_view_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_view_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_visible_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_visible_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_window_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_window_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_xalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_xalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_yalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_yalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRenderer, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRenderer> {
     let f: &F = &*(f as *const F);
     f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())

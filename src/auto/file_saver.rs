@@ -14,7 +14,6 @@ use File;
 use FileSaverFlags;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use NewlineType;
-use ffi;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -26,7 +25,8 @@ use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
 use glib::translate::*;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-use glib_ffi;
+use glib_sys;
+use gtk_source_sys;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use std::boxed::Box as Box_;
 use std::fmt;
@@ -34,10 +34,10 @@ use std::fmt;
 use std::mem::transmute;
 
 glib_wrapper! {
-    pub struct FileSaver(Object<ffi::GtkSourceFileSaver, ffi::GtkSourceFileSaverClass, FileSaverClass>);
+    pub struct FileSaver(Object<gtk_source_sys::GtkSourceFileSaver, gtk_source_sys::GtkSourceFileSaverClass, FileSaverClass>);
 
     match fn {
-        get_type => || ffi::gtk_source_file_saver_get_type(),
+        get_type => || gtk_source_sys::gtk_source_file_saver_get_type(),
     }
 }
 
@@ -46,7 +46,7 @@ impl FileSaver {
     pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileSaver {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_file_saver_new(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_file_saver_new(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0))
         }
     }
 
@@ -54,7 +54,7 @@ impl FileSaver {
     pub fn new_with_target<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::File>>(buffer: &P, file: &Q, target_location: &R) -> FileSaver {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_file_saver_new_with_target(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0, target_location.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_file_saver_new_with_target(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0, target_location.as_ref().to_glib_none().0))
         }
     }
 }
@@ -119,55 +119,55 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_buffer(&self) -> Option<Buffer> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_saver_get_buffer(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_buffer(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_compression_type(&self) -> CompressionType {
         unsafe {
-            from_glib(ffi::gtk_source_file_saver_get_compression_type(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_file_saver_get_compression_type(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_encoding(&self) -> Option<Encoding> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_saver_get_encoding(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_encoding(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_file(&self) -> Option<File> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_saver_get_file(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_file(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_flags(&self) -> FileSaverFlags {
         unsafe {
-            from_glib(ffi::gtk_source_file_saver_get_flags(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_file_saver_get_flags(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_location(&self) -> Option<gio::File> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_saver_get_location(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_location(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_newline_type(&self) -> NewlineType {
         unsafe {
-            from_glib(ffi::gtk_source_file_saver_get_newline_type(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_file_saver_get_newline_type(self.as_ref().to_glib_none().0))
         }
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static, callback: Q) {
-    //    unsafe { TODO: call ffi::gtk_source_file_saver_save_async() }
+    //    unsafe { TODO: call gtk_source_sys:gtk_source_file_saver_save_async() }
     //}
 
     //#[cfg(feature = "futures")]
@@ -201,28 +201,28 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType) {
         unsafe {
-            ffi::gtk_source_file_saver_set_compression_type(self.as_ref().to_glib_none().0, compression_type.to_glib());
+            gtk_source_sys::gtk_source_file_saver_set_compression_type(self.as_ref().to_glib_none().0, compression_type.to_glib());
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_encoding(&self, encoding: Option<&Encoding>) {
         unsafe {
-            ffi::gtk_source_file_saver_set_encoding(self.as_ref().to_glib_none().0, encoding.to_glib_none().0);
+            gtk_source_sys::gtk_source_file_saver_set_encoding(self.as_ref().to_glib_none().0, encoding.to_glib_none().0);
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_flags(&self, flags: FileSaverFlags) {
         unsafe {
-            ffi::gtk_source_file_saver_set_flags(self.as_ref().to_glib_none().0, flags.to_glib());
+            gtk_source_sys::gtk_source_file_saver_set_flags(self.as_ref().to_glib_none().0, flags.to_glib());
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_newline_type(&self, newline_type: NewlineType) {
         unsafe {
-            ffi::gtk_source_file_saver_set_newline_type(self.as_ref().to_glib_none().0, newline_type.to_glib());
+            gtk_source_sys::gtk_source_file_saver_set_newline_type(self.as_ref().to_glib_none().0, newline_type.to_glib());
         }
     }
 
@@ -264,28 +264,28 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<FileSaver> {
     let f: &F = &*(f as *const F);
     f(&FileSaver::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<FileSaver> {
     let f: &F = &*(f as *const F);
     f(&FileSaver::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<FileSaver> {
     let f: &F = &*(f as *const F);
     f(&FileSaver::from_glib_borrow(this).unsafe_cast())
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceFileSaver, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<FileSaver> {
     let f: &F = &*(f as *const F);
     f(&FileSaver::from_glib_borrow(this).unsafe_cast())

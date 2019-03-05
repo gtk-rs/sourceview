@@ -12,18 +12,18 @@ use Encoding;
 use File;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use NewlineType;
-use ffi;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
 use glib::object::IsA;
 use glib::translate::*;
+use gtk_source_sys;
 use std::fmt;
 
 glib_wrapper! {
-    pub struct FileLoader(Object<ffi::GtkSourceFileLoader, ffi::GtkSourceFileLoaderClass, FileLoaderClass>);
+    pub struct FileLoader(Object<gtk_source_sys::GtkSourceFileLoader, gtk_source_sys::GtkSourceFileLoaderClass, FileLoaderClass>);
 
     match fn {
-        get_type => || ffi::gtk_source_file_loader_get_type(),
+        get_type => || gtk_source_sys::gtk_source_file_loader_get_type(),
     }
 }
 
@@ -32,7 +32,7 @@ impl FileLoader {
     pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileLoader {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_file_loader_new(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_file_loader_new(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0))
         }
     }
 
@@ -40,7 +40,7 @@ impl FileLoader {
     pub fn new_from_stream<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::InputStream>>(buffer: &P, file: &Q, stream: &R) -> FileLoader {
         skip_assert_initialized!();
         unsafe {
-            from_glib_full(ffi::gtk_source_file_loader_new_from_stream(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0, stream.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_file_loader_new_from_stream(buffer.as_ref().to_glib_none().0, file.as_ref().to_glib_none().0, stream.as_ref().to_glib_none().0))
         }
     }
 }
@@ -84,55 +84,55 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_buffer(&self) -> Option<Buffer> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_buffer(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_buffer(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_compression_type(&self) -> CompressionType {
         unsafe {
-            from_glib(ffi::gtk_source_file_loader_get_compression_type(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_file_loader_get_compression_type(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_encoding(&self) -> Option<Encoding> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_encoding(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_encoding(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_file(&self) -> Option<File> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_file(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_file(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_input_stream(&self) -> Option<gio::InputStream> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_input_stream(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_input_stream(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_location(&self) -> Option<gio::File> {
         unsafe {
-            from_glib_none(ffi::gtk_source_file_loader_get_location(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_location(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_newline_type(&self) -> NewlineType {
         unsafe {
-            from_glib(ffi::gtk_source_file_loader_get_newline_type(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_file_loader_get_newline_type(self.as_ref().to_glib_none().0))
         }
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn load_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static, callback: Q) {
-    //    unsafe { TODO: call ffi::gtk_source_file_loader_load_async() }
+    //    unsafe { TODO: call gtk_source_sys:gtk_source_file_loader_load_async() }
     //}
 
     //#[cfg(feature = "futures")]
@@ -166,7 +166,7 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]) {
         unsafe {
-            ffi::gtk_source_file_loader_set_candidate_encodings(self.as_ref().to_glib_none().0, candidate_encodings.to_glib_none().0);
+            gtk_source_sys::gtk_source_file_loader_set_candidate_encodings(self.as_ref().to_glib_none().0, candidate_encodings.to_glib_none().0);
         }
     }
 }
