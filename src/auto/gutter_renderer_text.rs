@@ -3,7 +3,6 @@
 // DO NOT EDIT
 
 use GutterRenderer;
-use ffi;
 use glib::GString;
 use glib::StaticType;
 use glib::Value;
@@ -12,18 +11,19 @@ use glib::object::IsA;
 use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
+use glib_sys;
+use gobject_sys;
+use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
 use std::mem::transmute;
 
 glib_wrapper! {
-    pub struct GutterRendererText(Object<ffi::GtkSourceGutterRendererText, ffi::GtkSourceGutterRendererTextClass, GutterRendererTextClass>) @extends GutterRenderer;
+    pub struct GutterRendererText(Object<gtk_source_sys::GtkSourceGutterRendererText, gtk_source_sys::GtkSourceGutterRendererTextClass, GutterRendererTextClass>) @extends GutterRenderer;
 
     match fn {
-        get_type => || ffi::gtk_source_gutter_renderer_text_get_type(),
+        get_type => || gtk_source_sys::gtk_source_gutter_renderer_text_get_type(),
     }
 }
 
@@ -31,7 +31,7 @@ impl GutterRendererText {
     pub fn new() -> GutterRendererText {
         assert_initialized_main_thread!();
         unsafe {
-            GutterRenderer::from_glib_full(ffi::gtk_source_gutter_renderer_text_new()).unsafe_cast()
+            GutterRenderer::from_glib_full(gtk_source_sys::gtk_source_gutter_renderer_text_new()).unsafe_cast()
         }
     }
 }
@@ -67,7 +67,7 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
         unsafe {
             let mut width = mem::uninitialized();
             let mut height = mem::uninitialized();
-            ffi::gtk_source_gutter_renderer_text_measure(self.as_ref().to_glib_none().0, text.to_glib_none().0, &mut width, &mut height);
+            gtk_source_sys::gtk_source_gutter_renderer_text_measure(self.as_ref().to_glib_none().0, text.to_glib_none().0, &mut width, &mut height);
             (width, height)
         }
     }
@@ -76,7 +76,7 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
         unsafe {
             let mut width = mem::uninitialized();
             let mut height = mem::uninitialized();
-            ffi::gtk_source_gutter_renderer_text_measure_markup(self.as_ref().to_glib_none().0, markup.to_glib_none().0, &mut width, &mut height);
+            gtk_source_sys::gtk_source_gutter_renderer_text_measure_markup(self.as_ref().to_glib_none().0, markup.to_glib_none().0, &mut width, &mut height);
             (width, height)
         }
     }
@@ -84,21 +84,21 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
     fn set_markup(&self, markup: &str) {
         let length = markup.len() as i32;
         unsafe {
-            ffi::gtk_source_gutter_renderer_text_set_markup(self.as_ref().to_glib_none().0, markup.to_glib_none().0, length);
+            gtk_source_sys::gtk_source_gutter_renderer_text_set_markup(self.as_ref().to_glib_none().0, markup.to_glib_none().0, length);
         }
     }
 
     fn set_text(&self, text: &str) {
         let length = text.len() as i32;
         unsafe {
-            ffi::gtk_source_gutter_renderer_text_set_text(self.as_ref().to_glib_none().0, text.to_glib_none().0, length);
+            gtk_source_sys::gtk_source_gutter_renderer_text_set_text(self.as_ref().to_glib_none().0, text.to_glib_none().0, length);
         }
     }
 
     fn get_property_markup(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"markup\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"markup\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
@@ -106,7 +106,7 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
     fn get_property_text(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"text\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"text\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
@@ -128,13 +128,13 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
     }
 }
 
-unsafe extern "C" fn notify_markup_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRendererText, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_markup_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRendererText, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRendererText> {
     let f: &F = &*(f as *const F);
     f(&GutterRendererText::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_text_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceGutterRendererText, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_text_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRendererText, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<GutterRendererText> {
     let f: &F = &*(f as *const F);
     f(&GutterRendererText::from_glib_borrow(this).unsafe_cast())

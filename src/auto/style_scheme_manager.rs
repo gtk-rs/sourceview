@@ -3,23 +3,23 @@
 // DO NOT EDIT
 
 use StyleScheme;
-use ffi;
 use glib::GString;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
 use glib::translate::*;
-use glib_ffi;
+use glib_sys;
+use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 
 glib_wrapper! {
-    pub struct StyleSchemeManager(Object<ffi::GtkSourceStyleSchemeManager, ffi::GtkSourceStyleSchemeManagerClass, StyleSchemeManagerClass>);
+    pub struct StyleSchemeManager(Object<gtk_source_sys::GtkSourceStyleSchemeManager, gtk_source_sys::GtkSourceStyleSchemeManagerClass, StyleSchemeManagerClass>);
 
     match fn {
-        get_type => || ffi::gtk_source_style_scheme_manager_get_type(),
+        get_type => || gtk_source_sys::gtk_source_style_scheme_manager_get_type(),
     }
 }
 
@@ -27,14 +27,14 @@ impl StyleSchemeManager {
     pub fn new() -> StyleSchemeManager {
         assert_initialized_main_thread!();
         unsafe {
-            from_glib_full(ffi::gtk_source_style_scheme_manager_new())
+            from_glib_full(gtk_source_sys::gtk_source_style_scheme_manager_new())
         }
     }
 
     pub fn get_default() -> Option<StyleSchemeManager> {
         assert_initialized_main_thread!();
         unsafe {
-            from_glib_none(ffi::gtk_source_style_scheme_manager_get_default())
+            from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_default())
         }
     }
 }
@@ -70,43 +70,43 @@ pub trait StyleSchemeManagerExt: 'static {
 impl<O: IsA<StyleSchemeManager>> StyleSchemeManagerExt for O {
     fn append_search_path(&self, path: &str) {
         unsafe {
-            ffi::gtk_source_style_scheme_manager_append_search_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
+            gtk_source_sys::gtk_source_style_scheme_manager_append_search_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
         }
     }
 
     fn force_rescan(&self) {
         unsafe {
-            ffi::gtk_source_style_scheme_manager_force_rescan(self.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_style_scheme_manager_force_rescan(self.as_ref().to_glib_none().0);
         }
     }
 
     fn get_scheme(&self, scheme_id: &str) -> Option<StyleScheme> {
         unsafe {
-            from_glib_none(ffi::gtk_source_style_scheme_manager_get_scheme(self.as_ref().to_glib_none().0, scheme_id.to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_scheme(self.as_ref().to_glib_none().0, scheme_id.to_glib_none().0))
         }
     }
 
     fn get_scheme_ids(&self) -> Vec<GString> {
         unsafe {
-            FromGlibPtrContainer::from_glib_none(ffi::gtk_source_style_scheme_manager_get_scheme_ids(self.as_ref().to_glib_none().0))
+            FromGlibPtrContainer::from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_scheme_ids(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_search_path(&self) -> Vec<GString> {
         unsafe {
-            FromGlibPtrContainer::from_glib_none(ffi::gtk_source_style_scheme_manager_get_search_path(self.as_ref().to_glib_none().0))
+            FromGlibPtrContainer::from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_search_path(self.as_ref().to_glib_none().0))
         }
     }
 
     fn prepend_search_path(&self, path: &str) {
         unsafe {
-            ffi::gtk_source_style_scheme_manager_prepend_search_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
+            gtk_source_sys::gtk_source_style_scheme_manager_prepend_search_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
         }
     }
 
     fn set_search_path(&self, path: &[&str]) {
         unsafe {
-            ffi::gtk_source_style_scheme_manager_set_search_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
+            gtk_source_sys::gtk_source_style_scheme_manager_set_search_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
         }
     }
 
@@ -127,13 +127,13 @@ impl<O: IsA<StyleSchemeManager>> StyleSchemeManagerExt for O {
     }
 }
 
-unsafe extern "C" fn notify_scheme_ids_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceStyleSchemeManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_scheme_ids_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceStyleSchemeManager, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<StyleSchemeManager> {
     let f: &F = &*(f as *const F);
     f(&StyleSchemeManager::from_glib_borrow(this).unsafe_cast())
 }
 
-unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceStyleSchemeManager, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceStyleSchemeManager, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
 where P: IsA<StyleSchemeManager> {
     let f: &F = &*(f as *const F);
     f(&StyleSchemeManager::from_glib_borrow(this).unsafe_cast())

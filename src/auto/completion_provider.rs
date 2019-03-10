@@ -6,7 +6,6 @@ use CompletionActivation;
 use CompletionContext;
 use CompletionInfo;
 use CompletionProposal;
-use ffi;
 use gdk_pixbuf;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 use gio;
@@ -14,13 +13,14 @@ use glib::GString;
 use glib::object::IsA;
 use glib::translate::*;
 use gtk;
+use gtk_source_sys;
 use std::fmt;
 
 glib_wrapper! {
-    pub struct CompletionProvider(Interface<ffi::GtkSourceCompletionProvider>);
+    pub struct CompletionProvider(Interface<gtk_source_sys::GtkSourceCompletionProvider>);
 
     match fn {
-        get_type => || ffi::gtk_source_completion_provider_get_type(),
+        get_type => || gtk_source_sys::gtk_source_completion_provider_get_type(),
     }
 }
 
@@ -59,83 +59,83 @@ pub trait CompletionProviderExt: 'static {
 impl<O: IsA<CompletionProvider>> CompletionProviderExt for O {
     fn activate_proposal<P: IsA<CompletionProposal>>(&self, proposal: &P, iter: &mut gtk::TextIter) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_completion_provider_activate_proposal(self.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0, iter.to_glib_none_mut().0))
+            from_glib(gtk_source_sys::gtk_source_completion_provider_activate_proposal(self.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0, iter.to_glib_none_mut().0))
         }
     }
 
     fn get_activation(&self) -> CompletionActivation {
         unsafe {
-            from_glib(ffi::gtk_source_completion_provider_get_activation(self.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_completion_provider_get_activation(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn get_gicon(&self) -> Option<gio::Icon> {
         unsafe {
-            from_glib_none(ffi::gtk_source_completion_provider_get_gicon(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_completion_provider_get_gicon(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_icon(&self) -> Option<gdk_pixbuf::Pixbuf> {
         unsafe {
-            from_glib_none(ffi::gtk_source_completion_provider_get_icon(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_completion_provider_get_icon(self.as_ref().to_glib_none().0))
         }
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn get_icon_name(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(ffi::gtk_source_completion_provider_get_icon_name(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_completion_provider_get_icon_name(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_info_widget<P: IsA<CompletionProposal>>(&self, proposal: &P) -> Option<gtk::Widget> {
         unsafe {
-            from_glib_none(ffi::gtk_source_completion_provider_get_info_widget(self.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_completion_provider_get_info_widget(self.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0))
         }
     }
 
     fn get_interactive_delay(&self) -> i32 {
         unsafe {
-            ffi::gtk_source_completion_provider_get_interactive_delay(self.as_ref().to_glib_none().0)
+            gtk_source_sys::gtk_source_completion_provider_get_interactive_delay(self.as_ref().to_glib_none().0)
         }
     }
 
     fn get_name(&self) -> Option<GString> {
         unsafe {
-            from_glib_full(ffi::gtk_source_completion_provider_get_name(self.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_completion_provider_get_name(self.as_ref().to_glib_none().0))
         }
     }
 
     fn get_priority(&self) -> i32 {
         unsafe {
-            ffi::gtk_source_completion_provider_get_priority(self.as_ref().to_glib_none().0)
+            gtk_source_sys::gtk_source_completion_provider_get_priority(self.as_ref().to_glib_none().0)
         }
     }
 
     fn get_start_iter<P: IsA<CompletionContext>, Q: IsA<CompletionProposal>>(&self, context: &P, proposal: &Q) -> Option<gtk::TextIter> {
         unsafe {
             let mut iter = gtk::TextIter::uninitialized();
-            let ret = from_glib(ffi::gtk_source_completion_provider_get_start_iter(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0, iter.to_glib_none_mut().0));
+            let ret = from_glib(gtk_source_sys::gtk_source_completion_provider_get_start_iter(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0, iter.to_glib_none_mut().0));
             if ret { Some(iter) } else { None }
         }
     }
 
     fn match_<P: IsA<CompletionContext>>(&self, context: &P) -> bool {
         unsafe {
-            from_glib(ffi::gtk_source_completion_provider_match(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0))
+            from_glib(gtk_source_sys::gtk_source_completion_provider_match(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0))
         }
     }
 
     fn populate<P: IsA<CompletionContext>>(&self, context: &P) {
         unsafe {
-            ffi::gtk_source_completion_provider_populate(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_completion_provider_populate(self.as_ref().to_glib_none().0, context.as_ref().to_glib_none().0);
         }
     }
 
     fn update_info<P: IsA<CompletionProposal>, Q: IsA<CompletionInfo>>(&self, proposal: &P, info: &Q) {
         unsafe {
-            ffi::gtk_source_completion_provider_update_info(self.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0, info.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_completion_provider_update_info(self.as_ref().to_glib_none().0, proposal.as_ref().to_glib_none().0, info.as_ref().to_glib_none().0);
         }
     }
 }
