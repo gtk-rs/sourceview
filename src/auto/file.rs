@@ -92,7 +92,7 @@ pub trait FileExt: 'static {
     fn set_location<P: IsA<gio::File>>(&self, location: Option<&P>);
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn set_mount_operation_factory(&self, callback: /*Unimplemented*/Fn(&File, /*Unimplemented*/Fundamental: Pointer) -> /*Ignored*/gio::MountOperation, user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
+    //fn set_mount_operation_factory(&self, callback: /*Unimplemented*/Fn(&File, /*Unimplemented*/Option<Fundamental: Pointer>) -> /*Ignored*/gio::MountOperation, user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn get_property_read_only(&self) -> bool;
@@ -185,7 +185,7 @@ impl<O: IsA<File>> FileExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn set_mount_operation_factory(&self, callback: /*Unimplemented*/Fn(&File, /*Unimplemented*/Fundamental: Pointer) -> /*Ignored*/gio::MountOperation, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //fn set_mount_operation_factory(&self, callback: /*Unimplemented*/Fn(&File, /*Unimplemented*/Option<Fundamental: Pointer>) -> /*Ignored*/gio::MountOperation, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) {
     //    unsafe { TODO: call gtk_source_sys:gtk_source_file_set_mount_operation_factory() }
     //}
 
