@@ -12,7 +12,7 @@ use SearchSettings;
 use Style;
 #[cfg(feature = "futures")]
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-use futures_core;
+use futures::future;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use gio;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -75,7 +75,7 @@ pub trait SearchContextExt: 'static {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
+    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin>;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn backward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
@@ -92,7 +92,7 @@ pub trait SearchContextExt: 'static {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone;
+    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin>;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn forward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
@@ -196,7 +196,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone {
+    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin> {
         use gio::GioFuture;
         use fragile::Fragile;
 
@@ -204,13 +204,10 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
             let send = Fragile::new(send);
-            let obj_clone = Fragile::new(obj.clone());
             obj.backward_async(
                 &iter,
                 Some(&cancellable),
                 move |res| {
-                    let obj = obj_clone.into_inner();
-                    let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
                     let _ = send.into_inner().send(res);
                 },
             );
@@ -265,7 +262,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<futures_core::Future<Item = (Self, (gtk::TextIter, gtk::TextIter)), Error = (Self, Error)>> where Self: Sized + Clone {
+    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin> {
         use gio::GioFuture;
         use fragile::Fragile;
 
@@ -273,13 +270,10 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
             let send = Fragile::new(send);
-            let obj_clone = Fragile::new(obj.clone());
             obj.forward_async(
                 &iter,
                 Some(&cancellable),
                 move |res| {
-                    let obj = obj_clone.into_inner();
-                    let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
                     let _ = send.into_inner().send(res);
                 },
             );

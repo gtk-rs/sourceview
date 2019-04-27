@@ -74,7 +74,7 @@ pub trait FileLoaderExt: 'static {
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone;
+    //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<future::Future<Output = Result<, >> + std::marker::Unpin>;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]);
@@ -137,7 +137,7 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<futures_core::Future<Item = (Self, ), Error = (Self, )>> where Self: Sized + Clone {
+    //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<future::Future<Output = Result<, >> + std::marker::Unpin> {
         //use gio::GioFuture;
         //use fragile::Fragile;
 
@@ -146,15 +146,12 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
         //GioFuture::new(self, move |obj, send| {
         //    let cancellable = gio::Cancellable::new();
         //    let send = Fragile::new(send);
-        //    let obj_clone = Fragile::new(obj.clone());
         //    obj.load_async(
         //        io_priority,
         //        Some(&cancellable),
         //        progress_callback.as_ref().map(::std::borrow::Borrow::borrow),
         //        progress_callback_notify.as_ref().map(::std::borrow::Borrow::borrow),
         //        move |res| {
-        //            let obj = obj_clone.into_inner();
-        //            let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
         //            let _ = send.into_inner().send(res);
         //        },
         //    );

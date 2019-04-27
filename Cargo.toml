@@ -34,7 +34,7 @@ default = ["v3_0"]
 purge-lgpl-docs = ["gtk-rs-lgpl-docs", "gtk/purge-lgpl-docs"]
 embed-lgpl-docs = ["gtk-rs-lgpl-docs", "gtk/embed-lgpl-docs"]
 dox = ["gtk/dox", "gtk-source-sys/dox"]
-futures = ["futures-core-preview", "fragile", "gtk/futures"]
+futures = ["futures-preview", "fragile", "gio/futures"]
 
 [build-dependencies.gtk-rs-lgpl-docs]
 optional = true
@@ -48,8 +48,8 @@ bitflags = "1.0"
 version = "0.3"
 optional = true
 
-[dependencies.futures-core-preview]
-version = "0.2"
+[dependencies.futures-preview]
+version = "0.3.0-alpha"
 optional = true
 
 [dependencies.gtk-source-sys]
