@@ -2,7 +2,6 @@
 // See the COPYRIGHT file at the top-level directory of this distribution.
 // Licensed under the MIT license, see the LICENSE file or <http://opensource.org/licenses/MIT>
 
-/// Asserts that this is the main thread and `gtk::init` has been called.
 macro_rules! assert_initialized_main_thread {
     () => (
         if !::gtk::is_initialized_main_thread() {
@@ -16,7 +15,6 @@ macro_rules! assert_initialized_main_thread {
     )
 }
 
-/// No-op.
 macro_rules! skip_assert_initialized {
     () => ()
 }
