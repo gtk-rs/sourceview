@@ -21,7 +21,6 @@ generate = [
     "GtkSource.DrawSpacesFlags",
     "GtkSource.Encoding",
     "GtkSource.File",
-    "GtkSource.FileLoader",
     "GtkSource.FileSaver",
     "GtkSource.FileSaverFlags",
     "GtkSource.GutterRendererAlignmentMode",
@@ -123,6 +122,14 @@ name = "GtkSource.CompletionInfo"
 status = "generate"
     [[object.function]]
     name = "move_to_iter"
+    ignore = true
+
+[[object]]
+name = "GtkSource.FileLoader"
+status = "generate"
+    [[object.function]]
+    name = "set_candidate_encodings"
+    #array of boxed to GSList
     ignore = true
 
 [[object]]

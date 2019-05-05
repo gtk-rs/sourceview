@@ -7,19 +7,19 @@ matrix:
       env: GTK=3.14 FEATURES=futures
     - os: linux
       rust: nightly
-      env: GTK=3.24 FEATURES=v3_10,futures
+      env: GTK=3.24 FEATURES=v3_18,futures
     - os: linux
       rust: beta
       env: GTK=3.14 FEATURES=
     - os: linux
       rust: beta
-      env: GTK=3.24 FEATURES=v3_10
+      env: GTK=3.24 FEATURES=v3_18
     - os: linux
       rust: 1.31.0
       env: GTK=3.14 FEATURES=
     - os: linux
       rust: 1.31.0
-      env: GTK=3.24 FEATURES=v3_10
+      env: GTK=3.24 FEATURES=v3_18
 
 addons:
   apt:
