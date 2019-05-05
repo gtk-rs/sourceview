@@ -75,9 +75,6 @@ pub trait FileLoaderExt: 'static {
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn load_async_future(&self, io_priority: glib::Priority, progress_callback: /*Ignored*/gio::Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<future::Future<Output = Result<, >> + std::marker::Unpin>;
-
-    #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]);
 }
 
 impl<O: IsA<FileLoader>> FileLoaderExt for O {
@@ -159,13 +156,6 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
         //    cancellable
         //})
     //}
-
-    #[cfg(any(feature = "v3_14", feature = "dox"))]
-    fn set_candidate_encodings(&self, candidate_encodings: &[&Encoding]) {
-        unsafe {
-            gtk_source_sys::gtk_source_file_loader_set_candidate_encodings(self.as_ref().to_glib_none().0, candidate_encodings.to_glib_none().0);
-        }
-    }
 }
 
 impl fmt::Display for FileLoader {
