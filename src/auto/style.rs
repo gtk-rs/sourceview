@@ -5,7 +5,7 @@
 use glib::GString;
 use glib::StaticType;
 use glib::Value;
-use glib::object::IsA;
+use glib::object::ObjectType;
 use glib::translate::*;
 use gobject_sys;
 use gtk_source_sys;
@@ -20,198 +20,156 @@ glib_wrapper! {
     }
 }
 
-pub const NONE_STYLE: Option<&Style> = None;
-
-pub trait StyleExt: 'static {
-    fn get_property_background(&self) -> Option<GString>;
-
-    fn get_property_background_set(&self) -> bool;
-
-    fn get_property_bold(&self) -> bool;
-
-    fn get_property_bold_set(&self) -> bool;
-
-    fn get_property_foreground(&self) -> Option<GString>;
-
-    fn get_property_foreground_set(&self) -> bool;
-
-    fn get_property_italic(&self) -> bool;
-
-    fn get_property_italic_set(&self) -> bool;
-
-    fn get_property_line_background(&self) -> Option<GString>;
-
-    fn get_property_line_background_set(&self) -> bool;
-
-    fn get_property_pango_underline(&self) -> pango::Underline;
-
-    fn get_property_scale(&self) -> Option<GString>;
-
-    fn get_property_scale_set(&self) -> bool;
-
-    fn get_property_strikethrough(&self) -> bool;
-
-    fn get_property_strikethrough_set(&self) -> bool;
-
-    #[cfg_attr(feature = "v3_18", deprecated)]
-    fn get_property_underline(&self) -> bool;
-
-    fn get_property_underline_color(&self) -> Option<GString>;
-
-    fn get_property_underline_color_set(&self) -> bool;
-
-    fn get_property_underline_set(&self) -> bool;
-}
-
-impl<O: IsA<Style>> StyleExt for O {
-    fn get_property_background(&self) -> Option<GString> {
+impl Style {
+    pub fn get_property_background(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"background\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"background\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
 
-    fn get_property_background_set(&self) -> bool {
+    pub fn get_property_background_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"background-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"background-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_bold(&self) -> bool {
+    pub fn get_property_bold(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"bold\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"bold\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_bold_set(&self) -> bool {
+    pub fn get_property_bold_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"bold-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"bold-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_foreground(&self) -> Option<GString> {
+    pub fn get_property_foreground(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"foreground\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"foreground\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
 
-    fn get_property_foreground_set(&self) -> bool {
+    pub fn get_property_foreground_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"foreground-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"foreground-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_italic(&self) -> bool {
+    pub fn get_property_italic(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"italic\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"italic\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_italic_set(&self) -> bool {
+    pub fn get_property_italic_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"italic-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"italic-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_line_background(&self) -> Option<GString> {
+    pub fn get_property_line_background(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"line-background\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"line-background\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
 
-    fn get_property_line_background_set(&self) -> bool {
+    pub fn get_property_line_background_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"line-background-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"line-background-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_pango_underline(&self) -> pango::Underline {
+    pub fn get_property_pango_underline(&self) -> pango::Underline {
         unsafe {
             let mut value = Value::from_type(<pango::Underline as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"pango-underline\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"pango-underline\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_scale(&self) -> Option<GString> {
+    pub fn get_property_scale(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"scale\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"scale\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
 
-    fn get_property_scale_set(&self) -> bool {
+    pub fn get_property_scale_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"scale-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"scale-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_strikethrough(&self) -> bool {
+    pub fn get_property_strikethrough(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"strikethrough\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"strikethrough\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_strikethrough_set(&self) -> bool {
+    pub fn get_property_strikethrough_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"strikethrough-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"strikethrough-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_underline(&self) -> bool {
+    #[cfg_attr(feature = "v3_18", deprecated)]
+    pub fn get_property_underline(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"underline\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"underline\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_underline_color(&self) -> Option<GString> {
+    pub fn get_property_underline_color(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"underline-color\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"underline-color\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get()
         }
     }
 
-    fn get_property_underline_color_set(&self) -> bool {
+    pub fn get_property_underline_color_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"underline-color-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"underline-color-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }
 
-    fn get_property_underline_set(&self) -> bool {
+    pub fn get_property_underline_set(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"underline-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(self.as_ptr() as *mut gobject_sys::GObject, b"underline-set\0".as_ptr() as *const _, value.to_glib_none_mut().0);
             value.get().unwrap()
         }
     }

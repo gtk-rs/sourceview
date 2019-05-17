@@ -156,14 +156,9 @@ impl ::std::fmt::Debug for GtkSourceBufferClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceBufferPrivate(c_void);
+pub struct _GtkSourceBufferPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceBufferPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceBufferPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceBufferPrivate = *mut _GtkSourceBufferPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -216,14 +211,9 @@ impl ::std::fmt::Debug for GtkSourceCompletionContextClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionContextPrivate(c_void);
+pub struct _GtkSourceCompletionContextPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionContextPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionContextPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionContextPrivate = *mut _GtkSourceCompletionContextPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -242,14 +232,9 @@ impl ::std::fmt::Debug for GtkSourceCompletionInfoClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionInfoPrivate(c_void);
+pub struct _GtkSourceCompletionInfoPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionInfoPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionInfoPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionInfoPrivate = *mut _GtkSourceCompletionInfoPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -266,24 +251,14 @@ impl ::std::fmt::Debug for GtkSourceCompletionItemClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionItemPrivate(c_void);
+pub struct _GtkSourceCompletionItemPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionItemPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionItemPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionItemPrivate = *mut _GtkSourceCompletionItemPrivate;
 
 #[repr(C)]
-pub struct GtkSourceCompletionPrivate(c_void);
+pub struct _GtkSourceCompletionPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionPrivate = *mut _GtkSourceCompletionPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -374,14 +349,9 @@ impl ::std::fmt::Debug for GtkSourceCompletionWordsClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionWordsPrivate(c_void);
+pub struct _GtkSourceCompletionWordsPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionWordsPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionWordsPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionWordsPrivate = *mut _GtkSourceCompletionWordsPrivate;
 
 #[repr(C)]
 pub struct GtkSourceEncoding(c_void);
@@ -426,24 +396,14 @@ impl ::std::fmt::Debug for GtkSourceFileLoaderClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceFileLoaderPrivate(c_void);
+pub struct _GtkSourceFileLoaderPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceFileLoaderPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFileLoaderPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceFileLoaderPrivate = *mut _GtkSourceFileLoaderPrivate;
 
 #[repr(C)]
-pub struct GtkSourceFilePrivate(c_void);
+pub struct _GtkSourceFilePrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceFilePrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFilePrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceFilePrivate = *mut _GtkSourceFilePrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -462,14 +422,9 @@ impl ::std::fmt::Debug for GtkSourceFileSaverClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceFileSaverPrivate(c_void);
+pub struct _GtkSourceFileSaverPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceFileSaverPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFileSaverPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceFileSaverPrivate = *mut _GtkSourceFileSaverPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -486,14 +441,9 @@ impl ::std::fmt::Debug for GtkSourceGutterClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceGutterPrivate(c_void);
+pub struct _GtkSourceGutterPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterPrivate = *mut _GtkSourceGutterPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -543,24 +493,14 @@ impl ::std::fmt::Debug for GtkSourceGutterRendererPixbufClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceGutterRendererPixbufPrivate(c_void);
+pub struct _GtkSourceGutterRendererPixbufPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterRendererPixbufPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererPixbufPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterRendererPixbufPrivate = *mut _GtkSourceGutterRendererPixbufPrivate;
 
 #[repr(C)]
-pub struct GtkSourceGutterRendererPrivate(c_void);
+pub struct _GtkSourceGutterRendererPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterRendererPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterRendererPrivate = *mut _GtkSourceGutterRendererPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -576,14 +516,9 @@ impl ::std::fmt::Debug for GtkSourceGutterRendererTextClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceGutterRendererTextPrivate(c_void);
+pub struct _GtkSourceGutterRendererTextPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterRendererTextPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererTextPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterRendererTextPrivate = *mut _GtkSourceGutterRendererTextPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -626,24 +561,14 @@ impl ::std::fmt::Debug for GtkSourceLanguageManagerClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceLanguageManagerPrivate(c_void);
+pub struct _GtkSourceLanguageManagerPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceLanguageManagerPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceLanguageManagerPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceLanguageManagerPrivate = *mut _GtkSourceLanguageManagerPrivate;
 
 #[repr(C)]
-pub struct GtkSourceLanguagePrivate(c_void);
+pub struct _GtkSourceLanguagePrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceLanguagePrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceLanguagePrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceLanguagePrivate = *mut _GtkSourceLanguagePrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -675,14 +600,9 @@ impl ::std::fmt::Debug for GtkSourceMarkAttributesClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceMarkAttributesPrivate(c_void);
+pub struct _GtkSourceMarkAttributesPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceMarkAttributesPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceMarkAttributesPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceMarkAttributesPrivate = *mut _GtkSourceMarkAttributesPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -703,14 +623,9 @@ impl ::std::fmt::Debug for GtkSourceMarkClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceMarkPrivate(c_void);
+pub struct _GtkSourceMarkPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceMarkPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceMarkPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceMarkPrivate = *mut _GtkSourceMarkPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -731,14 +646,9 @@ impl ::std::fmt::Debug for GtkSourcePrintCompositorClass {
 }
 
 #[repr(C)]
-pub struct GtkSourcePrintCompositorPrivate(c_void);
+pub struct _GtkSourcePrintCompositorPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourcePrintCompositorPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourcePrintCompositorPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourcePrintCompositorPrivate = *mut _GtkSourcePrintCompositorPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -788,14 +698,9 @@ impl ::std::fmt::Debug for GtkSourceSearchContextClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceSearchContextPrivate(c_void);
+pub struct _GtkSourceSearchContextPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceSearchContextPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSearchContextPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceSearchContextPrivate = *mut _GtkSourceSearchContextPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -814,14 +719,9 @@ impl ::std::fmt::Debug for GtkSourceSearchSettingsClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceSearchSettingsPrivate(c_void);
+pub struct _GtkSourceSearchSettingsPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceSearchSettingsPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSearchSettingsPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceSearchSettingsPrivate = *mut _GtkSourceSearchSettingsPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -840,24 +740,14 @@ impl ::std::fmt::Debug for GtkSourceSpaceDrawerClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceSpaceDrawerPrivate(c_void);
+pub struct _GtkSourceSpaceDrawerPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceSpaceDrawerPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSpaceDrawerPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceSpaceDrawerPrivate = *mut _GtkSourceSpaceDrawerPrivate;
 
 #[repr(C)]
-pub struct GtkSourceStyleClass(c_void);
+pub struct _GtkSourceStyleClass(c_void);
 
-impl ::std::fmt::Debug for GtkSourceStyleClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleClass @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceStyleClass = *mut _GtkSourceStyleClass;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -948,24 +838,14 @@ impl ::std::fmt::Debug for GtkSourceStyleSchemeManagerClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceStyleSchemeManagerPrivate(c_void);
+pub struct _GtkSourceStyleSchemeManagerPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceStyleSchemeManagerPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeManagerPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceStyleSchemeManagerPrivate = *mut _GtkSourceStyleSchemeManagerPrivate;
 
 #[repr(C)]
-pub struct GtkSourceStyleSchemePrivate(c_void);
+pub struct _GtkSourceStyleSchemePrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceStyleSchemePrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemePrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceStyleSchemePrivate = *mut _GtkSourceStyleSchemePrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1040,14 +920,9 @@ impl ::std::fmt::Debug for GtkSourceViewClass {
 }
 
 #[repr(C)]
-pub struct GtkSourceViewPrivate(c_void);
+pub struct _GtkSourceViewPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceViewPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceViewPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceViewPrivate = *mut _GtkSourceViewPrivate;
 
 // Classes
 #[repr(C)]
