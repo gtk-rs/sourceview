@@ -132,7 +132,7 @@ pub trait SearchContextExt: 'static {
     fn set_highlight(&self, highlight: bool);
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_match_style<P: IsA<Style>>(&self, match_style: Option<&P>);
+    fn set_match_style(&self, match_style: Option<&Style>);
 
     #[cfg_attr(feature = "v3_24", deprecated)]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -374,9 +374,9 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_match_style<P: IsA<Style>>(&self, match_style: Option<&P>) {
+    fn set_match_style(&self, match_style: Option<&Style>) {
         unsafe {
-            gtk_source_sys::gtk_source_search_context_set_match_style(self.as_ref().to_glib_none().0, match_style.map(|p| p.as_ref()).to_glib_none().0);
+            gtk_source_sys::gtk_source_search_context_set_match_style(self.as_ref().to_glib_none().0, match_style.to_glib_none().0);
         }
     }
 

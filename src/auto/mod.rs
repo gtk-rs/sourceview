@@ -127,8 +127,7 @@ pub use self::space_drawer::{SpaceDrawer, SpaceDrawerClass, NONE_SPACE_DRAWER};
 pub use self::space_drawer::SpaceDrawerExt;
 
 mod style;
-pub use self::style::{Style, StyleClass, NONE_STYLE};
-pub use self::style::StyleExt;
+pub use self::style::{Style, StyleClass};
 
 mod style_scheme;
 pub use self::style_scheme::{StyleScheme, StyleSchemeClass, NONE_STYLE_SCHEME};
@@ -236,7 +235,6 @@ pub mod traits {
     pub use super::SearchSettingsExt;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub use super::SpaceDrawerExt;
-    pub use super::StyleExt;
     pub use super::StyleSchemeExt;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     pub use super::StyleSchemeChooserExt;
