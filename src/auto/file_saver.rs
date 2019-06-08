@@ -84,11 +84,11 @@ pub trait FileSaverExt: 'static {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static, callback: Q);
+    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future(&self, io_priority: glib::Priority, progress_callback: Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<future::Future<Output = Result<, >> + std::marker::Unpin>;
+    //fn save_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin>;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType);
@@ -166,13 +166,13 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static, callback: Q) {
+    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
     //    unsafe { TODO: call gtk_source_sys:gtk_source_file_saver_save_async() }
     //}
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future(&self, io_priority: glib::Priority, progress_callback: Option<Box<dyn Fn(i64, i64) + 'static>>, progress_callback_notify: Fn() + 'static) -> Box_<future::Future<Output = Result<, >> + std::marker::Unpin> {
+    //fn save_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin> {
         //use gio::GioFuture;
         //use fragile::Fragile;
 
@@ -225,6 +225,12 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_compression_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<FileSaver>
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::compression-type\0".as_ptr() as *const _,
@@ -234,6 +240,12 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_encoding_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<FileSaver>
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::encoding\0".as_ptr() as *const _,
@@ -243,6 +255,12 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<FileSaver>
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::flags\0".as_ptr() as *const _,
@@ -252,40 +270,18 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_newline_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<FileSaver>
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::newline-type\0".as_ptr() as *const _,
                 Some(transmute(notify_newline_type_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<FileSaver> {
-    let f: &F = &*(f as *const F);
-    f(&FileSaver::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<FileSaver> {
-    let f: &F = &*(f as *const F);
-    f(&FileSaver::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<FileSaver> {
-    let f: &F = &*(f as *const F);
-    f(&FileSaver::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFileSaver, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<FileSaver> {
-    let f: &F = &*(f as *const F);
-    f(&FileSaver::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for FileSaver {

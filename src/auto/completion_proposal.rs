@@ -122,6 +122,12 @@ impl<O: IsA<CompletionProposal>> CompletionProposalExt for O {
     }
 
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionProposal, f: glib_sys::gpointer)
+            where P: IsA<CompletionProposal>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionProposal::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"changed\0".as_ptr() as *const _,
@@ -132,12 +138,6 @@ impl<O: IsA<CompletionProposal>> CompletionProposalExt for O {
     fn emit_changed(&self) {
         let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject).emit("changed", &[]).unwrap() };
     }
-}
-
-unsafe extern "C" fn changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionProposal, f: glib_sys::gpointer)
-where P: IsA<CompletionProposal> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionProposal::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for CompletionProposal {
