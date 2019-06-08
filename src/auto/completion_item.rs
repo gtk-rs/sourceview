@@ -214,6 +214,12 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::gicon\0".as_ptr() as *const _,
@@ -222,6 +228,12 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     fn connect_property_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_icon_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::icon\0".as_ptr() as *const _,
@@ -231,6 +243,12 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn connect_property_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::icon-name\0".as_ptr() as *const _,
@@ -239,6 +257,12 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     fn connect_property_info_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_info_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::info\0".as_ptr() as *const _,
@@ -247,6 +271,12 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     fn connect_property_label_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_label_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::label\0".as_ptr() as *const _,
@@ -255,6 +285,12 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     fn connect_property_markup_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_markup_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::markup\0".as_ptr() as *const _,
@@ -263,56 +299,18 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     fn connect_property_text_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_text_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<CompletionItem>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::text\0".as_ptr() as *const _,
                 Some(transmute(notify_text_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
-}
-
-#[cfg(any(feature = "v3_18", feature = "dox"))]
-unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_icon_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_18", feature = "dox"))]
-unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_info_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_label_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_markup_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_text_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionItem, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<CompletionItem> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionItem::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for CompletionItem {

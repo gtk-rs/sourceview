@@ -70,6 +70,12 @@ impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
     }
 
     fn connect_before_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionInfo, f: glib_sys::gpointer)
+            where P: IsA<CompletionInfo>
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"before-show\0".as_ptr() as *const _,
@@ -80,12 +86,6 @@ impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
     fn emit_before_show(&self) {
         let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject).emit("before-show", &[]).unwrap() };
     }
-}
-
-unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionInfo, f: glib_sys::gpointer)
-where P: IsA<CompletionInfo> {
-    let f: &F = &*(f as *const F);
-    f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for CompletionInfo {

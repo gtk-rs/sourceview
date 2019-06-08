@@ -200,6 +200,12 @@ impl<O: IsA<File>> FileExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_compression_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<File>
+        {
+            let f: &F = &*(f as *const F);
+            f(&File::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::compression-type\0".as_ptr() as *const _,
@@ -209,6 +215,12 @@ impl<O: IsA<File>> FileExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_encoding_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<File>
+        {
+            let f: &F = &*(f as *const F);
+            f(&File::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::encoding\0".as_ptr() as *const _,
@@ -218,6 +230,12 @@ impl<O: IsA<File>> FileExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_location_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_location_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<File>
+        {
+            let f: &F = &*(f as *const F);
+            f(&File::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::location\0".as_ptr() as *const _,
@@ -227,6 +245,12 @@ impl<O: IsA<File>> FileExt for O {
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn connect_property_newline_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<File>
+        {
+            let f: &F = &*(f as *const F);
+            f(&File::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::newline-type\0".as_ptr() as *const _,
@@ -236,47 +260,18 @@ impl<O: IsA<File>> FileExt for O {
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     fn connect_property_read_only_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_read_only_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<File>
+        {
+            let f: &F = &*(f as *const F);
+            f(&File::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::read-only\0".as_ptr() as *const _,
                 Some(transmute(notify_read_only_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<File> {
-    let f: &F = &*(f as *const F);
-    f(&File::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<File> {
-    let f: &F = &*(f as *const F);
-    f(&File::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_location_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<File> {
-    let f: &F = &*(f as *const F);
-    f(&File::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_14", feature = "dox"))]
-unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<File> {
-    let f: &F = &*(f as *const F);
-    f(&File::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_18", feature = "dox"))]
-unsafe extern "C" fn notify_read_only_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceFile, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<File> {
-    let f: &F = &*(f as *const F);
-    f(&File::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for File {

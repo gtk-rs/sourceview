@@ -102,6 +102,12 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
     }
 
     fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn can_redo_changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceUndoManager, f: glib_sys::gpointer)
+            where P: IsA<UndoManager>
+        {
+            let f: &F = &*(f as *const F);
+            f(&UndoManager::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"can-redo-changed\0".as_ptr() as *const _,
@@ -114,6 +120,12 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
     }
 
     fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn can_undo_changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceUndoManager, f: glib_sys::gpointer)
+            where P: IsA<UndoManager>
+        {
+            let f: &F = &*(f as *const F);
+            f(&UndoManager::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"can-undo-changed\0".as_ptr() as *const _,
@@ -124,18 +136,6 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
     fn emit_can_undo_changed(&self) {
         let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject).emit("can-undo-changed", &[]).unwrap() };
     }
-}
-
-unsafe extern "C" fn can_redo_changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceUndoManager, f: glib_sys::gpointer)
-where P: IsA<UndoManager> {
-    let f: &F = &*(f as *const F);
-    f(&UndoManager::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn can_undo_changed_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceUndoManager, f: glib_sys::gpointer)
-where P: IsA<UndoManager> {
-    let f: &F = &*(f as *const F);
-    f(&UndoManager::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for UndoManager {

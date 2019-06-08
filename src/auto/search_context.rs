@@ -75,7 +75,7 @@ pub trait SearchContextExt: 'static {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin>;
+    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<dyn future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin>;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn backward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
@@ -92,7 +92,7 @@ pub trait SearchContextExt: 'static {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin>;
+    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<dyn future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin>;
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
     //fn forward_finish2(&self, result: /*Ignored*/&gio::AsyncResult) -> Result<(gtk::TextIter, gtk::TextIter, bool), Error>;
@@ -196,7 +196,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin> {
+    fn backward_async_future(&self, iter: &gtk::TextIter) -> Box_<dyn future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin> {
         use gio::GioFuture;
         use fragile::Fragile;
 
@@ -262,7 +262,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(feature = "futures")]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin> {
+    fn forward_async_future(&self, iter: &gtk::TextIter) -> Box_<dyn future::Future<Output = Result<(gtk::TextIter, gtk::TextIter), Error>> + std::marker::Unpin> {
         use gio::GioFuture;
         use fragile::Fragile;
 
@@ -389,6 +389,12 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_highlight_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_highlight_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<SearchContext>
+        {
+            let f: &F = &*(f as *const F);
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::highlight\0".as_ptr() as *const _,
@@ -398,6 +404,12 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn connect_property_match_style_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_match_style_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<SearchContext>
+        {
+            let f: &F = &*(f as *const F);
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::match-style\0".as_ptr() as *const _,
@@ -407,6 +419,12 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_occurrences_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_occurrences_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<SearchContext>
+        {
+            let f: &F = &*(f as *const F);
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::occurrences-count\0".as_ptr() as *const _,
@@ -416,6 +434,12 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_regex_error_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_regex_error_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<SearchContext>
+        {
+            let f: &F = &*(f as *const F);
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::regex-error\0".as_ptr() as *const _,
@@ -425,47 +449,18 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn connect_property_settings_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_settings_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<SearchContext>
+        {
+            let f: &F = &*(f as *const F);
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::settings\0".as_ptr() as *const _,
                 Some(transmute(notify_settings_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
-}
-
-#[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_highlight_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<SearchContext> {
-    let f: &F = &*(f as *const F);
-    f(&SearchContext::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_16", feature = "dox"))]
-unsafe extern "C" fn notify_match_style_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<SearchContext> {
-    let f: &F = &*(f as *const F);
-    f(&SearchContext::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_occurrences_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<SearchContext> {
-    let f: &F = &*(f as *const F);
-    f(&SearchContext::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_regex_error_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<SearchContext> {
-    let f: &F = &*(f as *const F);
-    f(&SearchContext::from_glib_borrow(this).unsafe_cast())
-}
-
-#[cfg(any(feature = "v3_10", feature = "dox"))]
-unsafe extern "C" fn notify_settings_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceSearchContext, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<SearchContext> {
-    let f: &F = &*(f as *const F);
-    f(&SearchContext::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for SearchContext {

@@ -363,6 +363,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_activate<F: Fn(&Self, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn activate_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, event: *mut gdk_sys::GdkEvent, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event))
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"activate\0".as_ptr() as *const _,
@@ -371,6 +377,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_query_activatable<F: Fn(&Self, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn query_activatable_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, event: *mut gdk_sys::GdkEvent, f: glib_sys::gpointer) -> glib_sys::gboolean
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event)).to_glib()
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"query-activatable\0".as_ptr() as *const _,
@@ -379,6 +391,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_query_data<F: Fn(&Self, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn query_data_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, start: *mut gtk_sys::GtkTextIter, end: *mut gtk_sys::GtkTextIter, state: gtk_source_sys::GtkSourceGutterRendererState, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(start), &from_glib_borrow(end), from_glib(state))
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"query-data\0".as_ptr() as *const _,
@@ -387,6 +405,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_query_tooltip<F: Fn(&Self, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn query_tooltip_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_sys::GtkTooltip, f: glib_sys::gpointer) -> glib_sys::gboolean
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), x, y, &from_glib_borrow(tooltip)).to_glib()
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"query-tooltip\0".as_ptr() as *const _,
@@ -395,6 +419,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_queue_draw<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn queue_draw_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"queue-draw\0".as_ptr() as *const _,
@@ -403,6 +433,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_alignment_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_alignment_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::alignment-mode\0".as_ptr() as *const _,
@@ -411,6 +447,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_background_rgba_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::background-rgba\0".as_ptr() as *const _,
@@ -419,6 +461,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_background_set_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_background_set_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::background-set\0".as_ptr() as *const _,
@@ -427,6 +475,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::size\0".as_ptr() as *const _,
@@ -435,6 +489,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_view_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::view\0".as_ptr() as *const _,
@@ -443,6 +503,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_visible_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_visible_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::visible\0".as_ptr() as *const _,
@@ -451,6 +517,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_window_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_window_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::window-type\0".as_ptr() as *const _,
@@ -459,6 +531,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_xalign_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_xalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::xalign\0".as_ptr() as *const _,
@@ -467,6 +545,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::xpad\0".as_ptr() as *const _,
@@ -475,6 +559,12 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_yalign_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_yalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::yalign\0".as_ptr() as *const _,
@@ -483,108 +573,18 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
     }
 
     fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<GutterRenderer>
+        {
+            let f: &F = &*(f as *const F);
+            f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::ypad\0".as_ptr() as *const _,
                 Some(transmute(notify_ypad_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
-}
-
-unsafe extern "C" fn activate_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, event: *mut gdk_sys::GdkEvent, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event))
-}
-
-unsafe extern "C" fn query_activatable_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, &gdk::Event) -> bool + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, event: *mut gdk_sys::GdkEvent, f: glib_sys::gpointer) -> glib_sys::gboolean
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), &from_glib_none(event)).to_glib()
-}
-
-unsafe extern "C" fn query_data_trampoline<P, F: Fn(&P, &gtk::TextIter, &gtk::TextIter, GutterRendererState) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, start: *mut gtk_sys::GtkTextIter, end: *mut gtk_sys::GtkTextIter, state: gtk_source_sys::GtkSourceGutterRendererState, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(start), &from_glib_borrow(end), from_glib(state))
-}
-
-unsafe extern "C" fn query_tooltip_trampoline<P, F: Fn(&P, &gtk::TextIter, &gdk::Rectangle, i32, i32, &gtk::Tooltip) -> bool + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, iter: *mut gtk_sys::GtkTextIter, area: *mut gdk_sys::GdkRectangle, x: libc::c_int, y: libc::c_int, tooltip: *mut gtk_sys::GtkTooltip, f: glib_sys::gpointer) -> glib_sys::gboolean
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(iter), &from_glib_borrow(area), x, y, &from_glib_borrow(tooltip)).to_glib()
-}
-
-unsafe extern "C" fn queue_draw_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_alignment_mode_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_background_rgba_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_background_set_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_view_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_visible_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_window_type_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_xalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_yalign_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceGutterRenderer, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<GutterRenderer> {
-    let f: &F = &*(f as *const F);
-    f(&GutterRenderer::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for GutterRenderer {

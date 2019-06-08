@@ -310,6 +310,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_activate_proposal<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn activate_proposal_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"activate-proposal\0".as_ptr() as *const _,
@@ -322,6 +328,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_hide<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn hide_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"hide\0".as_ptr() as *const _,
@@ -334,6 +346,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_move_cursor<F: Fn(&Self, gtk::ScrollStep, i32) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn move_cursor_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, step: gtk_sys::GtkScrollStep, num: libc::c_int, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-cursor\0".as_ptr() as *const _,
@@ -346,6 +364,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_move_page<F: Fn(&Self, gtk::ScrollStep, i32) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn move_page_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, step: gtk_sys::GtkScrollStep, num: libc::c_int, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"move-page\0".as_ptr() as *const _,
@@ -358,6 +382,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_populate_context<F: Fn(&Self, &CompletionContext) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn populate_context_trampoline<P, F: Fn(&P, &CompletionContext) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, context: *mut gtk_source_sys::GtkSourceCompletionContext, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(context))
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"populate-context\0".as_ptr() as *const _,
@@ -370,6 +400,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"show\0".as_ptr() as *const _,
@@ -382,6 +418,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_accelerators_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_accelerators_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::accelerators\0".as_ptr() as *const _,
@@ -390,6 +432,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_auto_complete_delay_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_auto_complete_delay_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::auto-complete-delay\0".as_ptr() as *const _,
@@ -398,6 +446,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_proposal_page_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_proposal_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::proposal-page-size\0".as_ptr() as *const _,
@@ -406,6 +460,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_provider_page_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_provider_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::provider-page-size\0".as_ptr() as *const _,
@@ -414,6 +474,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_remember_info_visibility_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_remember_info_visibility_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::remember-info-visibility\0".as_ptr() as *const _,
@@ -422,6 +488,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_select_on_show_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_select_on_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::select-on-show\0".as_ptr() as *const _,
@@ -430,6 +502,12 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_show_headers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_show_headers_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-headers\0".as_ptr() as *const _,
@@ -438,96 +516,18 @@ impl<O: IsA<Completion>> CompletionExt for O {
     }
 
     fn connect_property_show_icons_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_show_icons_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
+            where P: IsA<Completion>
+        {
+            let f: &F = &*(f as *const F);
+            f(&Completion::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(self.as_ptr() as *mut _, b"notify::show-icons\0".as_ptr() as *const _,
                 Some(transmute(notify_show_icons_trampoline::<Self, F> as usize)), Box_::into_raw(f))
         }
     }
-}
-
-unsafe extern "C" fn activate_proposal_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn hide_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn move_cursor_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, step: gtk_sys::GtkScrollStep, num: libc::c_int, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
-}
-
-unsafe extern "C" fn move_page_trampoline<P, F: Fn(&P, gtk::ScrollStep, i32) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, step: gtk_sys::GtkScrollStep, num: libc::c_int, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast(), from_glib(step), num)
-}
-
-unsafe extern "C" fn populate_context_trampoline<P, F: Fn(&P, &CompletionContext) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, context: *mut gtk_source_sys::GtkSourceCompletionContext, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(context))
-}
-
-unsafe extern "C" fn show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_accelerators_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_auto_complete_delay_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_proposal_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_provider_page_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_remember_info_visibility_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_select_on_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_show_headers_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
-}
-
-unsafe extern "C" fn notify_show_icons_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletion, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-where P: IsA<Completion> {
-    let f: &F = &*(f as *const F);
-    f(&Completion::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for Completion {
