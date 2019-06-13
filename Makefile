@@ -4,6 +4,8 @@ GIR_FILES = gir-files/GtkSource-3.0.gir
 
 # Run `gir` generating the bindings
 gir : src/auto/mod.rs
+	cargo fmt
+	cd sourceview-sys && cargo fmt
 
 not_bound: $(GIR) $(GIR_FILES)
 	$(GIR) -m not_bound -c Gir.toml
@@ -13,6 +15,8 @@ regen_check: $(GIR) $(GIR_FILES)
 	rm sourceview-sys/tests/*
 	$(GIR) -c Gir.toml
 	$(GIR) -c sourceview-sys/Gir.toml
+	cargo fmt
+	cd sourceview-sys && cargo fmt
 	git diff -R --exit-code
 
 src/auto/mod.rs : Gir.toml $(GIR) $(GIR_FILES)
