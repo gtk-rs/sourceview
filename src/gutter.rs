@@ -11,7 +11,11 @@ impl Gutter {
         let mut xpad = 0;
         let mut ypad = 0;
         unsafe {
-            gtk_source_sys::gtk_source_gutter_get_padding(self.to_glib_none().0, &mut xpad, &mut ypad);
+            gtk_source_sys::gtk_source_gutter_get_padding(
+                self.to_glib_none().0,
+                &mut xpad,
+                &mut ypad,
+            );
         }
         (xpad, ypad)
     }

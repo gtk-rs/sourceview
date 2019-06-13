@@ -2,9 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::GString;
 use glib::object::IsA;
 use glib::translate::*;
+use glib::GString;
 use gtk;
 use gtk_source_sys;
 use std::fmt;
@@ -21,7 +21,10 @@ impl Mark {
     pub fn new(name: &str, category: &str) -> Mark {
         assert_initialized_main_thread!();
         unsafe {
-            from_glib_full(gtk_source_sys::gtk_source_mark_new(name.to_glib_none().0, category.to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_mark_new(
+                name.to_glib_none().0,
+                category.to_glib_none().0,
+            ))
         }
     }
 }
@@ -39,19 +42,27 @@ pub trait MarkExt: 'static {
 impl<O: IsA<Mark>> MarkExt for O {
     fn get_category(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_mark_get_category(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_mark_get_category(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn next(&self, category: Option<&str>) -> Option<Mark> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_mark_next(self.as_ref().to_glib_none().0, category.to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_mark_next(
+                self.as_ref().to_glib_none().0,
+                category.to_glib_none().0,
+            ))
         }
     }
 
     fn prev(&self, category: &str) -> Option<Mark> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_mark_prev(self.as_ref().to_glib_none().0, category.to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_mark_prev(
+                self.as_ref().to_glib_none().0,
+                category.to_glib_none().0,
+            ))
         }
     }
 }

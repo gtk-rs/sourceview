@@ -3,9 +3,9 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-use glib::GString;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::translate::*;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+use glib::GString;
 use gtk_source_sys;
 use std::fmt;
 
@@ -24,21 +24,27 @@ impl Encoding {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_charset(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_encoding_get_charset(self.to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_encoding_get_charset(
+                self.to_glib_none().0,
+            ))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_name(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_encoding_get_name(self.to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_encoding_get_name(
+                self.to_glib_none().0,
+            ))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn to_string(&self) -> GString {
         unsafe {
-            from_glib_full(gtk_source_sys::gtk_source_encoding_to_string(self.to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_encoding_to_string(
+                self.to_glib_none().0,
+            ))
         }
     }
 
@@ -53,16 +59,16 @@ impl Encoding {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_current() -> Option<Encoding> {
         assert_initialized_main_thread!();
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_encoding_get_current())
-        }
+        unsafe { from_glib_none(gtk_source_sys::gtk_source_encoding_get_current()) }
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn get_default_candidates() -> Vec<Encoding> {
         assert_initialized_main_thread!();
         unsafe {
-            FromGlibPtrContainer::from_glib_container(gtk_source_sys::gtk_source_encoding_get_default_candidates())
+            FromGlibPtrContainer::from_glib_container(
+                gtk_source_sys::gtk_source_encoding_get_default_candidates(),
+            )
         }
     }
 
@@ -70,16 +76,16 @@ impl Encoding {
     pub fn get_from_charset(charset: &str) -> Option<Encoding> {
         assert_initialized_main_thread!();
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_encoding_get_from_charset(charset.to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_encoding_get_from_charset(
+                charset.to_glib_none().0,
+            ))
         }
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn get_utf8() -> Option<Encoding> {
         assert_initialized_main_thread!();
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_encoding_get_utf8())
-        }
+        unsafe { from_glib_none(gtk_source_sys::gtk_source_encoding_get_utf8()) }
     }
 }
 

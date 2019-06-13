@@ -13,7 +13,10 @@ impl Style {
     pub fn apply<P: IsA<gtk::TextTag>>(&self, tag: &P) {
         unsafe {
             let tmp: *mut gtk_source_sys::GtkSourceStyle = self.to_glib_none().0;
-            gtk_source_sys::gtk_source_style_apply(tmp as *const gtk_source_sys::GtkSourceStyle, tag.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_style_apply(
+                tmp as *const gtk_source_sys::GtkSourceStyle,
+                tag.as_ref().to_glib_none().0,
+            );
         }
     }
 }
