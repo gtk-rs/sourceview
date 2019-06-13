@@ -3,8 +3,8 @@
 // Licensed under the MIT license, see the LICENSE file or <http://opensource.org/licenses/MIT>
 
 use glib::translate::*;
-use std::mem;
 use gtk_source_sys;
+use std::mem;
 
 pub struct RegionIter {
     inner: gtk_source_sys::GtkSourceRegionIter,
@@ -33,7 +33,9 @@ impl<'a> ToGlibPtrMut<'a, *mut gtk_source_sys::GtkSourceRegionIter> for RegionIt
     type Storage = &'a mut Self;
 
     #[inline]
-    fn to_glib_none_mut(&'a mut self) -> StashMut<'a, *mut gtk_source_sys::GtkSourceRegionIter, Self> {
+    fn to_glib_none_mut(
+        &'a mut self,
+    ) -> StashMut<'a, *mut gtk_source_sys::GtkSourceRegionIter, Self> {
         let ptr: *mut gtk_source_sys::GtkSourceRegionIter = &mut self.inner;
         StashMut(ptr as *mut gtk_source_sys::GtkSourceRegionIter, self)
     }

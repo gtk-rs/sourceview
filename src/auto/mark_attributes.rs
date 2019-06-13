@@ -2,18 +2,17 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use Mark;
 use gdk;
 use gdk_pixbuf;
 use gio;
+use glib::object::Cast;
+use glib::object::IsA;
+use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
+use glib::translate::*;
 use glib::GString;
 use glib::StaticType;
 use glib::Value;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::SignalHandlerId;
-use glib::signal::connect_raw;
-use glib::translate::*;
 use glib_sys;
 use gobject_sys;
 use gtk_source_sys;
@@ -21,6 +20,7 @@ use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
+use Mark;
 
 glib_wrapper! {
     pub struct MarkAttributes(Object<gtk_source_sys::GtkSourceMarkAttributes, gtk_source_sys::GtkSourceMarkAttributesClass, MarkAttributesClass>);
@@ -33,9 +33,7 @@ glib_wrapper! {
 impl MarkAttributes {
     pub fn new() -> MarkAttributes {
         assert_initialized_main_thread!();
-        unsafe {
-            from_glib_full(gtk_source_sys::gtk_source_mark_attributes_new())
-        }
+        unsafe { from_glib_full(gtk_source_sys::gtk_source_mark_attributes_new()) }
     }
 }
 
@@ -74,9 +72,15 @@ pub trait MarkAttributesExt: 'static {
 
     fn get_property_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf>;
 
-    fn connect_query_tooltip_markup<F: Fn(&Self, &Mark) -> String + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_query_tooltip_markup<F: Fn(&Self, &Mark) -> String + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
-    fn connect_query_tooltip_text<F: Fn(&Self, &Mark) -> String + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_query_tooltip_text<F: Fn(&Self, &Mark) -> String + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
     fn connect_property_background_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -94,174 +98,294 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
     fn get_background(&self) -> Option<gdk::RGBA> {
         unsafe {
             let mut background = gdk::RGBA::uninitialized();
-            let ret = from_glib(gtk_source_sys::gtk_source_mark_attributes_get_background(self.as_ref().to_glib_none().0, background.to_glib_none_mut().0));
-            if ret { Some(background) } else { None }
+            let ret = from_glib(gtk_source_sys::gtk_source_mark_attributes_get_background(
+                self.as_ref().to_glib_none().0,
+                background.to_glib_none_mut().0,
+            ));
+            if ret {
+                Some(background)
+            } else {
+                None
+            }
         }
     }
 
     fn get_gicon(&self) -> Option<gio::Icon> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_mark_attributes_get_gicon(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_mark_attributes_get_gicon(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn get_icon_name(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_mark_attributes_get_icon_name(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_mark_attributes_get_icon_name(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn get_stock_id(&self) -> Option<GString> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_mark_attributes_get_stock_id(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_mark_attributes_get_stock_id(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn get_tooltip_markup<P: IsA<Mark>>(&self, mark: &P) -> Option<GString> {
         unsafe {
-            from_glib_full(gtk_source_sys::gtk_source_mark_attributes_get_tooltip_markup(self.as_ref().to_glib_none().0, mark.as_ref().to_glib_none().0))
+            from_glib_full(
+                gtk_source_sys::gtk_source_mark_attributes_get_tooltip_markup(
+                    self.as_ref().to_glib_none().0,
+                    mark.as_ref().to_glib_none().0,
+                ),
+            )
         }
     }
 
     fn get_tooltip_text<P: IsA<Mark>>(&self, mark: &P) -> Option<GString> {
         unsafe {
-            from_glib_full(gtk_source_sys::gtk_source_mark_attributes_get_tooltip_text(self.as_ref().to_glib_none().0, mark.as_ref().to_glib_none().0))
+            from_glib_full(gtk_source_sys::gtk_source_mark_attributes_get_tooltip_text(
+                self.as_ref().to_glib_none().0,
+                mark.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn set_background(&self, background: &gdk::RGBA) {
         unsafe {
-            gtk_source_sys::gtk_source_mark_attributes_set_background(self.as_ref().to_glib_none().0, background.to_glib_none().0);
+            gtk_source_sys::gtk_source_mark_attributes_set_background(
+                self.as_ref().to_glib_none().0,
+                background.to_glib_none().0,
+            );
         }
     }
 
     fn set_gicon<P: IsA<gio::Icon>>(&self, gicon: &P) {
         unsafe {
-            gtk_source_sys::gtk_source_mark_attributes_set_gicon(self.as_ref().to_glib_none().0, gicon.as_ref().to_glib_none().0);
+            gtk_source_sys::gtk_source_mark_attributes_set_gicon(
+                self.as_ref().to_glib_none().0,
+                gicon.as_ref().to_glib_none().0,
+            );
         }
     }
 
     fn set_icon_name(&self, icon_name: &str) {
         unsafe {
-            gtk_source_sys::gtk_source_mark_attributes_set_icon_name(self.as_ref().to_glib_none().0, icon_name.to_glib_none().0);
+            gtk_source_sys::gtk_source_mark_attributes_set_icon_name(
+                self.as_ref().to_glib_none().0,
+                icon_name.to_glib_none().0,
+            );
         }
     }
 
     fn set_pixbuf(&self, pixbuf: &gdk_pixbuf::Pixbuf) {
         unsafe {
-            gtk_source_sys::gtk_source_mark_attributes_set_pixbuf(self.as_ref().to_glib_none().0, pixbuf.to_glib_none().0);
+            gtk_source_sys::gtk_source_mark_attributes_set_pixbuf(
+                self.as_ref().to_glib_none().0,
+                pixbuf.to_glib_none().0,
+            );
         }
     }
 
     fn set_stock_id(&self, stock_id: &str) {
         unsafe {
-            gtk_source_sys::gtk_source_mark_attributes_set_stock_id(self.as_ref().to_glib_none().0, stock_id.to_glib_none().0);
+            gtk_source_sys::gtk_source_mark_attributes_set_stock_id(
+                self.as_ref().to_glib_none().0,
+                stock_id.to_glib_none().0,
+            );
         }
     }
 
     fn get_property_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf> {
         unsafe {
             let mut value = Value::from_type(<gdk_pixbuf::Pixbuf as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"pixbuf\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"pixbuf\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
             value.get()
         }
     }
 
-    fn connect_query_tooltip_markup<F: Fn(&Self, &Mark) -> String + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn query_tooltip_markup_trampoline<P, F: Fn(&P, &Mark) -> String + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, mark: *mut gtk_source_sys::GtkSourceMark, f: glib_sys::gpointer) -> *mut libc::c_char
-            where P: IsA<MarkAttributes>
+    fn connect_query_tooltip_markup<F: Fn(&Self, &Mark) -> String + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn query_tooltip_markup_trampoline<
+            P,
+            F: Fn(&P, &Mark) -> String + 'static,
+        >(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            mark: *mut gtk_source_sys::GtkSourceMark,
+            f: glib_sys::gpointer,
+        ) -> *mut libc::c_char
+        where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(mark)).to_glib_full()
+            f(
+                &MarkAttributes::from_glib_borrow(this).unsafe_cast(),
+                &from_glib_borrow(mark),
+            )
+            .to_glib_full()
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"query-tooltip-markup\0".as_ptr() as *const _,
-                Some(transmute(query_tooltip_markup_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"query-tooltip-markup\0".as_ptr() as *const _,
+                Some(transmute(
+                    query_tooltip_markup_trampoline::<Self, F> as usize,
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_query_tooltip_text<F: Fn(&Self, &Mark) -> String + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn query_tooltip_text_trampoline<P, F: Fn(&P, &Mark) -> String + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, mark: *mut gtk_source_sys::GtkSourceMark, f: glib_sys::gpointer) -> *mut libc::c_char
-            where P: IsA<MarkAttributes>
+    fn connect_query_tooltip_text<F: Fn(&Self, &Mark) -> String + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn query_tooltip_text_trampoline<
+            P,
+            F: Fn(&P, &Mark) -> String + 'static,
+        >(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            mark: *mut gtk_source_sys::GtkSourceMark,
+            f: glib_sys::gpointer,
+        ) -> *mut libc::c_char
+        where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast(), &from_glib_borrow(mark)).to_glib_full()
+            f(
+                &MarkAttributes::from_glib_borrow(this).unsafe_cast(),
+                &from_glib_borrow(mark),
+            )
+            .to_glib_full()
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"query-tooltip-text\0".as_ptr() as *const _,
-                Some(transmute(query_tooltip_text_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"query-tooltip-text\0".as_ptr() as *const _,
+                Some(transmute(query_tooltip_text_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_background_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_background_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<MarkAttributes>
+        unsafe extern "C" fn notify_background_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
             f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::background\0".as_ptr() as *const _,
-                Some(transmute(notify_background_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::background\0".as_ptr() as *const _,
+                Some(transmute(notify_background_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<MarkAttributes>
+        unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
             f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::gicon\0".as_ptr() as *const _,
-                Some(transmute(notify_gicon_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::gicon\0".as_ptr() as *const _,
+                Some(transmute(notify_gicon_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<MarkAttributes>
+        unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
             f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::icon-name\0".as_ptr() as *const _,
-                Some(transmute(notify_icon_name_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::icon-name\0".as_ptr() as *const _,
+                Some(transmute(notify_icon_name_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_pixbuf_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_pixbuf_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<MarkAttributes>
+        unsafe extern "C" fn notify_pixbuf_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
             f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::pixbuf\0".as_ptr() as *const _,
-                Some(transmute(notify_pixbuf_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::pixbuf\0".as_ptr() as *const _,
+                Some(transmute(notify_pixbuf_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_stock_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_stock_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceMarkAttributes, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<MarkAttributes>
+        unsafe extern "C" fn notify_stock_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceMarkAttributes,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
             f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::stock-id\0".as_ptr() as *const _,
-                Some(transmute(notify_stock_id_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::stock-id\0".as_ptr() as *const _,
+                Some(transmute(notify_stock_id_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 }

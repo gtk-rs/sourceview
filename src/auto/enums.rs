@@ -2,20 +2,19 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::StaticType;
-use glib::Type;
 use glib::translate::*;
 use glib::value::FromValue;
 use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
+use glib::StaticType;
+use glib::Type;
 use gobject_sys;
 use gtk_source_sys;
 use std::fmt;
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum BackgroundPatternType {
     None,
     Grid,
@@ -26,11 +25,15 @@ pub enum BackgroundPatternType {
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 impl fmt::Display for BackgroundPatternType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "BackgroundPatternType::{}", match *self {
-            BackgroundPatternType::None => "None",
-            BackgroundPatternType::Grid => "Grid",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "BackgroundPatternType::{}",
+            match *self {
+                BackgroundPatternType::None => "None",
+                BackgroundPatternType::Grid => "Grid",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -43,7 +46,7 @@ impl ToGlib for BackgroundPatternType {
         match *self {
             BackgroundPatternType::None => gtk_source_sys::GTK_SOURCE_BACKGROUND_PATTERN_TYPE_NONE,
             BackgroundPatternType::Grid => gtk_source_sys::GTK_SOURCE_BACKGROUND_PATTERN_TYPE_GRID,
-            BackgroundPatternType::__Unknown(value) => value
+            BackgroundPatternType::__Unknown(value) => value,
         }
     }
 }
@@ -90,8 +93,7 @@ impl SetValue for BackgroundPatternType {
 }
 
 #[cfg(any(feature = "v3_12", feature = "dox"))]
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum ChangeCaseType {
     Lower,
     Upper,
@@ -104,13 +106,17 @@ pub enum ChangeCaseType {
 #[cfg(any(feature = "v3_12", feature = "dox"))]
 impl fmt::Display for ChangeCaseType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "ChangeCaseType::{}", match *self {
-            ChangeCaseType::Lower => "Lower",
-            ChangeCaseType::Upper => "Upper",
-            ChangeCaseType::Toggle => "Toggle",
-            ChangeCaseType::Title => "Title",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "ChangeCaseType::{}",
+            match *self {
+                ChangeCaseType::Lower => "Lower",
+                ChangeCaseType::Upper => "Upper",
+                ChangeCaseType::Toggle => "Toggle",
+                ChangeCaseType::Title => "Title",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -125,7 +131,7 @@ impl ToGlib for ChangeCaseType {
             ChangeCaseType::Upper => gtk_source_sys::GTK_SOURCE_CHANGE_CASE_UPPER,
             ChangeCaseType::Toggle => gtk_source_sys::GTK_SOURCE_CHANGE_CASE_TOGGLE,
             ChangeCaseType::Title => gtk_source_sys::GTK_SOURCE_CHANGE_CASE_TITLE,
-            ChangeCaseType::__Unknown(value) => value
+            ChangeCaseType::__Unknown(value) => value,
         }
     }
 }
@@ -174,8 +180,7 @@ impl SetValue for ChangeCaseType {
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum CompressionType {
     None,
     Gzip,
@@ -186,11 +191,15 @@ pub enum CompressionType {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 impl fmt::Display for CompressionType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "CompressionType::{}", match *self {
-            CompressionType::None => "None",
-            CompressionType::Gzip => "Gzip",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "CompressionType::{}",
+            match *self {
+                CompressionType::None => "None",
+                CompressionType::Gzip => "Gzip",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -203,7 +212,7 @@ impl ToGlib for CompressionType {
         match *self {
             CompressionType::None => gtk_source_sys::GTK_SOURCE_COMPRESSION_TYPE_NONE,
             CompressionType::Gzip => gtk_source_sys::GTK_SOURCE_COMPRESSION_TYPE_GZIP,
-            CompressionType::__Unknown(value) => value
+            CompressionType::__Unknown(value) => value,
         }
     }
 }
@@ -249,8 +258,7 @@ impl SetValue for CompressionType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum GutterRendererAlignmentMode {
     Cell,
     First,
@@ -261,12 +269,16 @@ pub enum GutterRendererAlignmentMode {
 
 impl fmt::Display for GutterRendererAlignmentMode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GutterRendererAlignmentMode::{}", match *self {
-            GutterRendererAlignmentMode::Cell => "Cell",
-            GutterRendererAlignmentMode::First => "First",
-            GutterRendererAlignmentMode::Last => "Last",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "GutterRendererAlignmentMode::{}",
+            match *self {
+                GutterRendererAlignmentMode::Cell => "Cell",
+                GutterRendererAlignmentMode::First => "First",
+                GutterRendererAlignmentMode::Last => "Last",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -276,16 +288,24 @@ impl ToGlib for GutterRendererAlignmentMode {
 
     fn to_glib(&self) -> gtk_source_sys::GtkSourceGutterRendererAlignmentMode {
         match *self {
-            GutterRendererAlignmentMode::Cell => gtk_source_sys::GTK_SOURCE_GUTTER_RENDERER_ALIGNMENT_MODE_CELL,
-            GutterRendererAlignmentMode::First => gtk_source_sys::GTK_SOURCE_GUTTER_RENDERER_ALIGNMENT_MODE_FIRST,
-            GutterRendererAlignmentMode::Last => gtk_source_sys::GTK_SOURCE_GUTTER_RENDERER_ALIGNMENT_MODE_LAST,
-            GutterRendererAlignmentMode::__Unknown(value) => value
+            GutterRendererAlignmentMode::Cell => {
+                gtk_source_sys::GTK_SOURCE_GUTTER_RENDERER_ALIGNMENT_MODE_CELL
+            }
+            GutterRendererAlignmentMode::First => {
+                gtk_source_sys::GTK_SOURCE_GUTTER_RENDERER_ALIGNMENT_MODE_FIRST
+            }
+            GutterRendererAlignmentMode::Last => {
+                gtk_source_sys::GTK_SOURCE_GUTTER_RENDERER_ALIGNMENT_MODE_LAST
+            }
+            GutterRendererAlignmentMode::__Unknown(value) => value,
         }
     }
 }
 
 #[doc(hidden)]
-impl FromGlib<gtk_source_sys::GtkSourceGutterRendererAlignmentMode> for GutterRendererAlignmentMode {
+impl FromGlib<gtk_source_sys::GtkSourceGutterRendererAlignmentMode>
+    for GutterRendererAlignmentMode
+{
     fn from_glib(value: gtk_source_sys::GtkSourceGutterRendererAlignmentMode) -> Self {
         skip_assert_initialized!();
         match value {
@@ -322,8 +342,7 @@ impl SetValue for GutterRendererAlignmentMode {
 }
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum NewlineType {
     Lf,
     Cr,
@@ -335,12 +354,16 @@ pub enum NewlineType {
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 impl fmt::Display for NewlineType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "NewlineType::{}", match *self {
-            NewlineType::Lf => "Lf",
-            NewlineType::Cr => "Cr",
-            NewlineType::CrLf => "CrLf",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "NewlineType::{}",
+            match *self {
+                NewlineType::Lf => "Lf",
+                NewlineType::Cr => "Cr",
+                NewlineType::CrLf => "CrLf",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -354,7 +377,7 @@ impl ToGlib for NewlineType {
             NewlineType::Lf => gtk_source_sys::GTK_SOURCE_NEWLINE_TYPE_LF,
             NewlineType::Cr => gtk_source_sys::GTK_SOURCE_NEWLINE_TYPE_CR,
             NewlineType::CrLf => gtk_source_sys::GTK_SOURCE_NEWLINE_TYPE_CR_LF,
-            NewlineType::__Unknown(value) => value
+            NewlineType::__Unknown(value) => value,
         }
     }
 }
@@ -401,8 +424,7 @@ impl SetValue for NewlineType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum SmartHomeEndType {
     Disabled,
     Before,
@@ -414,13 +436,17 @@ pub enum SmartHomeEndType {
 
 impl fmt::Display for SmartHomeEndType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SmartHomeEndType::{}", match *self {
-            SmartHomeEndType::Disabled => "Disabled",
-            SmartHomeEndType::Before => "Before",
-            SmartHomeEndType::After => "After",
-            SmartHomeEndType::Always => "Always",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SmartHomeEndType::{}",
+            match *self {
+                SmartHomeEndType::Disabled => "Disabled",
+                SmartHomeEndType::Before => "Before",
+                SmartHomeEndType::After => "After",
+                SmartHomeEndType::Always => "Always",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -434,7 +460,7 @@ impl ToGlib for SmartHomeEndType {
             SmartHomeEndType::Before => gtk_source_sys::GTK_SOURCE_SMART_HOME_END_BEFORE,
             SmartHomeEndType::After => gtk_source_sys::GTK_SOURCE_SMART_HOME_END_AFTER,
             SmartHomeEndType::Always => gtk_source_sys::GTK_SOURCE_SMART_HOME_END_ALWAYS,
-            SmartHomeEndType::__Unknown(value) => value
+            SmartHomeEndType::__Unknown(value) => value,
         }
     }
 }
@@ -477,8 +503,7 @@ impl SetValue for SmartHomeEndType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum ViewGutterPosition {
     Lines,
     Marks,
@@ -488,11 +513,15 @@ pub enum ViewGutterPosition {
 
 impl fmt::Display for ViewGutterPosition {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "ViewGutterPosition::{}", match *self {
-            ViewGutterPosition::Lines => "Lines",
-            ViewGutterPosition::Marks => "Marks",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "ViewGutterPosition::{}",
+            match *self {
+                ViewGutterPosition::Lines => "Lines",
+                ViewGutterPosition::Marks => "Marks",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -504,7 +533,7 @@ impl ToGlib for ViewGutterPosition {
         match *self {
             ViewGutterPosition::Lines => gtk_source_sys::GTK_SOURCE_VIEW_GUTTER_POSITION_LINES,
             ViewGutterPosition::Marks => gtk_source_sys::GTK_SOURCE_VIEW_GUTTER_POSITION_MARKS,
-            ViewGutterPosition::__Unknown(value) => value
+            ViewGutterPosition::__Unknown(value) => value,
         }
     }
 }
@@ -544,4 +573,3 @@ impl SetValue for ViewGutterPosition {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
 }
-

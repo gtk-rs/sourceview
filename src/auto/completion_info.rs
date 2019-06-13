@@ -6,8 +6,8 @@ use glib;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::object::ObjectExt;
-use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib_sys;
 use gobject_sys;
@@ -28,9 +28,7 @@ glib_wrapper! {
 impl CompletionInfo {
     pub fn new() -> CompletionInfo {
         assert_initialized_main_thread!();
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_completion_info_new())
-        }
+        unsafe { from_glib_none(gtk_source_sys::gtk_source_completion_info_new()) }
     }
 }
 
@@ -59,32 +57,48 @@ pub trait CompletionInfoExt: 'static {
 impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
     fn get_widget(&self) -> Option<gtk::Widget> {
         unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_completion_info_get_widget(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_completion_info_get_widget(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn set_widget<P: IsA<gtk::Widget>>(&self, widget: Option<&P>) {
         unsafe {
-            gtk_source_sys::gtk_source_completion_info_set_widget(self.as_ref().to_glib_none().0, widget.map(|p| p.as_ref()).to_glib_none().0);
+            gtk_source_sys::gtk_source_completion_info_set_widget(
+                self.as_ref().to_glib_none().0,
+                widget.map(|p| p.as_ref()).to_glib_none().0,
+            );
         }
     }
 
     fn connect_before_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut gtk_source_sys::GtkSourceCompletionInfo, f: glib_sys::gpointer)
-            where P: IsA<CompletionInfo>
+        unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceCompletionInfo,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<CompletionInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"before-show\0".as_ptr() as *const _,
-                Some(transmute(before_show_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"before-show\0".as_ptr() as *const _,
+                Some(transmute(before_show_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn emit_before_show(&self) {
-        let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject).emit("before-show", &[]).unwrap() };
+        let _ = unsafe {
+            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+                .emit("before-show", &[])
+                .unwrap()
+        };
     }
 }
 

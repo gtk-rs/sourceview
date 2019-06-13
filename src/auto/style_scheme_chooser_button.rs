@@ -2,12 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use StyleSchemeChooser;
 use glib::object::Cast;
 use glib::translate::*;
 use gtk;
 use gtk_source_sys;
 use std::fmt;
+use StyleSchemeChooser;
 
 glib_wrapper! {
     pub struct StyleSchemeChooserButton(Object<gtk_source_sys::GtkSourceStyleSchemeChooserButton, gtk_source_sys::GtkSourceStyleSchemeChooserButtonClass, StyleSchemeChooserButtonClass>) @extends gtk::Button, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, gtk::Actionable, StyleSchemeChooser;

@@ -7,18 +7,18 @@
 
 #[macro_use]
 extern crate glib;
-extern crate glib_sys;
-extern crate gtk_source_sys;
-extern crate gobject_sys;
-extern crate gio_sys;
-extern crate gdk_sys;
-extern crate gtk_sys;
-extern crate gio;
+extern crate cairo;
 extern crate gdk;
 extern crate gdk_pixbuf;
-extern crate pango;
+extern crate gdk_sys;
+extern crate gio;
+extern crate gio_sys;
+extern crate glib_sys;
+extern crate gobject_sys;
 extern crate gtk;
-extern crate cairo;
+extern crate gtk_source_sys;
+extern crate gtk_sys;
+extern crate pango;
 
 extern crate libc;
 #[macro_use]
@@ -29,10 +29,7 @@ extern crate fragile;
 #[cfg(feature = "futures")]
 extern crate futures;
 
-pub use glib::{
-    Error,
-    Object,
-};
+pub use glib::{Error, Object};
 
 pub use auto::*;
 pub use completion::*;
