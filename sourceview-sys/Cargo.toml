@@ -19,7 +19,7 @@ git = "https://github.com/gtk-rs/sys"
 
 [dependencies.glib-sys]
 git = "https://github.com/gtk-rs/sys"
-version = "0.8.0"
+version = "0.9.0"
 
 [dependencies.gobject-sys]
 git = "https://github.com/gtk-rs/sys"
@@ -57,4 +57,4 @@ license = "MIT"
 links = "gtk_source"
 name = "gtk-source-sys"
 repository = "https://github.com/gtk-rs/sourceview"
-version = "0.8.0"
+version = "0.9.0"
