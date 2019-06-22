@@ -2,35 +2,33 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use ffi;
 use glib;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::object::ObjectExt;
-use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
+use glib_sys;
+use gobject_sys;
 use gtk;
+use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 
 glib_wrapper! {
-    pub struct CompletionInfo(Object<ffi::GtkSourceCompletionInfo, ffi::GtkSourceCompletionInfoClass, CompletionInfoClass>) @extends gtk::Window, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable;
+    pub struct CompletionInfo(Object<gtk_source_sys::GtkSourceCompletionInfo, gtk_source_sys::GtkSourceCompletionInfoClass, CompletionInfoClass>) @extends gtk::Window, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable;
 
     match fn {
-        get_type => || ffi::gtk_source_completion_info_get_type(),
+        get_type => || gtk_source_sys::gtk_source_completion_info_get_type(),
     }
 }
 
 impl CompletionInfo {
     pub fn new() -> CompletionInfo {
         assert_initialized_main_thread!();
-        unsafe {
-            from_glib_none(ffi::gtk_source_completion_info_new())
-        }
+        unsafe { from_glib_none(gtk_source_sys::gtk_source_completion_info_new()) }
     }
 }
 
@@ -47,7 +45,7 @@ pub trait CompletionInfoExt: 'static {
     fn get_widget(&self) -> Option<gtk::Widget>;
 
     #[cfg_attr(feature = "v3_8", deprecated)]
-    fn set_widget<'a, P: IsA<gtk::Widget> + 'a, Q: Into<Option<&'a P>>>(&self, widget: Q);
+    fn set_widget<P: IsA<gtk::Widget>>(&self, widget: Option<&P>);
 
     #[cfg_attr(feature = "v3_10", deprecated)]
     fn connect_before_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -59,34 +57,49 @@ pub trait CompletionInfoExt: 'static {
 impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
     fn get_widget(&self) -> Option<gtk::Widget> {
         unsafe {
-            from_glib_none(ffi::gtk_source_completion_info_get_widget(self.as_ref().to_glib_none().0))
+            from_glib_none(gtk_source_sys::gtk_source_completion_info_get_widget(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
-    fn set_widget<'a, P: IsA<gtk::Widget> + 'a, Q: Into<Option<&'a P>>>(&self, widget: Q) {
-        let widget = widget.into();
+    fn set_widget<P: IsA<gtk::Widget>>(&self, widget: Option<&P>) {
         unsafe {
-            ffi::gtk_source_completion_info_set_widget(self.as_ref().to_glib_none().0, widget.map(|p| p.as_ref()).to_glib_none().0);
+            gtk_source_sys::gtk_source_completion_info_set_widget(
+                self.as_ref().to_glib_none().0,
+                widget.map(|p| p.as_ref()).to_glib_none().0,
+            );
         }
     }
 
     fn connect_before_show<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceCompletionInfo,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<CompletionInfo>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
+        }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"before-show\0".as_ptr() as *const _,
-                Some(transmute(before_show_trampoline::<Self, F> as usize)), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"before-show\0".as_ptr() as *const _,
+                Some(transmute(before_show_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn emit_before_show(&self) {
-        let _ = unsafe { glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_ffi::GObject).emit("before-show", &[]).unwrap() };
+        let _ = unsafe {
+            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+                .emit("before-show", &[])
+                .unwrap()
+        };
     }
-}
-
-unsafe extern "C" fn before_show_trampoline<P, F: Fn(&P) + 'static>(this: *mut ffi::GtkSourceCompletionInfo, f: glib_ffi::gpointer)
-where P: IsA<CompletionInfo> {
-    let f: &F = transmute(f);
-    f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
 }
 
 impl fmt::Display for CompletionInfo {

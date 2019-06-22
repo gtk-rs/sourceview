@@ -3,21 +3,26 @@
 // DO NOT EDIT
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![allow(
+    clippy::approx_constant,
+    clippy::type_complexity,
+    clippy::unreadable_literal
+)]
 
-extern crate libc;
 extern crate cairo_sys as cairo;
-extern crate gdk_sys as gdk;
 extern crate gdk_pixbuf_sys as gdk_pixbuf;
+extern crate gdk_sys as gdk;
 extern crate gio_sys as gio;
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
 extern crate gtk_sys as gtk;
+extern crate libc;
 
 #[allow(unused_imports)]
-use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
-    c_short, c_ushort, c_long, c_ulong,
-    c_void, size_t, ssize_t, intptr_t, uintptr_t, time_t, FILE};
+use libc::{
+    c_char, c_double, c_float, c_int, c_long, c_short, c_uchar, c_uint, c_ulong, c_ushort, c_void,
+    intptr_t, size_t, ssize_t, time_t, uintptr_t, FILE,
+};
 
 #[allow(unused_imports)]
 use glib::{gboolean, gconstpointer, gpointer, GType};
@@ -126,7 +131,8 @@ pub const GTK_SOURCE_SPACE_TYPE_NBSP: GtkSourceSpaceTypeFlags = 8;
 pub const GTK_SOURCE_SPACE_TYPE_ALL: GtkSourceSpaceTypeFlags = 15;
 
 // Callbacks
-pub type GtkSourceMountOperationFactory = Option<unsafe extern "C" fn(*mut GtkSourceFile, gpointer) -> *mut gio::GMountOperation>;
+pub type GtkSourceMountOperationFactory =
+    Option<unsafe extern "C" fn(*mut GtkSourceFile, gpointer) -> *mut gio::GMountOperation>;
 
 // Records
 #[repr(C)]
@@ -135,7 +141,13 @@ pub struct GtkSourceBufferClass {
     pub parent_class: gtk::GtkTextBufferClass,
     pub undo: Option<unsafe extern "C" fn(*mut GtkSourceBuffer)>,
     pub redo: Option<unsafe extern "C" fn(*mut GtkSourceBuffer)>,
-    pub bracket_matched: Option<unsafe extern "C" fn(*mut GtkSourceBuffer, *mut gtk::GtkTextIter, GtkSourceBracketMatchType)>,
+    pub bracket_matched: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceBuffer,
+            *mut gtk::GtkTextIter,
+            GtkSourceBracketMatchType,
+        ),
+    >,
     pub _gtk_source_reserved1: Option<unsafe extern "C" fn()>,
     pub _gtk_source_reserved2: Option<unsafe extern "C" fn()>,
     pub _gtk_source_reserved3: Option<unsafe extern "C" fn()>,
@@ -144,52 +156,59 @@ pub struct GtkSourceBufferClass {
 impl ::std::fmt::Debug for GtkSourceBufferClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceBufferClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("undo", &self.undo)
-         .field("redo", &self.redo)
-         .field("bracket_matched", &self.bracket_matched)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("undo", &self.undo)
+            .field("redo", &self.redo)
+            .field("bracket_matched", &self.bracket_matched)
+            .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+            .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+            .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
+            .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceBufferPrivate(c_void);
+pub struct _GtkSourceBufferPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceBufferPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceBufferPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceBufferPrivate = *mut _GtkSourceBufferPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct GtkSourceCompletionClass {
     pub parent_class: gobject::GObjectClass,
-    pub proposal_activated: Option<unsafe extern "C" fn(*mut GtkSourceCompletion, *mut GtkSourceCompletionProvider, *mut GtkSourceCompletionProposal) -> gboolean>,
+    pub proposal_activated: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletion,
+            *mut GtkSourceCompletionProvider,
+            *mut GtkSourceCompletionProposal,
+        ) -> gboolean,
+    >,
     pub show: Option<unsafe extern "C" fn(*mut GtkSourceCompletion)>,
     pub hide: Option<unsafe extern "C" fn(*mut GtkSourceCompletion)>,
-    pub populate_context: Option<unsafe extern "C" fn(*mut GtkSourceCompletion, *mut GtkSourceCompletionContext)>,
-    pub move_cursor: Option<unsafe extern "C" fn(*mut GtkSourceCompletion, gtk::GtkScrollStep, c_int)>,
-    pub move_page: Option<unsafe extern "C" fn(*mut GtkSourceCompletion, gtk::GtkScrollStep, c_int)>,
+    pub populate_context:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletion, *mut GtkSourceCompletionContext)>,
+    pub move_cursor:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletion, gtk::GtkScrollStep, c_int)>,
+    pub move_page:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletion, gtk::GtkScrollStep, c_int)>,
     pub activate_proposal: Option<unsafe extern "C" fn(*mut GtkSourceCompletion)>,
 }
 
 impl ::std::fmt::Debug for GtkSourceCompletionClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("proposal_activated", &self.proposal_activated)
-         .field("show", &self.show)
-         .field("hide", &self.hide)
-         .field("populate_context", &self.populate_context)
-         .field("move_cursor", &self.move_cursor)
-         .field("move_page", &self.move_page)
-         .field("activate_proposal", &self.activate_proposal)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("proposal_activated", &self.proposal_activated)
+        .field("show", &self.show)
+        .field("hide", &self.hide)
+        .field("populate_context", &self.populate_context)
+        .field("move_cursor", &self.move_cursor)
+        .field("move_page", &self.move_page)
+        .field("activate_proposal", &self.activate_proposal)
+        .finish()
     }
 }
 
@@ -205,25 +224,23 @@ pub struct GtkSourceCompletionContextClass {
 
 impl ::std::fmt::Debug for GtkSourceCompletionContextClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionContextClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("cancelled", &self.cancelled)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionContextClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("cancelled", &self.cancelled)
+        .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+        .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+        .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionContextPrivate(c_void);
+pub struct _GtkSourceCompletionContextPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionContextPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionContextPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionContextPrivate = *mut _GtkSourceCompletionContextPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -234,22 +251,20 @@ pub struct GtkSourceCompletionInfoClass {
 
 impl ::std::fmt::Debug for GtkSourceCompletionInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionInfoClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("before_show", &self.before_show)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionInfoClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("before_show", &self.before_show)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionInfoPrivate(c_void);
+pub struct _GtkSourceCompletionInfoPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionInfoPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionInfoPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionInfoPrivate = *mut _GtkSourceCompletionInfoPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -259,31 +274,24 @@ pub struct GtkSourceCompletionItemClass {
 
 impl ::std::fmt::Debug for GtkSourceCompletionItemClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionItemClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionItemClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionItemPrivate(c_void);
+pub struct _GtkSourceCompletionItemPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionItemPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionItemPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionItemPrivate = *mut _GtkSourceCompletionItemPrivate;
 
 #[repr(C)]
-pub struct GtkSourceCompletionPrivate(c_void);
+pub struct _GtkSourceCompletionPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionPrivate = *mut _GtkSourceCompletionPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -292,30 +300,42 @@ pub struct GtkSourceCompletionProposalIface {
     pub get_label: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut c_char>,
     pub get_markup: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut c_char>,
     pub get_text: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut c_char>,
-    pub get_icon: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut gdk_pixbuf::GdkPixbuf>,
-    pub get_icon_name: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut c_char>,
-    pub get_gicon: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut gio::GIcon>,
+    pub get_icon: Option<
+        unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut gdk_pixbuf::GdkPixbuf,
+    >,
+    pub get_icon_name:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut c_char>,
+    pub get_gicon:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut gio::GIcon>,
     pub get_info: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> *mut c_char>,
     pub hash: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal) -> c_uint>,
-    pub equal: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal, *mut GtkSourceCompletionProposal) -> gboolean>,
+    pub equal: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletionProposal,
+            *mut GtkSourceCompletionProposal,
+        ) -> gboolean,
+    >,
     pub changed: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProposal)>,
 }
 
 impl ::std::fmt::Debug for GtkSourceCompletionProposalIface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionProposalIface @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("get_label", &self.get_label)
-         .field("get_markup", &self.get_markup)
-         .field("get_text", &self.get_text)
-         .field("get_icon", &self.get_icon)
-         .field("get_icon_name", &self.get_icon_name)
-         .field("get_gicon", &self.get_gicon)
-         .field("get_info", &self.get_info)
-         .field("hash", &self.hash)
-         .field("equal", &self.equal)
-         .field("changed", &self.changed)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionProposalIface @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .field("get_label", &self.get_label)
+        .field("get_markup", &self.get_markup)
+        .field("get_text", &self.get_text)
+        .field("get_icon", &self.get_icon)
+        .field("get_icon_name", &self.get_icon_name)
+        .field("get_gicon", &self.get_gicon)
+        .field("get_info", &self.get_info)
+        .field("hash", &self.hash)
+        .field("equal", &self.equal)
+        .field("changed", &self.changed)
+        .finish()
     }
 }
 
@@ -324,38 +344,79 @@ impl ::std::fmt::Debug for GtkSourceCompletionProposalIface {
 pub struct GtkSourceCompletionProviderIface {
     pub g_iface: gobject::GTypeInterface,
     pub get_name: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *const c_char>,
-    pub get_icon: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *mut gdk_pixbuf::GdkPixbuf>,
-    pub get_icon_name: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *const c_char>,
-    pub get_gicon: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *mut gio::GIcon>,
-    pub populate: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionContext)>,
-    pub match_: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionContext) -> gboolean>,
-    pub get_activation: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> GtkSourceCompletionActivation>,
-    pub get_info_widget: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionProposal) -> *mut gtk::GtkWidget>,
-    pub update_info: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionProposal, *mut GtkSourceCompletionInfo)>,
-    pub get_start_iter: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionContext, *mut GtkSourceCompletionProposal, *mut gtk::GtkTextIter) -> gboolean>,
-    pub activate_proposal: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionProposal, *mut gtk::GtkTextIter) -> gboolean>,
-    pub get_interactive_delay: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> c_int>,
+    pub get_icon: Option<
+        unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *mut gdk_pixbuf::GdkPixbuf,
+    >,
+    pub get_icon_name:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *const c_char>,
+    pub get_gicon:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> *mut gio::GIcon>,
+    pub populate: Option<
+        unsafe extern "C" fn(*mut GtkSourceCompletionProvider, *mut GtkSourceCompletionContext),
+    >,
+    pub match_: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletionProvider,
+            *mut GtkSourceCompletionContext,
+        ) -> gboolean,
+    >,
+    pub get_activation: Option<
+        unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> GtkSourceCompletionActivation,
+    >,
+    pub get_info_widget: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletionProvider,
+            *mut GtkSourceCompletionProposal,
+        ) -> *mut gtk::GtkWidget,
+    >,
+    pub update_info: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletionProvider,
+            *mut GtkSourceCompletionProposal,
+            *mut GtkSourceCompletionInfo,
+        ),
+    >,
+    pub get_start_iter: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletionProvider,
+            *mut GtkSourceCompletionContext,
+            *mut GtkSourceCompletionProposal,
+            *mut gtk::GtkTextIter,
+        ) -> gboolean,
+    >,
+    pub activate_proposal: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceCompletionProvider,
+            *mut GtkSourceCompletionProposal,
+            *mut gtk::GtkTextIter,
+        ) -> gboolean,
+    >,
+    pub get_interactive_delay:
+        Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> c_int>,
     pub get_priority: Option<unsafe extern "C" fn(*mut GtkSourceCompletionProvider) -> c_int>,
 }
 
 impl ::std::fmt::Debug for GtkSourceCompletionProviderIface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionProviderIface @ {:?}", self as *const _))
-         .field("g_iface", &self.g_iface)
-         .field("get_name", &self.get_name)
-         .field("get_icon", &self.get_icon)
-         .field("get_icon_name", &self.get_icon_name)
-         .field("get_gicon", &self.get_gicon)
-         .field("populate", &self.populate)
-         .field("match_", &self.match_)
-         .field("get_activation", &self.get_activation)
-         .field("get_info_widget", &self.get_info_widget)
-         .field("update_info", &self.update_info)
-         .field("get_start_iter", &self.get_start_iter)
-         .field("activate_proposal", &self.activate_proposal)
-         .field("get_interactive_delay", &self.get_interactive_delay)
-         .field("get_priority", &self.get_priority)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionProviderIface @ {:?}",
+            self as *const _
+        ))
+        .field("g_iface", &self.g_iface)
+        .field("get_name", &self.get_name)
+        .field("get_icon", &self.get_icon)
+        .field("get_icon_name", &self.get_icon_name)
+        .field("get_gicon", &self.get_gicon)
+        .field("populate", &self.populate)
+        .field("match_", &self.match_)
+        .field("get_activation", &self.get_activation)
+        .field("get_info_widget", &self.get_info_widget)
+        .field("update_info", &self.update_info)
+        .field("get_start_iter", &self.get_start_iter)
+        .field("activate_proposal", &self.activate_proposal)
+        .field("get_interactive_delay", &self.get_interactive_delay)
+        .field("get_priority", &self.get_priority)
+        .finish()
     }
 }
 
@@ -367,21 +428,19 @@ pub struct GtkSourceCompletionWordsClass {
 
 impl ::std::fmt::Debug for GtkSourceCompletionWordsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionWordsClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionWordsClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceCompletionWordsPrivate(c_void);
+pub struct _GtkSourceCompletionWordsPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceCompletionWordsPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionWordsPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceCompletionWordsPrivate = *mut _GtkSourceCompletionWordsPrivate;
 
 #[repr(C)]
 pub struct GtkSourceEncoding(c_void);
@@ -389,7 +448,7 @@ pub struct GtkSourceEncoding(c_void);
 impl ::std::fmt::Debug for GtkSourceEncoding {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceEncoding @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -403,9 +462,9 @@ pub struct GtkSourceFileClass {
 impl ::std::fmt::Debug for GtkSourceFileClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceFileClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("padding", &self.padding)
+            .finish()
     }
 }
 
@@ -418,32 +477,25 @@ pub struct GtkSourceFileLoaderClass {
 
 impl ::std::fmt::Debug for GtkSourceFileLoaderClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFileLoaderClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceFileLoaderClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("padding", &self.padding)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceFileLoaderPrivate(c_void);
+pub struct _GtkSourceFileLoaderPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceFileLoaderPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFileLoaderPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceFileLoaderPrivate = *mut _GtkSourceFileLoaderPrivate;
 
 #[repr(C)]
-pub struct GtkSourceFilePrivate(c_void);
+pub struct _GtkSourceFilePrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceFilePrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFilePrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceFilePrivate = *mut _GtkSourceFilePrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -455,21 +507,16 @@ pub struct GtkSourceFileSaverClass {
 impl ::std::fmt::Debug for GtkSourceFileSaverClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceFileSaverClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("padding", &self.padding)
+            .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceFileSaverPrivate(c_void);
+pub struct _GtkSourceFileSaverPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceFileSaverPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceFileSaverPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceFileSaverPrivate = *mut _GtkSourceFileSaverPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -480,52 +527,101 @@ pub struct GtkSourceGutterClass {
 impl ::std::fmt::Debug for GtkSourceGutterClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceGutterClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceGutterPrivate(c_void);
+pub struct _GtkSourceGutterPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterPrivate = *mut _GtkSourceGutterPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct GtkSourceGutterRendererClass {
     pub parent_class: gobject::GInitiallyUnownedClass,
-    pub begin: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut cairo::cairo_t, *mut gdk::GdkRectangle, *mut gdk::GdkRectangle, *mut gtk::GtkTextIter, *mut gtk::GtkTextIter)>,
-    pub draw: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut cairo::cairo_t, *mut gdk::GdkRectangle, *mut gdk::GdkRectangle, *mut gtk::GtkTextIter, *mut gtk::GtkTextIter, GtkSourceGutterRendererState)>,
+    pub begin: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceGutterRenderer,
+            *mut cairo::cairo_t,
+            *mut gdk::GdkRectangle,
+            *mut gdk::GdkRectangle,
+            *mut gtk::GtkTextIter,
+            *mut gtk::GtkTextIter,
+        ),
+    >,
+    pub draw: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceGutterRenderer,
+            *mut cairo::cairo_t,
+            *mut gdk::GdkRectangle,
+            *mut gdk::GdkRectangle,
+            *mut gtk::GtkTextIter,
+            *mut gtk::GtkTextIter,
+            GtkSourceGutterRendererState,
+        ),
+    >,
     pub end: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer)>,
-    pub change_view: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextView)>,
-    pub change_buffer: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextBuffer)>,
-    pub query_activatable: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextIter, *mut gdk::GdkRectangle, *mut gdk::GdkEvent) -> gboolean>,
-    pub activate: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextIter, *mut gdk::GdkRectangle, *mut gdk::GdkEvent)>,
+    pub change_view:
+        Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextView)>,
+    pub change_buffer:
+        Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextBuffer)>,
+    pub query_activatable: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceGutterRenderer,
+            *mut gtk::GtkTextIter,
+            *mut gdk::GdkRectangle,
+            *mut gdk::GdkEvent,
+        ) -> gboolean,
+    >,
+    pub activate: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceGutterRenderer,
+            *mut gtk::GtkTextIter,
+            *mut gdk::GdkRectangle,
+            *mut gdk::GdkEvent,
+        ),
+    >,
     pub queue_draw: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer)>,
-    pub query_tooltip: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextIter, *mut gdk::GdkRectangle, c_int, c_int, *mut gtk::GtkTooltip) -> gboolean>,
-    pub query_data: Option<unsafe extern "C" fn(*mut GtkSourceGutterRenderer, *mut gtk::GtkTextIter, *mut gtk::GtkTextIter, GtkSourceGutterRendererState)>,
+    pub query_tooltip: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceGutterRenderer,
+            *mut gtk::GtkTextIter,
+            *mut gdk::GdkRectangle,
+            c_int,
+            c_int,
+            *mut gtk::GtkTooltip,
+        ) -> gboolean,
+    >,
+    pub query_data: Option<
+        unsafe extern "C" fn(
+            *mut GtkSourceGutterRenderer,
+            *mut gtk::GtkTextIter,
+            *mut gtk::GtkTextIter,
+            GtkSourceGutterRendererState,
+        ),
+    >,
 }
 
 impl ::std::fmt::Debug for GtkSourceGutterRendererClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("begin", &self.begin)
-         .field("draw", &self.draw)
-         .field("end", &self.end)
-         .field("change_view", &self.change_view)
-         .field("change_buffer", &self.change_buffer)
-         .field("query_activatable", &self.query_activatable)
-         .field("activate", &self.activate)
-         .field("queue_draw", &self.queue_draw)
-         .field("query_tooltip", &self.query_tooltip)
-         .field("query_data", &self.query_data)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceGutterRendererClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("begin", &self.begin)
+        .field("draw", &self.draw)
+        .field("end", &self.end)
+        .field("change_view", &self.change_view)
+        .field("change_buffer", &self.change_buffer)
+        .field("query_activatable", &self.query_activatable)
+        .field("activate", &self.activate)
+        .field("queue_draw", &self.queue_draw)
+        .field("query_tooltip", &self.query_tooltip)
+        .field("query_data", &self.query_data)
+        .finish()
     }
 }
 
@@ -537,30 +633,23 @@ pub struct GtkSourceGutterRendererPixbufClass {
 
 impl ::std::fmt::Debug for GtkSourceGutterRendererPixbufClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererPixbufClass @ {:?}", self as *const _))
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceGutterRendererPixbufClass @ {:?}",
+            self as *const _
+        ))
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceGutterRendererPixbufPrivate(c_void);
+pub struct _GtkSourceGutterRendererPixbufPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterRendererPixbufPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererPixbufPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterRendererPixbufPrivate = *mut _GtkSourceGutterRendererPixbufPrivate;
 
 #[repr(C)]
-pub struct GtkSourceGutterRendererPrivate(c_void);
+pub struct _GtkSourceGutterRendererPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterRendererPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterRendererPrivate = *mut _GtkSourceGutterRendererPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -570,20 +659,18 @@ pub struct GtkSourceGutterRendererTextClass {
 
 impl ::std::fmt::Debug for GtkSourceGutterRendererTextClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererTextClass @ {:?}", self as *const _))
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceGutterRendererTextClass @ {:?}",
+            self as *const _
+        ))
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceGutterRendererTextPrivate(c_void);
+pub struct _GtkSourceGutterRendererTextPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceGutterRendererTextPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererTextPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceGutterRendererTextPrivate = *mut _GtkSourceGutterRendererTextPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -596,10 +683,10 @@ pub struct GtkSourceLanguageClass {
 impl ::std::fmt::Debug for GtkSourceLanguageClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceLanguageClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+            .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+            .finish()
     }
 }
 
@@ -615,35 +702,28 @@ pub struct GtkSourceLanguageManagerClass {
 
 impl ::std::fmt::Debug for GtkSourceLanguageManagerClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceLanguageManagerClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
-         .field("_gtk_source_reserved4", &self._gtk_source_reserved4)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceLanguageManagerClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+        .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+        .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
+        .field("_gtk_source_reserved4", &self._gtk_source_reserved4)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceLanguageManagerPrivate(c_void);
+pub struct _GtkSourceLanguageManagerPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceLanguageManagerPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceLanguageManagerPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceLanguageManagerPrivate = *mut _GtkSourceLanguageManagerPrivate;
 
 #[repr(C)]
-pub struct GtkSourceLanguagePrivate(c_void);
+pub struct _GtkSourceLanguagePrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceLanguagePrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceLanguagePrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceLanguagePrivate = *mut _GtkSourceLanguagePrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -655,9 +735,9 @@ pub struct GtkSourceMapClass {
 impl ::std::fmt::Debug for GtkSourceMapClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceMapClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("padding", &self.padding)
+            .finish()
     }
 }
 
@@ -669,20 +749,18 @@ pub struct GtkSourceMarkAttributesClass {
 
 impl ::std::fmt::Debug for GtkSourceMarkAttributesClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceMarkAttributesClass @ {:?}", self as *const _))
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceMarkAttributesClass @ {:?}",
+            self as *const _
+        ))
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceMarkAttributesPrivate(c_void);
+pub struct _GtkSourceMarkAttributesPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceMarkAttributesPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceMarkAttributesPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceMarkAttributesPrivate = *mut _GtkSourceMarkAttributesPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -695,22 +773,17 @@ pub struct GtkSourceMarkClass {
 impl ::std::fmt::Debug for GtkSourceMarkClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceMarkClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+            .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+            .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceMarkPrivate(c_void);
+pub struct _GtkSourceMarkPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceMarkPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceMarkPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceMarkPrivate = *mut _GtkSourceMarkPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -722,23 +795,21 @@ pub struct GtkSourcePrintCompositorClass {
 
 impl ::std::fmt::Debug for GtkSourcePrintCompositorClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourcePrintCompositorClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourcePrintCompositorClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+        .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourcePrintCompositorPrivate(c_void);
+pub struct _GtkSourcePrintCompositorPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourcePrintCompositorPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourcePrintCompositorPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourcePrintCompositorPrivate = *mut _GtkSourcePrintCompositorPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -750,9 +821,9 @@ pub struct GtkSourceRegionClass {
 impl ::std::fmt::Debug for GtkSourceRegionClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceRegionClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("padding", &self.padding)
+            .finish()
     }
 }
 
@@ -767,7 +838,7 @@ pub struct GtkSourceRegionIter {
 impl ::std::fmt::Debug for GtkSourceRegionIter {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceRegionIter @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -780,22 +851,20 @@ pub struct GtkSourceSearchContextClass {
 
 impl ::std::fmt::Debug for GtkSourceSearchContextClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSearchContextClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceSearchContextClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("padding", &self.padding)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceSearchContextPrivate(c_void);
+pub struct _GtkSourceSearchContextPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceSearchContextPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSearchContextPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceSearchContextPrivate = *mut _GtkSourceSearchContextPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -806,22 +875,20 @@ pub struct GtkSourceSearchSettingsClass {
 
 impl ::std::fmt::Debug for GtkSourceSearchSettingsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSearchSettingsClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceSearchSettingsClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("padding", &self.padding)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceSearchSettingsPrivate(c_void);
+pub struct _GtkSourceSearchSettingsPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceSearchSettingsPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSearchSettingsPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceSearchSettingsPrivate = *mut _GtkSourceSearchSettingsPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -832,32 +899,25 @@ pub struct GtkSourceSpaceDrawerClass {
 
 impl ::std::fmt::Debug for GtkSourceSpaceDrawerClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSpaceDrawerClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceSpaceDrawerClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("padding", &self.padding)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceSpaceDrawerPrivate(c_void);
+pub struct _GtkSourceSpaceDrawerPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceSpaceDrawerPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceSpaceDrawerPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceSpaceDrawerPrivate = *mut _GtkSourceSpaceDrawerPrivate;
 
 #[repr(C)]
-pub struct GtkSourceStyleClass(c_void);
+pub struct _GtkSourceStyleClass(c_void);
 
-impl ::std::fmt::Debug for GtkSourceStyleClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleClass @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceStyleClass = *mut _GtkSourceStyleClass;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -867,9 +927,12 @@ pub struct GtkSourceStyleSchemeChooserButtonClass {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserButtonClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeChooserButtonClass @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeChooserButtonClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .finish()
     }
 }
 
@@ -877,19 +940,24 @@ impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserButtonClass {
 #[derive(Copy, Clone)]
 pub struct GtkSourceStyleSchemeChooserInterface {
     pub base_interface: gobject::GTypeInterface,
-    pub get_style_scheme: Option<unsafe extern "C" fn(*mut GtkSourceStyleSchemeChooser) -> *mut GtkSourceStyleScheme>,
-    pub set_style_scheme: Option<unsafe extern "C" fn(*mut GtkSourceStyleSchemeChooser, *mut GtkSourceStyleScheme)>,
+    pub get_style_scheme:
+        Option<unsafe extern "C" fn(*mut GtkSourceStyleSchemeChooser) -> *mut GtkSourceStyleScheme>,
+    pub set_style_scheme:
+        Option<unsafe extern "C" fn(*mut GtkSourceStyleSchemeChooser, *mut GtkSourceStyleScheme)>,
     pub padding: [gpointer; 12],
 }
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeChooserInterface @ {:?}", self as *const _))
-         .field("base_interface", &self.base_interface)
-         .field("get_style_scheme", &self.get_style_scheme)
-         .field("set_style_scheme", &self.set_style_scheme)
-         .field("padding", &self.padding)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeChooserInterface @ {:?}",
+            self as *const _
+        ))
+        .field("base_interface", &self.base_interface)
+        .field("get_style_scheme", &self.get_style_scheme)
+        .field("set_style_scheme", &self.set_style_scheme)
+        .field("padding", &self.padding)
+        .finish()
     }
 }
 
@@ -901,9 +969,12 @@ pub struct GtkSourceStyleSchemeChooserWidgetClass {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserWidgetClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeChooserWidgetClass @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeChooserWidgetClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .finish()
     }
 }
 
@@ -917,11 +988,14 @@ pub struct GtkSourceStyleSchemeClass {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeClass @ {:?}", self as *const _))
-         .field("base_class", &self.base_class)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeClass @ {:?}",
+            self as *const _
+        ))
+        .field("base_class", &self.base_class)
+        .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+        .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+        .finish()
     }
 }
 
@@ -937,35 +1011,28 @@ pub struct GtkSourceStyleSchemeManagerClass {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeManagerClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeManagerClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
-         .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
-         .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
-         .field("_gtk_source_reserved4", &self._gtk_source_reserved4)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeManagerClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("_gtk_source_reserved1", &self._gtk_source_reserved1)
+        .field("_gtk_source_reserved2", &self._gtk_source_reserved2)
+        .field("_gtk_source_reserved3", &self._gtk_source_reserved3)
+        .field("_gtk_source_reserved4", &self._gtk_source_reserved4)
+        .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceStyleSchemeManagerPrivate(c_void);
+pub struct _GtkSourceStyleSchemeManagerPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceStyleSchemeManagerPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeManagerPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceStyleSchemeManagerPrivate = *mut _GtkSourceStyleSchemeManagerPrivate;
 
 #[repr(C)]
-pub struct GtkSourceStyleSchemePrivate(c_void);
+pub struct _GtkSourceStyleSchemePrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceStyleSchemePrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemePrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceStyleSchemePrivate = *mut _GtkSourceStyleSchemePrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -977,9 +1044,9 @@ pub struct GtkSourceTagClass {
 impl ::std::fmt::Debug for GtkSourceTagClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceTagClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("padding", &self.padding)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("padding", &self.padding)
+            .finish()
     }
 }
 
@@ -999,17 +1066,20 @@ pub struct GtkSourceUndoManagerIface {
 
 impl ::std::fmt::Debug for GtkSourceUndoManagerIface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceUndoManagerIface @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("can_undo", &self.can_undo)
-         .field("can_redo", &self.can_redo)
-         .field("undo", &self.undo)
-         .field("redo", &self.redo)
-         .field("begin_not_undoable_action", &self.begin_not_undoable_action)
-         .field("end_not_undoable_action", &self.end_not_undoable_action)
-         .field("can_undo_changed", &self.can_undo_changed)
-         .field("can_redo_changed", &self.can_redo_changed)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceUndoManagerIface @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .field("can_undo", &self.can_undo)
+        .field("can_redo", &self.can_redo)
+        .field("undo", &self.undo)
+        .field("redo", &self.redo)
+        .field("begin_not_undoable_action", &self.begin_not_undoable_action)
+        .field("end_not_undoable_action", &self.end_not_undoable_action)
+        .field("can_undo_changed", &self.can_undo_changed)
+        .field("can_redo_changed", &self.can_redo_changed)
+        .finish()
     }
 }
 
@@ -1019,7 +1089,8 @@ pub struct GtkSourceViewClass {
     pub parent_class: gtk::GtkTextViewClass,
     pub undo: Option<unsafe extern "C" fn(*mut GtkSourceView)>,
     pub redo: Option<unsafe extern "C" fn(*mut GtkSourceView)>,
-    pub line_mark_activated: Option<unsafe extern "C" fn(*mut GtkSourceView, *mut gtk::GtkTextIter, *mut gdk::GdkEvent)>,
+    pub line_mark_activated:
+        Option<unsafe extern "C" fn(*mut GtkSourceView, *mut gtk::GtkTextIter, *mut gdk::GdkEvent)>,
     pub show_completion: Option<unsafe extern "C" fn(*mut GtkSourceView)>,
     pub move_lines: Option<unsafe extern "C" fn(*mut GtkSourceView, gboolean, c_int)>,
     pub move_words: Option<unsafe extern "C" fn(*mut GtkSourceView, c_int)>,
@@ -1028,26 +1099,21 @@ pub struct GtkSourceViewClass {
 impl ::std::fmt::Debug for GtkSourceViewClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceViewClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("undo", &self.undo)
-         .field("redo", &self.redo)
-         .field("line_mark_activated", &self.line_mark_activated)
-         .field("show_completion", &self.show_completion)
-         .field("move_lines", &self.move_lines)
-         .field("move_words", &self.move_words)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("undo", &self.undo)
+            .field("redo", &self.redo)
+            .field("line_mark_activated", &self.line_mark_activated)
+            .field("show_completion", &self.show_completion)
+            .field("move_lines", &self.move_lines)
+            .field("move_words", &self.move_words)
+            .finish()
     }
 }
 
 #[repr(C)]
-pub struct GtkSourceViewPrivate(c_void);
+pub struct _GtkSourceViewPrivate(c_void);
 
-impl ::std::fmt::Debug for GtkSourceViewPrivate {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceViewPrivate @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type GtkSourceViewPrivate = *mut _GtkSourceViewPrivate;
 
 // Classes
 #[repr(C)]
@@ -1060,9 +1126,9 @@ pub struct GtkSourceBuffer {
 impl ::std::fmt::Debug for GtkSourceBuffer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceBuffer @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1076,9 +1142,9 @@ pub struct GtkSourceCompletion {
 impl ::std::fmt::Debug for GtkSourceCompletion {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceCompletion @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1091,10 +1157,13 @@ pub struct GtkSourceCompletionContext {
 
 impl ::std::fmt::Debug for GtkSourceCompletionContext {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionContext @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionContext @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .field("priv_", &self.priv_)
+        .finish()
     }
 }
 
@@ -1108,9 +1177,9 @@ pub struct GtkSourceCompletionInfo {
 impl ::std::fmt::Debug for GtkSourceCompletionInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceCompletionInfo @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1124,9 +1193,9 @@ pub struct GtkSourceCompletionItem {
 impl ::std::fmt::Debug for GtkSourceCompletionItem {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceCompletionItem @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1139,10 +1208,13 @@ pub struct GtkSourceCompletionWords {
 
 impl ::std::fmt::Debug for GtkSourceCompletionWords {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceCompletionWords @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceCompletionWords @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .field("priv_", &self.priv_)
+        .finish()
     }
 }
 
@@ -1156,9 +1228,9 @@ pub struct GtkSourceFile {
 impl ::std::fmt::Debug for GtkSourceFile {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceFile @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1172,9 +1244,9 @@ pub struct GtkSourceFileLoader {
 impl ::std::fmt::Debug for GtkSourceFileLoader {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceFileLoader @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1188,9 +1260,9 @@ pub struct GtkSourceFileSaver {
 impl ::std::fmt::Debug for GtkSourceFileSaver {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceFileSaver @ {:?}", self as *const _))
-         .field("object", &self.object)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("object", &self.object)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1204,9 +1276,9 @@ pub struct GtkSourceGutter {
 impl ::std::fmt::Debug for GtkSourceGutter {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceGutter @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1220,8 +1292,8 @@ pub struct GtkSourceGutterRenderer {
 impl ::std::fmt::Debug for GtkSourceGutterRenderer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceGutterRenderer @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .finish()
+            .field("parent", &self.parent)
+            .finish()
     }
 }
 
@@ -1234,8 +1306,11 @@ pub struct GtkSourceGutterRendererPixbuf {
 
 impl ::std::fmt::Debug for GtkSourceGutterRendererPixbuf {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererPixbuf @ {:?}", self as *const _))
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceGutterRendererPixbuf @ {:?}",
+            self as *const _
+        ))
+        .finish()
     }
 }
 
@@ -1248,8 +1323,11 @@ pub struct GtkSourceGutterRendererText {
 
 impl ::std::fmt::Debug for GtkSourceGutterRendererText {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceGutterRendererText @ {:?}", self as *const _))
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceGutterRendererText @ {:?}",
+            self as *const _
+        ))
+        .finish()
     }
 }
 
@@ -1263,9 +1341,9 @@ pub struct GtkSourceLanguage {
 impl ::std::fmt::Debug for GtkSourceLanguage {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceLanguage @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1278,10 +1356,13 @@ pub struct GtkSourceLanguageManager {
 
 impl ::std::fmt::Debug for GtkSourceLanguageManager {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceLanguageManager @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceLanguageManager @ {:?}",
+            self as *const _
+        ))
+        .field("parent_instance", &self.parent_instance)
+        .field("priv_", &self.priv_)
+        .finish()
     }
 }
 
@@ -1294,8 +1375,8 @@ pub struct GtkSourceMap {
 impl ::std::fmt::Debug for GtkSourceMap {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceMap @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .finish()
     }
 }
 
@@ -1309,9 +1390,9 @@ pub struct GtkSourceMark {
 impl ::std::fmt::Debug for GtkSourceMark {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceMark @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1325,7 +1406,7 @@ pub struct GtkSourceMarkAttributes {
 impl ::std::fmt::Debug for GtkSourceMarkAttributes {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceMarkAttributes @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -1338,10 +1419,13 @@ pub struct GtkSourcePrintCompositor {
 
 impl ::std::fmt::Debug for GtkSourcePrintCompositor {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourcePrintCompositor @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourcePrintCompositor @ {:?}",
+            self as *const _
+        ))
+        .field("parent_instance", &self.parent_instance)
+        .field("priv_", &self.priv_)
+        .finish()
     }
 }
 
@@ -1354,8 +1438,8 @@ pub struct GtkSourceRegion {
 impl ::std::fmt::Debug for GtkSourceRegion {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceRegion @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .finish()
     }
 }
 
@@ -1369,9 +1453,9 @@ pub struct GtkSourceSearchContext {
 impl ::std::fmt::Debug for GtkSourceSearchContext {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceSearchContext @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1385,9 +1469,9 @@ pub struct GtkSourceSearchSettings {
 impl ::std::fmt::Debug for GtkSourceSearchSettings {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceSearchSettings @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1401,9 +1485,9 @@ pub struct GtkSourceSpaceDrawer {
 impl ::std::fmt::Debug for GtkSourceSpaceDrawer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceSpaceDrawer @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1413,7 +1497,7 @@ pub struct GtkSourceStyle(c_void);
 impl ::std::fmt::Debug for GtkSourceStyle {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceStyle @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -1427,9 +1511,9 @@ pub struct GtkSourceStyleScheme {
 impl ::std::fmt::Debug for GtkSourceStyleScheme {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceStyleScheme @ {:?}", self as *const _))
-         .field("base", &self.base)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("base", &self.base)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1441,9 +1525,12 @@ pub struct GtkSourceStyleSchemeChooserButton {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserButton {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeChooserButton @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeChooserButton @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .finish()
     }
 }
 
@@ -1455,9 +1542,12 @@ pub struct GtkSourceStyleSchemeChooserWidget {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeChooserWidget {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeChooserWidget @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeChooserWidget @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .finish()
     }
 }
 
@@ -1470,10 +1560,13 @@ pub struct GtkSourceStyleSchemeManager {
 
 impl ::std::fmt::Debug for GtkSourceStyleSchemeManager {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("GtkSourceStyleSchemeManager @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+        f.debug_struct(&format!(
+            "GtkSourceStyleSchemeManager @ {:?}",
+            self as *const _
+        ))
+        .field("parent", &self.parent)
+        .field("priv_", &self.priv_)
+        .finish()
     }
 }
 
@@ -1486,8 +1579,8 @@ pub struct GtkSourceTag {
 impl ::std::fmt::Debug for GtkSourceTag {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceTag @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .finish()
     }
 }
 
@@ -1501,9 +1594,9 @@ pub struct GtkSourceView {
 impl ::std::fmt::Debug for GtkSourceView {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("GtkSourceView @ {:?}", self as *const _))
-         .field("parent", &self.parent)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent", &self.parent)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -1543,7 +1636,6 @@ impl ::std::fmt::Debug for GtkSourceUndoManager {
         write!(f, "GtkSourceUndoManager @ {:?}", self as *const _)
     }
 }
-
 
 extern "C" {
 
@@ -1661,7 +1753,8 @@ extern "C" {
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn gtk_source_encoding_get_default_candidates() -> *mut glib::GSList;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_encoding_get_from_charset(charset: *const c_char) -> *const GtkSourceEncoding;
+    pub fn gtk_source_encoding_get_from_charset(charset: *const c_char)
+        -> *const GtkSourceEncoding;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn gtk_source_encoding_get_utf8() -> *const GtkSourceEncoding;
 
@@ -1669,7 +1762,11 @@ extern "C" {
     // GtkSourceRegionIter
     //=========================================================================
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_iter_get_subregion(iter: *mut GtkSourceRegionIter, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter) -> gboolean;
+    pub fn gtk_source_region_iter_get_subregion(
+        iter: *mut GtkSourceRegionIter,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn gtk_source_region_iter_is_end(iter: *mut GtkSourceRegionIter) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
@@ -1680,113 +1777,297 @@ extern "C" {
     //=========================================================================
     pub fn gtk_source_buffer_get_type() -> GType;
     pub fn gtk_source_buffer_new(table: *mut gtk::GtkTextTagTable) -> *mut GtkSourceBuffer;
-    pub fn gtk_source_buffer_new_with_language(language: *mut GtkSourceLanguage) -> *mut GtkSourceBuffer;
-    pub fn gtk_source_buffer_backward_iter_to_source_mark(buffer: *mut GtkSourceBuffer, iter: *mut gtk::GtkTextIter, category: *const c_char) -> gboolean;
+    pub fn gtk_source_buffer_new_with_language(
+        language: *mut GtkSourceLanguage,
+    ) -> *mut GtkSourceBuffer;
+    pub fn gtk_source_buffer_backward_iter_to_source_mark(
+        buffer: *mut GtkSourceBuffer,
+        iter: *mut gtk::GtkTextIter,
+        category: *const c_char,
+    ) -> gboolean;
     pub fn gtk_source_buffer_begin_not_undoable_action(buffer: *mut GtkSourceBuffer);
     pub fn gtk_source_buffer_can_redo(buffer: *mut GtkSourceBuffer) -> gboolean;
     pub fn gtk_source_buffer_can_undo(buffer: *mut GtkSourceBuffer) -> gboolean;
     #[cfg(any(feature = "v3_12", feature = "dox"))]
-    pub fn gtk_source_buffer_change_case(buffer: *mut GtkSourceBuffer, case_type: GtkSourceChangeCaseType, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter);
-    pub fn gtk_source_buffer_create_source_mark(buffer: *mut GtkSourceBuffer, name: *const c_char, category: *const c_char, where_: *const gtk::GtkTextIter) -> *mut GtkSourceMark;
+    pub fn gtk_source_buffer_change_case(
+        buffer: *mut GtkSourceBuffer,
+        case_type: GtkSourceChangeCaseType,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    );
+    pub fn gtk_source_buffer_create_source_mark(
+        buffer: *mut GtkSourceBuffer,
+        name: *const c_char,
+        category: *const c_char,
+        where_: *const gtk::GtkTextIter,
+    ) -> *mut GtkSourceMark;
     #[cfg(any(feature = "v3_20", feature = "dox"))]
-    pub fn gtk_source_buffer_create_source_tag(buffer: *mut GtkSourceBuffer, tag_name: *const c_char, first_property_name: *const c_char, ...) -> *mut gtk::GtkTextTag;
+    pub fn gtk_source_buffer_create_source_tag(
+        buffer: *mut GtkSourceBuffer,
+        tag_name: *const c_char,
+        first_property_name: *const c_char,
+        ...
+    ) -> *mut gtk::GtkTextTag;
     pub fn gtk_source_buffer_end_not_undoable_action(buffer: *mut GtkSourceBuffer);
-    pub fn gtk_source_buffer_ensure_highlight(buffer: *mut GtkSourceBuffer, start: *const gtk::GtkTextIter, end: *const gtk::GtkTextIter);
-    pub fn gtk_source_buffer_forward_iter_to_source_mark(buffer: *mut GtkSourceBuffer, iter: *mut gtk::GtkTextIter, category: *const c_char) -> gboolean;
-    pub fn gtk_source_buffer_get_context_classes_at_iter(buffer: *mut GtkSourceBuffer, iter: *const gtk::GtkTextIter) -> *mut *mut c_char;
-    pub fn gtk_source_buffer_get_highlight_matching_brackets(buffer: *mut GtkSourceBuffer) -> gboolean;
+    pub fn gtk_source_buffer_ensure_highlight(
+        buffer: *mut GtkSourceBuffer,
+        start: *const gtk::GtkTextIter,
+        end: *const gtk::GtkTextIter,
+    );
+    pub fn gtk_source_buffer_forward_iter_to_source_mark(
+        buffer: *mut GtkSourceBuffer,
+        iter: *mut gtk::GtkTextIter,
+        category: *const c_char,
+    ) -> gboolean;
+    pub fn gtk_source_buffer_get_context_classes_at_iter(
+        buffer: *mut GtkSourceBuffer,
+        iter: *const gtk::GtkTextIter,
+    ) -> *mut *mut c_char;
+    pub fn gtk_source_buffer_get_highlight_matching_brackets(
+        buffer: *mut GtkSourceBuffer,
+    ) -> gboolean;
     pub fn gtk_source_buffer_get_highlight_syntax(buffer: *mut GtkSourceBuffer) -> gboolean;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_buffer_get_implicit_trailing_newline(buffer: *mut GtkSourceBuffer) -> gboolean;
+    pub fn gtk_source_buffer_get_implicit_trailing_newline(
+        buffer: *mut GtkSourceBuffer,
+    ) -> gboolean;
     pub fn gtk_source_buffer_get_language(buffer: *mut GtkSourceBuffer) -> *mut GtkSourceLanguage;
     pub fn gtk_source_buffer_get_max_undo_levels(buffer: *mut GtkSourceBuffer) -> c_int;
-    pub fn gtk_source_buffer_get_source_marks_at_iter(buffer: *mut GtkSourceBuffer, iter: *mut gtk::GtkTextIter, category: *const c_char) -> *mut glib::GSList;
-    pub fn gtk_source_buffer_get_source_marks_at_line(buffer: *mut GtkSourceBuffer, line: c_int, category: *const c_char) -> *mut glib::GSList;
-    pub fn gtk_source_buffer_get_style_scheme(buffer: *mut GtkSourceBuffer) -> *mut GtkSourceStyleScheme;
-    pub fn gtk_source_buffer_get_undo_manager(buffer: *mut GtkSourceBuffer) -> *mut GtkSourceUndoManager;
-    pub fn gtk_source_buffer_iter_backward_to_context_class_toggle(buffer: *mut GtkSourceBuffer, iter: *mut gtk::GtkTextIter, context_class: *const c_char) -> gboolean;
-    pub fn gtk_source_buffer_iter_forward_to_context_class_toggle(buffer: *mut GtkSourceBuffer, iter: *mut gtk::GtkTextIter, context_class: *const c_char) -> gboolean;
-    pub fn gtk_source_buffer_iter_has_context_class(buffer: *mut GtkSourceBuffer, iter: *const gtk::GtkTextIter, context_class: *const c_char) -> gboolean;
+    pub fn gtk_source_buffer_get_source_marks_at_iter(
+        buffer: *mut GtkSourceBuffer,
+        iter: *mut gtk::GtkTextIter,
+        category: *const c_char,
+    ) -> *mut glib::GSList;
+    pub fn gtk_source_buffer_get_source_marks_at_line(
+        buffer: *mut GtkSourceBuffer,
+        line: c_int,
+        category: *const c_char,
+    ) -> *mut glib::GSList;
+    pub fn gtk_source_buffer_get_style_scheme(
+        buffer: *mut GtkSourceBuffer,
+    ) -> *mut GtkSourceStyleScheme;
+    pub fn gtk_source_buffer_get_undo_manager(
+        buffer: *mut GtkSourceBuffer,
+    ) -> *mut GtkSourceUndoManager;
+    pub fn gtk_source_buffer_iter_backward_to_context_class_toggle(
+        buffer: *mut GtkSourceBuffer,
+        iter: *mut gtk::GtkTextIter,
+        context_class: *const c_char,
+    ) -> gboolean;
+    pub fn gtk_source_buffer_iter_forward_to_context_class_toggle(
+        buffer: *mut GtkSourceBuffer,
+        iter: *mut gtk::GtkTextIter,
+        context_class: *const c_char,
+    ) -> gboolean;
+    pub fn gtk_source_buffer_iter_has_context_class(
+        buffer: *mut GtkSourceBuffer,
+        iter: *const gtk::GtkTextIter,
+        context_class: *const c_char,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_buffer_join_lines(buffer: *mut GtkSourceBuffer, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter);
+    pub fn gtk_source_buffer_join_lines(
+        buffer: *mut GtkSourceBuffer,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    );
     pub fn gtk_source_buffer_redo(buffer: *mut GtkSourceBuffer);
-    pub fn gtk_source_buffer_remove_source_marks(buffer: *mut GtkSourceBuffer, start: *const gtk::GtkTextIter, end: *const gtk::GtkTextIter, category: *const c_char);
-    pub fn gtk_source_buffer_set_highlight_matching_brackets(buffer: *mut GtkSourceBuffer, highlight: gboolean);
-    pub fn gtk_source_buffer_set_highlight_syntax(buffer: *mut GtkSourceBuffer, highlight: gboolean);
+    pub fn gtk_source_buffer_remove_source_marks(
+        buffer: *mut GtkSourceBuffer,
+        start: *const gtk::GtkTextIter,
+        end: *const gtk::GtkTextIter,
+        category: *const c_char,
+    );
+    pub fn gtk_source_buffer_set_highlight_matching_brackets(
+        buffer: *mut GtkSourceBuffer,
+        highlight: gboolean,
+    );
+    pub fn gtk_source_buffer_set_highlight_syntax(
+        buffer: *mut GtkSourceBuffer,
+        highlight: gboolean,
+    );
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_buffer_set_implicit_trailing_newline(buffer: *mut GtkSourceBuffer, implicit_trailing_newline: gboolean);
-    pub fn gtk_source_buffer_set_language(buffer: *mut GtkSourceBuffer, language: *mut GtkSourceLanguage);
-    pub fn gtk_source_buffer_set_max_undo_levels(buffer: *mut GtkSourceBuffer, max_undo_levels: c_int);
-    pub fn gtk_source_buffer_set_style_scheme(buffer: *mut GtkSourceBuffer, scheme: *mut GtkSourceStyleScheme);
-    pub fn gtk_source_buffer_set_undo_manager(buffer: *mut GtkSourceBuffer, manager: *mut GtkSourceUndoManager);
+    pub fn gtk_source_buffer_set_implicit_trailing_newline(
+        buffer: *mut GtkSourceBuffer,
+        implicit_trailing_newline: gboolean,
+    );
+    pub fn gtk_source_buffer_set_language(
+        buffer: *mut GtkSourceBuffer,
+        language: *mut GtkSourceLanguage,
+    );
+    pub fn gtk_source_buffer_set_max_undo_levels(
+        buffer: *mut GtkSourceBuffer,
+        max_undo_levels: c_int,
+    );
+    pub fn gtk_source_buffer_set_style_scheme(
+        buffer: *mut GtkSourceBuffer,
+        scheme: *mut GtkSourceStyleScheme,
+    );
+    pub fn gtk_source_buffer_set_undo_manager(
+        buffer: *mut GtkSourceBuffer,
+        manager: *mut GtkSourceUndoManager,
+    );
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    pub fn gtk_source_buffer_sort_lines(buffer: *mut GtkSourceBuffer, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter, flags: GtkSourceSortFlags, column: c_int);
+    pub fn gtk_source_buffer_sort_lines(
+        buffer: *mut GtkSourceBuffer,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+        flags: GtkSourceSortFlags,
+        column: c_int,
+    );
     pub fn gtk_source_buffer_undo(buffer: *mut GtkSourceBuffer);
 
     //=========================================================================
     // GtkSourceCompletion
     //=========================================================================
     pub fn gtk_source_completion_get_type() -> GType;
-    pub fn gtk_source_completion_add_provider(completion: *mut GtkSourceCompletion, provider: *mut GtkSourceCompletionProvider, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_completion_add_provider(
+        completion: *mut GtkSourceCompletion,
+        provider: *mut GtkSourceCompletionProvider,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     pub fn gtk_source_completion_block_interactive(completion: *mut GtkSourceCompletion);
-    pub fn gtk_source_completion_create_context(completion: *mut GtkSourceCompletion, position: *mut gtk::GtkTextIter) -> *mut GtkSourceCompletionContext;
-    pub fn gtk_source_completion_get_info_window(completion: *mut GtkSourceCompletion) -> *mut GtkSourceCompletionInfo;
-    pub fn gtk_source_completion_get_providers(completion: *mut GtkSourceCompletion) -> *mut glib::GList;
-    pub fn gtk_source_completion_get_view(completion: *mut GtkSourceCompletion) -> *mut GtkSourceView;
+    pub fn gtk_source_completion_create_context(
+        completion: *mut GtkSourceCompletion,
+        position: *mut gtk::GtkTextIter,
+    ) -> *mut GtkSourceCompletionContext;
+    pub fn gtk_source_completion_get_info_window(
+        completion: *mut GtkSourceCompletion,
+    ) -> *mut GtkSourceCompletionInfo;
+    pub fn gtk_source_completion_get_providers(
+        completion: *mut GtkSourceCompletion,
+    ) -> *mut glib::GList;
+    pub fn gtk_source_completion_get_view(
+        completion: *mut GtkSourceCompletion,
+    ) -> *mut GtkSourceView;
     pub fn gtk_source_completion_hide(completion: *mut GtkSourceCompletion);
-    pub fn gtk_source_completion_move_window(completion: *mut GtkSourceCompletion, iter: *mut gtk::GtkTextIter);
-    pub fn gtk_source_completion_remove_provider(completion: *mut GtkSourceCompletion, provider: *mut GtkSourceCompletionProvider, error: *mut *mut glib::GError) -> gboolean;
-    pub fn gtk_source_completion_show(completion: *mut GtkSourceCompletion, providers: *mut glib::GList, context: *mut GtkSourceCompletionContext) -> gboolean;
+    pub fn gtk_source_completion_move_window(
+        completion: *mut GtkSourceCompletion,
+        iter: *mut gtk::GtkTextIter,
+    );
+    pub fn gtk_source_completion_remove_provider(
+        completion: *mut GtkSourceCompletion,
+        provider: *mut GtkSourceCompletionProvider,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn gtk_source_completion_show(
+        completion: *mut GtkSourceCompletion,
+        providers: *mut glib::GList,
+        context: *mut GtkSourceCompletionContext,
+    ) -> gboolean;
     pub fn gtk_source_completion_unblock_interactive(completion: *mut GtkSourceCompletion);
 
     //=========================================================================
     // GtkSourceCompletionContext
     //=========================================================================
     pub fn gtk_source_completion_context_get_type() -> GType;
-    pub fn gtk_source_completion_context_add_proposals(context: *mut GtkSourceCompletionContext, provider: *mut GtkSourceCompletionProvider, proposals: *mut glib::GList, finished: gboolean);
-    pub fn gtk_source_completion_context_get_activation(context: *mut GtkSourceCompletionContext) -> GtkSourceCompletionActivation;
-    pub fn gtk_source_completion_context_get_iter(context: *mut GtkSourceCompletionContext, iter: *mut gtk::GtkTextIter) -> gboolean;
+    pub fn gtk_source_completion_context_add_proposals(
+        context: *mut GtkSourceCompletionContext,
+        provider: *mut GtkSourceCompletionProvider,
+        proposals: *mut glib::GList,
+        finished: gboolean,
+    );
+    pub fn gtk_source_completion_context_get_activation(
+        context: *mut GtkSourceCompletionContext,
+    ) -> GtkSourceCompletionActivation;
+    pub fn gtk_source_completion_context_get_iter(
+        context: *mut GtkSourceCompletionContext,
+        iter: *mut gtk::GtkTextIter,
+    ) -> gboolean;
 
     //=========================================================================
     // GtkSourceCompletionInfo
     //=========================================================================
     pub fn gtk_source_completion_info_get_type() -> GType;
     pub fn gtk_source_completion_info_new() -> *mut GtkSourceCompletionInfo;
-    pub fn gtk_source_completion_info_get_widget(info: *mut GtkSourceCompletionInfo) -> *mut gtk::GtkWidget;
-    pub fn gtk_source_completion_info_move_to_iter(info: *mut GtkSourceCompletionInfo, view: *mut gtk::GtkTextView, iter: *mut gtk::GtkTextIter);
-    pub fn gtk_source_completion_info_set_widget(info: *mut GtkSourceCompletionInfo, widget: *mut gtk::GtkWidget);
+    pub fn gtk_source_completion_info_get_widget(
+        info: *mut GtkSourceCompletionInfo,
+    ) -> *mut gtk::GtkWidget;
+    pub fn gtk_source_completion_info_move_to_iter(
+        info: *mut GtkSourceCompletionInfo,
+        view: *mut gtk::GtkTextView,
+        iter: *mut gtk::GtkTextIter,
+    );
+    pub fn gtk_source_completion_info_set_widget(
+        info: *mut GtkSourceCompletionInfo,
+        widget: *mut gtk::GtkWidget,
+    );
 
     //=========================================================================
     // GtkSourceCompletionItem
     //=========================================================================
     pub fn gtk_source_completion_item_get_type() -> GType;
-    pub fn gtk_source_completion_item_new(label: *const c_char, text: *const c_char, icon: *mut gdk_pixbuf::GdkPixbuf, info: *const c_char) -> *mut GtkSourceCompletionItem;
-    pub fn gtk_source_completion_item_new_from_stock(label: *const c_char, text: *const c_char, stock: *const c_char, info: *const c_char) -> *mut GtkSourceCompletionItem;
-    pub fn gtk_source_completion_item_new_with_markup(markup: *const c_char, text: *const c_char, icon: *mut gdk_pixbuf::GdkPixbuf, info: *const c_char) -> *mut GtkSourceCompletionItem;
+    pub fn gtk_source_completion_item_new(
+        label: *const c_char,
+        text: *const c_char,
+        icon: *mut gdk_pixbuf::GdkPixbuf,
+        info: *const c_char,
+    ) -> *mut GtkSourceCompletionItem;
+    pub fn gtk_source_completion_item_new_from_stock(
+        label: *const c_char,
+        text: *const c_char,
+        stock: *const c_char,
+        info: *const c_char,
+    ) -> *mut GtkSourceCompletionItem;
+    pub fn gtk_source_completion_item_new_with_markup(
+        markup: *const c_char,
+        text: *const c_char,
+        icon: *mut gdk_pixbuf::GdkPixbuf,
+        info: *const c_char,
+    ) -> *mut GtkSourceCompletionItem;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub fn gtk_source_completion_item_new2() -> *mut GtkSourceCompletionItem;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_gicon(item: *mut GtkSourceCompletionItem, gicon: *mut gio::GIcon);
+    pub fn gtk_source_completion_item_set_gicon(
+        item: *mut GtkSourceCompletionItem,
+        gicon: *mut gio::GIcon,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_icon(item: *mut GtkSourceCompletionItem, icon: *mut gdk_pixbuf::GdkPixbuf);
+    pub fn gtk_source_completion_item_set_icon(
+        item: *mut GtkSourceCompletionItem,
+        icon: *mut gdk_pixbuf::GdkPixbuf,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_icon_name(item: *mut GtkSourceCompletionItem, icon_name: *const c_char);
+    pub fn gtk_source_completion_item_set_icon_name(
+        item: *mut GtkSourceCompletionItem,
+        icon_name: *const c_char,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_info(item: *mut GtkSourceCompletionItem, info: *const c_char);
+    pub fn gtk_source_completion_item_set_info(
+        item: *mut GtkSourceCompletionItem,
+        info: *const c_char,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_label(item: *mut GtkSourceCompletionItem, label: *const c_char);
+    pub fn gtk_source_completion_item_set_label(
+        item: *mut GtkSourceCompletionItem,
+        label: *const c_char,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_markup(item: *mut GtkSourceCompletionItem, markup: *const c_char);
+    pub fn gtk_source_completion_item_set_markup(
+        item: *mut GtkSourceCompletionItem,
+        markup: *const c_char,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_completion_item_set_text(item: *mut GtkSourceCompletionItem, text: *const c_char);
+    pub fn gtk_source_completion_item_set_text(
+        item: *mut GtkSourceCompletionItem,
+        text: *const c_char,
+    );
 
     //=========================================================================
     // GtkSourceCompletionWords
     //=========================================================================
     pub fn gtk_source_completion_words_get_type() -> GType;
-    pub fn gtk_source_completion_words_new(name: *const c_char, icon: *mut gdk_pixbuf::GdkPixbuf) -> *mut GtkSourceCompletionWords;
-    pub fn gtk_source_completion_words_register(words: *mut GtkSourceCompletionWords, buffer: *mut gtk::GtkTextBuffer);
-    pub fn gtk_source_completion_words_unregister(words: *mut GtkSourceCompletionWords, buffer: *mut gtk::GtkTextBuffer);
+    pub fn gtk_source_completion_words_new(
+        name: *const c_char,
+        icon: *mut gdk_pixbuf::GdkPixbuf,
+    ) -> *mut GtkSourceCompletionWords;
+    pub fn gtk_source_completion_words_register(
+        words: *mut GtkSourceCompletionWords,
+        buffer: *mut gtk::GtkTextBuffer,
+    );
+    pub fn gtk_source_completion_words_unregister(
+        words: *mut GtkSourceCompletionWords,
+        buffer: *mut gtk::GtkTextBuffer,
+    );
 
     //=========================================================================
     // GtkSourceFile
@@ -1797,7 +2078,9 @@ extern "C" {
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn gtk_source_file_check_file_on_disk(file: *mut GtkSourceFile);
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_get_compression_type(file: *mut GtkSourceFile) -> GtkSourceCompressionType;
+    pub fn gtk_source_file_get_compression_type(
+        file: *mut GtkSourceFile,
+    ) -> GtkSourceCompressionType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn gtk_source_file_get_encoding(file: *mut GtkSourceFile) -> *const GtkSourceEncoding;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -1815,139 +2098,351 @@ extern "C" {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn gtk_source_file_set_location(file: *mut GtkSourceFile, location: *mut gio::GFile);
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_set_mount_operation_factory(file: *mut GtkSourceFile, callback: GtkSourceMountOperationFactory, user_data: gpointer, notify: glib::GDestroyNotify);
+    pub fn gtk_source_file_set_mount_operation_factory(
+        file: *mut GtkSourceFile,
+        callback: GtkSourceMountOperationFactory,
+        user_data: gpointer,
+        notify: glib::GDestroyNotify,
+    );
 
     //=========================================================================
     // GtkSourceFileLoader
     //=========================================================================
     pub fn gtk_source_file_loader_get_type() -> GType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_new(buffer: *mut GtkSourceBuffer, file: *mut GtkSourceFile) -> *mut GtkSourceFileLoader;
+    pub fn gtk_source_file_loader_new(
+        buffer: *mut GtkSourceBuffer,
+        file: *mut GtkSourceFile,
+    ) -> *mut GtkSourceFileLoader;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_new_from_stream(buffer: *mut GtkSourceBuffer, file: *mut GtkSourceFile, stream: *mut gio::GInputStream) -> *mut GtkSourceFileLoader;
+    pub fn gtk_source_file_loader_new_from_stream(
+        buffer: *mut GtkSourceBuffer,
+        file: *mut GtkSourceFile,
+        stream: *mut gio::GInputStream,
+    ) -> *mut GtkSourceFileLoader;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_get_buffer(loader: *mut GtkSourceFileLoader) -> *mut GtkSourceBuffer;
+    pub fn gtk_source_file_loader_get_buffer(
+        loader: *mut GtkSourceFileLoader,
+    ) -> *mut GtkSourceBuffer;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_get_compression_type(loader: *mut GtkSourceFileLoader) -> GtkSourceCompressionType;
+    pub fn gtk_source_file_loader_get_compression_type(
+        loader: *mut GtkSourceFileLoader,
+    ) -> GtkSourceCompressionType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_get_encoding(loader: *mut GtkSourceFileLoader) -> *const GtkSourceEncoding;
+    pub fn gtk_source_file_loader_get_encoding(
+        loader: *mut GtkSourceFileLoader,
+    ) -> *const GtkSourceEncoding;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn gtk_source_file_loader_get_file(loader: *mut GtkSourceFileLoader) -> *mut GtkSourceFile;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_get_input_stream(loader: *mut GtkSourceFileLoader) -> *mut gio::GInputStream;
+    pub fn gtk_source_file_loader_get_input_stream(
+        loader: *mut GtkSourceFileLoader,
+    ) -> *mut gio::GInputStream;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_get_location(loader: *mut GtkSourceFileLoader) -> *mut gio::GFile;
+    pub fn gtk_source_file_loader_get_location(loader: *mut GtkSourceFileLoader)
+        -> *mut gio::GFile;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_get_newline_type(loader: *mut GtkSourceFileLoader) -> GtkSourceNewlineType;
+    pub fn gtk_source_file_loader_get_newline_type(
+        loader: *mut GtkSourceFileLoader,
+    ) -> GtkSourceNewlineType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_load_async(loader: *mut GtkSourceFileLoader, io_priority: c_int, cancellable: *mut gio::GCancellable, progress_callback: gio::GFileProgressCallback, progress_callback_data: gpointer, progress_callback_notify: glib::GDestroyNotify, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    pub fn gtk_source_file_loader_load_async(
+        loader: *mut GtkSourceFileLoader,
+        io_priority: c_int,
+        cancellable: *mut gio::GCancellable,
+        progress_callback: gio::GFileProgressCallback,
+        progress_callback_data: gpointer,
+        progress_callback_notify: glib::GDestroyNotify,
+        callback: gio::GAsyncReadyCallback,
+        user_data: gpointer,
+    );
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_load_finish(loader: *mut GtkSourceFileLoader, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_file_loader_load_finish(
+        loader: *mut GtkSourceFileLoader,
+        result: *mut gio::GAsyncResult,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_loader_set_candidate_encodings(loader: *mut GtkSourceFileLoader, candidate_encodings: *mut glib::GSList);
+    pub fn gtk_source_file_loader_set_candidate_encodings(
+        loader: *mut GtkSourceFileLoader,
+        candidate_encodings: *mut glib::GSList,
+    );
 
     //=========================================================================
     // GtkSourceFileSaver
     //=========================================================================
     pub fn gtk_source_file_saver_get_type() -> GType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_new(buffer: *mut GtkSourceBuffer, file: *mut GtkSourceFile) -> *mut GtkSourceFileSaver;
+    pub fn gtk_source_file_saver_new(
+        buffer: *mut GtkSourceBuffer,
+        file: *mut GtkSourceFile,
+    ) -> *mut GtkSourceFileSaver;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_new_with_target(buffer: *mut GtkSourceBuffer, file: *mut GtkSourceFile, target_location: *mut gio::GFile) -> *mut GtkSourceFileSaver;
+    pub fn gtk_source_file_saver_new_with_target(
+        buffer: *mut GtkSourceBuffer,
+        file: *mut GtkSourceFile,
+        target_location: *mut gio::GFile,
+    ) -> *mut GtkSourceFileSaver;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_get_buffer(saver: *mut GtkSourceFileSaver) -> *mut GtkSourceBuffer;
+    pub fn gtk_source_file_saver_get_buffer(saver: *mut GtkSourceFileSaver)
+        -> *mut GtkSourceBuffer;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_get_compression_type(saver: *mut GtkSourceFileSaver) -> GtkSourceCompressionType;
+    pub fn gtk_source_file_saver_get_compression_type(
+        saver: *mut GtkSourceFileSaver,
+    ) -> GtkSourceCompressionType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_get_encoding(saver: *mut GtkSourceFileSaver) -> *const GtkSourceEncoding;
+    pub fn gtk_source_file_saver_get_encoding(
+        saver: *mut GtkSourceFileSaver,
+    ) -> *const GtkSourceEncoding;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn gtk_source_file_saver_get_file(saver: *mut GtkSourceFileSaver) -> *mut GtkSourceFile;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_get_flags(saver: *mut GtkSourceFileSaver) -> GtkSourceFileSaverFlags;
+    pub fn gtk_source_file_saver_get_flags(
+        saver: *mut GtkSourceFileSaver,
+    ) -> GtkSourceFileSaverFlags;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub fn gtk_source_file_saver_get_location(saver: *mut GtkSourceFileSaver) -> *mut gio::GFile;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_get_newline_type(saver: *mut GtkSourceFileSaver) -> GtkSourceNewlineType;
+    pub fn gtk_source_file_saver_get_newline_type(
+        saver: *mut GtkSourceFileSaver,
+    ) -> GtkSourceNewlineType;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_save_async(saver: *mut GtkSourceFileSaver, io_priority: c_int, cancellable: *mut gio::GCancellable, progress_callback: gio::GFileProgressCallback, progress_callback_data: gpointer, progress_callback_notify: glib::GDestroyNotify, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    pub fn gtk_source_file_saver_save_async(
+        saver: *mut GtkSourceFileSaver,
+        io_priority: c_int,
+        cancellable: *mut gio::GCancellable,
+        progress_callback: gio::GFileProgressCallback,
+        progress_callback_data: gpointer,
+        progress_callback_notify: glib::GDestroyNotify,
+        callback: gio::GAsyncReadyCallback,
+        user_data: gpointer,
+    );
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_save_finish(saver: *mut GtkSourceFileSaver, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_file_saver_save_finish(
+        saver: *mut GtkSourceFileSaver,
+        result: *mut gio::GAsyncResult,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_set_compression_type(saver: *mut GtkSourceFileSaver, compression_type: GtkSourceCompressionType);
+    pub fn gtk_source_file_saver_set_compression_type(
+        saver: *mut GtkSourceFileSaver,
+        compression_type: GtkSourceCompressionType,
+    );
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_set_encoding(saver: *mut GtkSourceFileSaver, encoding: *const GtkSourceEncoding);
+    pub fn gtk_source_file_saver_set_encoding(
+        saver: *mut GtkSourceFileSaver,
+        encoding: *const GtkSourceEncoding,
+    );
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_set_flags(saver: *mut GtkSourceFileSaver, flags: GtkSourceFileSaverFlags);
+    pub fn gtk_source_file_saver_set_flags(
+        saver: *mut GtkSourceFileSaver,
+        flags: GtkSourceFileSaverFlags,
+    );
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn gtk_source_file_saver_set_newline_type(saver: *mut GtkSourceFileSaver, newline_type: GtkSourceNewlineType);
+    pub fn gtk_source_file_saver_set_newline_type(
+        saver: *mut GtkSourceFileSaver,
+        newline_type: GtkSourceNewlineType,
+    );
 
     //=========================================================================
     // GtkSourceGutter
     //=========================================================================
     pub fn gtk_source_gutter_get_type() -> GType;
-    pub fn gtk_source_gutter_get_padding(gutter: *mut GtkSourceGutter, xpad: *mut c_int, ypad: *mut c_int);
-    pub fn gtk_source_gutter_get_renderer_at_pos(gutter: *mut GtkSourceGutter, x: c_int, y: c_int) -> *mut GtkSourceGutterRenderer;
+    pub fn gtk_source_gutter_get_padding(
+        gutter: *mut GtkSourceGutter,
+        xpad: *mut c_int,
+        ypad: *mut c_int,
+    );
+    pub fn gtk_source_gutter_get_renderer_at_pos(
+        gutter: *mut GtkSourceGutter,
+        x: c_int,
+        y: c_int,
+    ) -> *mut GtkSourceGutterRenderer;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub fn gtk_source_gutter_get_view(gutter: *mut GtkSourceGutter) -> *mut GtkSourceView;
     pub fn gtk_source_gutter_get_window(gutter: *mut GtkSourceGutter) -> *mut gdk::GdkWindow;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_gutter_get_window_type(gutter: *mut GtkSourceGutter) -> gtk::GtkTextWindowType;
-    pub fn gtk_source_gutter_insert(gutter: *mut GtkSourceGutter, renderer: *mut GtkSourceGutterRenderer, position: c_int) -> gboolean;
+    pub fn gtk_source_gutter_get_window_type(
+        gutter: *mut GtkSourceGutter,
+    ) -> gtk::GtkTextWindowType;
+    pub fn gtk_source_gutter_insert(
+        gutter: *mut GtkSourceGutter,
+        renderer: *mut GtkSourceGutterRenderer,
+        position: c_int,
+    ) -> gboolean;
     pub fn gtk_source_gutter_queue_draw(gutter: *mut GtkSourceGutter);
-    pub fn gtk_source_gutter_remove(gutter: *mut GtkSourceGutter, renderer: *mut GtkSourceGutterRenderer);
-    pub fn gtk_source_gutter_reorder(gutter: *mut GtkSourceGutter, renderer: *mut GtkSourceGutterRenderer, position: c_int);
+    pub fn gtk_source_gutter_remove(
+        gutter: *mut GtkSourceGutter,
+        renderer: *mut GtkSourceGutterRenderer,
+    );
+    pub fn gtk_source_gutter_reorder(
+        gutter: *mut GtkSourceGutter,
+        renderer: *mut GtkSourceGutterRenderer,
+        position: c_int,
+    );
     pub fn gtk_source_gutter_set_padding(gutter: *mut GtkSourceGutter, xpad: c_int, ypad: c_int);
 
     //=========================================================================
     // GtkSourceGutterRenderer
     //=========================================================================
     pub fn gtk_source_gutter_renderer_get_type() -> GType;
-    pub fn gtk_source_gutter_renderer_activate(renderer: *mut GtkSourceGutterRenderer, iter: *mut gtk::GtkTextIter, area: *mut gdk::GdkRectangle, event: *mut gdk::GdkEvent);
-    pub fn gtk_source_gutter_renderer_begin(renderer: *mut GtkSourceGutterRenderer, cr: *mut cairo::cairo_t, background_area: *mut gdk::GdkRectangle, cell_area: *mut gdk::GdkRectangle, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter);
-    pub fn gtk_source_gutter_renderer_draw(renderer: *mut GtkSourceGutterRenderer, cr: *mut cairo::cairo_t, background_area: *mut gdk::GdkRectangle, cell_area: *mut gdk::GdkRectangle, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter, state: GtkSourceGutterRendererState);
+    pub fn gtk_source_gutter_renderer_activate(
+        renderer: *mut GtkSourceGutterRenderer,
+        iter: *mut gtk::GtkTextIter,
+        area: *mut gdk::GdkRectangle,
+        event: *mut gdk::GdkEvent,
+    );
+    pub fn gtk_source_gutter_renderer_begin(
+        renderer: *mut GtkSourceGutterRenderer,
+        cr: *mut cairo::cairo_t,
+        background_area: *mut gdk::GdkRectangle,
+        cell_area: *mut gdk::GdkRectangle,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    );
+    pub fn gtk_source_gutter_renderer_draw(
+        renderer: *mut GtkSourceGutterRenderer,
+        cr: *mut cairo::cairo_t,
+        background_area: *mut gdk::GdkRectangle,
+        cell_area: *mut gdk::GdkRectangle,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+        state: GtkSourceGutterRendererState,
+    );
     pub fn gtk_source_gutter_renderer_end(renderer: *mut GtkSourceGutterRenderer);
-    pub fn gtk_source_gutter_renderer_get_alignment(renderer: *mut GtkSourceGutterRenderer, xalign: *mut c_float, yalign: *mut c_float);
-    pub fn gtk_source_gutter_renderer_get_alignment_mode(renderer: *mut GtkSourceGutterRenderer) -> GtkSourceGutterRendererAlignmentMode;
-    pub fn gtk_source_gutter_renderer_get_background(renderer: *mut GtkSourceGutterRenderer, color: *mut gdk::GdkRGBA) -> gboolean;
-    pub fn gtk_source_gutter_renderer_get_padding(renderer: *mut GtkSourceGutterRenderer, xpad: *mut c_int, ypad: *mut c_int);
+    pub fn gtk_source_gutter_renderer_get_alignment(
+        renderer: *mut GtkSourceGutterRenderer,
+        xalign: *mut c_float,
+        yalign: *mut c_float,
+    );
+    pub fn gtk_source_gutter_renderer_get_alignment_mode(
+        renderer: *mut GtkSourceGutterRenderer,
+    ) -> GtkSourceGutterRendererAlignmentMode;
+    pub fn gtk_source_gutter_renderer_get_background(
+        renderer: *mut GtkSourceGutterRenderer,
+        color: *mut gdk::GdkRGBA,
+    ) -> gboolean;
+    pub fn gtk_source_gutter_renderer_get_padding(
+        renderer: *mut GtkSourceGutterRenderer,
+        xpad: *mut c_int,
+        ypad: *mut c_int,
+    );
     pub fn gtk_source_gutter_renderer_get_size(renderer: *mut GtkSourceGutterRenderer) -> c_int;
-    pub fn gtk_source_gutter_renderer_get_view(renderer: *mut GtkSourceGutterRenderer) -> *mut gtk::GtkTextView;
-    pub fn gtk_source_gutter_renderer_get_visible(renderer: *mut GtkSourceGutterRenderer) -> gboolean;
-    pub fn gtk_source_gutter_renderer_get_window_type(renderer: *mut GtkSourceGutterRenderer) -> gtk::GtkTextWindowType;
-    pub fn gtk_source_gutter_renderer_query_activatable(renderer: *mut GtkSourceGutterRenderer, iter: *mut gtk::GtkTextIter, area: *mut gdk::GdkRectangle, event: *mut gdk::GdkEvent) -> gboolean;
-    pub fn gtk_source_gutter_renderer_query_data(renderer: *mut GtkSourceGutterRenderer, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter, state: GtkSourceGutterRendererState);
-    pub fn gtk_source_gutter_renderer_query_tooltip(renderer: *mut GtkSourceGutterRenderer, iter: *mut gtk::GtkTextIter, area: *mut gdk::GdkRectangle, x: c_int, y: c_int, tooltip: *mut gtk::GtkTooltip) -> gboolean;
+    pub fn gtk_source_gutter_renderer_get_view(
+        renderer: *mut GtkSourceGutterRenderer,
+    ) -> *mut gtk::GtkTextView;
+    pub fn gtk_source_gutter_renderer_get_visible(
+        renderer: *mut GtkSourceGutterRenderer,
+    ) -> gboolean;
+    pub fn gtk_source_gutter_renderer_get_window_type(
+        renderer: *mut GtkSourceGutterRenderer,
+    ) -> gtk::GtkTextWindowType;
+    pub fn gtk_source_gutter_renderer_query_activatable(
+        renderer: *mut GtkSourceGutterRenderer,
+        iter: *mut gtk::GtkTextIter,
+        area: *mut gdk::GdkRectangle,
+        event: *mut gdk::GdkEvent,
+    ) -> gboolean;
+    pub fn gtk_source_gutter_renderer_query_data(
+        renderer: *mut GtkSourceGutterRenderer,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+        state: GtkSourceGutterRendererState,
+    );
+    pub fn gtk_source_gutter_renderer_query_tooltip(
+        renderer: *mut GtkSourceGutterRenderer,
+        iter: *mut gtk::GtkTextIter,
+        area: *mut gdk::GdkRectangle,
+        x: c_int,
+        y: c_int,
+        tooltip: *mut gtk::GtkTooltip,
+    ) -> gboolean;
     pub fn gtk_source_gutter_renderer_queue_draw(renderer: *mut GtkSourceGutterRenderer);
-    pub fn gtk_source_gutter_renderer_set_alignment(renderer: *mut GtkSourceGutterRenderer, xalign: c_float, yalign: c_float);
-    pub fn gtk_source_gutter_renderer_set_alignment_mode(renderer: *mut GtkSourceGutterRenderer, mode: GtkSourceGutterRendererAlignmentMode);
-    pub fn gtk_source_gutter_renderer_set_background(renderer: *mut GtkSourceGutterRenderer, color: *const gdk::GdkRGBA);
-    pub fn gtk_source_gutter_renderer_set_padding(renderer: *mut GtkSourceGutterRenderer, xpad: c_int, ypad: c_int);
+    pub fn gtk_source_gutter_renderer_set_alignment(
+        renderer: *mut GtkSourceGutterRenderer,
+        xalign: c_float,
+        yalign: c_float,
+    );
+    pub fn gtk_source_gutter_renderer_set_alignment_mode(
+        renderer: *mut GtkSourceGutterRenderer,
+        mode: GtkSourceGutterRendererAlignmentMode,
+    );
+    pub fn gtk_source_gutter_renderer_set_background(
+        renderer: *mut GtkSourceGutterRenderer,
+        color: *const gdk::GdkRGBA,
+    );
+    pub fn gtk_source_gutter_renderer_set_padding(
+        renderer: *mut GtkSourceGutterRenderer,
+        xpad: c_int,
+        ypad: c_int,
+    );
     pub fn gtk_source_gutter_renderer_set_size(renderer: *mut GtkSourceGutterRenderer, size: c_int);
-    pub fn gtk_source_gutter_renderer_set_visible(renderer: *mut GtkSourceGutterRenderer, visible: gboolean);
+    pub fn gtk_source_gutter_renderer_set_visible(
+        renderer: *mut GtkSourceGutterRenderer,
+        visible: gboolean,
+    );
 
     //=========================================================================
     // GtkSourceGutterRendererPixbuf
     //=========================================================================
     pub fn gtk_source_gutter_renderer_pixbuf_get_type() -> GType;
     pub fn gtk_source_gutter_renderer_pixbuf_new() -> *mut GtkSourceGutterRenderer;
-    pub fn gtk_source_gutter_renderer_pixbuf_get_gicon(renderer: *mut GtkSourceGutterRendererPixbuf) -> *mut gio::GIcon;
-    pub fn gtk_source_gutter_renderer_pixbuf_get_icon_name(renderer: *mut GtkSourceGutterRendererPixbuf) -> *const c_char;
-    pub fn gtk_source_gutter_renderer_pixbuf_get_pixbuf(renderer: *mut GtkSourceGutterRendererPixbuf) -> *mut gdk_pixbuf::GdkPixbuf;
-    pub fn gtk_source_gutter_renderer_pixbuf_get_stock_id(renderer: *mut GtkSourceGutterRendererPixbuf) -> *const c_char;
-    pub fn gtk_source_gutter_renderer_pixbuf_set_gicon(renderer: *mut GtkSourceGutterRendererPixbuf, icon: *mut gio::GIcon);
-    pub fn gtk_source_gutter_renderer_pixbuf_set_icon_name(renderer: *mut GtkSourceGutterRendererPixbuf, icon_name: *const c_char);
-    pub fn gtk_source_gutter_renderer_pixbuf_set_pixbuf(renderer: *mut GtkSourceGutterRendererPixbuf, pixbuf: *mut gdk_pixbuf::GdkPixbuf);
-    pub fn gtk_source_gutter_renderer_pixbuf_set_stock_id(renderer: *mut GtkSourceGutterRendererPixbuf, stock_id: *const c_char);
+    pub fn gtk_source_gutter_renderer_pixbuf_get_gicon(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+    ) -> *mut gio::GIcon;
+    pub fn gtk_source_gutter_renderer_pixbuf_get_icon_name(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+    ) -> *const c_char;
+    pub fn gtk_source_gutter_renderer_pixbuf_get_pixbuf(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+    ) -> *mut gdk_pixbuf::GdkPixbuf;
+    pub fn gtk_source_gutter_renderer_pixbuf_get_stock_id(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+    ) -> *const c_char;
+    pub fn gtk_source_gutter_renderer_pixbuf_set_gicon(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+        icon: *mut gio::GIcon,
+    );
+    pub fn gtk_source_gutter_renderer_pixbuf_set_icon_name(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+        icon_name: *const c_char,
+    );
+    pub fn gtk_source_gutter_renderer_pixbuf_set_pixbuf(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+        pixbuf: *mut gdk_pixbuf::GdkPixbuf,
+    );
+    pub fn gtk_source_gutter_renderer_pixbuf_set_stock_id(
+        renderer: *mut GtkSourceGutterRendererPixbuf,
+        stock_id: *const c_char,
+    );
 
     //=========================================================================
     // GtkSourceGutterRendererText
     //=========================================================================
     pub fn gtk_source_gutter_renderer_text_get_type() -> GType;
     pub fn gtk_source_gutter_renderer_text_new() -> *mut GtkSourceGutterRenderer;
-    pub fn gtk_source_gutter_renderer_text_measure(renderer: *mut GtkSourceGutterRendererText, text: *const c_char, width: *mut c_int, height: *mut c_int);
-    pub fn gtk_source_gutter_renderer_text_measure_markup(renderer: *mut GtkSourceGutterRendererText, markup: *const c_char, width: *mut c_int, height: *mut c_int);
-    pub fn gtk_source_gutter_renderer_text_set_markup(renderer: *mut GtkSourceGutterRendererText, markup: *const c_char, length: c_int);
-    pub fn gtk_source_gutter_renderer_text_set_text(renderer: *mut GtkSourceGutterRendererText, text: *const c_char, length: c_int);
+    pub fn gtk_source_gutter_renderer_text_measure(
+        renderer: *mut GtkSourceGutterRendererText,
+        text: *const c_char,
+        width: *mut c_int,
+        height: *mut c_int,
+    );
+    pub fn gtk_source_gutter_renderer_text_measure_markup(
+        renderer: *mut GtkSourceGutterRendererText,
+        markup: *const c_char,
+        width: *mut c_int,
+        height: *mut c_int,
+    );
+    pub fn gtk_source_gutter_renderer_text_set_markup(
+        renderer: *mut GtkSourceGutterRendererText,
+        markup: *const c_char,
+        length: c_int,
+    );
+    pub fn gtk_source_gutter_renderer_text_set_text(
+        renderer: *mut GtkSourceGutterRendererText,
+        text: *const c_char,
+        length: c_int,
+    );
 
     //=========================================================================
     // GtkSourceLanguage
@@ -1956,14 +2451,24 @@ extern "C" {
     pub fn gtk_source_language_get_globs(language: *mut GtkSourceLanguage) -> *mut *mut c_char;
     pub fn gtk_source_language_get_hidden(language: *mut GtkSourceLanguage) -> gboolean;
     pub fn gtk_source_language_get_id(language: *mut GtkSourceLanguage) -> *const c_char;
-    pub fn gtk_source_language_get_metadata(language: *mut GtkSourceLanguage, name: *const c_char) -> *const c_char;
-    pub fn gtk_source_language_get_mime_types(language: *mut GtkSourceLanguage) -> *mut *mut c_char;
+    pub fn gtk_source_language_get_metadata(
+        language: *mut GtkSourceLanguage,
+        name: *const c_char,
+    ) -> *const c_char;
+    pub fn gtk_source_language_get_mime_types(language: *mut GtkSourceLanguage)
+        -> *mut *mut c_char;
     pub fn gtk_source_language_get_name(language: *mut GtkSourceLanguage) -> *const c_char;
     pub fn gtk_source_language_get_section(language: *mut GtkSourceLanguage) -> *const c_char;
     #[cfg(any(feature = "v3_4", feature = "dox"))]
-    pub fn gtk_source_language_get_style_fallback(language: *mut GtkSourceLanguage, style_id: *const c_char) -> *const c_char;
+    pub fn gtk_source_language_get_style_fallback(
+        language: *mut GtkSourceLanguage,
+        style_id: *const c_char,
+    ) -> *const c_char;
     pub fn gtk_source_language_get_style_ids(language: *mut GtkSourceLanguage) -> *mut *mut c_char;
-    pub fn gtk_source_language_get_style_name(language: *mut GtkSourceLanguage, style_id: *const c_char) -> *const c_char;
+    pub fn gtk_source_language_get_style_name(
+        language: *mut GtkSourceLanguage,
+        style_id: *const c_char,
+    ) -> *const c_char;
 
     //=========================================================================
     // GtkSourceLanguageManager
@@ -1971,11 +2476,25 @@ extern "C" {
     pub fn gtk_source_language_manager_get_type() -> GType;
     pub fn gtk_source_language_manager_new() -> *mut GtkSourceLanguageManager;
     pub fn gtk_source_language_manager_get_default() -> *mut GtkSourceLanguageManager;
-    pub fn gtk_source_language_manager_get_language(lm: *mut GtkSourceLanguageManager, id: *const c_char) -> *mut GtkSourceLanguage;
-    pub fn gtk_source_language_manager_get_language_ids(lm: *mut GtkSourceLanguageManager) -> *mut *mut c_char;
-    pub fn gtk_source_language_manager_get_search_path(lm: *mut GtkSourceLanguageManager) -> *mut *mut c_char;
-    pub fn gtk_source_language_manager_guess_language(lm: *mut GtkSourceLanguageManager, filename: *const c_char, content_type: *const c_char) -> *mut GtkSourceLanguage;
-    pub fn gtk_source_language_manager_set_search_path(lm: *mut GtkSourceLanguageManager, dirs: *mut *mut c_char);
+    pub fn gtk_source_language_manager_get_language(
+        lm: *mut GtkSourceLanguageManager,
+        id: *const c_char,
+    ) -> *mut GtkSourceLanguage;
+    pub fn gtk_source_language_manager_get_language_ids(
+        lm: *mut GtkSourceLanguageManager,
+    ) -> *const *const c_char;
+    pub fn gtk_source_language_manager_get_search_path(
+        lm: *mut GtkSourceLanguageManager,
+    ) -> *const *const c_char;
+    pub fn gtk_source_language_manager_guess_language(
+        lm: *mut GtkSourceLanguageManager,
+        filename: *const c_char,
+        content_type: *const c_char,
+    ) -> *mut GtkSourceLanguage;
+    pub fn gtk_source_language_manager_set_search_path(
+        lm: *mut GtkSourceLanguageManager,
+        dirs: *mut *mut c_char,
+    );
 
     //=========================================================================
     // GtkSourceMap
@@ -1994,69 +2513,218 @@ extern "C" {
     pub fn gtk_source_mark_get_type() -> GType;
     pub fn gtk_source_mark_new(name: *const c_char, category: *const c_char) -> *mut GtkSourceMark;
     pub fn gtk_source_mark_get_category(mark: *mut GtkSourceMark) -> *const c_char;
-    pub fn gtk_source_mark_next(mark: *mut GtkSourceMark, category: *const c_char) -> *mut GtkSourceMark;
-    pub fn gtk_source_mark_prev(mark: *mut GtkSourceMark, category: *const c_char) -> *mut GtkSourceMark;
+    pub fn gtk_source_mark_next(
+        mark: *mut GtkSourceMark,
+        category: *const c_char,
+    ) -> *mut GtkSourceMark;
+    pub fn gtk_source_mark_prev(
+        mark: *mut GtkSourceMark,
+        category: *const c_char,
+    ) -> *mut GtkSourceMark;
 
     //=========================================================================
     // GtkSourceMarkAttributes
     //=========================================================================
     pub fn gtk_source_mark_attributes_get_type() -> GType;
     pub fn gtk_source_mark_attributes_new() -> *mut GtkSourceMarkAttributes;
-    pub fn gtk_source_mark_attributes_get_background(attributes: *mut GtkSourceMarkAttributes, background: *mut gdk::GdkRGBA) -> gboolean;
-    pub fn gtk_source_mark_attributes_get_gicon(attributes: *mut GtkSourceMarkAttributes) -> *mut gio::GIcon;
-    pub fn gtk_source_mark_attributes_get_icon_name(attributes: *mut GtkSourceMarkAttributes) -> *const c_char;
-    pub fn gtk_source_mark_attributes_get_pixbuf(attributes: *mut GtkSourceMarkAttributes) -> *const gdk_pixbuf::GdkPixbuf;
-    pub fn gtk_source_mark_attributes_get_stock_id(attributes: *mut GtkSourceMarkAttributes) -> *const c_char;
-    pub fn gtk_source_mark_attributes_get_tooltip_markup(attributes: *mut GtkSourceMarkAttributes, mark: *mut GtkSourceMark) -> *mut c_char;
-    pub fn gtk_source_mark_attributes_get_tooltip_text(attributes: *mut GtkSourceMarkAttributes, mark: *mut GtkSourceMark) -> *mut c_char;
-    pub fn gtk_source_mark_attributes_render_icon(attributes: *mut GtkSourceMarkAttributes, widget: *mut gtk::GtkWidget, size: c_int) -> *const gdk_pixbuf::GdkPixbuf;
-    pub fn gtk_source_mark_attributes_set_background(attributes: *mut GtkSourceMarkAttributes, background: *const gdk::GdkRGBA);
-    pub fn gtk_source_mark_attributes_set_gicon(attributes: *mut GtkSourceMarkAttributes, gicon: *mut gio::GIcon);
-    pub fn gtk_source_mark_attributes_set_icon_name(attributes: *mut GtkSourceMarkAttributes, icon_name: *const c_char);
-    pub fn gtk_source_mark_attributes_set_pixbuf(attributes: *mut GtkSourceMarkAttributes, pixbuf: *const gdk_pixbuf::GdkPixbuf);
-    pub fn gtk_source_mark_attributes_set_stock_id(attributes: *mut GtkSourceMarkAttributes, stock_id: *const c_char);
+    pub fn gtk_source_mark_attributes_get_background(
+        attributes: *mut GtkSourceMarkAttributes,
+        background: *mut gdk::GdkRGBA,
+    ) -> gboolean;
+    pub fn gtk_source_mark_attributes_get_gicon(
+        attributes: *mut GtkSourceMarkAttributes,
+    ) -> *mut gio::GIcon;
+    pub fn gtk_source_mark_attributes_get_icon_name(
+        attributes: *mut GtkSourceMarkAttributes,
+    ) -> *const c_char;
+    pub fn gtk_source_mark_attributes_get_pixbuf(
+        attributes: *mut GtkSourceMarkAttributes,
+    ) -> *const gdk_pixbuf::GdkPixbuf;
+    pub fn gtk_source_mark_attributes_get_stock_id(
+        attributes: *mut GtkSourceMarkAttributes,
+    ) -> *const c_char;
+    pub fn gtk_source_mark_attributes_get_tooltip_markup(
+        attributes: *mut GtkSourceMarkAttributes,
+        mark: *mut GtkSourceMark,
+    ) -> *mut c_char;
+    pub fn gtk_source_mark_attributes_get_tooltip_text(
+        attributes: *mut GtkSourceMarkAttributes,
+        mark: *mut GtkSourceMark,
+    ) -> *mut c_char;
+    pub fn gtk_source_mark_attributes_render_icon(
+        attributes: *mut GtkSourceMarkAttributes,
+        widget: *mut gtk::GtkWidget,
+        size: c_int,
+    ) -> *const gdk_pixbuf::GdkPixbuf;
+    pub fn gtk_source_mark_attributes_set_background(
+        attributes: *mut GtkSourceMarkAttributes,
+        background: *const gdk::GdkRGBA,
+    );
+    pub fn gtk_source_mark_attributes_set_gicon(
+        attributes: *mut GtkSourceMarkAttributes,
+        gicon: *mut gio::GIcon,
+    );
+    pub fn gtk_source_mark_attributes_set_icon_name(
+        attributes: *mut GtkSourceMarkAttributes,
+        icon_name: *const c_char,
+    );
+    pub fn gtk_source_mark_attributes_set_pixbuf(
+        attributes: *mut GtkSourceMarkAttributes,
+        pixbuf: *const gdk_pixbuf::GdkPixbuf,
+    );
+    pub fn gtk_source_mark_attributes_set_stock_id(
+        attributes: *mut GtkSourceMarkAttributes,
+        stock_id: *const c_char,
+    );
 
     //=========================================================================
     // GtkSourcePrintCompositor
     //=========================================================================
     pub fn gtk_source_print_compositor_get_type() -> GType;
-    pub fn gtk_source_print_compositor_new(buffer: *mut GtkSourceBuffer) -> *mut GtkSourcePrintCompositor;
-    pub fn gtk_source_print_compositor_new_from_view(view: *mut GtkSourceView) -> *mut GtkSourcePrintCompositor;
-    pub fn gtk_source_print_compositor_draw_page(compositor: *mut GtkSourcePrintCompositor, context: *mut gtk::GtkPrintContext, page_nr: c_int);
-    pub fn gtk_source_print_compositor_get_body_font_name(compositor: *mut GtkSourcePrintCompositor) -> *mut c_char;
-    pub fn gtk_source_print_compositor_get_bottom_margin(compositor: *mut GtkSourcePrintCompositor, unit: gtk::GtkUnit) -> c_double;
-    pub fn gtk_source_print_compositor_get_buffer(compositor: *mut GtkSourcePrintCompositor) -> *mut GtkSourceBuffer;
-    pub fn gtk_source_print_compositor_get_footer_font_name(compositor: *mut GtkSourcePrintCompositor) -> *mut c_char;
-    pub fn gtk_source_print_compositor_get_header_font_name(compositor: *mut GtkSourcePrintCompositor) -> *mut c_char;
-    pub fn gtk_source_print_compositor_get_highlight_syntax(compositor: *mut GtkSourcePrintCompositor) -> gboolean;
-    pub fn gtk_source_print_compositor_get_left_margin(compositor: *mut GtkSourcePrintCompositor, unit: gtk::GtkUnit) -> c_double;
-    pub fn gtk_source_print_compositor_get_line_numbers_font_name(compositor: *mut GtkSourcePrintCompositor) -> *mut c_char;
-    pub fn gtk_source_print_compositor_get_n_pages(compositor: *mut GtkSourcePrintCompositor) -> c_int;
-    pub fn gtk_source_print_compositor_get_pagination_progress(compositor: *mut GtkSourcePrintCompositor) -> c_double;
-    pub fn gtk_source_print_compositor_get_print_footer(compositor: *mut GtkSourcePrintCompositor) -> gboolean;
-    pub fn gtk_source_print_compositor_get_print_header(compositor: *mut GtkSourcePrintCompositor) -> gboolean;
-    pub fn gtk_source_print_compositor_get_print_line_numbers(compositor: *mut GtkSourcePrintCompositor) -> c_uint;
-    pub fn gtk_source_print_compositor_get_right_margin(compositor: *mut GtkSourcePrintCompositor, unit: gtk::GtkUnit) -> c_double;
-    pub fn gtk_source_print_compositor_get_tab_width(compositor: *mut GtkSourcePrintCompositor) -> c_uint;
-    pub fn gtk_source_print_compositor_get_top_margin(compositor: *mut GtkSourcePrintCompositor, unit: gtk::GtkUnit) -> c_double;
-    pub fn gtk_source_print_compositor_get_wrap_mode(compositor: *mut GtkSourcePrintCompositor) -> gtk::GtkWrapMode;
-    pub fn gtk_source_print_compositor_paginate(compositor: *mut GtkSourcePrintCompositor, context: *mut gtk::GtkPrintContext) -> gboolean;
-    pub fn gtk_source_print_compositor_set_body_font_name(compositor: *mut GtkSourcePrintCompositor, font_name: *const c_char);
-    pub fn gtk_source_print_compositor_set_bottom_margin(compositor: *mut GtkSourcePrintCompositor, margin: c_double, unit: gtk::GtkUnit);
-    pub fn gtk_source_print_compositor_set_footer_font_name(compositor: *mut GtkSourcePrintCompositor, font_name: *const c_char);
-    pub fn gtk_source_print_compositor_set_footer_format(compositor: *mut GtkSourcePrintCompositor, separator: gboolean, left: *const c_char, center: *const c_char, right: *const c_char);
-    pub fn gtk_source_print_compositor_set_header_font_name(compositor: *mut GtkSourcePrintCompositor, font_name: *const c_char);
-    pub fn gtk_source_print_compositor_set_header_format(compositor: *mut GtkSourcePrintCompositor, separator: gboolean, left: *const c_char, center: *const c_char, right: *const c_char);
-    pub fn gtk_source_print_compositor_set_highlight_syntax(compositor: *mut GtkSourcePrintCompositor, highlight: gboolean);
-    pub fn gtk_source_print_compositor_set_left_margin(compositor: *mut GtkSourcePrintCompositor, margin: c_double, unit: gtk::GtkUnit);
-    pub fn gtk_source_print_compositor_set_line_numbers_font_name(compositor: *mut GtkSourcePrintCompositor, font_name: *const c_char);
-    pub fn gtk_source_print_compositor_set_print_footer(compositor: *mut GtkSourcePrintCompositor, print: gboolean);
-    pub fn gtk_source_print_compositor_set_print_header(compositor: *mut GtkSourcePrintCompositor, print: gboolean);
-    pub fn gtk_source_print_compositor_set_print_line_numbers(compositor: *mut GtkSourcePrintCompositor, interval: c_uint);
-    pub fn gtk_source_print_compositor_set_right_margin(compositor: *mut GtkSourcePrintCompositor, margin: c_double, unit: gtk::GtkUnit);
-    pub fn gtk_source_print_compositor_set_tab_width(compositor: *mut GtkSourcePrintCompositor, width: c_uint);
-    pub fn gtk_source_print_compositor_set_top_margin(compositor: *mut GtkSourcePrintCompositor, margin: c_double, unit: gtk::GtkUnit);
-    pub fn gtk_source_print_compositor_set_wrap_mode(compositor: *mut GtkSourcePrintCompositor, wrap_mode: gtk::GtkWrapMode);
+    pub fn gtk_source_print_compositor_new(
+        buffer: *mut GtkSourceBuffer,
+    ) -> *mut GtkSourcePrintCompositor;
+    pub fn gtk_source_print_compositor_new_from_view(
+        view: *mut GtkSourceView,
+    ) -> *mut GtkSourcePrintCompositor;
+    pub fn gtk_source_print_compositor_draw_page(
+        compositor: *mut GtkSourcePrintCompositor,
+        context: *mut gtk::GtkPrintContext,
+        page_nr: c_int,
+    );
+    pub fn gtk_source_print_compositor_get_body_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> *mut c_char;
+    pub fn gtk_source_print_compositor_get_bottom_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        unit: gtk::GtkUnit,
+    ) -> c_double;
+    pub fn gtk_source_print_compositor_get_buffer(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> *mut GtkSourceBuffer;
+    pub fn gtk_source_print_compositor_get_footer_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> *mut c_char;
+    pub fn gtk_source_print_compositor_get_header_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> *mut c_char;
+    pub fn gtk_source_print_compositor_get_highlight_syntax(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> gboolean;
+    pub fn gtk_source_print_compositor_get_left_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        unit: gtk::GtkUnit,
+    ) -> c_double;
+    pub fn gtk_source_print_compositor_get_line_numbers_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> *mut c_char;
+    pub fn gtk_source_print_compositor_get_n_pages(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> c_int;
+    pub fn gtk_source_print_compositor_get_pagination_progress(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> c_double;
+    pub fn gtk_source_print_compositor_get_print_footer(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> gboolean;
+    pub fn gtk_source_print_compositor_get_print_header(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> gboolean;
+    pub fn gtk_source_print_compositor_get_print_line_numbers(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> c_uint;
+    pub fn gtk_source_print_compositor_get_right_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        unit: gtk::GtkUnit,
+    ) -> c_double;
+    pub fn gtk_source_print_compositor_get_tab_width(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> c_uint;
+    pub fn gtk_source_print_compositor_get_top_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        unit: gtk::GtkUnit,
+    ) -> c_double;
+    pub fn gtk_source_print_compositor_get_wrap_mode(
+        compositor: *mut GtkSourcePrintCompositor,
+    ) -> gtk::GtkWrapMode;
+    pub fn gtk_source_print_compositor_paginate(
+        compositor: *mut GtkSourcePrintCompositor,
+        context: *mut gtk::GtkPrintContext,
+    ) -> gboolean;
+    pub fn gtk_source_print_compositor_set_body_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+        font_name: *const c_char,
+    );
+    pub fn gtk_source_print_compositor_set_bottom_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        margin: c_double,
+        unit: gtk::GtkUnit,
+    );
+    pub fn gtk_source_print_compositor_set_footer_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+        font_name: *const c_char,
+    );
+    pub fn gtk_source_print_compositor_set_footer_format(
+        compositor: *mut GtkSourcePrintCompositor,
+        separator: gboolean,
+        left: *const c_char,
+        center: *const c_char,
+        right: *const c_char,
+    );
+    pub fn gtk_source_print_compositor_set_header_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+        font_name: *const c_char,
+    );
+    pub fn gtk_source_print_compositor_set_header_format(
+        compositor: *mut GtkSourcePrintCompositor,
+        separator: gboolean,
+        left: *const c_char,
+        center: *const c_char,
+        right: *const c_char,
+    );
+    pub fn gtk_source_print_compositor_set_highlight_syntax(
+        compositor: *mut GtkSourcePrintCompositor,
+        highlight: gboolean,
+    );
+    pub fn gtk_source_print_compositor_set_left_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        margin: c_double,
+        unit: gtk::GtkUnit,
+    );
+    pub fn gtk_source_print_compositor_set_line_numbers_font_name(
+        compositor: *mut GtkSourcePrintCompositor,
+        font_name: *const c_char,
+    );
+    pub fn gtk_source_print_compositor_set_print_footer(
+        compositor: *mut GtkSourcePrintCompositor,
+        print: gboolean,
+    );
+    pub fn gtk_source_print_compositor_set_print_header(
+        compositor: *mut GtkSourcePrintCompositor,
+        print: gboolean,
+    );
+    pub fn gtk_source_print_compositor_set_print_line_numbers(
+        compositor: *mut GtkSourcePrintCompositor,
+        interval: c_uint,
+    );
+    pub fn gtk_source_print_compositor_set_right_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        margin: c_double,
+        unit: gtk::GtkUnit,
+    );
+    pub fn gtk_source_print_compositor_set_tab_width(
+        compositor: *mut GtkSourcePrintCompositor,
+        width: c_uint,
+    );
+    pub fn gtk_source_print_compositor_set_top_margin(
+        compositor: *mut GtkSourcePrintCompositor,
+        margin: c_double,
+        unit: gtk::GtkUnit,
+    );
+    pub fn gtk_source_print_compositor_set_wrap_mode(
+        compositor: *mut GtkSourcePrintCompositor,
+        wrap_mode: gtk::GtkWrapMode,
+    );
 
     //=========================================================================
     // GtkSourceRegion
@@ -2065,25 +2733,53 @@ extern "C" {
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn gtk_source_region_new(buffer: *mut gtk::GtkTextBuffer) -> *mut GtkSourceRegion;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_add_region(region: *mut GtkSourceRegion, region_to_add: *mut GtkSourceRegion);
+    pub fn gtk_source_region_add_region(
+        region: *mut GtkSourceRegion,
+        region_to_add: *mut GtkSourceRegion,
+    );
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_add_subregion(region: *mut GtkSourceRegion, _start: *const gtk::GtkTextIter, _end: *const gtk::GtkTextIter);
+    pub fn gtk_source_region_add_subregion(
+        region: *mut GtkSourceRegion,
+        _start: *const gtk::GtkTextIter,
+        _end: *const gtk::GtkTextIter,
+    );
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_get_bounds(region: *mut GtkSourceRegion, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter) -> gboolean;
+    pub fn gtk_source_region_get_bounds(
+        region: *mut GtkSourceRegion,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn gtk_source_region_get_buffer(region: *mut GtkSourceRegion) -> *mut gtk::GtkTextBuffer;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_get_start_region_iter(region: *mut GtkSourceRegion, iter: *mut GtkSourceRegionIter);
+    pub fn gtk_source_region_get_start_region_iter(
+        region: *mut GtkSourceRegion,
+        iter: *mut GtkSourceRegionIter,
+    );
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_intersect_region(region1: *mut GtkSourceRegion, region2: *mut GtkSourceRegion) -> *mut GtkSourceRegion;
+    pub fn gtk_source_region_intersect_region(
+        region1: *mut GtkSourceRegion,
+        region2: *mut GtkSourceRegion,
+    ) -> *mut GtkSourceRegion;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_intersect_subregion(region: *mut GtkSourceRegion, _start: *const gtk::GtkTextIter, _end: *const gtk::GtkTextIter) -> *mut GtkSourceRegion;
+    pub fn gtk_source_region_intersect_subregion(
+        region: *mut GtkSourceRegion,
+        _start: *const gtk::GtkTextIter,
+        _end: *const gtk::GtkTextIter,
+    ) -> *mut GtkSourceRegion;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn gtk_source_region_is_empty(region: *mut GtkSourceRegion) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_subtract_region(region: *mut GtkSourceRegion, region_to_subtract: *mut GtkSourceRegion);
+    pub fn gtk_source_region_subtract_region(
+        region: *mut GtkSourceRegion,
+        region_to_subtract: *mut GtkSourceRegion,
+    );
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_region_subtract_subregion(region: *mut GtkSourceRegion, _start: *const gtk::GtkTextIter, _end: *const gtk::GtkTextIter);
+    pub fn gtk_source_region_subtract_subregion(
+        region: *mut GtkSourceRegion,
+        _start: *const gtk::GtkTextIter,
+        _end: *const gtk::GtkTextIter,
+    );
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub fn gtk_source_region_to_string(region: *mut GtkSourceRegion) -> *mut c_char;
 
@@ -2092,53 +2788,159 @@ extern "C" {
     //=========================================================================
     pub fn gtk_source_search_context_get_type() -> GType;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_new(buffer: *mut GtkSourceBuffer, settings: *mut GtkSourceSearchSettings) -> *mut GtkSourceSearchContext;
+    pub fn gtk_source_search_context_new(
+        buffer: *mut GtkSourceBuffer,
+        settings: *mut GtkSourceSearchSettings,
+    ) -> *mut GtkSourceSearchContext;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_backward(search: *mut GtkSourceSearchContext, iter: *const gtk::GtkTextIter, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter) -> gboolean;
+    pub fn gtk_source_search_context_backward(
+        search: *mut GtkSourceSearchContext,
+        iter: *const gtk::GtkTextIter,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_search_context_backward2(search: *mut GtkSourceSearchContext, iter: *const gtk::GtkTextIter, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, has_wrapped_around: *mut gboolean) -> gboolean;
+    pub fn gtk_source_search_context_backward2(
+        search: *mut GtkSourceSearchContext,
+        iter: *const gtk::GtkTextIter,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        has_wrapped_around: *mut gboolean,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_backward_async(search: *mut GtkSourceSearchContext, iter: *const gtk::GtkTextIter, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    pub fn gtk_source_search_context_backward_async(
+        search: *mut GtkSourceSearchContext,
+        iter: *const gtk::GtkTextIter,
+        cancellable: *mut gio::GCancellable,
+        callback: gio::GAsyncReadyCallback,
+        user_data: gpointer,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_backward_finish(search: *mut GtkSourceSearchContext, result: *mut gio::GAsyncResult, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_search_context_backward_finish(
+        search: *mut GtkSourceSearchContext,
+        result: *mut gio::GAsyncResult,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_search_context_backward_finish2(search: *mut GtkSourceSearchContext, result: *mut gio::GAsyncResult, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, has_wrapped_around: *mut gboolean, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_search_context_backward_finish2(
+        search: *mut GtkSourceSearchContext,
+        result: *mut gio::GAsyncResult,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        has_wrapped_around: *mut gboolean,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_forward(search: *mut GtkSourceSearchContext, iter: *const gtk::GtkTextIter, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter) -> gboolean;
+    pub fn gtk_source_search_context_forward(
+        search: *mut GtkSourceSearchContext,
+        iter: *const gtk::GtkTextIter,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_search_context_forward2(search: *mut GtkSourceSearchContext, iter: *const gtk::GtkTextIter, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, has_wrapped_around: *mut gboolean) -> gboolean;
+    pub fn gtk_source_search_context_forward2(
+        search: *mut GtkSourceSearchContext,
+        iter: *const gtk::GtkTextIter,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        has_wrapped_around: *mut gboolean,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_forward_async(search: *mut GtkSourceSearchContext, iter: *const gtk::GtkTextIter, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    pub fn gtk_source_search_context_forward_async(
+        search: *mut GtkSourceSearchContext,
+        iter: *const gtk::GtkTextIter,
+        cancellable: *mut gio::GCancellable,
+        callback: gio::GAsyncReadyCallback,
+        user_data: gpointer,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_forward_finish(search: *mut GtkSourceSearchContext, result: *mut gio::GAsyncResult, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_search_context_forward_finish(
+        search: *mut GtkSourceSearchContext,
+        result: *mut gio::GAsyncResult,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_search_context_forward_finish2(search: *mut GtkSourceSearchContext, result: *mut gio::GAsyncResult, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, has_wrapped_around: *mut gboolean, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_search_context_forward_finish2(
+        search: *mut GtkSourceSearchContext,
+        result: *mut gio::GAsyncResult,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        has_wrapped_around: *mut gboolean,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_get_buffer(search: *mut GtkSourceSearchContext) -> *mut GtkSourceBuffer;
+    pub fn gtk_source_search_context_get_buffer(
+        search: *mut GtkSourceSearchContext,
+    ) -> *mut GtkSourceBuffer;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_get_highlight(search: *mut GtkSourceSearchContext) -> gboolean;
+    pub fn gtk_source_search_context_get_highlight(search: *mut GtkSourceSearchContext)
+        -> gboolean;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_search_context_get_match_style(search: *mut GtkSourceSearchContext) -> *mut GtkSourceStyle;
+    pub fn gtk_source_search_context_get_match_style(
+        search: *mut GtkSourceSearchContext,
+    ) -> *mut GtkSourceStyle;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_get_occurrence_position(search: *mut GtkSourceSearchContext, match_start: *const gtk::GtkTextIter, match_end: *const gtk::GtkTextIter) -> c_int;
+    pub fn gtk_source_search_context_get_occurrence_position(
+        search: *mut GtkSourceSearchContext,
+        match_start: *const gtk::GtkTextIter,
+        match_end: *const gtk::GtkTextIter,
+    ) -> c_int;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_get_occurrences_count(search: *mut GtkSourceSearchContext) -> c_int;
+    pub fn gtk_source_search_context_get_occurrences_count(
+        search: *mut GtkSourceSearchContext,
+    ) -> c_int;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_get_regex_error(search: *mut GtkSourceSearchContext) -> *mut glib::GError;
+    pub fn gtk_source_search_context_get_regex_error(
+        search: *mut GtkSourceSearchContext,
+    ) -> *mut glib::GError;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_get_settings(search: *mut GtkSourceSearchContext) -> *mut GtkSourceSearchSettings;
+    pub fn gtk_source_search_context_get_settings(
+        search: *mut GtkSourceSearchContext,
+    ) -> *mut GtkSourceSearchSettings;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_replace(search: *mut GtkSourceSearchContext, match_start: *const gtk::GtkTextIter, match_end: *const gtk::GtkTextIter, replace: *const c_char, replace_length: c_int, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_search_context_replace(
+        search: *mut GtkSourceSearchContext,
+        match_start: *const gtk::GtkTextIter,
+        match_end: *const gtk::GtkTextIter,
+        replace: *const c_char,
+        replace_length: c_int,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
-    pub fn gtk_source_search_context_replace2(search: *mut GtkSourceSearchContext, match_start: *mut gtk::GtkTextIter, match_end: *mut gtk::GtkTextIter, replace: *const c_char, replace_length: c_int, error: *mut *mut glib::GError) -> gboolean;
+    pub fn gtk_source_search_context_replace2(
+        search: *mut GtkSourceSearchContext,
+        match_start: *mut gtk::GtkTextIter,
+        match_end: *mut gtk::GtkTextIter,
+        replace: *const c_char,
+        replace_length: c_int,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_replace_all(search: *mut GtkSourceSearchContext, replace: *const c_char, replace_length: c_int, error: *mut *mut glib::GError) -> c_uint;
+    pub fn gtk_source_search_context_replace_all(
+        search: *mut GtkSourceSearchContext,
+        replace: *const c_char,
+        replace_length: c_int,
+        error: *mut *mut glib::GError,
+    ) -> c_uint;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_set_highlight(search: *mut GtkSourceSearchContext, highlight: gboolean);
+    pub fn gtk_source_search_context_set_highlight(
+        search: *mut GtkSourceSearchContext,
+        highlight: gboolean,
+    );
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_search_context_set_match_style(search: *mut GtkSourceSearchContext, match_style: *mut GtkSourceStyle);
+    pub fn gtk_source_search_context_set_match_style(
+        search: *mut GtkSourceSearchContext,
+        match_style: *mut GtkSourceStyle,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_context_set_settings(search: *mut GtkSourceSearchContext, settings: *mut GtkSourceSearchSettings);
+    pub fn gtk_source_search_context_set_settings(
+        search: *mut GtkSourceSearchContext,
+        settings: *mut GtkSourceSearchSettings,
+    );
 
     //=========================================================================
     // GtkSourceSearchSettings
@@ -2147,25 +2949,50 @@ extern "C" {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     pub fn gtk_source_search_settings_new() -> *mut GtkSourceSearchSettings;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_get_at_word_boundaries(settings: *mut GtkSourceSearchSettings) -> gboolean;
+    pub fn gtk_source_search_settings_get_at_word_boundaries(
+        settings: *mut GtkSourceSearchSettings,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_get_case_sensitive(settings: *mut GtkSourceSearchSettings) -> gboolean;
+    pub fn gtk_source_search_settings_get_case_sensitive(
+        settings: *mut GtkSourceSearchSettings,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_get_regex_enabled(settings: *mut GtkSourceSearchSettings) -> gboolean;
+    pub fn gtk_source_search_settings_get_regex_enabled(
+        settings: *mut GtkSourceSearchSettings,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_get_search_text(settings: *mut GtkSourceSearchSettings) -> *const c_char;
+    pub fn gtk_source_search_settings_get_search_text(
+        settings: *mut GtkSourceSearchSettings,
+    ) -> *const c_char;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_get_wrap_around(settings: *mut GtkSourceSearchSettings) -> gboolean;
+    pub fn gtk_source_search_settings_get_wrap_around(
+        settings: *mut GtkSourceSearchSettings,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_set_at_word_boundaries(settings: *mut GtkSourceSearchSettings, at_word_boundaries: gboolean);
+    pub fn gtk_source_search_settings_set_at_word_boundaries(
+        settings: *mut GtkSourceSearchSettings,
+        at_word_boundaries: gboolean,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_set_case_sensitive(settings: *mut GtkSourceSearchSettings, case_sensitive: gboolean);
+    pub fn gtk_source_search_settings_set_case_sensitive(
+        settings: *mut GtkSourceSearchSettings,
+        case_sensitive: gboolean,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_set_regex_enabled(settings: *mut GtkSourceSearchSettings, regex_enabled: gboolean);
+    pub fn gtk_source_search_settings_set_regex_enabled(
+        settings: *mut GtkSourceSearchSettings,
+        regex_enabled: gboolean,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_set_search_text(settings: *mut GtkSourceSearchSettings, search_text: *const c_char);
+    pub fn gtk_source_search_settings_set_search_text(
+        settings: *mut GtkSourceSearchSettings,
+        search_text: *const c_char,
+    );
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn gtk_source_search_settings_set_wrap_around(settings: *mut GtkSourceSearchSettings, wrap_around: gboolean);
+    pub fn gtk_source_search_settings_set_wrap_around(
+        settings: *mut GtkSourceSearchSettings,
+        wrap_around: gboolean,
+    );
 
     //=========================================================================
     // GtkSourceSpaceDrawer
@@ -2174,19 +3001,40 @@ extern "C" {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub fn gtk_source_space_drawer_new() -> *mut GtkSourceSpaceDrawer;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_bind_matrix_setting(drawer: *mut GtkSourceSpaceDrawer, settings: *mut gio::GSettings, key: *const c_char, flags: gio::GSettingsBindFlags);
+    pub fn gtk_source_space_drawer_bind_matrix_setting(
+        drawer: *mut GtkSourceSpaceDrawer,
+        settings: *mut gio::GSettings,
+        key: *const c_char,
+        flags: gio::GSettingsBindFlags,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_get_enable_matrix(drawer: *mut GtkSourceSpaceDrawer) -> gboolean;
+    pub fn gtk_source_space_drawer_get_enable_matrix(drawer: *mut GtkSourceSpaceDrawer)
+        -> gboolean;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_get_matrix(drawer: *mut GtkSourceSpaceDrawer) -> *mut glib::GVariant;
+    pub fn gtk_source_space_drawer_get_matrix(
+        drawer: *mut GtkSourceSpaceDrawer,
+    ) -> *mut glib::GVariant;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_get_types_for_locations(drawer: *mut GtkSourceSpaceDrawer, locations: GtkSourceSpaceLocationFlags) -> GtkSourceSpaceTypeFlags;
+    pub fn gtk_source_space_drawer_get_types_for_locations(
+        drawer: *mut GtkSourceSpaceDrawer,
+        locations: GtkSourceSpaceLocationFlags,
+    ) -> GtkSourceSpaceTypeFlags;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_set_enable_matrix(drawer: *mut GtkSourceSpaceDrawer, enable_matrix: gboolean);
+    pub fn gtk_source_space_drawer_set_enable_matrix(
+        drawer: *mut GtkSourceSpaceDrawer,
+        enable_matrix: gboolean,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_set_matrix(drawer: *mut GtkSourceSpaceDrawer, matrix: *mut glib::GVariant);
+    pub fn gtk_source_space_drawer_set_matrix(
+        drawer: *mut GtkSourceSpaceDrawer,
+        matrix: *mut glib::GVariant,
+    );
     #[cfg(any(feature = "v3_24", feature = "dox"))]
-    pub fn gtk_source_space_drawer_set_types_for_locations(drawer: *mut GtkSourceSpaceDrawer, locations: GtkSourceSpaceLocationFlags, types: GtkSourceSpaceTypeFlags);
+    pub fn gtk_source_space_drawer_set_types_for_locations(
+        drawer: *mut GtkSourceSpaceDrawer,
+        locations: GtkSourceSpaceLocationFlags,
+        types: GtkSourceSpaceTypeFlags,
+    );
 
     //=========================================================================
     // GtkSourceStyle
@@ -2200,12 +3048,20 @@ extern "C" {
     // GtkSourceStyleScheme
     //=========================================================================
     pub fn gtk_source_style_scheme_get_type() -> GType;
-    pub fn gtk_source_style_scheme_get_authors(scheme: *mut GtkSourceStyleScheme) -> *mut *mut c_char;
-    pub fn gtk_source_style_scheme_get_description(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
-    pub fn gtk_source_style_scheme_get_filename(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
+    pub fn gtk_source_style_scheme_get_authors(
+        scheme: *mut GtkSourceStyleScheme,
+    ) -> *const *const c_char;
+    pub fn gtk_source_style_scheme_get_description(
+        scheme: *mut GtkSourceStyleScheme,
+    ) -> *const c_char;
+    pub fn gtk_source_style_scheme_get_filename(scheme: *mut GtkSourceStyleScheme)
+        -> *const c_char;
     pub fn gtk_source_style_scheme_get_id(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
     pub fn gtk_source_style_scheme_get_name(scheme: *mut GtkSourceStyleScheme) -> *const c_char;
-    pub fn gtk_source_style_scheme_get_style(scheme: *mut GtkSourceStyleScheme, style_id: *const c_char) -> *mut GtkSourceStyle;
+    pub fn gtk_source_style_scheme_get_style(
+        scheme: *mut GtkSourceStyleScheme,
+        style_id: *const c_char,
+    ) -> *mut GtkSourceStyle;
 
     //=========================================================================
     // GtkSourceStyleSchemeChooserButton
@@ -2227,13 +3083,29 @@ extern "C" {
     pub fn gtk_source_style_scheme_manager_get_type() -> GType;
     pub fn gtk_source_style_scheme_manager_new() -> *mut GtkSourceStyleSchemeManager;
     pub fn gtk_source_style_scheme_manager_get_default() -> *mut GtkSourceStyleSchemeManager;
-    pub fn gtk_source_style_scheme_manager_append_search_path(manager: *mut GtkSourceStyleSchemeManager, path: *const c_char);
+    pub fn gtk_source_style_scheme_manager_append_search_path(
+        manager: *mut GtkSourceStyleSchemeManager,
+        path: *const c_char,
+    );
     pub fn gtk_source_style_scheme_manager_force_rescan(manager: *mut GtkSourceStyleSchemeManager);
-    pub fn gtk_source_style_scheme_manager_get_scheme(manager: *mut GtkSourceStyleSchemeManager, scheme_id: *const c_char) -> *mut GtkSourceStyleScheme;
-    pub fn gtk_source_style_scheme_manager_get_scheme_ids(manager: *mut GtkSourceStyleSchemeManager) -> *mut *mut c_char;
-    pub fn gtk_source_style_scheme_manager_get_search_path(manager: *mut GtkSourceStyleSchemeManager) -> *mut *mut c_char;
-    pub fn gtk_source_style_scheme_manager_prepend_search_path(manager: *mut GtkSourceStyleSchemeManager, path: *const c_char);
-    pub fn gtk_source_style_scheme_manager_set_search_path(manager: *mut GtkSourceStyleSchemeManager, path: *mut *mut c_char);
+    pub fn gtk_source_style_scheme_manager_get_scheme(
+        manager: *mut GtkSourceStyleSchemeManager,
+        scheme_id: *const c_char,
+    ) -> *mut GtkSourceStyleScheme;
+    pub fn gtk_source_style_scheme_manager_get_scheme_ids(
+        manager: *mut GtkSourceStyleSchemeManager,
+    ) -> *const *const c_char;
+    pub fn gtk_source_style_scheme_manager_get_search_path(
+        manager: *mut GtkSourceStyleSchemeManager,
+    ) -> *const *const c_char;
+    pub fn gtk_source_style_scheme_manager_prepend_search_path(
+        manager: *mut GtkSourceStyleSchemeManager,
+        path: *const c_char,
+    );
+    pub fn gtk_source_style_scheme_manager_set_search_path(
+        manager: *mut GtkSourceStyleSchemeManager,
+        path: *mut *mut c_char,
+    );
 
     //=========================================================================
     // GtkSourceTag
@@ -2250,93 +3122,195 @@ extern "C" {
     pub fn gtk_source_view_new_with_buffer(buffer: *mut GtkSourceBuffer) -> *mut gtk::GtkWidget;
     pub fn gtk_source_view_get_auto_indent(view: *mut GtkSourceView) -> gboolean;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_view_get_background_pattern(view: *mut GtkSourceView) -> GtkSourceBackgroundPatternType;
+    pub fn gtk_source_view_get_background_pattern(
+        view: *mut GtkSourceView,
+    ) -> GtkSourceBackgroundPatternType;
     pub fn gtk_source_view_get_completion(view: *mut GtkSourceView) -> *mut GtkSourceCompletion;
     pub fn gtk_source_view_get_draw_spaces(view: *mut GtkSourceView) -> GtkSourceDrawSpacesFlags;
-    pub fn gtk_source_view_get_gutter(view: *mut GtkSourceView, window_type: gtk::GtkTextWindowType) -> *mut GtkSourceGutter;
+    pub fn gtk_source_view_get_gutter(
+        view: *mut GtkSourceView,
+        window_type: gtk::GtkTextWindowType,
+    ) -> *mut GtkSourceGutter;
     pub fn gtk_source_view_get_highlight_current_line(view: *mut GtkSourceView) -> gboolean;
     pub fn gtk_source_view_get_indent_on_tab(view: *mut GtkSourceView) -> gboolean;
     pub fn gtk_source_view_get_indent_width(view: *mut GtkSourceView) -> c_int;
     pub fn gtk_source_view_get_insert_spaces_instead_of_tabs(view: *mut GtkSourceView) -> gboolean;
-    pub fn gtk_source_view_get_mark_attributes(view: *mut GtkSourceView, category: *const c_char, priority: *mut c_int) -> *mut GtkSourceMarkAttributes;
+    pub fn gtk_source_view_get_mark_attributes(
+        view: *mut GtkSourceView,
+        category: *const c_char,
+        priority: *mut c_int,
+    ) -> *mut GtkSourceMarkAttributes;
     pub fn gtk_source_view_get_right_margin_position(view: *mut GtkSourceView) -> c_uint;
     pub fn gtk_source_view_get_show_line_marks(view: *mut GtkSourceView) -> gboolean;
     pub fn gtk_source_view_get_show_line_numbers(view: *mut GtkSourceView) -> gboolean;
     pub fn gtk_source_view_get_show_right_margin(view: *mut GtkSourceView) -> gboolean;
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn gtk_source_view_get_smart_backspace(view: *mut GtkSourceView) -> gboolean;
-    pub fn gtk_source_view_get_smart_home_end(view: *mut GtkSourceView) -> GtkSourceSmartHomeEndType;
+    pub fn gtk_source_view_get_smart_home_end(
+        view: *mut GtkSourceView,
+    ) -> GtkSourceSmartHomeEndType;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub fn gtk_source_view_get_space_drawer(view: *mut GtkSourceView) -> *mut GtkSourceSpaceDrawer;
     pub fn gtk_source_view_get_tab_width(view: *mut GtkSourceView) -> c_uint;
-    pub fn gtk_source_view_get_visual_column(view: *mut GtkSourceView, iter: *const gtk::GtkTextIter) -> c_uint;
+    pub fn gtk_source_view_get_visual_column(
+        view: *mut GtkSourceView,
+        iter: *const gtk::GtkTextIter,
+    ) -> c_uint;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_view_indent_lines(view: *mut GtkSourceView, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter);
+    pub fn gtk_source_view_indent_lines(
+        view: *mut GtkSourceView,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    );
     pub fn gtk_source_view_set_auto_indent(view: *mut GtkSourceView, enable: gboolean);
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_view_set_background_pattern(view: *mut GtkSourceView, background_pattern: GtkSourceBackgroundPatternType);
-    pub fn gtk_source_view_set_draw_spaces(view: *mut GtkSourceView, flags: GtkSourceDrawSpacesFlags);
-    pub fn gtk_source_view_set_highlight_current_line(view: *mut GtkSourceView, highlight: gboolean);
+    pub fn gtk_source_view_set_background_pattern(
+        view: *mut GtkSourceView,
+        background_pattern: GtkSourceBackgroundPatternType,
+    );
+    pub fn gtk_source_view_set_draw_spaces(
+        view: *mut GtkSourceView,
+        flags: GtkSourceDrawSpacesFlags,
+    );
+    pub fn gtk_source_view_set_highlight_current_line(
+        view: *mut GtkSourceView,
+        highlight: gboolean,
+    );
     pub fn gtk_source_view_set_indent_on_tab(view: *mut GtkSourceView, enable: gboolean);
     pub fn gtk_source_view_set_indent_width(view: *mut GtkSourceView, width: c_int);
-    pub fn gtk_source_view_set_insert_spaces_instead_of_tabs(view: *mut GtkSourceView, enable: gboolean);
-    pub fn gtk_source_view_set_mark_attributes(view: *mut GtkSourceView, category: *const c_char, attributes: *mut GtkSourceMarkAttributes, priority: c_int);
+    pub fn gtk_source_view_set_insert_spaces_instead_of_tabs(
+        view: *mut GtkSourceView,
+        enable: gboolean,
+    );
+    pub fn gtk_source_view_set_mark_attributes(
+        view: *mut GtkSourceView,
+        category: *const c_char,
+        attributes: *mut GtkSourceMarkAttributes,
+        priority: c_int,
+    );
     pub fn gtk_source_view_set_right_margin_position(view: *mut GtkSourceView, pos: c_uint);
     pub fn gtk_source_view_set_show_line_marks(view: *mut GtkSourceView, show: gboolean);
     pub fn gtk_source_view_set_show_line_numbers(view: *mut GtkSourceView, show: gboolean);
     pub fn gtk_source_view_set_show_right_margin(view: *mut GtkSourceView, show: gboolean);
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub fn gtk_source_view_set_smart_backspace(view: *mut GtkSourceView, smart_backspace: gboolean);
-    pub fn gtk_source_view_set_smart_home_end(view: *mut GtkSourceView, smart_home_end: GtkSourceSmartHomeEndType);
+    pub fn gtk_source_view_set_smart_home_end(
+        view: *mut GtkSourceView,
+        smart_home_end: GtkSourceSmartHomeEndType,
+    );
     pub fn gtk_source_view_set_tab_width(view: *mut GtkSourceView, width: c_uint);
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_view_unindent_lines(view: *mut GtkSourceView, start: *mut gtk::GtkTextIter, end: *mut gtk::GtkTextIter);
+    pub fn gtk_source_view_unindent_lines(
+        view: *mut GtkSourceView,
+        start: *mut gtk::GtkTextIter,
+        end: *mut gtk::GtkTextIter,
+    );
 
     //=========================================================================
     // GtkSourceCompletionProposal
     //=========================================================================
     pub fn gtk_source_completion_proposal_get_type() -> GType;
     pub fn gtk_source_completion_proposal_changed(proposal: *mut GtkSourceCompletionProposal);
-    pub fn gtk_source_completion_proposal_equal(proposal: *mut GtkSourceCompletionProposal, other: *mut GtkSourceCompletionProposal) -> gboolean;
+    pub fn gtk_source_completion_proposal_equal(
+        proposal: *mut GtkSourceCompletionProposal,
+        other: *mut GtkSourceCompletionProposal,
+    ) -> gboolean;
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    pub fn gtk_source_completion_proposal_get_gicon(proposal: *mut GtkSourceCompletionProposal) -> *mut gio::GIcon;
-    pub fn gtk_source_completion_proposal_get_icon(proposal: *mut GtkSourceCompletionProposal) -> *mut gdk_pixbuf::GdkPixbuf;
+    pub fn gtk_source_completion_proposal_get_gicon(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut gio::GIcon;
+    pub fn gtk_source_completion_proposal_get_icon(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut gdk_pixbuf::GdkPixbuf;
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    pub fn gtk_source_completion_proposal_get_icon_name(proposal: *mut GtkSourceCompletionProposal) -> *const c_char;
-    pub fn gtk_source_completion_proposal_get_info(proposal: *mut GtkSourceCompletionProposal) -> *mut c_char;
-    pub fn gtk_source_completion_proposal_get_label(proposal: *mut GtkSourceCompletionProposal) -> *mut c_char;
-    pub fn gtk_source_completion_proposal_get_markup(proposal: *mut GtkSourceCompletionProposal) -> *mut c_char;
-    pub fn gtk_source_completion_proposal_get_text(proposal: *mut GtkSourceCompletionProposal) -> *mut c_char;
-    pub fn gtk_source_completion_proposal_hash(proposal: *mut GtkSourceCompletionProposal) -> c_uint;
+    pub fn gtk_source_completion_proposal_get_icon_name(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *const c_char;
+    pub fn gtk_source_completion_proposal_get_info(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut c_char;
+    pub fn gtk_source_completion_proposal_get_label(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut c_char;
+    pub fn gtk_source_completion_proposal_get_markup(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut c_char;
+    pub fn gtk_source_completion_proposal_get_text(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut c_char;
+    pub fn gtk_source_completion_proposal_hash(
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> c_uint;
 
     //=========================================================================
     // GtkSourceCompletionProvider
     //=========================================================================
     pub fn gtk_source_completion_provider_get_type() -> GType;
-    pub fn gtk_source_completion_provider_activate_proposal(provider: *mut GtkSourceCompletionProvider, proposal: *mut GtkSourceCompletionProposal, iter: *mut gtk::GtkTextIter) -> gboolean;
-    pub fn gtk_source_completion_provider_get_activation(provider: *mut GtkSourceCompletionProvider) -> GtkSourceCompletionActivation;
+    pub fn gtk_source_completion_provider_activate_proposal(
+        provider: *mut GtkSourceCompletionProvider,
+        proposal: *mut GtkSourceCompletionProposal,
+        iter: *mut gtk::GtkTextIter,
+    ) -> gboolean;
+    pub fn gtk_source_completion_provider_get_activation(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> GtkSourceCompletionActivation;
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    pub fn gtk_source_completion_provider_get_gicon(provider: *mut GtkSourceCompletionProvider) -> *mut gio::GIcon;
-    pub fn gtk_source_completion_provider_get_icon(provider: *mut GtkSourceCompletionProvider) -> *mut gdk_pixbuf::GdkPixbuf;
+    pub fn gtk_source_completion_provider_get_gicon(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> *mut gio::GIcon;
+    pub fn gtk_source_completion_provider_get_icon(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> *mut gdk_pixbuf::GdkPixbuf;
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    pub fn gtk_source_completion_provider_get_icon_name(provider: *mut GtkSourceCompletionProvider) -> *const c_char;
-    pub fn gtk_source_completion_provider_get_info_widget(provider: *mut GtkSourceCompletionProvider, proposal: *mut GtkSourceCompletionProposal) -> *mut gtk::GtkWidget;
-    pub fn gtk_source_completion_provider_get_interactive_delay(provider: *mut GtkSourceCompletionProvider) -> c_int;
-    pub fn gtk_source_completion_provider_get_name(provider: *mut GtkSourceCompletionProvider) -> *mut c_char;
-    pub fn gtk_source_completion_provider_get_priority(provider: *mut GtkSourceCompletionProvider) -> c_int;
-    pub fn gtk_source_completion_provider_get_start_iter(provider: *mut GtkSourceCompletionProvider, context: *mut GtkSourceCompletionContext, proposal: *mut GtkSourceCompletionProposal, iter: *mut gtk::GtkTextIter) -> gboolean;
-    pub fn gtk_source_completion_provider_match(provider: *mut GtkSourceCompletionProvider, context: *mut GtkSourceCompletionContext) -> gboolean;
-    pub fn gtk_source_completion_provider_populate(provider: *mut GtkSourceCompletionProvider, context: *mut GtkSourceCompletionContext);
-    pub fn gtk_source_completion_provider_update_info(provider: *mut GtkSourceCompletionProvider, proposal: *mut GtkSourceCompletionProposal, info: *mut GtkSourceCompletionInfo);
+    pub fn gtk_source_completion_provider_get_icon_name(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> *const c_char;
+    pub fn gtk_source_completion_provider_get_info_widget(
+        provider: *mut GtkSourceCompletionProvider,
+        proposal: *mut GtkSourceCompletionProposal,
+    ) -> *mut gtk::GtkWidget;
+    pub fn gtk_source_completion_provider_get_interactive_delay(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> c_int;
+    pub fn gtk_source_completion_provider_get_name(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> *mut c_char;
+    pub fn gtk_source_completion_provider_get_priority(
+        provider: *mut GtkSourceCompletionProvider,
+    ) -> c_int;
+    pub fn gtk_source_completion_provider_get_start_iter(
+        provider: *mut GtkSourceCompletionProvider,
+        context: *mut GtkSourceCompletionContext,
+        proposal: *mut GtkSourceCompletionProposal,
+        iter: *mut gtk::GtkTextIter,
+    ) -> gboolean;
+    pub fn gtk_source_completion_provider_match(
+        provider: *mut GtkSourceCompletionProvider,
+        context: *mut GtkSourceCompletionContext,
+    ) -> gboolean;
+    pub fn gtk_source_completion_provider_populate(
+        provider: *mut GtkSourceCompletionProvider,
+        context: *mut GtkSourceCompletionContext,
+    );
+    pub fn gtk_source_completion_provider_update_info(
+        provider: *mut GtkSourceCompletionProvider,
+        proposal: *mut GtkSourceCompletionProposal,
+        info: *mut GtkSourceCompletionInfo,
+    );
 
     //=========================================================================
     // GtkSourceStyleSchemeChooser
     //=========================================================================
     pub fn gtk_source_style_scheme_chooser_get_type() -> GType;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_style_scheme_chooser_get_style_scheme(chooser: *mut GtkSourceStyleSchemeChooser) -> *mut GtkSourceStyleScheme;
+    pub fn gtk_source_style_scheme_chooser_get_style_scheme(
+        chooser: *mut GtkSourceStyleSchemeChooser,
+    ) -> *mut GtkSourceStyleScheme;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn gtk_source_style_scheme_chooser_set_style_scheme(chooser: *mut GtkSourceStyleSchemeChooser, scheme: *mut GtkSourceStyleScheme);
+    pub fn gtk_source_style_scheme_chooser_set_style_scheme(
+        chooser: *mut GtkSourceStyleSchemeChooser,
+        scheme: *mut GtkSourceStyleScheme,
+    );
 
     //=========================================================================
     // GtkSourceUndoManager

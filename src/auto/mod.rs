@@ -3,172 +3,183 @@
 // DO NOT EDIT
 
 mod buffer;
-pub use self::buffer::{Buffer, BufferClass, NONE_BUFFER};
 pub use self::buffer::BufferExt;
+pub use self::buffer::{Buffer, BufferClass, NONE_BUFFER};
 
 mod completion;
-pub use self::completion::{Completion, CompletionClass, NONE_COMPLETION};
 pub use self::completion::CompletionExt;
+pub use self::completion::{Completion, CompletionClass, NONE_COMPLETION};
 
 mod completion_context;
-pub use self::completion_context::{CompletionContext, CompletionContextClass, NONE_COMPLETION_CONTEXT};
 pub use self::completion_context::CompletionContextExt;
+pub use self::completion_context::{
+    CompletionContext, CompletionContextClass, NONE_COMPLETION_CONTEXT,
+};
 
 mod completion_info;
-pub use self::completion_info::{CompletionInfo, CompletionInfoClass, NONE_COMPLETION_INFO};
 pub use self::completion_info::CompletionInfoExt;
+pub use self::completion_info::{CompletionInfo, CompletionInfoClass, NONE_COMPLETION_INFO};
 
 mod completion_item;
-pub use self::completion_item::{CompletionItem, CompletionItemClass, NONE_COMPLETION_ITEM};
 pub use self::completion_item::CompletionItemExt;
+pub use self::completion_item::{CompletionItem, CompletionItemClass, NONE_COMPLETION_ITEM};
 
 mod completion_proposal;
-pub use self::completion_proposal::{CompletionProposal, NONE_COMPLETION_PROPOSAL};
 pub use self::completion_proposal::CompletionProposalExt;
+pub use self::completion_proposal::{CompletionProposal, NONE_COMPLETION_PROPOSAL};
 
 mod completion_provider;
-pub use self::completion_provider::{CompletionProvider, NONE_COMPLETION_PROVIDER};
 pub use self::completion_provider::CompletionProviderExt;
+pub use self::completion_provider::{CompletionProvider, NONE_COMPLETION_PROVIDER};
 
 mod completion_words;
-pub use self::completion_words::{CompletionWords, CompletionWordsClass, NONE_COMPLETION_WORDS};
 pub use self::completion_words::CompletionWordsExt;
+pub use self::completion_words::{CompletionWords, CompletionWordsClass, NONE_COMPLETION_WORDS};
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 mod file;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-pub use self::file::{File, FileClass, NONE_FILE};
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 pub use self::file::FileExt;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+pub use self::file::{File, FileClass, NONE_FILE};
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 mod file_loader;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-pub use self::file_loader::{FileLoader, FileLoaderClass, NONE_FILE_LOADER};
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 pub use self::file_loader::FileLoaderExt;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+pub use self::file_loader::{FileLoader, FileLoaderClass, NONE_FILE_LOADER};
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 mod file_saver;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
-pub use self::file_saver::{FileSaver, FileSaverClass, NONE_FILE_SAVER};
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 pub use self::file_saver::FileSaverExt;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+pub use self::file_saver::{FileSaver, FileSaverClass, NONE_FILE_SAVER};
 
 mod gutter;
-pub use self::gutter::{Gutter, GutterClass, NONE_GUTTER};
 pub use self::gutter::GutterExt;
+pub use self::gutter::{Gutter, GutterClass, NONE_GUTTER};
 
 mod gutter_renderer;
-pub use self::gutter_renderer::{GutterRenderer, GutterRendererClass, NONE_GUTTER_RENDERER};
 pub use self::gutter_renderer::GutterRendererExt;
+pub use self::gutter_renderer::{GutterRenderer, GutterRendererClass, NONE_GUTTER_RENDERER};
 
 mod gutter_renderer_pixbuf;
-pub use self::gutter_renderer_pixbuf::{GutterRendererPixbuf, GutterRendererPixbufClass, NONE_GUTTER_RENDERER_PIXBUF};
 pub use self::gutter_renderer_pixbuf::GutterRendererPixbufExt;
+pub use self::gutter_renderer_pixbuf::{
+    GutterRendererPixbuf, GutterRendererPixbufClass, NONE_GUTTER_RENDERER_PIXBUF,
+};
 
 mod gutter_renderer_text;
-pub use self::gutter_renderer_text::{GutterRendererText, GutterRendererTextClass, NONE_GUTTER_RENDERER_TEXT};
 pub use self::gutter_renderer_text::GutterRendererTextExt;
+pub use self::gutter_renderer_text::{
+    GutterRendererText, GutterRendererTextClass, NONE_GUTTER_RENDERER_TEXT,
+};
 
 mod language;
-pub use self::language::{Language, LanguageClass, NONE_LANGUAGE};
 pub use self::language::LanguageExt;
+pub use self::language::{Language, LanguageClass, NONE_LANGUAGE};
 
 mod language_manager;
-pub use self::language_manager::{LanguageManager, LanguageManagerClass, NONE_LANGUAGE_MANAGER};
 pub use self::language_manager::LanguageManagerExt;
+pub use self::language_manager::{LanguageManager, LanguageManagerClass, NONE_LANGUAGE_MANAGER};
 
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 mod map;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
-pub use self::map::{Map, MapClass, NONE_MAP};
-#[cfg(any(feature = "v3_18", feature = "dox"))]
 pub use self::map::MapExt;
+#[cfg(any(feature = "v3_18", feature = "dox"))]
+pub use self::map::{Map, MapClass, NONE_MAP};
 
 mod mark;
-pub use self::mark::{Mark, MarkClass, NONE_MARK};
 pub use self::mark::MarkExt;
+pub use self::mark::{Mark, MarkClass, NONE_MARK};
 
 mod mark_attributes;
-pub use self::mark_attributes::{MarkAttributes, MarkAttributesClass, NONE_MARK_ATTRIBUTES};
 pub use self::mark_attributes::MarkAttributesExt;
+pub use self::mark_attributes::{MarkAttributes, MarkAttributesClass, NONE_MARK_ATTRIBUTES};
 
 mod print_compositor;
-pub use self::print_compositor::{PrintCompositor, PrintCompositorClass, NONE_PRINT_COMPOSITOR};
 pub use self::print_compositor::PrintCompositorExt;
+pub use self::print_compositor::{PrintCompositor, PrintCompositorClass, NONE_PRINT_COMPOSITOR};
 
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 mod region;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
-pub use self::region::{Region, RegionClass, NONE_REGION};
-#[cfg(any(feature = "v3_22", feature = "dox"))]
 pub use self::region::RegionExt;
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+pub use self::region::{Region, RegionClass, NONE_REGION};
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 mod search_context;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-pub use self::search_context::{SearchContext, SearchContextClass, NONE_SEARCH_CONTEXT};
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 pub use self::search_context::SearchContextExt;
+#[cfg(any(feature = "v3_10", feature = "dox"))]
+pub use self::search_context::{SearchContext, SearchContextClass, NONE_SEARCH_CONTEXT};
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 mod search_settings;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-pub use self::search_settings::{SearchSettings, SearchSettingsClass, NONE_SEARCH_SETTINGS};
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 pub use self::search_settings::SearchSettingsExt;
+#[cfg(any(feature = "v3_10", feature = "dox"))]
+pub use self::search_settings::{SearchSettings, SearchSettingsClass, NONE_SEARCH_SETTINGS};
 
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 mod space_drawer;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-pub use self::space_drawer::{SpaceDrawer, SpaceDrawerClass, NONE_SPACE_DRAWER};
-#[cfg(any(feature = "v3_24", feature = "dox"))]
 pub use self::space_drawer::SpaceDrawerExt;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
+pub use self::space_drawer::{SpaceDrawer, SpaceDrawerClass, NONE_SPACE_DRAWER};
 
 mod style;
-pub use self::style::{Style, StyleClass, NONE_STYLE};
-pub use self::style::StyleExt;
+pub use self::style::{Style, StyleClass};
 
 mod style_scheme;
-pub use self::style_scheme::{StyleScheme, StyleSchemeClass, NONE_STYLE_SCHEME};
 pub use self::style_scheme::StyleSchemeExt;
+pub use self::style_scheme::{StyleScheme, StyleSchemeClass, NONE_STYLE_SCHEME};
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 mod style_scheme_chooser;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-pub use self::style_scheme_chooser::{StyleSchemeChooser, NONE_STYLE_SCHEME_CHOOSER};
-#[cfg(any(feature = "v3_16", feature = "dox"))]
 pub use self::style_scheme_chooser::StyleSchemeChooserExt;
+#[cfg(any(feature = "v3_16", feature = "dox"))]
+pub use self::style_scheme_chooser::{StyleSchemeChooser, NONE_STYLE_SCHEME_CHOOSER};
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 mod style_scheme_chooser_button;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-pub use self::style_scheme_chooser_button::{StyleSchemeChooserButton, StyleSchemeChooserButtonClass, NONE_STYLE_SCHEME_CHOOSER_BUTTON};
+pub use self::style_scheme_chooser_button::{
+    StyleSchemeChooserButton, StyleSchemeChooserButtonClass, NONE_STYLE_SCHEME_CHOOSER_BUTTON,
+};
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 mod style_scheme_chooser_widget;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-pub use self::style_scheme_chooser_widget::{StyleSchemeChooserWidget, StyleSchemeChooserWidgetClass, NONE_STYLE_SCHEME_CHOOSER_WIDGET};
+pub use self::style_scheme_chooser_widget::{
+    StyleSchemeChooserWidget, StyleSchemeChooserWidgetClass, NONE_STYLE_SCHEME_CHOOSER_WIDGET,
+};
 
 mod style_scheme_manager;
-pub use self::style_scheme_manager::{StyleSchemeManager, StyleSchemeManagerClass, NONE_STYLE_SCHEME_MANAGER};
 pub use self::style_scheme_manager::StyleSchemeManagerExt;
+pub use self::style_scheme_manager::{
+    StyleSchemeManager, StyleSchemeManagerClass, NONE_STYLE_SCHEME_MANAGER,
+};
 
 #[cfg(any(feature = "v3_20", feature = "dox"))]
 mod tag;
 #[cfg(any(feature = "v3_20", feature = "dox"))]
-pub use self::tag::{Tag, TagClass, NONE_TAG};
-#[cfg(any(feature = "v3_20", feature = "dox"))]
 pub use self::tag::TagExt;
+#[cfg(any(feature = "v3_20", feature = "dox"))]
+pub use self::tag::{Tag, TagClass, NONE_TAG};
 
 mod undo_manager;
-pub use self::undo_manager::{UndoManager, NONE_UNDO_MANAGER};
 pub use self::undo_manager::UndoManagerExt;
+pub use self::undo_manager::{UndoManager, NONE_UNDO_MANAGER};
 
 mod view;
-pub use self::view::{View, ViewClass, NONE_VIEW};
 pub use self::view::ViewExt;
+pub use self::view::{View, ViewClass, NONE_VIEW};
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 mod encoding;
@@ -204,8 +215,8 @@ pub use self::flags::SpaceTypeFlags;
 #[doc(hidden)]
 pub mod traits {
     pub use super::BufferExt;
-    pub use super::CompletionExt;
     pub use super::CompletionContextExt;
+    pub use super::CompletionExt;
     pub use super::CompletionInfoExt;
     pub use super::CompletionItemExt;
     pub use super::CompletionProposalExt;
@@ -225,8 +236,8 @@ pub mod traits {
     pub use super::LanguageManagerExt;
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     pub use super::MapExt;
-    pub use super::MarkExt;
     pub use super::MarkAttributesExt;
+    pub use super::MarkExt;
     pub use super::PrintCompositorExt;
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     pub use super::RegionExt;
@@ -236,10 +247,9 @@ pub mod traits {
     pub use super::SearchSettingsExt;
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     pub use super::SpaceDrawerExt;
-    pub use super::StyleExt;
-    pub use super::StyleSchemeExt;
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     pub use super::StyleSchemeChooserExt;
+    pub use super::StyleSchemeExt;
     pub use super::StyleSchemeManagerExt;
     #[cfg(any(feature = "v3_20", feature = "dox"))]
     pub use super::TagExt;
