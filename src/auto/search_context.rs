@@ -230,14 +230,15 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         unsafe {
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
-            let mut has_wrapped_around = mem::uninitialized();
+            let mut has_wrapped_around = mem::MaybeUninit::uninit();
             let ret = from_glib(gtk_source_sys::gtk_source_search_context_backward2(
                 self.as_ref().to_glib_none().0,
                 iter.to_glib_none().0,
                 match_start.to_glib_none_mut().0,
                 match_end.to_glib_none_mut().0,
-                &mut has_wrapped_around,
+                has_wrapped_around.as_mut_ptr(),
             ));
+            let has_wrapped_around = has_wrapped_around.assume_init();
             if ret {
                 Some((match_start, match_end, from_glib(has_wrapped_around)))
             } else {
@@ -347,14 +348,15 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         unsafe {
             let mut match_start = gtk::TextIter::uninitialized();
             let mut match_end = gtk::TextIter::uninitialized();
-            let mut has_wrapped_around = mem::uninitialized();
+            let mut has_wrapped_around = mem::MaybeUninit::uninit();
             let ret = from_glib(gtk_source_sys::gtk_source_search_context_forward2(
                 self.as_ref().to_glib_none().0,
                 iter.to_glib_none().0,
                 match_start.to_glib_none_mut().0,
                 match_end.to_glib_none_mut().0,
-                &mut has_wrapped_around,
+                has_wrapped_around.as_mut_ptr(),
             ));
+            let has_wrapped_around = has_wrapped_around.assume_init();
             if ret {
                 Some((match_start, match_end, from_glib(has_wrapped_around)))
             } else {

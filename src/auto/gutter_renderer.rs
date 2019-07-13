@@ -263,13 +263,15 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
 
     fn get_alignment(&self) -> (f32, f32) {
         unsafe {
-            let mut xalign = mem::uninitialized();
-            let mut yalign = mem::uninitialized();
+            let mut xalign = mem::MaybeUninit::uninit();
+            let mut yalign = mem::MaybeUninit::uninit();
             gtk_source_sys::gtk_source_gutter_renderer_get_alignment(
                 self.as_ref().to_glib_none().0,
-                &mut xalign,
-                &mut yalign,
+                xalign.as_mut_ptr(),
+                yalign.as_mut_ptr(),
             );
+            let xalign = xalign.assume_init();
+            let yalign = yalign.assume_init();
             (xalign, yalign)
         }
     }
@@ -301,13 +303,15 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
 
     fn get_padding(&self) -> (i32, i32) {
         unsafe {
-            let mut xpad = mem::uninitialized();
-            let mut ypad = mem::uninitialized();
+            let mut xpad = mem::MaybeUninit::uninit();
+            let mut ypad = mem::MaybeUninit::uninit();
             gtk_source_sys::gtk_source_gutter_renderer_get_padding(
                 self.as_ref().to_glib_none().0,
-                &mut xpad,
-                &mut ypad,
+                xpad.as_mut_ptr(),
+                ypad.as_mut_ptr(),
             );
+            let xpad = xpad.assume_init();
+            let ypad = ypad.assume_init();
             (xpad, ypad)
         }
     }

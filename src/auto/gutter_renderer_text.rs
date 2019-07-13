@@ -66,28 +66,32 @@ pub trait GutterRendererTextExt: 'static {
 impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
     fn measure(&self, text: &str) -> (i32, i32) {
         unsafe {
-            let mut width = mem::uninitialized();
-            let mut height = mem::uninitialized();
+            let mut width = mem::MaybeUninit::uninit();
+            let mut height = mem::MaybeUninit::uninit();
             gtk_source_sys::gtk_source_gutter_renderer_text_measure(
                 self.as_ref().to_glib_none().0,
                 text.to_glib_none().0,
-                &mut width,
-                &mut height,
+                width.as_mut_ptr(),
+                height.as_mut_ptr(),
             );
+            let width = width.assume_init();
+            let height = height.assume_init();
             (width, height)
         }
     }
 
     fn measure_markup(&self, markup: &str) -> (i32, i32) {
         unsafe {
-            let mut width = mem::uninitialized();
-            let mut height = mem::uninitialized();
+            let mut width = mem::MaybeUninit::uninit();
+            let mut height = mem::MaybeUninit::uninit();
             gtk_source_sys::gtk_source_gutter_renderer_text_measure_markup(
                 self.as_ref().to_glib_none().0,
                 markup.to_glib_none().0,
-                &mut width,
-                &mut height,
+                width.as_mut_ptr(),
+                height.as_mut_ptr(),
             );
+            let width = width.assume_init();
+            let height = height.assume_init();
             (width, height)
         }
     }
