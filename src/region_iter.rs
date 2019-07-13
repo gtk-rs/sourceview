@@ -13,7 +13,7 @@ pub struct RegionIter {
 #[doc(hidden)]
 impl Uninitialized for RegionIter {
     unsafe fn uninitialized() -> Self {
-        mem::uninitialized()
+        mem::zeroed()
     }
 }
 
