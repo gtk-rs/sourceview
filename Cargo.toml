@@ -41,6 +41,9 @@ futures = ["futures-preview", "fragile", "gio/futures"]
 optional = true
 git = "https://github.com/gtk-rs/lgpl-docs"
 
+["package.metadata.docs.rs"]
+features = ["dox", "v3_24", "embed-lgpl-docs", "futures"]
+
 [dependencies]
 libc = "0.2"
 bitflags = "1.0"
