@@ -166,7 +166,9 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"view\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `view` getter")
         }
     }
 
@@ -178,7 +180,10 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"window-type\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `window-type` getter")
+                .unwrap()
         }
     }
 
@@ -190,7 +195,10 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"xpad\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `xpad` getter")
+                .unwrap()
         }
     }
 
@@ -212,7 +220,10 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"ypad\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `ypad` getter")
+                .unwrap()
         }
     }
 

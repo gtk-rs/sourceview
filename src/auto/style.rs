@@ -29,7 +29,9 @@ impl Style {
                 b"background\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `background` getter")
         }
     }
 
@@ -41,7 +43,10 @@ impl Style {
                 b"background-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `background-set` getter")
+                .unwrap()
         }
     }
 
@@ -53,7 +58,10 @@ impl Style {
                 b"bold\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `bold` getter")
+                .unwrap()
         }
     }
 
@@ -65,7 +73,10 @@ impl Style {
                 b"bold-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `bold-set` getter")
+                .unwrap()
         }
     }
 
@@ -77,7 +88,9 @@ impl Style {
                 b"foreground\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `foreground` getter")
         }
     }
 
@@ -89,7 +102,10 @@ impl Style {
                 b"foreground-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `foreground-set` getter")
+                .unwrap()
         }
     }
 
@@ -101,7 +117,10 @@ impl Style {
                 b"italic\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `italic` getter")
+                .unwrap()
         }
     }
 
@@ -113,7 +132,10 @@ impl Style {
                 b"italic-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `italic-set` getter")
+                .unwrap()
         }
     }
 
@@ -125,7 +147,9 @@ impl Style {
                 b"line-background\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `line-background` getter")
         }
     }
 
@@ -137,7 +161,10 @@ impl Style {
                 b"line-background-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `line-background-set` getter")
+                .unwrap()
         }
     }
 
@@ -149,7 +176,10 @@ impl Style {
                 b"pango-underline\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `pango-underline` getter")
+                .unwrap()
         }
     }
 
@@ -161,7 +191,9 @@ impl Style {
                 b"scale\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `scale` getter")
         }
     }
 
@@ -173,7 +205,10 @@ impl Style {
                 b"scale-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `scale-set` getter")
+                .unwrap()
         }
     }
 
@@ -185,7 +220,10 @@ impl Style {
                 b"strikethrough\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `strikethrough` getter")
+                .unwrap()
         }
     }
 
@@ -197,7 +235,10 @@ impl Style {
                 b"strikethrough-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `strikethrough-set` getter")
+                .unwrap()
         }
     }
 
@@ -210,7 +251,10 @@ impl Style {
                 b"underline\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `underline` getter")
+                .unwrap()
         }
     }
 
@@ -222,7 +266,9 @@ impl Style {
                 b"underline-color\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `underline-color` getter")
         }
     }
 
@@ -234,7 +280,10 @@ impl Style {
                 b"underline-color-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `underline-color-set` getter")
+                .unwrap()
         }
     }
 
@@ -246,7 +295,10 @@ impl Style {
                 b"underline-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `underline-set` getter")
+                .unwrap()
         }
     }
 }

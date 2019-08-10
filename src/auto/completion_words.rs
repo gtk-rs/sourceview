@@ -159,7 +159,10 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
                 b"minimum-word-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `minimum-word-size` getter")
+                .unwrap()
         }
     }
 
@@ -201,7 +204,10 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
                 b"proposals-batch-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `proposals-batch-size` getter")
+                .unwrap()
         }
     }
 
@@ -223,7 +229,10 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
                 b"scan-batch-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `scan-batch-size` getter")
+                .unwrap()
         }
     }
 

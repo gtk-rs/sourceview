@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v3_20", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_20", feature = "dox"))]
@@ -79,7 +80,10 @@ impl<O: IsA<Tag>> TagExt for O {
                 b"draw-spaces\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `draw-spaces` getter")
+                .unwrap()
         }
     }
 
@@ -103,7 +107,10 @@ impl<O: IsA<Tag>> TagExt for O {
                 b"draw-spaces-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `draw-spaces-set` getter")
+                .unwrap()
         }
     }
 

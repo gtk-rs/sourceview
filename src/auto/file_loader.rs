@@ -83,7 +83,7 @@ pub trait FileLoaderExt: 'static {
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn load_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
 
-    //#[cfg(feature = "futures")]
+    //#[cfg(any(feature = "futures", feature = "dox"))]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn load_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin>;
 }
@@ -157,7 +157,7 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     //    unsafe { TODO: call gtk_source_sys:gtk_source_file_loader_load_async() }
     //}
 
-    //#[cfg(feature = "futures")]
+    //#[cfg(any(feature = "futures", feature = "dox"))]
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn load_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin> {
     //use gio::GioFuture;

@@ -126,7 +126,9 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
                 b"markup\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `markup` getter")
         }
     }
 
@@ -138,7 +140,9 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
                 b"text\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `text` getter")
         }
     }
 

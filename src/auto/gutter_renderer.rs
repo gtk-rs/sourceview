@@ -470,7 +470,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
                 b"background-rgba\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `background-rgba` getter")
         }
     }
 
@@ -492,7 +494,10 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
                 b"background-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `background-set` getter")
+                .unwrap()
         }
     }
 
@@ -514,7 +519,10 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
                 b"xalign\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `xalign` getter")
+                .unwrap()
         }
     }
 
@@ -536,7 +544,10 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
                 b"xpad\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `xpad` getter")
+                .unwrap()
         }
     }
 
@@ -558,7 +569,10 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
                 b"yalign\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `yalign` getter")
+                .unwrap()
         }
     }
 
@@ -580,7 +594,10 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
                 b"ypad\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `ypad` getter")
+                .unwrap()
         }
     }
 
