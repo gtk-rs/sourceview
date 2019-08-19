@@ -34,8 +34,8 @@ v3_24 = ["v3_22", "gtk-source-sys/v3_24"]
 default = ["v3_0"]
 purge-lgpl-docs = ["gtk-rs-lgpl-docs", "gtk/purge-lgpl-docs"]
 embed-lgpl-docs = ["gtk-rs-lgpl-docs", "gtk/embed-lgpl-docs"]
-dox = ["gtk/dox", "gtk-source-sys/dox"]
-futures = ["futures-preview", "fragile", "gio/futures"]
+dox = ["gtk/dox", "gtk-source-sys/dox", "futures"]
+futures = ["futures-preview", "fragile", "gtk/futures"]
 
 [build-dependencies.gtk-rs-lgpl-docs]
 optional = true

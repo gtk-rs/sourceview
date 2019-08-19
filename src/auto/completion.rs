@@ -270,7 +270,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"accelerators\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `accelerators` getter")
+                .unwrap()
         }
     }
 
@@ -292,7 +295,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"auto-complete-delay\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `auto-complete-delay` getter")
+                .unwrap()
         }
     }
 
@@ -314,7 +320,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"proposal-page-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `proposal-page-size` getter")
+                .unwrap()
         }
     }
 
@@ -336,7 +345,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"provider-page-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `provider-page-size` getter")
+                .unwrap()
         }
     }
 
@@ -358,7 +370,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"remember-info-visibility\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `remember-info-visibility` getter")
+                .unwrap()
         }
     }
 
@@ -380,7 +395,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"select-on-show\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `select-on-show` getter")
+                .unwrap()
         }
     }
 
@@ -402,7 +420,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"show-headers\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `show-headers` getter")
+                .unwrap()
         }
     }
 
@@ -424,7 +445,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"show-icons\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `show-icons` getter")
+                .unwrap()
         }
     }
 

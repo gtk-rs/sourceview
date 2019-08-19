@@ -2,7 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-#[cfg(feature = "futures")]
+#[cfg(any(feature = "futures", feature = "dox"))]
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use futures::future;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -87,7 +87,7 @@ pub trait SearchContextExt: 'static {
         callback: Q,
     );
 
-    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "futures", feature = "dox"))]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn backward_async_future(
         &self,
@@ -118,7 +118,7 @@ pub trait SearchContextExt: 'static {
         callback: Q,
     );
 
-    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "futures", feature = "dox"))]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn forward_async_future(
         &self,
@@ -257,7 +257,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         cancellable: Option<&P>,
         callback: Q,
     ) {
-        let user_data: Box<Q> = Box::new(callback);
+        let user_data: Box_<Q> = Box_::new(callback);
         unsafe extern "C" fn backward_async_trampoline<
             Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static,
         >(
@@ -280,7 +280,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box<Q> = Box::from_raw(user_data as *mut _);
+            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
         let callback = backward_async_trampoline::<Q>;
@@ -290,12 +290,12 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
                 iter.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 Some(callback),
-                Box::into_raw(user_data) as *mut _,
+                Box_::into_raw(user_data) as *mut _,
             );
         }
     }
 
-    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "futures", feature = "dox"))]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn backward_async_future(
         &self,
@@ -375,7 +375,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
         cancellable: Option<&P>,
         callback: Q,
     ) {
-        let user_data: Box<Q> = Box::new(callback);
+        let user_data: Box_<Q> = Box_::new(callback);
         unsafe extern "C" fn forward_async_trampoline<
             Q: FnOnce(Result<(gtk::TextIter, gtk::TextIter), Error>) + Send + 'static,
         >(
@@ -398,7 +398,7 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box<Q> = Box::from_raw(user_data as *mut _);
+            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
         let callback = forward_async_trampoline::<Q>;
@@ -408,12 +408,12 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
                 iter.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 Some(callback),
-                Box::into_raw(user_data) as *mut _,
+                Box_::into_raw(user_data) as *mut _,
             );
         }
     }
 
-    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "futures", feature = "dox"))]
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn forward_async_future(
         &self,
