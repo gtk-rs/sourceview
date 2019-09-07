@@ -24,9 +24,9 @@ extern crate libc;
 #[macro_use]
 extern crate bitflags;
 
-#[cfg(feature = "futures")]
+#[cfg(any(feature = "futures", feature = "dox"))]
 extern crate fragile;
-#[cfg(feature = "futures")]
+#[cfg(any(feature = "futures", feature = "dox"))]
 extern crate futures;
 
 pub use glib::{Error, Object};
