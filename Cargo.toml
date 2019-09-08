@@ -42,7 +42,7 @@ optional = true
 git = "https://github.com/gtk-rs/lgpl-docs"
 
 ["package.metadata.docs.rs"]
-features = ["dox", "v3_24", "embed-lgpl-docs", "futures"]
+features = ["dox", "embed-lgpl-docs"]
 
 [dependencies]
 libc = "0.2"
