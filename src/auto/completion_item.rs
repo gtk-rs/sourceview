@@ -10,6 +10,8 @@ use glib::object::IsA;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v3_18", feature = "dox"))]
+use glib::value::SetValueOptional;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -114,7 +116,7 @@ pub trait CompletionItemExt: 'static {
     fn set_text(&self, text: Option<&str>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_gicon(&self, gicon: Option<&gio::Icon>);
+    fn set_property_gicon<P: IsA<gio::Icon> + SetValueOptional>(&self, gicon: Option<&P>);
 
     fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
@@ -218,7 +220,7 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_gicon(&self, gicon: Option<&gio::Icon>) {
+    fn set_property_gicon<P: IsA<gio::Icon> + SetValueOptional>(&self, gicon: Option<&P>) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
