@@ -7,6 +7,7 @@ use glib::object::IsA;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::value::SetValueOptional;
 use glib::StaticType;
 use glib::Value;
 use glib_sys;
@@ -52,7 +53,7 @@ pub trait MapExt: 'static {
 
     fn get_property_view(&self) -> Option<View>;
 
-    fn set_property_view(&self, view: Option<&View>);
+    fn set_property_view<P: IsA<View> + SetValueOptional>(&self, view: Option<&P>);
 
     fn connect_property_view_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
@@ -91,7 +92,7 @@ impl<O: IsA<Map>> MapExt for O {
         }
     }
 
-    fn set_property_view(&self, view: Option<&View>) {
+    fn set_property_view<P: IsA<View> + SetValueOptional>(&self, view: Option<&P>) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
