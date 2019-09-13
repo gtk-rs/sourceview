@@ -4,8 +4,11 @@
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
+use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
+use glib::StaticType;
+use glib::ToValue;
 use gtk_source_sys;
 use std::fmt;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -53,6 +56,88 @@ impl FileLoader {
                 stream.as_ref().to_glib_none().0,
             ))
         }
+    }
+}
+
+pub struct FileLoaderBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    buffer: Option<Buffer>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    file: Option<File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    input_stream: Option<gio::InputStream>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
+}
+
+impl FileLoaderBuilder {
+    pub fn new() -> Self {
+        Self {
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            buffer: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            file: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            input_stream: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            location: None,
+        }
+    }
+
+    pub fn build(self) -> FileLoader {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref file) = self.file {
+                properties.push(("file", file));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref input_stream) = self.input_stream {
+                properties.push(("input-stream", input_stream));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        glib::Object::new(FileLoader::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn buffer(mut self, buffer: &Buffer) -> Self {
+        self.buffer = Some(buffer.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn file(mut self, file: &File) -> Self {
+        self.file = Some(file.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn input_stream(mut self, input_stream: &gio::InputStream) -> Self {
+        self.input_stream = Some(input_stream.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location(mut self, location: &gio::File) -> Self {
+        self.location = Some(location.clone());
+        self
     }
 }
 

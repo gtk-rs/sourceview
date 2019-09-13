@@ -49,6 +49,34 @@ generate = [
     "GtkSource.ViewGutterPosition",
 ]
 
+builders = [
+    "GtkSource.BufferBuilder",
+    "GtkSource.CompletionBuilder",
+    "GtkSource.CompletionContextBuilder",
+    "GtkSource.CompletionItemBuilder",
+    "GtkSource.CompletionWordsBuilder",
+    "GtkSource.FileBuilder",
+    "GtkSource.FileLoaderBuilder",
+    "GtkSource.FileSaverBuilder",
+    "GtkSource.GutterBuilder",
+    "GtkSource.GutterRendererBuilder",
+    "GtkSource.GutterRendererPixbufBuilder",
+    "GtkSource.GutterRendererTextBuilder",
+    "GtkSource.LanguageManagerBuilder",
+    "GtkSource.MapBuilder",
+    "GtkSource.MarkAttributesBuilder",
+    "GtkSource.MarkBuilder",
+    "GtkSource.PrintCompositorBuilder",
+    "GtkSource.RegionBuilder",
+    "GtkSource.SearchContextBuilder",
+    "GtkSource.SearchSettingsBuilder",
+    "GtkSource.SpaceDrawerBuilder",
+    "GtkSource.StyleBuilder",
+    "GtkSource.StyleSchemeBuilder",
+    "GtkSource.StyleSchemeManagerBuilder",
+    "GtkSource.TagBuilder",
+]
+
 ignore = [
 ]
 

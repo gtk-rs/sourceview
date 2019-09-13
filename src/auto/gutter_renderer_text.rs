@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use gdk;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::connect_raw;
@@ -9,6 +10,7 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -18,6 +20,7 @@ use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use GutterRenderer;
+use GutterRendererAlignmentMode;
 
 glib_wrapper! {
     pub struct GutterRendererText(Object<gtk_source_sys::GtkSourceGutterRendererText, gtk_source_sys::GtkSourceGutterRendererTextClass, GutterRendererTextClass>) @extends GutterRenderer;
@@ -40,6 +43,134 @@ impl GutterRendererText {
 impl Default for GutterRendererText {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+pub struct GutterRendererTextBuilder {
+    markup: Option<String>,
+    text: Option<String>,
+    alignment_mode: Option<GutterRendererAlignmentMode>,
+    background_rgba: Option<gdk::RGBA>,
+    background_set: Option<bool>,
+    size: Option<i32>,
+    visible: Option<bool>,
+    xalign: Option<f32>,
+    xpad: Option<i32>,
+    yalign: Option<f32>,
+    ypad: Option<i32>,
+}
+
+impl GutterRendererTextBuilder {
+    pub fn new() -> Self {
+        Self {
+            markup: None,
+            text: None,
+            alignment_mode: None,
+            background_rgba: None,
+            background_set: None,
+            size: None,
+            visible: None,
+            xalign: None,
+            xpad: None,
+            yalign: None,
+            ypad: None,
+        }
+    }
+
+    pub fn build(self) -> GutterRendererText {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref markup) = self.markup {
+            properties.push(("markup", markup));
+        }
+        if let Some(ref text) = self.text {
+            properties.push(("text", text));
+        }
+        if let Some(ref alignment_mode) = self.alignment_mode {
+            properties.push(("alignment-mode", alignment_mode));
+        }
+        if let Some(ref background_rgba) = self.background_rgba {
+            properties.push(("background-rgba", background_rgba));
+        }
+        if let Some(ref background_set) = self.background_set {
+            properties.push(("background-set", background_set));
+        }
+        if let Some(ref size) = self.size {
+            properties.push(("size", size));
+        }
+        if let Some(ref visible) = self.visible {
+            properties.push(("visible", visible));
+        }
+        if let Some(ref xalign) = self.xalign {
+            properties.push(("xalign", xalign));
+        }
+        if let Some(ref xpad) = self.xpad {
+            properties.push(("xpad", xpad));
+        }
+        if let Some(ref yalign) = self.yalign {
+            properties.push(("yalign", yalign));
+        }
+        if let Some(ref ypad) = self.ypad {
+            properties.push(("ypad", ypad));
+        }
+        glib::Object::new(GutterRendererText::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn markup(mut self, markup: &str) -> Self {
+        self.markup = Some(markup.to_string());
+        self
+    }
+
+    pub fn text(mut self, text: &str) -> Self {
+        self.text = Some(text.to_string());
+        self
+    }
+
+    pub fn alignment_mode(mut self, alignment_mode: GutterRendererAlignmentMode) -> Self {
+        self.alignment_mode = Some(alignment_mode);
+        self
+    }
+
+    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
+        self.background_rgba = Some(background_rgba.clone());
+        self
+    }
+
+    pub fn background_set(mut self, background_set: bool) -> Self {
+        self.background_set = Some(background_set);
+        self
+    }
+
+    pub fn size(mut self, size: i32) -> Self {
+        self.size = Some(size);
+        self
+    }
+
+    pub fn visible(mut self, visible: bool) -> Self {
+        self.visible = Some(visible);
+        self
+    }
+
+    pub fn xalign(mut self, xalign: f32) -> Self {
+        self.xalign = Some(xalign);
+        self
+    }
+
+    pub fn xpad(mut self, xpad: i32) -> Self {
+        self.xpad = Some(xpad);
+        self
+    }
+
+    pub fn yalign(mut self, yalign: f32) -> Self {
+        self.yalign = Some(yalign);
+        self
+    }
+
+    pub fn ypad(mut self, ypad: i32) -> Self {
+        self.ypad = Some(ypad);
+        self
     }
 }
 

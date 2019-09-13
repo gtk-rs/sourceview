@@ -4,7 +4,6 @@
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -12,8 +11,8 @@ use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
-#[cfg(any(feature = "v3_18", feature = "dox"))]
 use glib::StaticType;
+use glib::ToValue;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 use glib::Value;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -53,6 +52,40 @@ impl File {
 impl Default for File {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+pub struct FileBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
+}
+
+impl FileBuilder {
+    pub fn new() -> Self {
+        Self {
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            location: None,
+        }
+    }
+
+    pub fn build(self) -> File {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        glib::Object::new(File::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location(mut self, location: &gio::File) -> Self {
+        self.location = Some(location.clone());
+        self
     }
 }
 

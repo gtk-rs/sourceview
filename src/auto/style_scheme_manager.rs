@@ -8,6 +8,8 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
+use glib::StaticType;
+use glib::ToValue;
 use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
@@ -38,6 +40,32 @@ impl StyleSchemeManager {
 impl Default for StyleSchemeManager {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+pub struct StyleSchemeManagerBuilder {
+    search_path: Option<Vec<String>>,
+}
+
+impl StyleSchemeManagerBuilder {
+    pub fn new() -> Self {
+        Self { search_path: None }
+    }
+
+    pub fn build(self) -> StyleSchemeManager {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref search_path) = self.search_path {
+            properties.push(("search-path", search_path));
+        }
+        glib::Object::new(StyleSchemeManager::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn search_path(mut self, search_path: Vec<String>) -> Self {
+        self.search_path = Some(search_path);
+        self
     }
 }
 

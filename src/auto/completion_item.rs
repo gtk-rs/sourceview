@@ -12,6 +12,8 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 use glib::value::SetValueOptional;
+use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -88,6 +90,106 @@ impl CompletionItem {
     pub fn new2() -> Option<CompletionItem> {
         assert_initialized_main_thread!();
         unsafe { from_glib_full(gtk_source_sys::gtk_source_completion_item_new2()) }
+    }
+}
+
+pub struct CompletionItemBuilder {
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    gicon: Option<gio::Icon>,
+    icon: Option<gdk_pixbuf::Pixbuf>,
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    icon_name: Option<String>,
+    info: Option<String>,
+    label: Option<String>,
+    markup: Option<String>,
+    text: Option<String>,
+}
+
+impl CompletionItemBuilder {
+    pub fn new() -> Self {
+        Self {
+            #[cfg(any(feature = "v3_18", feature = "dox"))]
+            gicon: None,
+            icon: None,
+            #[cfg(any(feature = "v3_18", feature = "dox"))]
+            icon_name: None,
+            info: None,
+            label: None,
+            markup: None,
+            text: None,
+        }
+    }
+
+    pub fn build(self) -> CompletionItem {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_18", feature = "dox"))]
+        {
+            if let Some(ref gicon) = self.gicon {
+                properties.push(("gicon", gicon));
+            }
+        }
+        if let Some(ref icon) = self.icon {
+            properties.push(("icon", icon));
+        }
+        #[cfg(any(feature = "v3_18", feature = "dox"))]
+        {
+            if let Some(ref icon_name) = self.icon_name {
+                properties.push(("icon-name", icon_name));
+            }
+        }
+        if let Some(ref info) = self.info {
+            properties.push(("info", info));
+        }
+        if let Some(ref label) = self.label {
+            properties.push(("label", label));
+        }
+        if let Some(ref markup) = self.markup {
+            properties.push(("markup", markup));
+        }
+        if let Some(ref text) = self.text {
+            properties.push(("text", text));
+        }
+        glib::Object::new(CompletionItem::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    pub fn gicon(mut self, gicon: &gio::Icon) -> Self {
+        self.gicon = Some(gicon.clone());
+        self
+    }
+
+    pub fn icon(mut self, icon: &gdk_pixbuf::Pixbuf) -> Self {
+        self.icon = Some(icon.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    pub fn icon_name(mut self, icon_name: &str) -> Self {
+        self.icon_name = Some(icon_name.to_string());
+        self
+    }
+
+    pub fn info(mut self, info: &str) -> Self {
+        self.info = Some(info.to_string());
+        self
+    }
+
+    pub fn label(mut self, label: &str) -> Self {
+        self.label = Some(label.to_string());
+        self
+    }
+
+    pub fn markup(mut self, markup: &str) -> Self {
+        self.markup = Some(markup.to_string());
+        self
+    }
+
+    pub fn text(mut self, text: &str) -> Self {
+        self.text = Some(text.to_string());
+        self
     }
 }
 

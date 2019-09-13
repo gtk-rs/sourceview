@@ -4,7 +4,6 @@
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -12,6 +11,8 @@ use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::StaticType;
+use glib::ToValue;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib_sys;
 use gtk_source_sys;
@@ -67,6 +68,136 @@ impl FileSaver {
                 target_location.as_ref().to_glib_none().0,
             ))
         }
+    }
+}
+
+pub struct FileSaverBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    buffer: Option<Buffer>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    compression_type: Option<CompressionType>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    encoding: Option<Encoding>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    file: Option<File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    flags: Option<FileSaverFlags>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    newline_type: Option<NewlineType>,
+}
+
+impl FileSaverBuilder {
+    pub fn new() -> Self {
+        Self {
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            buffer: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            compression_type: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            encoding: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            file: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            flags: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            location: None,
+            #[cfg(any(feature = "v3_14", feature = "dox"))]
+            newline_type: None,
+        }
+    }
+
+    pub fn build(self) -> FileSaver {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref compression_type) = self.compression_type {
+                properties.push(("compression-type", compression_type));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref encoding) = self.encoding {
+                properties.push(("encoding", encoding));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref file) = self.file {
+                properties.push(("file", file));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref flags) = self.flags {
+                properties.push(("flags", flags));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref newline_type) = self.newline_type {
+                properties.push(("newline-type", newline_type));
+            }
+        }
+        glib::Object::new(FileSaver::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn buffer(mut self, buffer: &Buffer) -> Self {
+        self.buffer = Some(buffer.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn compression_type(mut self, compression_type: CompressionType) -> Self {
+        self.compression_type = Some(compression_type);
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn encoding(mut self, encoding: &Encoding) -> Self {
+        self.encoding = Some(encoding.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn file(mut self, file: &File) -> Self {
+        self.file = Some(file.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn flags(mut self, flags: FileSaverFlags) -> Self {
+        self.flags = Some(flags);
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location(mut self, location: &gio::File) -> Self {
+        self.location = Some(location.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn newline_type(mut self, newline_type: NewlineType) -> Self {
+        self.newline_type = Some(newline_type);
+        self
     }
 }
 

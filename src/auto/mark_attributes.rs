@@ -12,6 +12,7 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -40,6 +41,74 @@ impl MarkAttributes {
 impl Default for MarkAttributes {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+pub struct MarkAttributesBuilder {
+    background: Option<gdk::RGBA>,
+    gicon: Option<gio::Icon>,
+    icon_name: Option<String>,
+    pixbuf: Option<gdk_pixbuf::Pixbuf>,
+    stock_id: Option<String>,
+}
+
+impl MarkAttributesBuilder {
+    pub fn new() -> Self {
+        Self {
+            background: None,
+            gicon: None,
+            icon_name: None,
+            pixbuf: None,
+            stock_id: None,
+        }
+    }
+
+    pub fn build(self) -> MarkAttributes {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref background) = self.background {
+            properties.push(("background", background));
+        }
+        if let Some(ref gicon) = self.gicon {
+            properties.push(("gicon", gicon));
+        }
+        if let Some(ref icon_name) = self.icon_name {
+            properties.push(("icon-name", icon_name));
+        }
+        if let Some(ref pixbuf) = self.pixbuf {
+            properties.push(("pixbuf", pixbuf));
+        }
+        if let Some(ref stock_id) = self.stock_id {
+            properties.push(("stock-id", stock_id));
+        }
+        glib::Object::new(MarkAttributes::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn background(mut self, background: &gdk::RGBA) -> Self {
+        self.background = Some(background.clone());
+        self
+    }
+
+    pub fn gicon(mut self, gicon: &gio::Icon) -> Self {
+        self.gicon = Some(gicon.clone());
+        self
+    }
+
+    pub fn icon_name(mut self, icon_name: &str) -> Self {
+        self.icon_name = Some(icon_name.to_string());
+        self
+    }
+
+    pub fn pixbuf(mut self, pixbuf: &gdk_pixbuf::Pixbuf) -> Self {
+        self.pixbuf = Some(pixbuf.clone());
+        self
+    }
+
+    pub fn stock_id(mut self, stock_id: &str) -> Self {
+        self.stock_id = Some(stock_id.to_string());
+        self
     }
 }
 
