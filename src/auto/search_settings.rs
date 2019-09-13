@@ -2,7 +2,6 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -12,6 +11,8 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::GString;
+use glib::StaticType;
+use glib::ToValue;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib_sys;
 use gtk_source_sys;
@@ -41,6 +42,104 @@ impl SearchSettings {
 impl Default for SearchSettings {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+pub struct SearchSettingsBuilder {
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    at_word_boundaries: Option<bool>,
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    case_sensitive: Option<bool>,
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    regex_enabled: Option<bool>,
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    search_text: Option<String>,
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    wrap_around: Option<bool>,
+}
+
+impl SearchSettingsBuilder {
+    pub fn new() -> Self {
+        Self {
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            at_word_boundaries: None,
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            case_sensitive: None,
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            regex_enabled: None,
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            search_text: None,
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            wrap_around: None,
+        }
+    }
+
+    pub fn build(self) -> SearchSettings {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref at_word_boundaries) = self.at_word_boundaries {
+                properties.push(("at-word-boundaries", at_word_boundaries));
+            }
+        }
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref case_sensitive) = self.case_sensitive {
+                properties.push(("case-sensitive", case_sensitive));
+            }
+        }
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref regex_enabled) = self.regex_enabled {
+                properties.push(("regex-enabled", regex_enabled));
+            }
+        }
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref search_text) = self.search_text {
+                properties.push(("search-text", search_text));
+            }
+        }
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref wrap_around) = self.wrap_around {
+                properties.push(("wrap-around", wrap_around));
+            }
+        }
+        glib::Object::new(SearchSettings::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn at_word_boundaries(mut self, at_word_boundaries: bool) -> Self {
+        self.at_word_boundaries = Some(at_word_boundaries);
+        self
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn case_sensitive(mut self, case_sensitive: bool) -> Self {
+        self.case_sensitive = Some(case_sensitive);
+        self
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn regex_enabled(mut self, regex_enabled: bool) -> Self {
+        self.regex_enabled = Some(regex_enabled);
+        self
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn search_text(mut self, search_text: &str) -> Self {
+        self.search_text = Some(search_text.to_string());
+        self
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn wrap_around(mut self, wrap_around: bool) -> Self {
+        self.wrap_around = Some(wrap_around);
+        self
     }
 }
 

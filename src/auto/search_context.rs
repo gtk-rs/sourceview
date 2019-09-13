@@ -9,7 +9,6 @@ use futures::future;
 use gio;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use gio_sys;
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -17,6 +16,8 @@ use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::StaticType;
+use glib::ToValue;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
@@ -63,6 +64,88 @@ impl SearchContext {
                 settings.map(|p| p.as_ref()).to_glib_none().0,
             ))
         }
+    }
+}
+
+pub struct SearchContextBuilder {
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    buffer: Option<Buffer>,
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    highlight: Option<bool>,
+    #[cfg(any(feature = "v3_16", feature = "dox"))]
+    match_style: Option<Style>,
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    settings: Option<SearchSettings>,
+}
+
+impl SearchContextBuilder {
+    pub fn new() -> Self {
+        Self {
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            buffer: None,
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            highlight: None,
+            #[cfg(any(feature = "v3_16", feature = "dox"))]
+            match_style: None,
+            #[cfg(any(feature = "v3_10", feature = "dox"))]
+            settings: None,
+        }
+    }
+
+    pub fn build(self) -> SearchContext {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref highlight) = self.highlight {
+                properties.push(("highlight", highlight));
+            }
+        }
+        #[cfg(any(feature = "v3_16", feature = "dox"))]
+        {
+            if let Some(ref match_style) = self.match_style {
+                properties.push(("match-style", match_style));
+            }
+        }
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref settings) = self.settings {
+                properties.push(("settings", settings));
+            }
+        }
+        glib::Object::new(SearchContext::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn buffer(mut self, buffer: &Buffer) -> Self {
+        self.buffer = Some(buffer.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn highlight(mut self, highlight: bool) -> Self {
+        self.highlight = Some(highlight);
+        self
+    }
+
+    #[cfg(any(feature = "v3_16", feature = "dox"))]
+    pub fn match_style(mut self, match_style: &Style) -> Self {
+        self.match_style = Some(match_style.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn settings(mut self, settings: &SearchSettings) -> Self {
+        self.settings = Some(settings.clone());
+        self
     }
 }
 

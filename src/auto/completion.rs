@@ -10,6 +10,7 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -32,6 +33,114 @@ glib_wrapper! {
 
     match fn {
         get_type => || gtk_source_sys::gtk_source_completion_get_type(),
+    }
+}
+
+pub struct CompletionBuilder {
+    accelerators: Option<u32>,
+    auto_complete_delay: Option<u32>,
+    proposal_page_size: Option<u32>,
+    provider_page_size: Option<u32>,
+    remember_info_visibility: Option<bool>,
+    select_on_show: Option<bool>,
+    show_headers: Option<bool>,
+    show_icons: Option<bool>,
+    view: Option<View>,
+}
+
+impl CompletionBuilder {
+    pub fn new() -> Self {
+        Self {
+            accelerators: None,
+            auto_complete_delay: None,
+            proposal_page_size: None,
+            provider_page_size: None,
+            remember_info_visibility: None,
+            select_on_show: None,
+            show_headers: None,
+            show_icons: None,
+            view: None,
+        }
+    }
+
+    pub fn build(self) -> Completion {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref accelerators) = self.accelerators {
+            properties.push(("accelerators", accelerators));
+        }
+        if let Some(ref auto_complete_delay) = self.auto_complete_delay {
+            properties.push(("auto-complete-delay", auto_complete_delay));
+        }
+        if let Some(ref proposal_page_size) = self.proposal_page_size {
+            properties.push(("proposal-page-size", proposal_page_size));
+        }
+        if let Some(ref provider_page_size) = self.provider_page_size {
+            properties.push(("provider-page-size", provider_page_size));
+        }
+        if let Some(ref remember_info_visibility) = self.remember_info_visibility {
+            properties.push(("remember-info-visibility", remember_info_visibility));
+        }
+        if let Some(ref select_on_show) = self.select_on_show {
+            properties.push(("select-on-show", select_on_show));
+        }
+        if let Some(ref show_headers) = self.show_headers {
+            properties.push(("show-headers", show_headers));
+        }
+        if let Some(ref show_icons) = self.show_icons {
+            properties.push(("show-icons", show_icons));
+        }
+        if let Some(ref view) = self.view {
+            properties.push(("view", view));
+        }
+        glib::Object::new(Completion::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn accelerators(mut self, accelerators: u32) -> Self {
+        self.accelerators = Some(accelerators);
+        self
+    }
+
+    pub fn auto_complete_delay(mut self, auto_complete_delay: u32) -> Self {
+        self.auto_complete_delay = Some(auto_complete_delay);
+        self
+    }
+
+    pub fn proposal_page_size(mut self, proposal_page_size: u32) -> Self {
+        self.proposal_page_size = Some(proposal_page_size);
+        self
+    }
+
+    pub fn provider_page_size(mut self, provider_page_size: u32) -> Self {
+        self.provider_page_size = Some(provider_page_size);
+        self
+    }
+
+    pub fn remember_info_visibility(mut self, remember_info_visibility: bool) -> Self {
+        self.remember_info_visibility = Some(remember_info_visibility);
+        self
+    }
+
+    pub fn select_on_show(mut self, select_on_show: bool) -> Self {
+        self.select_on_show = Some(select_on_show);
+        self
+    }
+
+    pub fn show_headers(mut self, show_headers: bool) -> Self {
+        self.show_headers = Some(show_headers);
+        self
+    }
+
+    pub fn show_icons(mut self, show_icons: bool) -> Self {
+        self.show_icons = Some(show_icons);
+        self
+    }
+
+    pub fn view(mut self, view: &View) -> Self {
+        self.view = Some(view.clone());
+        self
     }
 }
 
