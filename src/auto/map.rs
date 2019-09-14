@@ -132,6 +132,10 @@ pub struct MapBuilder {
     vexpand_set: Option<bool>,
     visible: Option<bool>,
     width_request: Option<i32>,
+    hadjustment: Option<gtk::Adjustment>,
+    hscroll_policy: Option<gtk::ScrollablePolicy>,
+    vadjustment: Option<gtk::Adjustment>,
+    vscroll_policy: Option<gtk::ScrollablePolicy>,
 }
 
 impl MapBuilder {
@@ -212,6 +216,10 @@ impl MapBuilder {
             vexpand_set: None,
             visible: None,
             width_request: None,
+            hadjustment: None,
+            hscroll_policy: None,
+            vadjustment: None,
+            vscroll_policy: None,
         }
     }
 
@@ -444,6 +452,18 @@ impl MapBuilder {
         }
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
+        }
+        if let Some(ref hadjustment) = self.hadjustment {
+            properties.push(("hadjustment", hadjustment));
+        }
+        if let Some(ref hscroll_policy) = self.hscroll_policy {
+            properties.push(("hscroll-policy", hscroll_policy));
+        }
+        if let Some(ref vadjustment) = self.vadjustment {
+            properties.push(("vadjustment", vadjustment));
+        }
+        if let Some(ref vscroll_policy) = self.vscroll_policy {
+            properties.push(("vscroll-policy", vscroll_policy));
         }
         glib::Object::new(Map::static_type(), &properties)
             .expect("object new")
@@ -787,6 +807,26 @@ impl MapBuilder {
 
     pub fn width_request(mut self, width_request: i32) -> Self {
         self.width_request = Some(width_request);
+        self
+    }
+
+    pub fn hadjustment(mut self, hadjustment: &gtk::Adjustment) -> Self {
+        self.hadjustment = Some(hadjustment.clone());
+        self
+    }
+
+    pub fn hscroll_policy(mut self, hscroll_policy: gtk::ScrollablePolicy) -> Self {
+        self.hscroll_policy = Some(hscroll_policy);
+        self
+    }
+
+    pub fn vadjustment(mut self, vadjustment: &gtk::Adjustment) -> Self {
+        self.vadjustment = Some(vadjustment.clone());
+        self
+    }
+
+    pub fn vscroll_policy(mut self, vscroll_policy: gtk::ScrollablePolicy) -> Self {
+        self.vscroll_policy = Some(vscroll_policy);
         self
     }
 }
