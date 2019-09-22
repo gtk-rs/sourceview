@@ -41,7 +41,7 @@ futures = ["futures-preview", "fragile", "gtk/futures"]
 optional = true
 git = "https://github.com/gtk-rs/lgpl-docs"
 
-["package.metadata.docs.rs"]
+[package.metadata.docs.rs]
 features = ["dox", "embed-lgpl-docs"]
 
 [dependencies]
