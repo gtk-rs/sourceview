@@ -34,8 +34,7 @@ v3_24 = ["v3_22", "gtk-source-sys/v3_24"]
 default = ["v3_0"]
 purge-lgpl-docs = ["gtk-rs-lgpl-docs", "gtk/purge-lgpl-docs"]
 embed-lgpl-docs = ["gtk-rs-lgpl-docs", "gtk/embed-lgpl-docs"]
-dox = ["gtk/dox", "gtk-source-sys/dox", "futures"]
-futures = ["futures-preview", "fragile", "gtk/futures"]
+dox = ["gtk/dox", "gtk-source-sys/dox"]
 
 [build-dependencies.gtk-rs-lgpl-docs]
 optional = true
@@ -50,11 +49,6 @@ bitflags = "1.0"
 
 [dependencies.fragile]
 version = "0.3"
-optional = true
-
-[dependencies.futures-preview]
-version = "0.3.0-alpha"
-optional = true
 
 [dependencies.gtk-source-sys]
 path = "./sourceview-sys"
