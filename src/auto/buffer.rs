@@ -139,8 +139,8 @@ impl BufferBuilder {
         self
     }
 
-    pub fn language(mut self, language: &Language) -> Self {
-        self.language = Some(language.clone());
+    pub fn language<P: IsA<Language>>(mut self, language: &P) -> Self {
+        self.language = Some(language.clone().upcast());
         self
     }
 
@@ -149,18 +149,18 @@ impl BufferBuilder {
         self
     }
 
-    pub fn style_scheme(mut self, style_scheme: &StyleScheme) -> Self {
-        self.style_scheme = Some(style_scheme.clone());
+    pub fn style_scheme<P: IsA<StyleScheme>>(mut self, style_scheme: &P) -> Self {
+        self.style_scheme = Some(style_scheme.clone().upcast());
         self
     }
 
-    pub fn undo_manager(mut self, undo_manager: &UndoManager) -> Self {
-        self.undo_manager = Some(undo_manager.clone());
+    pub fn undo_manager<P: IsA<UndoManager>>(mut self, undo_manager: &P) -> Self {
+        self.undo_manager = Some(undo_manager.clone().upcast());
         self
     }
 
-    pub fn tag_table(mut self, tag_table: &gtk::TextTagTable) -> Self {
-        self.tag_table = Some(tag_table.clone());
+    pub fn tag_table<P: IsA<gtk::TextTagTable>>(mut self, tag_table: &P) -> Self {
+        self.tag_table = Some(tag_table.clone().upcast());
         self
     }
 

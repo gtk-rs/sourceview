@@ -4,10 +4,14 @@
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::IsA;
 use glib::translate::*;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::StaticType;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::ToValue;
 use gtk_source_sys;
 use std::fmt;
@@ -117,26 +121,26 @@ impl FileLoaderBuilder {
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn buffer(mut self, buffer: &Buffer) -> Self {
-        self.buffer = Some(buffer.clone());
+    pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
         self
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn file(mut self, file: &File) -> Self {
-        self.file = Some(file.clone());
+    pub fn file<P: IsA<File>>(mut self, file: &P) -> Self {
+        self.file = Some(file.clone().upcast());
         self
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn input_stream(mut self, input_stream: &gio::InputStream) -> Self {
-        self.input_stream = Some(input_stream.clone());
+    pub fn input_stream<P: IsA<gio::InputStream>>(mut self, input_stream: &P) -> Self {
+        self.input_stream = Some(input_stream.clone().upcast());
         self
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn location(mut self, location: &gio::File) -> Self {
-        self.location = Some(location.clone());
+    pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self {
+        self.location = Some(location.clone().upcast());
         self
     }
 }
@@ -166,11 +170,11 @@ pub trait FileLoaderExt: 'static {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
+    //fn load_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
 
-    //#[cfg(any(feature = "futures", feature = "dox"))]
+    //
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin>;
+    //fn load_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 }
 
 impl<O: IsA<FileLoader>> FileLoaderExt for O {
@@ -238,13 +242,13 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
+    //fn load_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
     //    unsafe { TODO: call gtk_source_sys:gtk_source_file_loader_load_async() }
     //}
 
-    //#[cfg(any(feature = "futures", feature = "dox"))]
+    //
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn load_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin> {
+    //fn load_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
     //use gio::GioFuture;
     //use fragile::Fragile;
 

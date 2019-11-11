@@ -64,8 +64,8 @@ impl CompletionContextBuilder {
         self
     }
 
-    pub fn completion(mut self, completion: &Completion) -> Self {
-        self.completion = Some(completion.clone());
+    pub fn completion<P: IsA<Completion>>(mut self, completion: &P) -> Self {
+        self.completion = Some(completion.clone().upcast());
         self
     }
 }

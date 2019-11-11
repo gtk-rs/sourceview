@@ -471,8 +471,8 @@ impl MapBuilder {
             .expect("downcast")
     }
 
-    pub fn view(mut self, view: &View) -> Self {
-        self.view = Some(view.clone());
+    pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {
+        self.view = Some(view.clone().upcast());
         self
     }
 
@@ -559,8 +559,8 @@ impl MapBuilder {
         self
     }
 
-    pub fn buffer(mut self, buffer: &gtk::TextBuffer) -> Self {
-        self.buffer = Some(buffer.clone());
+    pub fn buffer<P: IsA<gtk::TextBuffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
         self
     }
 
@@ -641,8 +641,8 @@ impl MapBuilder {
         self
     }
 
-    pub fn child(mut self, child: &gtk::Widget) -> Self {
-        self.child = Some(child.clone());
+    pub fn child<P: IsA<gtk::Widget>>(mut self, child: &P) -> Self {
+        self.child = Some(child.clone().upcast());
         self
     }
 
@@ -765,8 +765,8 @@ impl MapBuilder {
         self
     }
 
-    pub fn parent(mut self, parent: &gtk::Container) -> Self {
-        self.parent = Some(parent.clone());
+    pub fn parent<P: IsA<gtk::Container>>(mut self, parent: &P) -> Self {
+        self.parent = Some(parent.clone().upcast());
         self
     }
 
@@ -810,8 +810,8 @@ impl MapBuilder {
         self
     }
 
-    pub fn hadjustment(mut self, hadjustment: &gtk::Adjustment) -> Self {
-        self.hadjustment = Some(hadjustment.clone());
+    pub fn hadjustment<P: IsA<gtk::Adjustment>>(mut self, hadjustment: &P) -> Self {
+        self.hadjustment = Some(hadjustment.clone().upcast());
         self
     }
 
@@ -820,8 +820,8 @@ impl MapBuilder {
         self
     }
 
-    pub fn vadjustment(mut self, vadjustment: &gtk::Adjustment) -> Self {
-        self.vadjustment = Some(vadjustment.clone());
+    pub fn vadjustment<P: IsA<gtk::Adjustment>>(mut self, vadjustment: &P) -> Self {
+        self.vadjustment = Some(vadjustment.clone().upcast());
         self
     }
 

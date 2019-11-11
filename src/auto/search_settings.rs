@@ -2,7 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::Cast;
+#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::signal::connect_raw;
@@ -11,7 +13,9 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::GString;
+#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::StaticType;
+#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::ToValue;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib_sys;
