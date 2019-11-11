@@ -124,8 +124,8 @@ impl PrintCompositorBuilder {
         self
     }
 
-    pub fn buffer(mut self, buffer: &Buffer) -> Self {
-        self.buffer = Some(buffer.clone());
+    pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
         self
     }
 

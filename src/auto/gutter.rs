@@ -66,8 +66,8 @@ impl GutterBuilder {
             .expect("downcast")
     }
 
-    pub fn view(mut self, view: &View) -> Self {
-        self.view = Some(view.clone());
+    pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {
+        self.view = Some(view.clone().upcast());
         self
     }
 

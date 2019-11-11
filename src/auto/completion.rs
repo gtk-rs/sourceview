@@ -25,7 +25,6 @@ use std::ptr;
 use CompletionContext;
 use CompletionInfo;
 use CompletionProvider;
-use Error;
 use View;
 
 glib_wrapper! {
@@ -138,8 +137,8 @@ impl CompletionBuilder {
         self
     }
 
-    pub fn view(mut self, view: &View) -> Self {
-        self.view = Some(view.clone());
+    pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {
+        self.view = Some(view.clone().upcast());
         self
     }
 }
@@ -147,7 +146,7 @@ impl CompletionBuilder {
 pub const NONE_COMPLETION: Option<&Completion> = None;
 
 pub trait CompletionExt: 'static {
-    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error>;
+    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error>;
 
     fn block_interactive(&self);
 
@@ -162,7 +161,7 @@ pub trait CompletionExt: 'static {
     #[cfg_attr(feature = "v3_8", deprecated)]
     fn move_window(&self, iter: &mut gtk::TextIter);
 
-    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error>;
+    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error>;
 
     fn show<P: IsA<CompletionContext>>(
         &self,
@@ -272,7 +271,7 @@ pub trait CompletionExt: 'static {
 }
 
 impl<O: IsA<Completion>> CompletionExt for O {
-    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error> {
+    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = gtk_source_sys::gtk_source_completion_add_provider(
@@ -333,7 +332,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
         }
     }
 
-    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error> {
+    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = gtk_source_sys::gtk_source_completion_remove_provider(
