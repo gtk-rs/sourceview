@@ -26,8 +26,6 @@ extern crate bitflags;
 
 extern crate fragile;
 
-pub use glib::{Error, Object};
-
 pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
