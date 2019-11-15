@@ -44,6 +44,9 @@ pub mod signal {
 }
 
 pub mod prelude {
+    #[doc(hidden)]
+    pub use gtk::prelude::*;
+
     pub use auto::traits::*;
 }
 
