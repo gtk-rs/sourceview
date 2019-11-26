@@ -29,6 +29,7 @@ glib_wrapper! {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct GutterBuilder {
     view: Option<View>,
     window_type: Option<gtk::TextWindowType>,
@@ -38,12 +39,7 @@ pub struct GutterBuilder {
 
 impl GutterBuilder {
     pub fn new() -> Self {
-        Self {
-            view: None,
-            window_type: None,
-            xpad: None,
-            ypad: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Gutter {

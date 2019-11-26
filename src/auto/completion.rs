@@ -35,6 +35,7 @@ glib_wrapper! {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct CompletionBuilder {
     accelerators: Option<u32>,
     auto_complete_delay: Option<u32>,
@@ -49,17 +50,7 @@ pub struct CompletionBuilder {
 
 impl CompletionBuilder {
     pub fn new() -> Self {
-        Self {
-            accelerators: None,
-            auto_complete_delay: None,
-            proposal_page_size: None,
-            provider_page_size: None,
-            remember_info_visibility: None,
-            select_on_show: None,
-            show_headers: None,
-            show_icons: None,
-            view: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Completion {

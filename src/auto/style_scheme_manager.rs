@@ -43,13 +43,14 @@ impl Default for StyleSchemeManager {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct StyleSchemeManagerBuilder {
     search_path: Option<Vec<String>>,
 }
 
 impl StyleSchemeManagerBuilder {
     pub fn new() -> Self {
-        Self { search_path: None }
+        Self::default()
     }
 
     pub fn build(self) -> StyleSchemeManager {

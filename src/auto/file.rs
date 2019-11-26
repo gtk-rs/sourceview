@@ -59,6 +59,7 @@ impl Default for File {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct FileBuilder {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     location: Option<gio::File>,
@@ -66,10 +67,7 @@ pub struct FileBuilder {
 
 impl FileBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_14", feature = "dox"))]
-            location: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> File {

@@ -305,6 +305,7 @@ impl Style {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct StyleBuilder {
     background: Option<String>,
     background_set: Option<bool>,
@@ -329,27 +330,7 @@ pub struct StyleBuilder {
 
 impl StyleBuilder {
     pub fn new() -> Self {
-        Self {
-            background: None,
-            background_set: None,
-            bold: None,
-            bold_set: None,
-            foreground: None,
-            foreground_set: None,
-            italic: None,
-            italic_set: None,
-            line_background: None,
-            line_background_set: None,
-            pango_underline: None,
-            scale: None,
-            scale_set: None,
-            strikethrough: None,
-            strikethrough_set: None,
-            underline: None,
-            underline_color: None,
-            underline_color_set: None,
-            underline_set: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Style {

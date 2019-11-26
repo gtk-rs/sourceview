@@ -32,6 +32,7 @@ glib_wrapper! {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct CompletionContextBuilder {
     activation: Option<CompletionActivation>,
     completion: Option<Completion>,
@@ -39,10 +40,7 @@ pub struct CompletionContextBuilder {
 
 impl CompletionContextBuilder {
     pub fn new() -> Self {
-        Self {
-            activation: None,
-            completion: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> CompletionContext {

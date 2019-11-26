@@ -49,6 +49,7 @@ impl Default for SearchSettings {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct SearchSettingsBuilder {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     at_word_boundaries: Option<bool>,
@@ -64,18 +65,7 @@ pub struct SearchSettingsBuilder {
 
 impl SearchSettingsBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            at_word_boundaries: None,
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            case_sensitive: None,
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            regex_enabled: None,
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            search_text: None,
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            wrap_around: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> SearchSettings {

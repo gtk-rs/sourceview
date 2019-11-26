@@ -55,6 +55,7 @@ impl Default for SpaceDrawer {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct SpaceDrawerBuilder {
     #[cfg(any(feature = "v3_24", feature = "dox"))]
     enable_matrix: Option<bool>,
@@ -64,12 +65,7 @@ pub struct SpaceDrawerBuilder {
 
 impl SpaceDrawerBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_24", feature = "dox"))]
-            enable_matrix: None,
-            #[cfg(any(feature = "v3_24", feature = "dox"))]
-            matrix: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> SpaceDrawer {

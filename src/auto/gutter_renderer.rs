@@ -34,6 +34,7 @@ glib_wrapper! {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct GutterRendererBuilder {
     alignment_mode: Option<GutterRendererAlignmentMode>,
     background_rgba: Option<gdk::RGBA>,
@@ -48,17 +49,7 @@ pub struct GutterRendererBuilder {
 
 impl GutterRendererBuilder {
     pub fn new() -> Self {
-        Self {
-            alignment_mode: None,
-            background_rgba: None,
-            background_set: None,
-            size: None,
-            visible: None,
-            xalign: None,
-            xpad: None,
-            yalign: None,
-            ypad: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> GutterRenderer {

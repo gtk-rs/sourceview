@@ -44,6 +44,7 @@ impl Default for MarkAttributes {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct MarkAttributesBuilder {
     background: Option<gdk::RGBA>,
     gicon: Option<gio::Icon>,
@@ -54,13 +55,7 @@ pub struct MarkAttributesBuilder {
 
 impl MarkAttributesBuilder {
     pub fn new() -> Self {
-        Self {
-            background: None,
-            gicon: None,
-            icon_name: None,
-            pixbuf: None,
-            stock_id: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> MarkAttributes {

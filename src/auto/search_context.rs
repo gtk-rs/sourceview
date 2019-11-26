@@ -70,6 +70,7 @@ impl SearchContext {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct SearchContextBuilder {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     buffer: Option<Buffer>,
@@ -83,16 +84,7 @@ pub struct SearchContextBuilder {
 
 impl SearchContextBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            buffer: None,
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            highlight: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            match_style: None,
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            settings: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> SearchContext {
@@ -393,19 +385,15 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
                 + 'static,
         >,
     > {
-        use fragile::Fragile;
-        use gio::GioFuture;
-
         let iter = iter.clone();
-        GioFuture::new(self, move |obj, send| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = Fragile::new(send);
             obj.backward_async(&iter, Some(&cancellable), move |res| {
-                let _ = send.into_inner().send(res);
+                send.resolve(res);
             });
 
             cancellable
-        })
+        }))
     }
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]
@@ -512,19 +500,15 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
                 + 'static,
         >,
     > {
-        use fragile::Fragile;
-        use gio::GioFuture;
-
         let iter = iter.clone();
-        GioFuture::new(self, move |obj, send| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = Fragile::new(send);
             obj.forward_async(&iter, Some(&cancellable), move |res| {
-                let _ = send.into_inner().send(res);
+                send.resolve(res);
             });
 
             cancellable
-        })
+        }))
     }
 
     //#[cfg(any(feature = "v3_22", feature = "dox"))]

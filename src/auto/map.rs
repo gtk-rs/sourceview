@@ -47,6 +47,7 @@ impl Default for Map {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct MapBuilder {
     view: Option<View>,
     auto_indent: Option<bool>,
@@ -140,87 +141,7 @@ pub struct MapBuilder {
 
 impl MapBuilder {
     pub fn new() -> Self {
-        Self {
-            view: None,
-            auto_indent: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            background_pattern: None,
-            draw_spaces: None,
-            highlight_current_line: None,
-            indent_on_tab: None,
-            indent_width: None,
-            insert_spaces_instead_of_tabs: None,
-            right_margin_position: None,
-            show_line_marks: None,
-            show_line_numbers: None,
-            show_right_margin: None,
-            #[cfg(any(feature = "v3_18", feature = "dox"))]
-            smart_backspace: None,
-            smart_home_end: None,
-            tab_width: None,
-            accepts_tab: None,
-            #[cfg(any(feature = "v3_18", feature = "dox"))]
-            bottom_margin: None,
-            buffer: None,
-            cursor_visible: None,
-            editable: None,
-            im_module: None,
-            indent: None,
-            left_margin: None,
-            monospace: None,
-            overwrite: None,
-            pixels_above_lines: None,
-            pixels_below_lines: None,
-            pixels_inside_wrap: None,
-            #[cfg(any(feature = "v3_8", feature = "dox"))]
-            populate_all: None,
-            right_margin: None,
-            #[cfg(any(feature = "v3_18", feature = "dox"))]
-            top_margin: None,
-            wrap_mode: None,
-            border_width: None,
-            child: None,
-            app_paintable: None,
-            can_default: None,
-            can_focus: None,
-            double_buffered: None,
-            expand: None,
-            #[cfg(any(feature = "v3_20", feature = "dox"))]
-            focus_on_click: None,
-            has_default: None,
-            has_focus: None,
-            has_tooltip: None,
-            height_request: None,
-            hexpand: None,
-            hexpand_set: None,
-            is_focus: None,
-            margin: None,
-            margin_bottom: None,
-            #[cfg(any(feature = "v3_12", feature = "dox"))]
-            margin_end: None,
-            margin_left: None,
-            margin_right: None,
-            #[cfg(any(feature = "v3_12", feature = "dox"))]
-            margin_start: None,
-            margin_top: None,
-            name: None,
-            no_show_all: None,
-            #[cfg(any(feature = "v3_8", feature = "dox"))]
-            opacity: None,
-            parent: None,
-            receives_default: None,
-            sensitive: None,
-            tooltip_markup: None,
-            tooltip_text: None,
-            vexpand: None,
-            vexpand_set: None,
-            visible: None,
-            width_request: None,
-            hadjustment: None,
-            hscroll_policy: None,
-            vadjustment: None,
-            vscroll_policy: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Map {

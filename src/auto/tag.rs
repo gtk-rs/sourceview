@@ -47,6 +47,7 @@ impl Tag {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct TagBuilder {
     #[cfg(any(feature = "v3_20", feature = "dox"))]
     draw_spaces: Option<bool>,
@@ -140,87 +141,7 @@ pub struct TagBuilder {
 
 impl TagBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_20", feature = "dox"))]
-            draw_spaces: None,
-            #[cfg(any(feature = "v3_20", feature = "dox"))]
-            draw_spaces_set: None,
-            accumulative_margin: None,
-            background: None,
-            background_full_height: None,
-            background_full_height_set: None,
-            #[cfg(any(feature = "v3_2", feature = "dox"))]
-            background_rgba: None,
-            background_set: None,
-            editable: None,
-            editable_set: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            fallback: None,
-            fallback_set: None,
-            family: None,
-            family_set: None,
-            font: None,
-            font_desc: None,
-            #[cfg(any(feature = "v3_18", feature = "dox"))]
-            font_features: None,
-            font_features_set: None,
-            foreground: None,
-            #[cfg(any(feature = "v3_2", feature = "dox"))]
-            foreground_rgba: None,
-            foreground_set: None,
-            indent: None,
-            indent_set: None,
-            invisible: None,
-            invisible_set: None,
-            justification_set: None,
-            language: None,
-            language_set: None,
-            left_margin: None,
-            left_margin_set: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            letter_spacing: None,
-            letter_spacing_set: None,
-            name: None,
-            paragraph_background: None,
-            #[cfg(any(feature = "v3_2", feature = "dox"))]
-            paragraph_background_rgba: None,
-            paragraph_background_set: None,
-            pixels_above_lines: None,
-            pixels_above_lines_set: None,
-            pixels_below_lines: None,
-            pixels_below_lines_set: None,
-            pixels_inside_wrap: None,
-            pixels_inside_wrap_set: None,
-            right_margin: None,
-            right_margin_set: None,
-            rise: None,
-            rise_set: None,
-            scale: None,
-            scale_set: None,
-            size: None,
-            size_points: None,
-            size_set: None,
-            stretch_set: None,
-            strikethrough: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            strikethrough_rgba: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            strikethrough_rgba_set: None,
-            strikethrough_set: None,
-            style_set: None,
-            tabs_set: None,
-            underline: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            underline_rgba: None,
-            #[cfg(any(feature = "v3_16", feature = "dox"))]
-            underline_rgba_set: None,
-            underline_set: None,
-            variant_set: None,
-            weight: None,
-            weight_set: None,
-            wrap_mode: None,
-            wrap_mode_set: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Tag {
