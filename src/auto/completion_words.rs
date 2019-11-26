@@ -42,6 +42,7 @@ impl CompletionWords {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct CompletionWordsBuilder {
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     activation: Option<CompletionActivation>,
@@ -56,17 +57,7 @@ pub struct CompletionWordsBuilder {
 
 impl CompletionWordsBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_10", feature = "dox"))]
-            activation: None,
-            icon: None,
-            interactive_delay: None,
-            minimum_word_size: None,
-            name: None,
-            priority: None,
-            proposals_batch_size: None,
-            scan_batch_size: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> CompletionWords {

@@ -25,13 +25,14 @@ glib_wrapper! {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct StyleSchemeBuilder {
     id: Option<String>,
 }
 
 impl StyleSchemeBuilder {
     pub fn new() -> Self {
-        Self { id: None }
+        Self::default()
     }
 
     pub fn build(self) -> StyleScheme {

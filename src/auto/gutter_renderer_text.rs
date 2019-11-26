@@ -46,6 +46,7 @@ impl Default for GutterRendererText {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct GutterRendererTextBuilder {
     markup: Option<String>,
     text: Option<String>,
@@ -62,19 +63,7 @@ pub struct GutterRendererTextBuilder {
 
 impl GutterRendererTextBuilder {
     pub fn new() -> Self {
-        Self {
-            markup: None,
-            text: None,
-            alignment_mode: None,
-            background_rgba: None,
-            background_set: None,
-            size: None,
-            visible: None,
-            xalign: None,
-            xpad: None,
-            yalign: None,
-            ypad: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> GutterRendererText {

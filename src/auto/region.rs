@@ -40,6 +40,7 @@ impl Region {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct RegionBuilder {
     #[cfg(any(feature = "v3_22", feature = "dox"))]
     buffer: Option<gtk::TextBuffer>,
@@ -47,10 +48,7 @@ pub struct RegionBuilder {
 
 impl RegionBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_22", feature = "dox"))]
-            buffer: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Region {

@@ -63,6 +63,7 @@ impl FileLoader {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct FileLoaderBuilder {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     buffer: Option<Buffer>,
@@ -76,16 +77,7 @@ pub struct FileLoaderBuilder {
 
 impl FileLoaderBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_14", feature = "dox"))]
-            buffer: None,
-            #[cfg(any(feature = "v3_14", feature = "dox"))]
-            file: None,
-            #[cfg(any(feature = "v3_14", feature = "dox"))]
-            input_stream: None,
-            #[cfg(any(feature = "v3_14", feature = "dox"))]
-            location: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> FileLoader {
@@ -249,26 +241,23 @@ impl<O: IsA<FileLoader>> FileLoaderExt for O {
     //
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
     //fn load_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-    //use gio::GioFuture;
-    //use fragile::Fragile;
 
     //let progress_callback = progress_callback.map(ToOwned::to_owned);
     //let progress_callback_notify = progress_callback_notify.map(ToOwned::to_owned);
-    //GioFuture::new(self, move |obj, send| {
+    //Box_::pin(gio::GioFuture::new(self, move |obj, send| {
     //    let cancellable = gio::Cancellable::new();
-    //    let send = Fragile::new(send);
     //    obj.load_async(
     //        io_priority,
     //        Some(&cancellable),
     //        progress_callback.as_ref().map(::std::borrow::Borrow::borrow),
     //        progress_callback_notify.as_ref().map(::std::borrow::Borrow::borrow),
     //        move |res| {
-    //            let _ = send.into_inner().send(res);
+    //            send.resolve(res);
     //        },
     //    );
 
     //    cancellable
-    //})
+    //}))
     //}
 }
 

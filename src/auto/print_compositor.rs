@@ -47,6 +47,7 @@ impl PrintCompositor {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct PrintCompositorBuilder {
     body_font_name: Option<String>,
     buffer: Option<Buffer>,
@@ -63,19 +64,7 @@ pub struct PrintCompositorBuilder {
 
 impl PrintCompositorBuilder {
     pub fn new() -> Self {
-        Self {
-            body_font_name: None,
-            buffer: None,
-            footer_font_name: None,
-            header_font_name: None,
-            highlight_syntax: None,
-            line_numbers_font_name: None,
-            print_footer: None,
-            print_header: None,
-            print_line_numbers: None,
-            tab_width: None,
-            wrap_mode: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> PrintCompositor {

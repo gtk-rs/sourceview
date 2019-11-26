@@ -43,13 +43,14 @@ impl Default for LanguageManager {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct LanguageManagerBuilder {
     search_path: Option<Vec<String>>,
 }
 
 impl LanguageManagerBuilder {
     pub fn new() -> Self {
-        Self { search_path: None }
+        Self::default()
     }
 
     pub fn build(self) -> LanguageManager {

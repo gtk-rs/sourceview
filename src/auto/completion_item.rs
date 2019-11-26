@@ -93,6 +93,7 @@ impl CompletionItem {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct CompletionItemBuilder {
     #[cfg(any(feature = "v3_18", feature = "dox"))]
     gicon: Option<gio::Icon>,
@@ -107,17 +108,7 @@ pub struct CompletionItemBuilder {
 
 impl CompletionItemBuilder {
     pub fn new() -> Self {
-        Self {
-            #[cfg(any(feature = "v3_18", feature = "dox"))]
-            gicon: None,
-            icon: None,
-            #[cfg(any(feature = "v3_18", feature = "dox"))]
-            icon_name: None,
-            info: None,
-            label: None,
-            markup: None,
-            text: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> CompletionItem {

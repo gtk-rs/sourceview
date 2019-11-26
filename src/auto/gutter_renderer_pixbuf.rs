@@ -45,6 +45,7 @@ impl Default for GutterRendererPixbuf {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct GutterRendererPixbufBuilder {
     gicon: Option<gio::Icon>,
     icon_name: Option<String>,
@@ -63,21 +64,7 @@ pub struct GutterRendererPixbufBuilder {
 
 impl GutterRendererPixbufBuilder {
     pub fn new() -> Self {
-        Self {
-            gicon: None,
-            icon_name: None,
-            pixbuf: None,
-            stock_id: None,
-            alignment_mode: None,
-            background_rgba: None,
-            background_set: None,
-            size: None,
-            visible: None,
-            xalign: None,
-            xpad: None,
-            yalign: None,
-            ypad: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> GutterRendererPixbuf {

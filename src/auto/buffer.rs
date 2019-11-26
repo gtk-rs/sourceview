@@ -56,6 +56,7 @@ impl Buffer {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct BufferBuilder {
     highlight_matching_brackets: Option<bool>,
     highlight_syntax: Option<bool>,
@@ -71,18 +72,7 @@ pub struct BufferBuilder {
 
 impl BufferBuilder {
     pub fn new() -> Self {
-        Self {
-            highlight_matching_brackets: None,
-            highlight_syntax: None,
-            #[cfg(any(feature = "v3_14", feature = "dox"))]
-            implicit_trailing_newline: None,
-            language: None,
-            max_undo_levels: None,
-            style_scheme: None,
-            undo_manager: None,
-            tag_table: None,
-            text: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Buffer {

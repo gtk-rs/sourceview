@@ -32,6 +32,7 @@ impl Mark {
     }
 }
 
+#[derive(Clone, Default)]
 pub struct MarkBuilder {
     category: Option<String>,
     left_gravity: Option<bool>,
@@ -40,11 +41,7 @@ pub struct MarkBuilder {
 
 impl MarkBuilder {
     pub fn new() -> Self {
-        Self {
-            category: None,
-            left_gravity: None,
-            name: None,
-        }
+        Self::default()
     }
 
     pub fn build(self) -> Mark {
