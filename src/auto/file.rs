@@ -6,14 +6,17 @@
 use gio;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
-#[cfg(any(feature = "v3_18", feature = "dox"))]
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::StaticType;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+use glib::ToValue;
 #[cfg(any(feature = "v3_18", feature = "dox"))]
 use glib::Value;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -53,6 +56,38 @@ impl File {
 impl Default for File {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct FileBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
+}
+
+impl FileBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> File {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        glib::Object::new(File::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self {
+        self.location = Some(location.clone().upcast());
+        self
     }
 }
 
@@ -219,7 +254,10 @@ impl<O: IsA<File>> FileExt for O {
                 b"read-only\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `read-only` getter")
+                .unwrap()
         }
     }
 

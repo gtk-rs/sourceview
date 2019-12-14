@@ -24,12 +24,7 @@ extern crate libc;
 #[macro_use]
 extern crate bitflags;
 
-#[cfg(feature = "futures")]
 extern crate fragile;
-#[cfg(feature = "futures")]
-extern crate futures;
-
-pub use glib::{Error, Object};
 
 pub use auto::*;
 pub use completion::*;
@@ -49,6 +44,9 @@ pub mod signal {
 }
 
 pub mod prelude {
+    #[doc(hidden)]
+    pub use gtk::prelude::*;
+
     pub use auto::traits::*;
 }
 

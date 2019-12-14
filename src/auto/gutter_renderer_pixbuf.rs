@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use gdk;
 use gdk_pixbuf;
 use gio;
 use glib::object::Cast;
@@ -10,12 +11,15 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
+use glib::StaticType;
+use glib::ToValue;
 use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 use GutterRenderer;
+use GutterRendererAlignmentMode;
 
 glib_wrapper! {
     pub struct GutterRendererPixbuf(Object<gtk_source_sys::GtkSourceGutterRendererPixbuf, gtk_source_sys::GtkSourceGutterRendererPixbufClass, GutterRendererPixbufClass>) @extends GutterRenderer;
@@ -38,6 +42,141 @@ impl GutterRendererPixbuf {
 impl Default for GutterRendererPixbuf {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct GutterRendererPixbufBuilder {
+    gicon: Option<gio::Icon>,
+    icon_name: Option<String>,
+    pixbuf: Option<gdk_pixbuf::Pixbuf>,
+    stock_id: Option<String>,
+    alignment_mode: Option<GutterRendererAlignmentMode>,
+    background_rgba: Option<gdk::RGBA>,
+    background_set: Option<bool>,
+    size: Option<i32>,
+    visible: Option<bool>,
+    xalign: Option<f32>,
+    xpad: Option<i32>,
+    yalign: Option<f32>,
+    ypad: Option<i32>,
+}
+
+impl GutterRendererPixbufBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> GutterRendererPixbuf {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref gicon) = self.gicon {
+            properties.push(("gicon", gicon));
+        }
+        if let Some(ref icon_name) = self.icon_name {
+            properties.push(("icon-name", icon_name));
+        }
+        if let Some(ref pixbuf) = self.pixbuf {
+            properties.push(("pixbuf", pixbuf));
+        }
+        if let Some(ref stock_id) = self.stock_id {
+            properties.push(("stock-id", stock_id));
+        }
+        if let Some(ref alignment_mode) = self.alignment_mode {
+            properties.push(("alignment-mode", alignment_mode));
+        }
+        if let Some(ref background_rgba) = self.background_rgba {
+            properties.push(("background-rgba", background_rgba));
+        }
+        if let Some(ref background_set) = self.background_set {
+            properties.push(("background-set", background_set));
+        }
+        if let Some(ref size) = self.size {
+            properties.push(("size", size));
+        }
+        if let Some(ref visible) = self.visible {
+            properties.push(("visible", visible));
+        }
+        if let Some(ref xalign) = self.xalign {
+            properties.push(("xalign", xalign));
+        }
+        if let Some(ref xpad) = self.xpad {
+            properties.push(("xpad", xpad));
+        }
+        if let Some(ref yalign) = self.yalign {
+            properties.push(("yalign", yalign));
+        }
+        if let Some(ref ypad) = self.ypad {
+            properties.push(("ypad", ypad));
+        }
+        glib::Object::new(GutterRendererPixbuf::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn gicon<P: IsA<gio::Icon>>(mut self, gicon: &P) -> Self {
+        self.gicon = Some(gicon.clone().upcast());
+        self
+    }
+
+    pub fn icon_name(mut self, icon_name: &str) -> Self {
+        self.icon_name = Some(icon_name.to_string());
+        self
+    }
+
+    pub fn pixbuf(mut self, pixbuf: &gdk_pixbuf::Pixbuf) -> Self {
+        self.pixbuf = Some(pixbuf.clone());
+        self
+    }
+
+    pub fn stock_id(mut self, stock_id: &str) -> Self {
+        self.stock_id = Some(stock_id.to_string());
+        self
+    }
+
+    pub fn alignment_mode(mut self, alignment_mode: GutterRendererAlignmentMode) -> Self {
+        self.alignment_mode = Some(alignment_mode);
+        self
+    }
+
+    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
+        self.background_rgba = Some(background_rgba.clone());
+        self
+    }
+
+    pub fn background_set(mut self, background_set: bool) -> Self {
+        self.background_set = Some(background_set);
+        self
+    }
+
+    pub fn size(mut self, size: i32) -> Self {
+        self.size = Some(size);
+        self
+    }
+
+    pub fn visible(mut self, visible: bool) -> Self {
+        self.visible = Some(visible);
+        self
+    }
+
+    pub fn xalign(mut self, xalign: f32) -> Self {
+        self.xalign = Some(xalign);
+        self
+    }
+
+    pub fn xpad(mut self, xpad: i32) -> Self {
+        self.xpad = Some(xpad);
+        self
+    }
+
+    pub fn yalign(mut self, yalign: f32) -> Self {
+        self.yalign = Some(yalign);
+        self
+    }
+
+    pub fn ypad(mut self, ypad: i32) -> Self {
+        self.ypad = Some(ypad);
+        self
     }
 }
 

@@ -8,12 +8,17 @@ use gio;
 use glib;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::object::Cast;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
+use glib::StaticType;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
+use glib::ToValue;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib_sys;
 use gtk_source_sys;
@@ -47,6 +52,52 @@ impl SpaceDrawer {
 impl Default for SpaceDrawer {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct SpaceDrawerBuilder {
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    enable_matrix: Option<bool>,
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    matrix: Option<glib::Variant>,
+}
+
+impl SpaceDrawerBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> SpaceDrawer {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_24", feature = "dox"))]
+        {
+            if let Some(ref enable_matrix) = self.enable_matrix {
+                properties.push(("enable-matrix", enable_matrix));
+            }
+        }
+        #[cfg(any(feature = "v3_24", feature = "dox"))]
+        {
+            if let Some(ref matrix) = self.matrix {
+                properties.push(("matrix", matrix));
+            }
+        }
+        glib::Object::new(SpaceDrawer::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    pub fn enable_matrix(mut self, enable_matrix: bool) -> Self {
+        self.enable_matrix = Some(enable_matrix);
+        self
+    }
+
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    pub fn matrix(mut self, matrix: &glib::Variant) -> Self {
+        self.matrix = Some(matrix.clone());
+        self
     }
 }
 

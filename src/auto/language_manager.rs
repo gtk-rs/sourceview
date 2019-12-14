@@ -8,6 +8,8 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
+use glib::StaticType;
+use glib::ToValue;
 use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
@@ -38,6 +40,33 @@ impl LanguageManager {
 impl Default for LanguageManager {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct LanguageManagerBuilder {
+    search_path: Option<Vec<String>>,
+}
+
+impl LanguageManagerBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> LanguageManager {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref search_path) = self.search_path {
+            properties.push(("search-path", search_path));
+        }
+        glib::Object::new(LanguageManager::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn search_path(mut self, search_path: Vec<String>) -> Self {
+        self.search_path = Some(search_path);
+        self
     }
 }
 

@@ -6,12 +6,17 @@
 use gio;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+use glib::StaticType;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+use glib::ToValue;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib_sys;
 use gtk_source_sys;
@@ -70,6 +75,122 @@ impl FileSaver {
     }
 }
 
+#[derive(Clone, Default)]
+pub struct FileSaverBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    buffer: Option<Buffer>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    compression_type: Option<CompressionType>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    encoding: Option<Encoding>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    file: Option<File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    flags: Option<FileSaverFlags>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    newline_type: Option<NewlineType>,
+}
+
+impl FileSaverBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> FileSaver {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref compression_type) = self.compression_type {
+                properties.push(("compression-type", compression_type));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref encoding) = self.encoding {
+                properties.push(("encoding", encoding));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref file) = self.file {
+                properties.push(("file", file));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref flags) = self.flags {
+                properties.push(("flags", flags));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref newline_type) = self.newline_type {
+                properties.push(("newline-type", newline_type));
+            }
+        }
+        glib::Object::new(FileSaver::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn compression_type(mut self, compression_type: CompressionType) -> Self {
+        self.compression_type = Some(compression_type);
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn encoding(mut self, encoding: &Encoding) -> Self {
+        self.encoding = Some(encoding.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn file<P: IsA<File>>(mut self, file: &P) -> Self {
+        self.file = Some(file.clone().upcast());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn flags(mut self, flags: FileSaverFlags) -> Self {
+        self.flags = Some(flags);
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self {
+        self.location = Some(location.clone().upcast());
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn newline_type(mut self, newline_type: NewlineType) -> Self {
+        self.newline_type = Some(newline_type);
+        self
+    }
+}
+
 pub const NONE_FILE_SAVER: Option<&FileSaver> = None;
 
 pub trait FileSaverExt: 'static {
@@ -95,11 +216,11 @@ pub trait FileSaverExt: 'static {
     fn get_newline_type(&self) -> NewlineType;
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
+    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
 
-    //#[cfg(feature = "futures")]
+    //
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin>;
+    //fn save_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType);
@@ -195,33 +316,30 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
     }
 
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), Error>) + Send + 'static, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
+    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
     //    unsafe { TODO: call gtk_source_sys:gtk_source_file_saver_save_async() }
     //}
 
-    //#[cfg(feature = "futures")]
+    //
     //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Box_<dyn future::Future<Output = Result<(), Error>> + std::marker::Unpin> {
-    //use gio::GioFuture;
-    //use fragile::Fragile;
+    //fn save_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
 
     //let progress_callback = progress_callback.map(ToOwned::to_owned);
     //let progress_callback_notify = progress_callback_notify.map(ToOwned::to_owned);
-    //GioFuture::new(self, move |obj, send| {
+    //Box_::pin(gio::GioFuture::new(self, move |obj, send| {
     //    let cancellable = gio::Cancellable::new();
-    //    let send = Fragile::new(send);
     //    obj.save_async(
     //        io_priority,
     //        Some(&cancellable),
     //        progress_callback.as_ref().map(::std::borrow::Borrow::borrow),
     //        progress_callback_notify.as_ref().map(::std::borrow::Borrow::borrow),
     //        move |res| {
-    //            let _ = send.into_inner().send(res);
+    //            send.resolve(res);
     //        },
     //    );
 
     //    cancellable
-    //})
+    //}))
     //}
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]

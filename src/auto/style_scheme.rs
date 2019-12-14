@@ -8,6 +8,8 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
+use glib::StaticType;
+use glib::ToValue;
 use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
@@ -20,6 +22,33 @@ glib_wrapper! {
 
     match fn {
         get_type => || gtk_source_sys::gtk_source_style_scheme_get_type(),
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct StyleSchemeBuilder {
+    id: Option<String>,
+}
+
+impl StyleSchemeBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> StyleScheme {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref id) = self.id {
+            properties.push(("id", id));
+        }
+        glib::Object::new(StyleScheme::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn id(mut self, id: &str) -> Self {
+        self.id = Some(id.to_string());
+        self
     }
 }
 

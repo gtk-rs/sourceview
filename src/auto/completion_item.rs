@@ -10,6 +10,10 @@ use glib::object::IsA;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v3_18", feature = "dox"))]
+use glib::value::SetValueOptional;
+use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -89,6 +93,97 @@ impl CompletionItem {
     }
 }
 
+#[derive(Clone, Default)]
+pub struct CompletionItemBuilder {
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    gicon: Option<gio::Icon>,
+    icon: Option<gdk_pixbuf::Pixbuf>,
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    icon_name: Option<String>,
+    info: Option<String>,
+    label: Option<String>,
+    markup: Option<String>,
+    text: Option<String>,
+}
+
+impl CompletionItemBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> CompletionItem {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_18", feature = "dox"))]
+        {
+            if let Some(ref gicon) = self.gicon {
+                properties.push(("gicon", gicon));
+            }
+        }
+        if let Some(ref icon) = self.icon {
+            properties.push(("icon", icon));
+        }
+        #[cfg(any(feature = "v3_18", feature = "dox"))]
+        {
+            if let Some(ref icon_name) = self.icon_name {
+                properties.push(("icon-name", icon_name));
+            }
+        }
+        if let Some(ref info) = self.info {
+            properties.push(("info", info));
+        }
+        if let Some(ref label) = self.label {
+            properties.push(("label", label));
+        }
+        if let Some(ref markup) = self.markup {
+            properties.push(("markup", markup));
+        }
+        if let Some(ref text) = self.text {
+            properties.push(("text", text));
+        }
+        glib::Object::new(CompletionItem::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    pub fn gicon<P: IsA<gio::Icon>>(mut self, gicon: &P) -> Self {
+        self.gicon = Some(gicon.clone().upcast());
+        self
+    }
+
+    pub fn icon(mut self, icon: &gdk_pixbuf::Pixbuf) -> Self {
+        self.icon = Some(icon.clone());
+        self
+    }
+
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    pub fn icon_name(mut self, icon_name: &str) -> Self {
+        self.icon_name = Some(icon_name.to_string());
+        self
+    }
+
+    pub fn info(mut self, info: &str) -> Self {
+        self.info = Some(info.to_string());
+        self
+    }
+
+    pub fn label(mut self, label: &str) -> Self {
+        self.label = Some(label.to_string());
+        self
+    }
+
+    pub fn markup(mut self, markup: &str) -> Self {
+        self.markup = Some(markup.to_string());
+        self
+    }
+
+    pub fn text(mut self, text: &str) -> Self {
+        self.text = Some(text.to_string());
+        self
+    }
+}
+
 pub const NONE_COMPLETION_ITEM: Option<&CompletionItem> = None;
 
 pub trait CompletionItemExt: 'static {
@@ -114,7 +209,7 @@ pub trait CompletionItemExt: 'static {
     fn set_text(&self, text: Option<&str>);
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_gicon(&self, gicon: Option<&gio::Icon>);
+    fn set_property_gicon<P: IsA<gio::Icon> + SetValueOptional>(&self, gicon: Option<&P>);
 
     fn set_property_icon(&self, icon: Option<&gdk_pixbuf::Pixbuf>);
 
@@ -218,7 +313,7 @@ impl<O: IsA<CompletionItem>> CompletionItemExt for O {
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]
-    fn set_property_gicon(&self, gicon: Option<&gio::Icon>) {
+    fn set_property_gicon<P: IsA<gio::Icon> + SetValueOptional>(&self, gicon: Option<&P>) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
