@@ -9,6 +9,7 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -25,6 +26,60 @@ glib_wrapper! {
 
     match fn {
         get_type => || gtk_source_sys::gtk_source_gutter_get_type(),
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct GutterBuilder {
+    view: Option<View>,
+    window_type: Option<gtk::TextWindowType>,
+    xpad: Option<i32>,
+    ypad: Option<i32>,
+}
+
+impl GutterBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> Gutter {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref view) = self.view {
+            properties.push(("view", view));
+        }
+        if let Some(ref window_type) = self.window_type {
+            properties.push(("window-type", window_type));
+        }
+        if let Some(ref xpad) = self.xpad {
+            properties.push(("xpad", xpad));
+        }
+        if let Some(ref ypad) = self.ypad {
+            properties.push(("ypad", ypad));
+        }
+        glib::Object::new(Gutter::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {
+        self.view = Some(view.clone().upcast());
+        self
+    }
+
+    pub fn window_type(mut self, window_type: gtk::TextWindowType) -> Self {
+        self.window_type = Some(window_type);
+        self
+    }
+
+    pub fn xpad(mut self, xpad: i32) -> Self {
+        self.xpad = Some(xpad);
+        self
+    }
+
+    pub fn ypad(mut self, ypad: i32) -> Self {
+        self.ypad = Some(ypad);
+        self
     }
 }
 
@@ -166,7 +221,9 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"view\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `view` getter")
         }
     }
 
@@ -178,7 +235,10 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"window-type\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `window-type` getter")
+                .unwrap()
         }
     }
 
@@ -190,7 +250,10 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"xpad\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `xpad` getter")
+                .unwrap()
         }
     }
 
@@ -212,7 +275,10 @@ impl<O: IsA<Gutter>> GutterExt for O {
                 b"ypad\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `ypad` getter")
+                .unwrap()
         }
     }
 

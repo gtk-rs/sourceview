@@ -9,6 +9,7 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -38,6 +39,101 @@ impl CompletionWords {
                 icon.to_glib_none().0,
             ))
         }
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct CompletionWordsBuilder {
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    activation: Option<CompletionActivation>,
+    icon: Option<gdk_pixbuf::Pixbuf>,
+    interactive_delay: Option<i32>,
+    minimum_word_size: Option<u32>,
+    name: Option<String>,
+    priority: Option<i32>,
+    proposals_batch_size: Option<u32>,
+    scan_batch_size: Option<u32>,
+}
+
+impl CompletionWordsBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> CompletionWords {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_10", feature = "dox"))]
+        {
+            if let Some(ref activation) = self.activation {
+                properties.push(("activation", activation));
+            }
+        }
+        if let Some(ref icon) = self.icon {
+            properties.push(("icon", icon));
+        }
+        if let Some(ref interactive_delay) = self.interactive_delay {
+            properties.push(("interactive-delay", interactive_delay));
+        }
+        if let Some(ref minimum_word_size) = self.minimum_word_size {
+            properties.push(("minimum-word-size", minimum_word_size));
+        }
+        if let Some(ref name) = self.name {
+            properties.push(("name", name));
+        }
+        if let Some(ref priority) = self.priority {
+            properties.push(("priority", priority));
+        }
+        if let Some(ref proposals_batch_size) = self.proposals_batch_size {
+            properties.push(("proposals-batch-size", proposals_batch_size));
+        }
+        if let Some(ref scan_batch_size) = self.scan_batch_size {
+            properties.push(("scan-batch-size", scan_batch_size));
+        }
+        glib::Object::new(CompletionWords::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub fn activation(mut self, activation: CompletionActivation) -> Self {
+        self.activation = Some(activation);
+        self
+    }
+
+    pub fn icon(mut self, icon: &gdk_pixbuf::Pixbuf) -> Self {
+        self.icon = Some(icon.clone());
+        self
+    }
+
+    pub fn interactive_delay(mut self, interactive_delay: i32) -> Self {
+        self.interactive_delay = Some(interactive_delay);
+        self
+    }
+
+    pub fn minimum_word_size(mut self, minimum_word_size: u32) -> Self {
+        self.minimum_word_size = Some(minimum_word_size);
+        self
+    }
+
+    pub fn name(mut self, name: &str) -> Self {
+        self.name = Some(name.to_string());
+        self
+    }
+
+    pub fn priority(mut self, priority: i32) -> Self {
+        self.priority = Some(priority);
+        self
+    }
+
+    pub fn proposals_batch_size(mut self, proposals_batch_size: u32) -> Self {
+        self.proposals_batch_size = Some(proposals_batch_size);
+        self
+    }
+
+    pub fn scan_batch_size(mut self, scan_batch_size: u32) -> Self {
+        self.scan_batch_size = Some(scan_batch_size);
+        self
     }
 }
 
@@ -159,7 +255,10 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
                 b"minimum-word-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `minimum-word-size` getter")
+                .unwrap()
         }
     }
 
@@ -201,7 +300,10 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
                 b"proposals-batch-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `proposals-batch-size` getter")
+                .unwrap()
         }
     }
 
@@ -223,7 +325,10 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
                 b"scan-batch-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `scan-batch-size` getter")
+                .unwrap()
         }
     }
 

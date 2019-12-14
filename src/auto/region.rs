@@ -2,10 +2,17 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+use glib::object::Cast;
+#[cfg(any(feature = "v3_22", feature = "dox"))]
 use glib::object::IsA;
 use glib::translate::*;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 use glib::GString;
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+use glib::StaticType;
+#[cfg(any(feature = "v3_22", feature = "dox"))]
+use glib::ToValue;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 use gtk;
 use gtk_source_sys;
@@ -30,6 +37,38 @@ impl Region {
                 buffer.as_ref().to_glib_none().0,
             ))
         }
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct RegionBuilder {
+    #[cfg(any(feature = "v3_22", feature = "dox"))]
+    buffer: Option<gtk::TextBuffer>,
+}
+
+impl RegionBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> Region {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_22", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        glib::Object::new(Region::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    #[cfg(any(feature = "v3_22", feature = "dox"))]
+    pub fn buffer<P: IsA<gtk::TextBuffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
+        self
     }
 }
 

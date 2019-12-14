@@ -2,10 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use glib::object::Cast;
 use glib::object::ObjectType as ObjectType_;
 use glib::translate::*;
 use glib::GString;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use gobject_sys;
 use gtk_source_sys;
@@ -29,7 +31,9 @@ impl Style {
                 b"background\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `background` getter")
         }
     }
 
@@ -41,7 +45,10 @@ impl Style {
                 b"background-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `background-set` getter")
+                .unwrap()
         }
     }
 
@@ -53,7 +60,10 @@ impl Style {
                 b"bold\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `bold` getter")
+                .unwrap()
         }
     }
 
@@ -65,7 +75,10 @@ impl Style {
                 b"bold-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `bold-set` getter")
+                .unwrap()
         }
     }
 
@@ -77,7 +90,9 @@ impl Style {
                 b"foreground\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `foreground` getter")
         }
     }
 
@@ -89,7 +104,10 @@ impl Style {
                 b"foreground-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `foreground-set` getter")
+                .unwrap()
         }
     }
 
@@ -101,7 +119,10 @@ impl Style {
                 b"italic\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `italic` getter")
+                .unwrap()
         }
     }
 
@@ -113,7 +134,10 @@ impl Style {
                 b"italic-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `italic-set` getter")
+                .unwrap()
         }
     }
 
@@ -125,7 +149,9 @@ impl Style {
                 b"line-background\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `line-background` getter")
         }
     }
 
@@ -137,7 +163,10 @@ impl Style {
                 b"line-background-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `line-background-set` getter")
+                .unwrap()
         }
     }
 
@@ -149,7 +178,10 @@ impl Style {
                 b"pango-underline\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `pango-underline` getter")
+                .unwrap()
         }
     }
 
@@ -161,7 +193,9 @@ impl Style {
                 b"scale\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `scale` getter")
         }
     }
 
@@ -173,7 +207,10 @@ impl Style {
                 b"scale-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `scale-set` getter")
+                .unwrap()
         }
     }
 
@@ -185,7 +222,10 @@ impl Style {
                 b"strikethrough\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `strikethrough` getter")
+                .unwrap()
         }
     }
 
@@ -197,7 +237,10 @@ impl Style {
                 b"strikethrough-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `strikethrough-set` getter")
+                .unwrap()
         }
     }
 
@@ -210,7 +253,10 @@ impl Style {
                 b"underline\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `underline` getter")
+                .unwrap()
         }
     }
 
@@ -222,7 +268,9 @@ impl Style {
                 b"underline-color\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `underline-color` getter")
         }
     }
 
@@ -234,7 +282,10 @@ impl Style {
                 b"underline-color-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `underline-color-set` getter")
+                .unwrap()
         }
     }
 
@@ -246,8 +297,200 @@ impl Style {
                 b"underline-set\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `underline-set` getter")
+                .unwrap()
         }
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct StyleBuilder {
+    background: Option<String>,
+    background_set: Option<bool>,
+    bold: Option<bool>,
+    bold_set: Option<bool>,
+    foreground: Option<String>,
+    foreground_set: Option<bool>,
+    italic: Option<bool>,
+    italic_set: Option<bool>,
+    line_background: Option<String>,
+    line_background_set: Option<bool>,
+    pango_underline: Option<pango::Underline>,
+    scale: Option<String>,
+    scale_set: Option<bool>,
+    strikethrough: Option<bool>,
+    strikethrough_set: Option<bool>,
+    underline: Option<bool>,
+    underline_color: Option<String>,
+    underline_color_set: Option<bool>,
+    underline_set: Option<bool>,
+}
+
+impl StyleBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> Style {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref background) = self.background {
+            properties.push(("background", background));
+        }
+        if let Some(ref background_set) = self.background_set {
+            properties.push(("background-set", background_set));
+        }
+        if let Some(ref bold) = self.bold {
+            properties.push(("bold", bold));
+        }
+        if let Some(ref bold_set) = self.bold_set {
+            properties.push(("bold-set", bold_set));
+        }
+        if let Some(ref foreground) = self.foreground {
+            properties.push(("foreground", foreground));
+        }
+        if let Some(ref foreground_set) = self.foreground_set {
+            properties.push(("foreground-set", foreground_set));
+        }
+        if let Some(ref italic) = self.italic {
+            properties.push(("italic", italic));
+        }
+        if let Some(ref italic_set) = self.italic_set {
+            properties.push(("italic-set", italic_set));
+        }
+        if let Some(ref line_background) = self.line_background {
+            properties.push(("line-background", line_background));
+        }
+        if let Some(ref line_background_set) = self.line_background_set {
+            properties.push(("line-background-set", line_background_set));
+        }
+        if let Some(ref pango_underline) = self.pango_underline {
+            properties.push(("pango-underline", pango_underline));
+        }
+        if let Some(ref scale) = self.scale {
+            properties.push(("scale", scale));
+        }
+        if let Some(ref scale_set) = self.scale_set {
+            properties.push(("scale-set", scale_set));
+        }
+        if let Some(ref strikethrough) = self.strikethrough {
+            properties.push(("strikethrough", strikethrough));
+        }
+        if let Some(ref strikethrough_set) = self.strikethrough_set {
+            properties.push(("strikethrough-set", strikethrough_set));
+        }
+        if let Some(ref underline) = self.underline {
+            properties.push(("underline", underline));
+        }
+        if let Some(ref underline_color) = self.underline_color {
+            properties.push(("underline-color", underline_color));
+        }
+        if let Some(ref underline_color_set) = self.underline_color_set {
+            properties.push(("underline-color-set", underline_color_set));
+        }
+        if let Some(ref underline_set) = self.underline_set {
+            properties.push(("underline-set", underline_set));
+        }
+        glib::Object::new(Style::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn background(mut self, background: &str) -> Self {
+        self.background = Some(background.to_string());
+        self
+    }
+
+    pub fn background_set(mut self, background_set: bool) -> Self {
+        self.background_set = Some(background_set);
+        self
+    }
+
+    pub fn bold(mut self, bold: bool) -> Self {
+        self.bold = Some(bold);
+        self
+    }
+
+    pub fn bold_set(mut self, bold_set: bool) -> Self {
+        self.bold_set = Some(bold_set);
+        self
+    }
+
+    pub fn foreground(mut self, foreground: &str) -> Self {
+        self.foreground = Some(foreground.to_string());
+        self
+    }
+
+    pub fn foreground_set(mut self, foreground_set: bool) -> Self {
+        self.foreground_set = Some(foreground_set);
+        self
+    }
+
+    pub fn italic(mut self, italic: bool) -> Self {
+        self.italic = Some(italic);
+        self
+    }
+
+    pub fn italic_set(mut self, italic_set: bool) -> Self {
+        self.italic_set = Some(italic_set);
+        self
+    }
+
+    pub fn line_background(mut self, line_background: &str) -> Self {
+        self.line_background = Some(line_background.to_string());
+        self
+    }
+
+    pub fn line_background_set(mut self, line_background_set: bool) -> Self {
+        self.line_background_set = Some(line_background_set);
+        self
+    }
+
+    pub fn pango_underline(mut self, pango_underline: pango::Underline) -> Self {
+        self.pango_underline = Some(pango_underline);
+        self
+    }
+
+    pub fn scale(mut self, scale: &str) -> Self {
+        self.scale = Some(scale.to_string());
+        self
+    }
+
+    pub fn scale_set(mut self, scale_set: bool) -> Self {
+        self.scale_set = Some(scale_set);
+        self
+    }
+
+    pub fn strikethrough(mut self, strikethrough: bool) -> Self {
+        self.strikethrough = Some(strikethrough);
+        self
+    }
+
+    pub fn strikethrough_set(mut self, strikethrough_set: bool) -> Self {
+        self.strikethrough_set = Some(strikethrough_set);
+        self
+    }
+
+    pub fn underline(mut self, underline: bool) -> Self {
+        self.underline = Some(underline);
+        self
+    }
+
+    pub fn underline_color(mut self, underline_color: &str) -> Self {
+        self.underline_color = Some(underline_color.to_string());
+        self
+    }
+
+    pub fn underline_color_set(mut self, underline_color_set: bool) -> Self {
+        self.underline_color_set = Some(underline_color_set);
+        self
+    }
+
+    pub fn underline_set(mut self, underline_set: bool) -> Self {
+        self.underline_set = Some(underline_set);
+        self
     }
 }
 

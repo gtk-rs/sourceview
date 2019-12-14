@@ -2,9 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
 use glib::GString;
+use glib::StaticType;
+use glib::ToValue;
 use gtk;
 use gtk_source_sys;
 use std::fmt;
@@ -26,6 +29,51 @@ impl Mark {
                 category.to_glib_none().0,
             ))
         }
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct MarkBuilder {
+    category: Option<String>,
+    left_gravity: Option<bool>,
+    name: Option<String>,
+}
+
+impl MarkBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> Mark {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref category) = self.category {
+            properties.push(("category", category));
+        }
+        if let Some(ref left_gravity) = self.left_gravity {
+            properties.push(("left-gravity", left_gravity));
+        }
+        if let Some(ref name) = self.name {
+            properties.push(("name", name));
+        }
+        glib::Object::new(Mark::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn category(mut self, category: &str) -> Self {
+        self.category = Some(category.to_string());
+        self
+    }
+
+    pub fn left_gravity(mut self, left_gravity: bool) -> Self {
+        self.left_gravity = Some(left_gravity);
+        self
+    }
+
+    pub fn name(mut self, name: &str) -> Self {
+        self.name = Some(name.to_string());
+        self
     }
 }
 

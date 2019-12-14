@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v3_16", feature = "dox"))]
 use glib::object::Cast;
 use glib::translate::*;
 use gtk;

@@ -10,6 +10,7 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -28,6 +29,42 @@ glib_wrapper! {
 
     match fn {
         get_type => || gtk_source_sys::gtk_source_completion_context_get_type(),
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct CompletionContextBuilder {
+    activation: Option<CompletionActivation>,
+    completion: Option<Completion>,
+}
+
+impl CompletionContextBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> CompletionContext {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref activation) = self.activation {
+            properties.push(("activation", activation));
+        }
+        if let Some(ref completion) = self.completion {
+            properties.push(("completion", completion));
+        }
+        glib::Object::new(CompletionContext::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn activation(mut self, activation: CompletionActivation) -> Self {
+        self.activation = Some(activation);
+        self
+    }
+
+    pub fn completion<P: IsA<Completion>>(mut self, completion: &P) -> Self {
+        self.completion = Some(completion.clone().upcast());
+        self
     }
 }
 
@@ -116,7 +153,9 @@ impl<O: IsA<CompletionContext>> CompletionContextExt for O {
                 b"completion\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get()
+            value
+                .get()
+                .expect("Return Value for property `completion` getter")
         }
     }
 

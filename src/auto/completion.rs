@@ -10,6 +10,7 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -24,7 +25,6 @@ use std::ptr;
 use CompletionContext;
 use CompletionInfo;
 use CompletionProvider;
-use Error;
 use View;
 
 glib_wrapper! {
@@ -35,10 +35,109 @@ glib_wrapper! {
     }
 }
 
+#[derive(Clone, Default)]
+pub struct CompletionBuilder {
+    accelerators: Option<u32>,
+    auto_complete_delay: Option<u32>,
+    proposal_page_size: Option<u32>,
+    provider_page_size: Option<u32>,
+    remember_info_visibility: Option<bool>,
+    select_on_show: Option<bool>,
+    show_headers: Option<bool>,
+    show_icons: Option<bool>,
+    view: Option<View>,
+}
+
+impl CompletionBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> Completion {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref accelerators) = self.accelerators {
+            properties.push(("accelerators", accelerators));
+        }
+        if let Some(ref auto_complete_delay) = self.auto_complete_delay {
+            properties.push(("auto-complete-delay", auto_complete_delay));
+        }
+        if let Some(ref proposal_page_size) = self.proposal_page_size {
+            properties.push(("proposal-page-size", proposal_page_size));
+        }
+        if let Some(ref provider_page_size) = self.provider_page_size {
+            properties.push(("provider-page-size", provider_page_size));
+        }
+        if let Some(ref remember_info_visibility) = self.remember_info_visibility {
+            properties.push(("remember-info-visibility", remember_info_visibility));
+        }
+        if let Some(ref select_on_show) = self.select_on_show {
+            properties.push(("select-on-show", select_on_show));
+        }
+        if let Some(ref show_headers) = self.show_headers {
+            properties.push(("show-headers", show_headers));
+        }
+        if let Some(ref show_icons) = self.show_icons {
+            properties.push(("show-icons", show_icons));
+        }
+        if let Some(ref view) = self.view {
+            properties.push(("view", view));
+        }
+        glib::Object::new(Completion::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn accelerators(mut self, accelerators: u32) -> Self {
+        self.accelerators = Some(accelerators);
+        self
+    }
+
+    pub fn auto_complete_delay(mut self, auto_complete_delay: u32) -> Self {
+        self.auto_complete_delay = Some(auto_complete_delay);
+        self
+    }
+
+    pub fn proposal_page_size(mut self, proposal_page_size: u32) -> Self {
+        self.proposal_page_size = Some(proposal_page_size);
+        self
+    }
+
+    pub fn provider_page_size(mut self, provider_page_size: u32) -> Self {
+        self.provider_page_size = Some(provider_page_size);
+        self
+    }
+
+    pub fn remember_info_visibility(mut self, remember_info_visibility: bool) -> Self {
+        self.remember_info_visibility = Some(remember_info_visibility);
+        self
+    }
+
+    pub fn select_on_show(mut self, select_on_show: bool) -> Self {
+        self.select_on_show = Some(select_on_show);
+        self
+    }
+
+    pub fn show_headers(mut self, show_headers: bool) -> Self {
+        self.show_headers = Some(show_headers);
+        self
+    }
+
+    pub fn show_icons(mut self, show_icons: bool) -> Self {
+        self.show_icons = Some(show_icons);
+        self
+    }
+
+    pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {
+        self.view = Some(view.clone().upcast());
+        self
+    }
+}
+
 pub const NONE_COMPLETION: Option<&Completion> = None;
 
 pub trait CompletionExt: 'static {
-    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error>;
+    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error>;
 
     fn block_interactive(&self);
 
@@ -53,7 +152,7 @@ pub trait CompletionExt: 'static {
     #[cfg_attr(feature = "v3_8", deprecated)]
     fn move_window(&self, iter: &mut gtk::TextIter);
 
-    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error>;
+    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error>;
 
     fn show<P: IsA<CompletionContext>>(
         &self,
@@ -163,7 +262,7 @@ pub trait CompletionExt: 'static {
 }
 
 impl<O: IsA<Completion>> CompletionExt for O {
-    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error> {
+    fn add_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = gtk_source_sys::gtk_source_completion_add_provider(
@@ -224,7 +323,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
         }
     }
 
-    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), Error> {
+    fn remove_provider<P: IsA<CompletionProvider>>(&self, provider: &P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = gtk_source_sys::gtk_source_completion_remove_provider(
@@ -270,7 +369,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"accelerators\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `accelerators` getter")
+                .unwrap()
         }
     }
 
@@ -292,7 +394,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"auto-complete-delay\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `auto-complete-delay` getter")
+                .unwrap()
         }
     }
 
@@ -314,7 +419,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"proposal-page-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `proposal-page-size` getter")
+                .unwrap()
         }
     }
 
@@ -336,7 +444,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"provider-page-size\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `provider-page-size` getter")
+                .unwrap()
         }
     }
 
@@ -358,7 +469,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"remember-info-visibility\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `remember-info-visibility` getter")
+                .unwrap()
         }
     }
 
@@ -380,7 +494,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"select-on-show\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `select-on-show` getter")
+                .unwrap()
         }
     }
 
@@ -402,7 +519,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"show-headers\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `show-headers` getter")
+                .unwrap()
         }
     }
 
@@ -424,7 +544,10 @@ impl<O: IsA<Completion>> CompletionExt for O {
                 b"show-icons\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `show-icons` getter")
+                .unwrap()
         }
     }
 

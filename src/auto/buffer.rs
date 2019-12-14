@@ -9,6 +9,7 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
 use glib::StaticType;
+use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -52,6 +53,110 @@ impl Buffer {
                 language.as_ref().to_glib_none().0,
             ))
         }
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct BufferBuilder {
+    highlight_matching_brackets: Option<bool>,
+    highlight_syntax: Option<bool>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    implicit_trailing_newline: Option<bool>,
+    language: Option<Language>,
+    max_undo_levels: Option<i32>,
+    style_scheme: Option<StyleScheme>,
+    undo_manager: Option<UndoManager>,
+    tag_table: Option<gtk::TextTagTable>,
+    text: Option<String>,
+}
+
+impl BufferBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn build(self) -> Buffer {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref highlight_matching_brackets) = self.highlight_matching_brackets {
+            properties.push(("highlight-matching-brackets", highlight_matching_brackets));
+        }
+        if let Some(ref highlight_syntax) = self.highlight_syntax {
+            properties.push(("highlight-syntax", highlight_syntax));
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref implicit_trailing_newline) = self.implicit_trailing_newline {
+                properties.push(("implicit-trailing-newline", implicit_trailing_newline));
+            }
+        }
+        if let Some(ref language) = self.language {
+            properties.push(("language", language));
+        }
+        if let Some(ref max_undo_levels) = self.max_undo_levels {
+            properties.push(("max-undo-levels", max_undo_levels));
+        }
+        if let Some(ref style_scheme) = self.style_scheme {
+            properties.push(("style-scheme", style_scheme));
+        }
+        if let Some(ref undo_manager) = self.undo_manager {
+            properties.push(("undo-manager", undo_manager));
+        }
+        if let Some(ref tag_table) = self.tag_table {
+            properties.push(("tag-table", tag_table));
+        }
+        if let Some(ref text) = self.text {
+            properties.push(("text", text));
+        }
+        glib::Object::new(Buffer::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
+
+    pub fn highlight_matching_brackets(mut self, highlight_matching_brackets: bool) -> Self {
+        self.highlight_matching_brackets = Some(highlight_matching_brackets);
+        self
+    }
+
+    pub fn highlight_syntax(mut self, highlight_syntax: bool) -> Self {
+        self.highlight_syntax = Some(highlight_syntax);
+        self
+    }
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn implicit_trailing_newline(mut self, implicit_trailing_newline: bool) -> Self {
+        self.implicit_trailing_newline = Some(implicit_trailing_newline);
+        self
+    }
+
+    pub fn language<P: IsA<Language>>(mut self, language: &P) -> Self {
+        self.language = Some(language.clone().upcast());
+        self
+    }
+
+    pub fn max_undo_levels(mut self, max_undo_levels: i32) -> Self {
+        self.max_undo_levels = Some(max_undo_levels);
+        self
+    }
+
+    pub fn style_scheme<P: IsA<StyleScheme>>(mut self, style_scheme: &P) -> Self {
+        self.style_scheme = Some(style_scheme.clone().upcast());
+        self
+    }
+
+    pub fn undo_manager<P: IsA<UndoManager>>(mut self, undo_manager: &P) -> Self {
+        self.undo_manager = Some(undo_manager.clone().upcast());
+        self
+    }
+
+    pub fn tag_table<P: IsA<gtk::TextTagTable>>(mut self, tag_table: &P) -> Self {
+        self.tag_table = Some(tag_table.clone().upcast());
+        self
+    }
+
+    pub fn text(mut self, text: &str) -> Self {
+        self.text = Some(text.to_string());
+        self
     }
 }
 
@@ -609,7 +714,10 @@ impl<O: IsA<Buffer>> BufferExt for O {
                 b"can-redo\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `can-redo` getter")
+                .unwrap()
         }
     }
 
@@ -621,7 +729,10 @@ impl<O: IsA<Buffer>> BufferExt for O {
                 b"can-undo\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
-            value.get().unwrap()
+            value
+                .get()
+                .expect("Return Value for property `can-undo` getter")
+                .unwrap()
         }
     }
 
