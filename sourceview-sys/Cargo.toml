@@ -58,6 +58,5 @@ links = "gtk_source"
 name = "gtk-source-sys"
 repository = "https://github.com/gtk-rs/sourceview"
 version = "0.9.1"
-
 [package.metadata.docs.rs]
 features = ["dox"]
