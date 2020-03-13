@@ -34,7 +34,6 @@ generate = [
     "GtkSource.NewlineType",
     "GtkSource.PrintCompositor",
     "GtkSource.Region",
-    "GtkSource.SearchContext",
     "GtkSource.SearchSettings",
     "GtkSource.SmartHomeEndType",
     "GtkSource.SortFlags",
@@ -203,6 +202,14 @@ version = "2.2"
     [[object.property]]
     pattern = ".+"
     version = "2.2"
+
+[[object]]
+name = "GtkSource.SearchContext"
+status = "generate"
+    [[object.function]]
+    name = "replace_all"
+        [object.function.return]
+        use_return_for_result = true
 
 [[object]]
 name = "GtkSource.Style"
