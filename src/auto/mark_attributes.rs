@@ -20,7 +20,6 @@ use gtk_source_sys;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use Mark;
 
 glib_wrapper! {
@@ -294,7 +293,7 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &MarkAttributes::from_glib_borrow(this).unsafe_cast(),
+                &MarkAttributes::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(mark),
             )
             .to_glib_full()
@@ -304,9 +303,7 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"query-tooltip-markup\0".as_ptr() as *const _,
-                Some(transmute(
-                    query_tooltip_markup_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&query_tooltip_markup_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -329,7 +326,7 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &MarkAttributes::from_glib_borrow(this).unsafe_cast(),
+                &MarkAttributes::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(mark),
             )
             .to_glib_full()
@@ -339,7 +336,7 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"query-tooltip-text\0".as_ptr() as *const _,
-                Some(transmute(query_tooltip_text_trampoline::<Self, F> as usize)),
+                Some(*(&query_tooltip_text_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -354,14 +351,14 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
+            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::background\0".as_ptr() as *const _,
-                Some(transmute(notify_background_trampoline::<Self, F> as usize)),
+                Some(*(&notify_background_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -376,14 +373,14 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
+            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::gicon\0".as_ptr() as *const _,
-                Some(transmute(notify_gicon_trampoline::<Self, F> as usize)),
+                Some(*(&notify_gicon_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -398,14 +395,14 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
+            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon-name\0".as_ptr() as *const _,
-                Some(transmute(notify_icon_name_trampoline::<Self, F> as usize)),
+                Some(*(&notify_icon_name_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -420,14 +417,14 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
+            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pixbuf\0".as_ptr() as *const _,
-                Some(transmute(notify_pixbuf_trampoline::<Self, F> as usize)),
+                Some(*(&notify_pixbuf_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -442,14 +439,14 @@ impl<O: IsA<MarkAttributes>> MarkAttributesExt for O {
             P: IsA<MarkAttributes>,
         {
             let f: &F = &*(f as *const F);
-            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast())
+            f(&MarkAttributes::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::stock-id\0".as_ptr() as *const _,
-                Some(transmute(notify_stock_id_trampoline::<Self, F> as usize)),
+                Some(*(&notify_stock_id_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

@@ -14,7 +14,6 @@ use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use Style;
 
 glib_wrapper! {
@@ -133,14 +132,14 @@ impl<O: IsA<StyleScheme>> StyleSchemeExt for O {
             P: IsA<StyleScheme>,
         {
             let f: &F = &*(f as *const F);
-            f(&StyleScheme::from_glib_borrow(this).unsafe_cast())
+            f(&StyleScheme::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::description\0".as_ptr() as *const _,
-                Some(transmute(notify_description_trampoline::<Self, F> as usize)),
+                Some(*(&notify_description_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -155,14 +154,14 @@ impl<O: IsA<StyleScheme>> StyleSchemeExt for O {
             P: IsA<StyleScheme>,
         {
             let f: &F = &*(f as *const F);
-            f(&StyleScheme::from_glib_borrow(this).unsafe_cast())
+            f(&StyleScheme::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::filename\0".as_ptr() as *const _,
-                Some(transmute(notify_filename_trampoline::<Self, F> as usize)),
+                Some(*(&notify_filename_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -177,14 +176,14 @@ impl<O: IsA<StyleScheme>> StyleSchemeExt for O {
             P: IsA<StyleScheme>,
         {
             let f: &F = &*(f as *const F);
-            f(&StyleScheme::from_glib_borrow(this).unsafe_cast())
+            f(&StyleScheme::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute(notify_name_trampoline::<Self, F> as usize)),
+                Some(*(&notify_name_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

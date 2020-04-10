@@ -34,8 +34,6 @@ use std::fmt;
 #[cfg(any(feature = "v3_22", feature = "dox"))]
 use std::mem;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-use std::mem::transmute;
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use std::pin::Pin;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use std::ptr;
@@ -696,14 +694,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight\0".as_ptr() as *const _,
-                Some(transmute(notify_highlight_trampoline::<Self, F> as usize)),
+                Some(*(&notify_highlight_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -719,14 +717,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::match-style\0".as_ptr() as *const _,
-                Some(transmute(notify_match_style_trampoline::<Self, F> as usize)),
+                Some(*(&notify_match_style_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -745,16 +743,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::occurrences-count\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_occurrences_count_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_occurrences_count_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -770,14 +766,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::regex-error\0".as_ptr() as *const _,
-                Some(transmute(notify_regex_error_trampoline::<Self, F> as usize)),
+                Some(*(&notify_regex_error_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -793,14 +789,14 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::settings\0".as_ptr() as *const _,
-                Some(transmute(notify_settings_trampoline::<Self, F> as usize)),
+                Some(*(&notify_settings_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

@@ -17,7 +17,6 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use GutterRenderer;
 use View;
 
@@ -301,14 +300,14 @@ impl<O: IsA<Gutter>> GutterExt for O {
             P: IsA<Gutter>,
         {
             let f: &F = &*(f as *const F);
-            f(&Gutter::from_glib_borrow(this).unsafe_cast())
+            f(&Gutter::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::xpad\0".as_ptr() as *const _,
-                Some(transmute(notify_xpad_trampoline::<Self, F> as usize)),
+                Some(*(&notify_xpad_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -323,14 +322,14 @@ impl<O: IsA<Gutter>> GutterExt for O {
             P: IsA<Gutter>,
         {
             let f: &F = &*(f as *const F);
-            f(&Gutter::from_glib_borrow(this).unsafe_cast())
+            f(&Gutter::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ypad\0".as_ptr() as *const _,
-                Some(transmute(notify_ypad_trampoline::<Self, F> as usize)),
+                Some(*(&notify_ypad_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

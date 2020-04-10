@@ -26,8 +26,6 @@ use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
-use std::mem::transmute;
-#[cfg(any(feature = "v3_24", feature = "dox"))]
 use SpaceLocationFlags;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use SpaceTypeFlags;
@@ -232,16 +230,14 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
             P: IsA<SpaceDrawer>,
         {
             let f: &F = &*(f as *const F);
-            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
+            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::enable-matrix\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_enable_matrix_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_enable_matrix_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -257,14 +253,14 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
             P: IsA<SpaceDrawer>,
         {
             let f: &F = &*(f as *const F);
-            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
+            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::matrix\0".as_ptr() as *const _,
-                Some(transmute(notify_matrix_trampoline::<Self, F> as usize)),
+                Some(*(&notify_matrix_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

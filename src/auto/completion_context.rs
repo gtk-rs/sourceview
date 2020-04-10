@@ -18,7 +18,6 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use Completion;
 use CompletionActivation;
 use CompletionProposal;
@@ -167,14 +166,14 @@ impl<O: IsA<CompletionContext>> CompletionContextExt for O {
             P: IsA<CompletionContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&CompletionContext::from_glib_borrow(this).unsafe_cast())
+            f(&CompletionContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"cancelled\0".as_ptr() as *const _,
-                Some(transmute(cancelled_trampoline::<Self, F> as usize)),
+                Some(*(&cancelled_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -197,14 +196,14 @@ impl<O: IsA<CompletionContext>> CompletionContextExt for O {
             P: IsA<CompletionContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&CompletionContext::from_glib_borrow(this).unsafe_cast())
+            f(&CompletionContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::activation\0".as_ptr() as *const _,
-                Some(transmute(notify_activation_trampoline::<Self, F> as usize)),
+                Some(*(&notify_activation_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
