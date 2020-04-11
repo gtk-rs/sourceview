@@ -14,7 +14,6 @@ use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use Language;
 
 glib_wrapper! {
@@ -158,16 +157,14 @@ impl<O: IsA<LanguageManager>> LanguageManagerExt for O {
             P: IsA<LanguageManager>,
         {
             let f: &F = &*(f as *const F);
-            f(&LanguageManager::from_glib_borrow(this).unsafe_cast())
+            f(&LanguageManager::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::language-ids\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_language_ids_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_language_ids_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -182,14 +179,14 @@ impl<O: IsA<LanguageManager>> LanguageManagerExt for O {
             P: IsA<LanguageManager>,
         {
             let f: &F = &*(f as *const F);
-            f(&LanguageManager::from_glib_borrow(this).unsafe_cast())
+            f(&LanguageManager::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::search-path\0".as_ptr() as *const _,
-                Some(transmute(notify_search_path_trampoline::<Self, F> as usize)),
+                Some(*(&notify_search_path_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

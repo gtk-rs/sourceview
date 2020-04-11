@@ -19,7 +19,6 @@ use gtk_sys;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use BackgroundPatternType;
 use Buffer;
@@ -592,7 +591,7 @@ impl<O: IsA<View>> ViewExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &View::from_glib_borrow(this).unsafe_cast(),
+                &View::from_glib_borrow(this).unsafe_cast_ref(),
                 from_glib(case_type),
             )
         }
@@ -601,7 +600,7 @@ impl<O: IsA<View>> ViewExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"change-case\0".as_ptr() as *const _,
-                Some(transmute(change_case_trampoline::<Self, F> as usize)),
+                Some(*(&change_case_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -626,14 +625,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast(), count)
+            f(&View::from_glib_borrow(this).unsafe_cast_ref(), count)
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"change-number\0".as_ptr() as *const _,
-                Some(transmute(change_number_trampoline::<Self, F> as usize)),
+                Some(*(&change_number_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -657,14 +656,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"join-lines\0".as_ptr() as *const _,
-                Some(transmute(join_lines_trampoline::<Self, F> as usize)),
+                Some(*(&join_lines_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -696,7 +695,7 @@ impl<O: IsA<View>> ViewExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &View::from_glib_borrow(this).unsafe_cast(),
+                &View::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(iter),
                 &from_glib_none(event),
             )
@@ -706,9 +705,7 @@ impl<O: IsA<View>> ViewExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"line-mark-activated\0".as_ptr() as *const _,
-                Some(transmute(
-                    line_mark_activated_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&line_mark_activated_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -725,7 +722,7 @@ impl<O: IsA<View>> ViewExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &View::from_glib_borrow(this).unsafe_cast(),
+                &View::from_glib_borrow(this).unsafe_cast_ref(),
                 from_glib(copy),
                 count,
             )
@@ -735,7 +732,7 @@ impl<O: IsA<View>> ViewExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"move-lines\0".as_ptr() as *const _,
-                Some(transmute(move_lines_trampoline::<Self, F> as usize)),
+                Some(*(&move_lines_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -763,7 +760,7 @@ impl<O: IsA<View>> ViewExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &View::from_glib_borrow(this).unsafe_cast(),
+                &View::from_glib_borrow(this).unsafe_cast_ref(),
                 from_glib(extend_selection),
             )
         }
@@ -772,9 +769,7 @@ impl<O: IsA<View>> ViewExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"move-to-matching-bracket\0".as_ptr() as *const _,
-                Some(transmute(
-                    move_to_matching_bracket_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&move_to_matching_bracket_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -798,14 +793,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast(), count)
+            f(&View::from_glib_borrow(this).unsafe_cast_ref(), count)
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"move-words\0".as_ptr() as *const _,
-                Some(transmute(move_words_trampoline::<Self, F> as usize)),
+                Some(*(&move_words_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -827,14 +822,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"redo\0".as_ptr() as *const _,
-                Some(transmute(redo_trampoline::<Self, F> as usize)),
+                Some(*(&redo_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -856,14 +851,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"show-completion\0".as_ptr() as *const _,
-                Some(transmute(show_completion_trampoline::<Self, F> as usize)),
+                Some(*(&show_completion_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -894,7 +889,7 @@ impl<O: IsA<View>> ViewExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &View::from_glib_borrow(this).unsafe_cast(),
+                &View::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(iter),
                 count,
             )
@@ -904,7 +899,7 @@ impl<O: IsA<View>> ViewExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"smart-home-end\0".as_ptr() as *const _,
-                Some(transmute(smart_home_end_trampoline::<Self, F> as usize)),
+                Some(*(&smart_home_end_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -918,14 +913,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"undo\0".as_ptr() as *const _,
-                Some(transmute(undo_trampoline::<Self, F> as usize)),
+                Some(*(&undo_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -948,14 +943,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auto-indent\0".as_ptr() as *const _,
-                Some(transmute(notify_auto_indent_trampoline::<Self, F> as usize)),
+                Some(*(&notify_auto_indent_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -974,16 +969,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::background-pattern\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_background_pattern_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_background_pattern_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -998,14 +991,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::completion\0".as_ptr() as *const _,
-                Some(transmute(notify_completion_trampoline::<Self, F> as usize)),
+                Some(*(&notify_completion_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1020,14 +1013,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::draw-spaces\0".as_ptr() as *const _,
-                Some(transmute(notify_draw_spaces_trampoline::<Self, F> as usize)),
+                Some(*(&notify_draw_spaces_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1045,16 +1038,16 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-current-line\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_highlight_current_line_trampoline::<Self, F> as usize,
-                )),
+                Some(
+                    *(&notify_highlight_current_line_trampoline::<Self, F> as *const _ as *const _),
+                ),
                 Box_::into_raw(f),
             )
         }
@@ -1072,16 +1065,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::indent-on-tab\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_indent_on_tab_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_indent_on_tab_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1099,16 +1090,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::indent-width\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_indent_width_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_indent_width_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1129,16 +1118,17 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::insert-spaces-instead-of-tabs\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_insert_spaces_instead_of_tabs_trampoline::<Self, F> as usize,
-                )),
+                Some(
+                    *(&notify_insert_spaces_instead_of_tabs_trampoline::<Self, F> as *const _
+                        as *const _),
+                ),
                 Box_::into_raw(f),
             )
         }
@@ -1156,16 +1146,16 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::right-margin-position\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_right_margin_position_trampoline::<Self, F> as usize,
-                )),
+                Some(
+                    *(&notify_right_margin_position_trampoline::<Self, F> as *const _ as *const _),
+                ),
                 Box_::into_raw(f),
             )
         }
@@ -1183,16 +1173,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::show-line-marks\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_show_line_marks_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_show_line_marks_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1210,16 +1198,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::show-line-numbers\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_show_line_numbers_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_show_line_numbers_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1237,16 +1223,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::show-right-margin\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_show_right_margin_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_show_right_margin_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1265,16 +1249,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::smart-backspace\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_smart_backspace_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_smart_backspace_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1292,16 +1274,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::smart-home-end\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_smart_home_end_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_smart_home_end_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1320,16 +1300,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::space-drawer\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_space_drawer_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_space_drawer_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1344,14 +1322,14 @@ impl<O: IsA<View>> ViewExt for O {
             P: IsA<View>,
         {
             let f: &F = &*(f as *const F);
-            f(&View::from_glib_borrow(this).unsafe_cast())
+            f(&View::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tab-width\0".as_ptr() as *const _,
-                Some(transmute(notify_tab_width_trampoline::<Self, F> as usize)),
+                Some(*(&notify_tab_width_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

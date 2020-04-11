@@ -17,8 +17,6 @@ use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-use std::mem::transmute;
-#[cfg(any(feature = "v3_16", feature = "dox"))]
 use StyleScheme;
 
 glib_wrapper! {
@@ -78,16 +76,14 @@ impl<O: IsA<StyleSchemeChooser>> StyleSchemeChooserExt for O {
             P: IsA<StyleSchemeChooser>,
         {
             let f: &F = &*(f as *const F);
-            f(&StyleSchemeChooser::from_glib_borrow(this).unsafe_cast())
+            f(&StyleSchemeChooser::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::style-scheme\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_style_scheme_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_style_scheme_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

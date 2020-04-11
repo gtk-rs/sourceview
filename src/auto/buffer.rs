@@ -18,7 +18,6 @@ use gtk_source_sys;
 use gtk_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 #[cfg(any(feature = "v3_12", feature = "dox"))]
 use ChangeCaseType;
 use Language;
@@ -757,7 +756,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Buffer::from_glib_borrow(this).unsafe_cast(),
+                &Buffer::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(start),
                 &from_glib_borrow(end),
             )
@@ -767,7 +766,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"highlight-updated\0".as_ptr() as *const _,
-                Some(transmute(highlight_updated_trampoline::<Self, F> as usize)),
+                Some(*(&highlight_updated_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -781,14 +780,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"redo\0".as_ptr() as *const _,
-                Some(transmute(redo_trampoline::<Self, F> as usize)),
+                Some(*(&redo_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -810,7 +809,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Buffer::from_glib_borrow(this).unsafe_cast(),
+                &Buffer::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(mark),
             )
         }
@@ -819,9 +818,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"source-mark-updated\0".as_ptr() as *const _,
-                Some(transmute(
-                    source_mark_updated_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&source_mark_updated_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -835,14 +832,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"undo\0".as_ptr() as *const _,
-                Some(transmute(undo_trampoline::<Self, F> as usize)),
+                Some(*(&undo_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -857,14 +854,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-redo\0".as_ptr() as *const _,
-                Some(transmute(notify_can_redo_trampoline::<Self, F> as usize)),
+                Some(*(&notify_can_redo_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -879,14 +876,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-undo\0".as_ptr() as *const _,
-                Some(transmute(notify_can_undo_trampoline::<Self, F> as usize)),
+                Some(*(&notify_can_undo_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -904,16 +901,17 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-matching-brackets\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_highlight_matching_brackets_trampoline::<Self, F> as usize,
-                )),
+                Some(
+                    *(&notify_highlight_matching_brackets_trampoline::<Self, F> as *const _
+                        as *const _),
+                ),
                 Box_::into_raw(f),
             )
         }
@@ -931,16 +929,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-syntax\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_highlight_syntax_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_highlight_syntax_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -959,16 +955,17 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::implicit-trailing-newline\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_implicit_trailing_newline_trampoline::<Self, F> as usize,
-                )),
+                Some(
+                    *(&notify_implicit_trailing_newline_trampoline::<Self, F> as *const _
+                        as *const _),
+                ),
                 Box_::into_raw(f),
             )
         }
@@ -983,14 +980,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::language\0".as_ptr() as *const _,
-                Some(transmute(notify_language_trampoline::<Self, F> as usize)),
+                Some(*(&notify_language_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1008,16 +1005,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::max-undo-levels\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_max_undo_levels_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_max_undo_levels_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1035,16 +1030,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::style-scheme\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_style_scheme_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_style_scheme_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -1062,16 +1055,14 @@ impl<O: IsA<Buffer>> BufferExt for O {
             P: IsA<Buffer>,
         {
             let f: &F = &*(f as *const F);
-            f(&Buffer::from_glib_borrow(this).unsafe_cast())
+            f(&Buffer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::undo-manager\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_undo_manager_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_undo_manager_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

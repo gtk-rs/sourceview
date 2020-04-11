@@ -20,7 +20,6 @@ use gtk_sys;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use std::ptr;
 use CompletionContext;
 use CompletionInfo;
@@ -569,14 +568,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"activate-proposal\0".as_ptr() as *const _,
-                Some(transmute(activate_proposal_trampoline::<Self, F> as usize)),
+                Some(*(&activate_proposal_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -598,14 +597,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"hide\0".as_ptr() as *const _,
-                Some(transmute(hide_trampoline::<Self, F> as usize)),
+                Some(*(&hide_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -633,7 +632,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Completion::from_glib_borrow(this).unsafe_cast(),
+                &Completion::from_glib_borrow(this).unsafe_cast_ref(),
                 from_glib(step),
                 num,
             )
@@ -643,7 +642,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"move-cursor\0".as_ptr() as *const _,
-                Some(transmute(move_cursor_trampoline::<Self, F> as usize)),
+                Some(*(&move_cursor_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -671,7 +670,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Completion::from_glib_borrow(this).unsafe_cast(),
+                &Completion::from_glib_borrow(this).unsafe_cast_ref(),
                 from_glib(step),
                 num,
             )
@@ -681,7 +680,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"move-page\0".as_ptr() as *const _,
-                Some(transmute(move_page_trampoline::<Self, F> as usize)),
+                Some(*(&move_page_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -711,7 +710,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Completion::from_glib_borrow(this).unsafe_cast(),
+                &Completion::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(context),
             )
         }
@@ -720,7 +719,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"populate-context\0".as_ptr() as *const _,
-                Some(transmute(populate_context_trampoline::<Self, F> as usize)),
+                Some(*(&populate_context_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -742,14 +741,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"show\0".as_ptr() as *const _,
-                Some(transmute(show_trampoline::<Self, F> as usize)),
+                Some(*(&show_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -775,16 +774,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::accelerators\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_accelerators_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_accelerators_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -802,16 +799,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auto-complete-delay\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_auto_complete_delay_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_auto_complete_delay_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -829,16 +824,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::proposal-page-size\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_proposal_page_size_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_proposal_page_size_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -856,16 +849,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::provider-page-size\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_provider_page_size_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_provider_page_size_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -883,16 +874,17 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::remember-info-visibility\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_remember_info_visibility_trampoline::<Self, F> as usize,
-                )),
+                Some(
+                    *(&notify_remember_info_visibility_trampoline::<Self, F> as *const _
+                        as *const _),
+                ),
                 Box_::into_raw(f),
             )
         }
@@ -910,16 +902,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::select-on-show\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_select_on_show_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_select_on_show_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -937,16 +927,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::show-headers\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_show_headers_trampoline::<Self, F> as usize,
-                )),
+                Some(*(&notify_show_headers_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -961,14 +949,14 @@ impl<O: IsA<Completion>> CompletionExt for O {
             P: IsA<Completion>,
         {
             let f: &F = &*(f as *const F);
-            f(&Completion::from_glib_borrow(this).unsafe_cast())
+            f(&Completion::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::show-icons\0".as_ptr() as *const _,
-                Some(transmute(notify_show_icons_trampoline::<Self, F> as usize)),
+                Some(*(&notify_show_icons_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

@@ -17,7 +17,6 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 use BackgroundPatternType;
 use DrawSpacesFlags;
@@ -821,14 +820,14 @@ impl<O: IsA<Map>> MapExt for O {
             P: IsA<Map>,
         {
             let f: &F = &*(f as *const F);
-            f(&Map::from_glib_borrow(this).unsafe_cast())
+            f(&Map::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::view\0".as_ptr() as *const _,
-                Some(transmute(notify_view_trampoline::<Self, F> as usize)),
+                Some(*(&notify_view_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

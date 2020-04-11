@@ -14,7 +14,6 @@ use gobject_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 
 glib_wrapper! {
     pub struct UndoManager(Interface<gtk_source_sys::GtkSourceUndoManager>);
@@ -121,14 +120,14 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
             P: IsA<UndoManager>,
         {
             let f: &F = &*(f as *const F);
-            f(&UndoManager::from_glib_borrow(this).unsafe_cast())
+            f(&UndoManager::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"can-redo-changed\0".as_ptr() as *const _,
-                Some(transmute(can_redo_changed_trampoline::<Self, F> as usize)),
+                Some(*(&can_redo_changed_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -150,14 +149,14 @@ impl<O: IsA<UndoManager>> UndoManagerExt for O {
             P: IsA<UndoManager>,
         {
             let f: &F = &*(f as *const F);
-            f(&UndoManager::from_glib_borrow(this).unsafe_cast())
+            f(&UndoManager::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"can-undo-changed\0".as_ptr() as *const _,
-                Some(transmute(can_undo_changed_trampoline::<Self, F> as usize)),
+                Some(*(&can_undo_changed_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

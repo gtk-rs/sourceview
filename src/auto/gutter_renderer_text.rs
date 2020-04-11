@@ -18,7 +18,6 @@ use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
-use std::mem::transmute;
 use GutterRenderer;
 use GutterRendererAlignmentMode;
 
@@ -275,14 +274,14 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
             P: IsA<GutterRendererText>,
         {
             let f: &F = &*(f as *const F);
-            f(&GutterRendererText::from_glib_borrow(this).unsafe_cast())
+            f(&GutterRendererText::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::markup\0".as_ptr() as *const _,
-                Some(transmute(notify_markup_trampoline::<Self, F> as usize)),
+                Some(*(&notify_markup_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }
@@ -297,14 +296,14 @@ impl<O: IsA<GutterRendererText>> GutterRendererTextExt for O {
             P: IsA<GutterRendererText>,
         {
             let f: &F = &*(f as *const F);
-            f(&GutterRendererText::from_glib_borrow(this).unsafe_cast())
+            f(&GutterRendererText::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::text\0".as_ptr() as *const _,
-                Some(transmute(notify_text_trampoline::<Self, F> as usize)),
+                Some(*(&notify_text_trampoline::<Self, F> as *const _ as *const _)),
                 Box_::into_raw(f),
             )
         }

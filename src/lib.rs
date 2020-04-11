@@ -2,7 +2,6 @@
 // See the COPYRIGHT file at the top-level directory of this distribution.
 // Licensed under the MIT license, see the LICENSE file or <http://opensource.org/licenses/MIT>
 
-#![cfg_attr(feature = "cargo-clippy", allow(transmute_ptr_to_ref))]
 #![cfg_attr(feature = "cargo-clippy", allow(type_complexity))]
 
 #[macro_use]
