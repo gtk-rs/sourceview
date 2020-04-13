@@ -12,6 +12,7 @@ use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 
 glib_wrapper! {
     pub struct Language(Object<gtk_source_sys::GtkSourceLanguage, gtk_source_sys::GtkSourceLanguageClass, LanguageClass>);
@@ -155,7 +156,9 @@ impl<O: IsA<Language>> LanguageExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hidden\0".as_ptr() as *const _,
-                Some(*(&notify_hidden_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hidden_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -177,7 +180,9 @@ impl<O: IsA<Language>> LanguageExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(*(&notify_id_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -199,7 +204,9 @@ impl<O: IsA<Language>> LanguageExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(*(&notify_name_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -221,7 +228,9 @@ impl<O: IsA<Language>> LanguageExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::section\0".as_ptr() as *const _,
-                Some(*(&notify_section_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_section_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

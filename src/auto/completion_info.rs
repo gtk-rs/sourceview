@@ -15,6 +15,7 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 
 glib_wrapper! {
     pub struct CompletionInfo(Object<gtk_source_sys::GtkSourceCompletionInfo, gtk_source_sys::GtkSourceCompletionInfoClass, CompletionInfoClass>) @extends gtk::Window, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable;
@@ -86,7 +87,9 @@ impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"before-show\0".as_ptr() as *const _,
-                Some(*(&before_show_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    before_show_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

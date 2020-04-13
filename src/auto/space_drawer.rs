@@ -26,6 +26,8 @@ use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
+use std::mem::transmute;
+#[cfg(any(feature = "v3_24", feature = "dox"))]
 use SpaceLocationFlags;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use SpaceTypeFlags;
@@ -237,7 +239,9 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::enable-matrix\0".as_ptr() as *const _,
-                Some(*(&notify_enable_matrix_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_enable_matrix_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -260,7 +264,9 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::matrix\0".as_ptr() as *const _,
-                Some(*(&notify_matrix_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_matrix_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -24,6 +24,8 @@ use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
+use std::mem::transmute;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
 use Buffer;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use CompressionType;
@@ -400,7 +402,9 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::compression-type\0".as_ptr() as *const _,
-                Some(*(&notify_compression_type_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_compression_type_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -423,7 +427,9 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encoding\0".as_ptr() as *const _,
-                Some(*(&notify_encoding_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encoding_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -446,7 +452,9 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(*(&notify_flags_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -472,7 +480,9 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::newline-type\0".as_ptr() as *const _,
-                Some(*(&notify_newline_type_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_newline_type_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

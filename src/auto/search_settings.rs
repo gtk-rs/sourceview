@@ -23,6 +23,8 @@ use gtk_source_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v3_10", feature = "dox"))]
+use std::mem::transmute;
 
 glib_wrapper! {
     pub struct SearchSettings(Object<gtk_source_sys::GtkSourceSearchSettings, gtk_source_sys::GtkSourceSearchSettingsClass, SearchSettingsClass>);
@@ -315,7 +317,9 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::at-word-boundaries\0".as_ptr() as *const _,
-                Some(*(&notify_at_word_boundaries_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_at_word_boundaries_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -341,7 +345,9 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::case-sensitive\0".as_ptr() as *const _,
-                Some(*(&notify_case_sensitive_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_case_sensitive_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -367,7 +373,9 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::regex-enabled\0".as_ptr() as *const _,
-                Some(*(&notify_regex_enabled_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_regex_enabled_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -390,7 +398,9 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::search-text\0".as_ptr() as *const _,
-                Some(*(&notify_search_text_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_search_text_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -413,7 +423,9 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wrap-around\0".as_ptr() as *const _,
-                Some(*(&notify_wrap_around_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wrap_around_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

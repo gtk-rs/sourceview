@@ -17,6 +17,7 @@ use glib_sys;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 use GutterRenderer;
 use GutterRendererAlignmentMode;
 
@@ -301,7 +302,9 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::gicon\0".as_ptr() as *const _,
-                Some(*(&notify_gicon_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_gicon_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -323,7 +326,9 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon-name\0".as_ptr() as *const _,
-                Some(*(&notify_icon_name_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_icon_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -345,7 +350,9 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pixbuf\0".as_ptr() as *const _,
-                Some(*(&notify_pixbuf_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pixbuf_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -367,7 +374,9 @@ impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::stock-id\0".as_ptr() as *const _,
-                Some(*(&notify_stock_id_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_stock_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
