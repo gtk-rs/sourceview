@@ -17,6 +17,7 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use CompletionActivation;
 use CompletionProvider;
@@ -358,7 +359,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::activation\0".as_ptr() as *const _,
-                Some(*(&notify_activation_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_activation_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -380,7 +383,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon\0".as_ptr() as *const _,
-                Some(*(&notify_icon_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_icon_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -405,7 +410,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interactive-delay\0".as_ptr() as *const _,
-                Some(*(&notify_interactive_delay_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_interactive_delay_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -430,7 +437,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::minimum-word-size\0".as_ptr() as *const _,
-                Some(*(&notify_minimum_word_size_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_minimum_word_size_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -452,7 +461,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(*(&notify_name_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -474,7 +485,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority\0".as_ptr() as *const _,
-                Some(*(&notify_priority_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -499,7 +512,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::proposals-batch-size\0".as_ptr() as *const _,
-                Some(*(&notify_proposals_batch_size_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_proposals_batch_size_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -524,7 +539,9 @@ impl<O: IsA<CompletionWords>> CompletionWordsExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::scan-batch-size\0".as_ptr() as *const _,
-                Some(*(&notify_scan_batch_size_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_scan_batch_size_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

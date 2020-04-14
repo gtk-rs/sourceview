@@ -22,6 +22,7 @@ use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
+use std::mem::transmute;
 use GutterRendererAlignmentMode;
 use GutterRendererState;
 
@@ -739,7 +740,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"activate\0".as_ptr() as *const _,
-                Some(*(&activate_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    activate_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -778,7 +781,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"query-activatable\0".as_ptr() as *const _,
-                Some(*(&query_activatable_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    query_activatable_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -815,7 +820,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"query-data\0".as_ptr() as *const _,
-                Some(*(&query_data_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    query_data_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -858,7 +865,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"query-tooltip\0".as_ptr() as *const _,
-                Some(*(&query_tooltip_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    query_tooltip_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -879,7 +888,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"queue-draw\0".as_ptr() as *const _,
-                Some(*(&queue_draw_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    queue_draw_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -904,7 +915,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::alignment-mode\0".as_ptr() as *const _,
-                Some(*(&notify_alignment_mode_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_alignment_mode_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -929,7 +942,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::background-rgba\0".as_ptr() as *const _,
-                Some(*(&notify_background_rgba_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_background_rgba_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -954,7 +969,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::background-set\0".as_ptr() as *const _,
-                Some(*(&notify_background_set_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_background_set_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -976,7 +993,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::size\0".as_ptr() as *const _,
-                Some(*(&notify_size_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_size_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -998,7 +1017,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::view\0".as_ptr() as *const _,
-                Some(*(&notify_view_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_view_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1020,7 +1041,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::visible\0".as_ptr() as *const _,
-                Some(*(&notify_visible_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_visible_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1042,7 +1065,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::window-type\0".as_ptr() as *const _,
-                Some(*(&notify_window_type_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_window_type_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1064,7 +1089,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::xalign\0".as_ptr() as *const _,
-                Some(*(&notify_xalign_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_xalign_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1086,7 +1113,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::xpad\0".as_ptr() as *const _,
-                Some(*(&notify_xpad_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_xpad_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1108,7 +1137,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::yalign\0".as_ptr() as *const _,
-                Some(*(&notify_yalign_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_yalign_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1130,7 +1161,9 @@ impl<O: IsA<GutterRenderer>> GutterRendererExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ypad\0".as_ptr() as *const _,
-                Some(*(&notify_ypad_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ypad_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

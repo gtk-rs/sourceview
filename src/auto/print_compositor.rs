@@ -15,6 +15,7 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 use Buffer;
 use View;
 
@@ -648,7 +649,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::body-font-name\0".as_ptr() as *const _,
-                Some(*(&notify_body_font_name_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_body_font_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -673,7 +676,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::footer-font-name\0".as_ptr() as *const _,
-                Some(*(&notify_footer_font_name_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_footer_font_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -698,7 +703,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::header-font-name\0".as_ptr() as *const _,
-                Some(*(&notify_header_font_name_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_header_font_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -723,7 +730,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-syntax\0".as_ptr() as *const _,
-                Some(*(&notify_highlight_syntax_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_highlight_syntax_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -748,9 +757,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::line-numbers-font-name\0".as_ptr() as *const _,
-                Some(
-                    *(&notify_line_numbers_font_name_trampoline::<Self, F> as *const _ as *const _),
-                ),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_line_numbers_font_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -772,7 +781,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::n-pages\0".as_ptr() as *const _,
-                Some(*(&notify_n_pages_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_n_pages_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -797,7 +808,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::print-footer\0".as_ptr() as *const _,
-                Some(*(&notify_print_footer_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_print_footer_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -822,7 +835,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::print-header\0".as_ptr() as *const _,
-                Some(*(&notify_print_header_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_print_header_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -847,7 +862,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::print-line-numbers\0".as_ptr() as *const _,
-                Some(*(&notify_print_line_numbers_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_print_line_numbers_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -869,7 +886,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tab-width\0".as_ptr() as *const _,
-                Some(*(&notify_tab_width_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tab_width_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -891,7 +910,9 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wrap-mode\0".as_ptr() as *const _,
-                Some(*(&notify_wrap_mode_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wrap_mode_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

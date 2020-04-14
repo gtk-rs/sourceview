@@ -18,6 +18,7 @@ use gtk;
 use gtk_source_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 use Completion;
 use CompletionActivation;
 use CompletionProposal;
@@ -173,7 +174,9 @@ impl<O: IsA<CompletionContext>> CompletionContextExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"cancelled\0".as_ptr() as *const _,
-                Some(*(&cancelled_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    cancelled_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -203,7 +206,9 @@ impl<O: IsA<CompletionContext>> CompletionContextExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::activation\0".as_ptr() as *const _,
-                Some(*(&notify_activation_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_activation_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

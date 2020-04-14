@@ -18,6 +18,7 @@ use gtk_source_sys;
 use gtk_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 #[cfg(any(feature = "v3_12", feature = "dox"))]
 use ChangeCaseType;
 use Language;
@@ -766,7 +767,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"highlight-updated\0".as_ptr() as *const _,
-                Some(*(&highlight_updated_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    highlight_updated_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -787,7 +790,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"redo\0".as_ptr() as *const _,
-                Some(*(&redo_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    redo_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -818,7 +823,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"source-mark-updated\0".as_ptr() as *const _,
-                Some(*(&source_mark_updated_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    source_mark_updated_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -839,7 +846,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"undo\0".as_ptr() as *const _,
-                Some(*(&undo_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    undo_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -861,7 +870,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-redo\0".as_ptr() as *const _,
-                Some(*(&notify_can_redo_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_can_redo_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -883,7 +894,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-undo\0".as_ptr() as *const _,
-                Some(*(&notify_can_undo_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_can_undo_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -908,10 +921,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-matching-brackets\0".as_ptr() as *const _,
-                Some(
-                    *(&notify_highlight_matching_brackets_trampoline::<Self, F> as *const _
-                        as *const _),
-                ),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_highlight_matching_brackets_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -936,7 +948,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-syntax\0".as_ptr() as *const _,
-                Some(*(&notify_highlight_syntax_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_highlight_syntax_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -962,10 +976,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::implicit-trailing-newline\0".as_ptr() as *const _,
-                Some(
-                    *(&notify_implicit_trailing_newline_trampoline::<Self, F> as *const _
-                        as *const _),
-                ),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_implicit_trailing_newline_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -987,7 +1000,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::language\0".as_ptr() as *const _,
-                Some(*(&notify_language_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_language_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1012,7 +1027,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::max-undo-levels\0".as_ptr() as *const _,
-                Some(*(&notify_max_undo_levels_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_max_undo_levels_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1037,7 +1054,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::style-scheme\0".as_ptr() as *const _,
-                Some(*(&notify_style_scheme_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_style_scheme_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1062,7 +1081,9 @@ impl<O: IsA<Buffer>> BufferExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::undo-manager\0".as_ptr() as *const _,
-                Some(*(&notify_undo_manager_trampoline::<Self, F> as *const _ as *const _)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_undo_manager_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
