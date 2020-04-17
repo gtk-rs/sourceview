@@ -47,9 +47,6 @@ features = ["dox", "embed-lgpl-docs"]
 libc = "0.2"
 bitflags = "1.0"
 
-[dependencies.fragile]
-version = "0.3"
-
 [dependencies.gtk-source-sys]
 path = "./sourceview-sys"
 

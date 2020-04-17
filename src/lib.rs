@@ -23,8 +23,6 @@ extern crate libc;
 #[macro_use]
 extern crate bitflags;
 
-extern crate fragile;
-
 pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
