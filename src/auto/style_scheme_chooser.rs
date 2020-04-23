@@ -22,80 +22,85 @@ use std::mem::transmute;
 use StyleScheme;
 
 glib_wrapper! {
-    pub struct StyleSchemeChooser(Interface<gtk_source_sys::GtkSourceStyleSchemeChooser>);
+	pub struct StyleSchemeChooser(Interface<gtk_source_sys::GtkSourceStyleSchemeChooser>);
 
-    match fn {
-        get_type => || gtk_source_sys::gtk_source_style_scheme_chooser_get_type(),
-    }
+	match fn {
+		get_type => || gtk_source_sys::gtk_source_style_scheme_chooser_get_type(),
+	}
 }
 
 pub const NONE_STYLE_SCHEME_CHOOSER: Option<&StyleSchemeChooser> = None;
 
-pub trait StyleSchemeChooserExt: 'static {
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn get_style_scheme(&self) -> Option<StyleScheme>;
+pub trait StyleSchemeChooserExt: 'static
+{
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	fn get_style_scheme(&self) -> Option<StyleScheme>;
 
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: &P);
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: &P);
 
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(&self, f: F)
-        -> SignalHandlerId;
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(&self, f: F)
+		-> SignalHandlerId;
 }
 
-impl<O: IsA<StyleSchemeChooser>> StyleSchemeChooserExt for O {
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn get_style_scheme(&self) -> Option<StyleScheme> {
-        unsafe {
-            from_glib_none(
-                gtk_source_sys::gtk_source_style_scheme_chooser_get_style_scheme(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+impl<O: IsA<StyleSchemeChooser>> StyleSchemeChooserExt for O
+{
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	fn get_style_scheme(&self) -> Option<StyleScheme>
+	{
+		unsafe {
+			from_glib_none(
+				gtk_source_sys::gtk_source_style_scheme_chooser_get_style_scheme(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: &P) {
-        unsafe {
-            gtk_source_sys::gtk_source_style_scheme_chooser_set_style_scheme(
-                self.as_ref().to_glib_none().0,
-                scheme.as_ref().to_glib_none().0,
-            );
-        }
-    }
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	fn set_style_scheme<P: IsA<StyleScheme>>(&self, scheme: &P)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_style_scheme_chooser_set_style_scheme(
+				self.as_ref().to_glib_none().0,
+				scheme.as_ref().to_glib_none().0,
+			);
+		}
+	}
 
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe extern "C" fn notify_style_scheme_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceStyleSchemeChooser,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<StyleSchemeChooser>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&StyleSchemeChooser::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::style-scheme\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_style_scheme_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	fn connect_property_style_scheme_notify<F: Fn(&Self) + 'static>(&self, f: F)
+		-> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_style_scheme_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceStyleSchemeChooser,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<StyleSchemeChooser>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&StyleSchemeChooser::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::style-scheme\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_style_scheme_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 }
 
-impl fmt::Display for StyleSchemeChooser {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "StyleSchemeChooser")
-    }
+impl fmt::Display for StyleSchemeChooser
+{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
+	{
+		write!(f, "StyleSchemeChooser")
+	}
 }

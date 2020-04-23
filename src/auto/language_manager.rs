@@ -18,188 +18,205 @@ use std::mem::transmute;
 use Language;
 
 glib_wrapper! {
-    pub struct LanguageManager(Object<gtk_source_sys::GtkSourceLanguageManager, gtk_source_sys::GtkSourceLanguageManagerClass, LanguageManagerClass>);
+	pub struct LanguageManager(Object<gtk_source_sys::GtkSourceLanguageManager, gtk_source_sys::GtkSourceLanguageManagerClass, LanguageManagerClass>);
 
-    match fn {
-        get_type => || gtk_source_sys::gtk_source_language_manager_get_type(),
-    }
+	match fn {
+		get_type => || gtk_source_sys::gtk_source_language_manager_get_type(),
+	}
 }
 
-impl LanguageManager {
-    pub fn new() -> LanguageManager {
-        assert_initialized_main_thread!();
-        unsafe { from_glib_full(gtk_source_sys::gtk_source_language_manager_new()) }
-    }
+impl LanguageManager
+{
+	pub fn new() -> LanguageManager
+	{
+		assert_initialized_main_thread!();
+		unsafe { from_glib_full(gtk_source_sys::gtk_source_language_manager_new()) }
+	}
 
-    pub fn get_default() -> Option<LanguageManager> {
-        assert_initialized_main_thread!();
-        unsafe { from_glib_none(gtk_source_sys::gtk_source_language_manager_get_default()) }
-    }
+	pub fn get_default() -> Option<LanguageManager>
+	{
+		assert_initialized_main_thread!();
+		unsafe { from_glib_none(gtk_source_sys::gtk_source_language_manager_get_default()) }
+	}
 }
 
-impl Default for LanguageManager {
-    fn default() -> Self {
-        Self::new()
-    }
+impl Default for LanguageManager
+{
+	fn default() -> Self
+	{
+		Self::new()
+	}
 }
 
 #[derive(Clone, Default)]
-pub struct LanguageManagerBuilder {
-    search_path: Option<Vec<String>>,
+pub struct LanguageManagerBuilder
+{
+	search_path: Option<Vec<String>>,
 }
 
-impl LanguageManagerBuilder {
-    pub fn new() -> Self {
-        Self::default()
-    }
+impl LanguageManagerBuilder
+{
+	pub fn new() -> Self
+	{
+		Self::default()
+	}
 
-    pub fn build(self) -> LanguageManager {
-        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref search_path) = self.search_path {
-            properties.push(("search-path", search_path));
-        }
-        glib::Object::new(LanguageManager::static_type(), &properties)
-            .expect("object new")
-            .downcast()
-            .expect("downcast")
-    }
+	pub fn build(self) -> LanguageManager
+	{
+		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+		if let Some(ref search_path) = self.search_path
+		{
+			properties.push(("search-path", search_path));
+		}
+		glib::Object::new(LanguageManager::static_type(), &properties)
+			.expect("object new")
+			.downcast()
+			.expect("downcast")
+	}
 
-    pub fn search_path(mut self, search_path: Vec<String>) -> Self {
-        self.search_path = Some(search_path);
-        self
-    }
+	pub fn search_path(mut self, search_path: Vec<String>) -> Self
+	{
+		self.search_path = Some(search_path);
+		self
+	}
 }
 
 pub const NONE_LANGUAGE_MANAGER: Option<&LanguageManager> = None;
 
-pub trait LanguageManagerExt: 'static {
-    fn get_language(&self, id: &str) -> Option<Language>;
+pub trait LanguageManagerExt: 'static
+{
+	fn get_language(&self, id: &str) -> Option<Language>;
 
-    fn get_language_ids(&self) -> Vec<GString>;
+	fn get_language_ids(&self) -> Vec<GString>;
 
-    fn get_search_path(&self) -> Vec<GString>;
+	fn get_search_path(&self) -> Vec<GString>;
 
-    fn guess_language(
-        &self,
-        filename: Option<&str>,
-        content_type: Option<&str>,
-    ) -> Option<Language>;
+	fn guess_language(
+		&self,
+		filename: Option<&str>,
+		content_type: Option<&str>,
+	) -> Option<Language>;
 
-    fn set_search_path(&self, dirs: &[&str]);
+	fn set_search_path(&self, dirs: &[&str]);
 
-    fn connect_property_language_ids_notify<F: Fn(&Self) + 'static>(&self, f: F)
-        -> SignalHandlerId;
+	fn connect_property_language_ids_notify<F: Fn(&Self) + 'static>(&self, f: F)
+		-> SignalHandlerId;
 
-    fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<LanguageManager>> LanguageManagerExt for O {
-    fn get_language(&self, id: &str) -> Option<Language> {
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_language_manager_get_language(
-                self.as_ref().to_glib_none().0,
-                id.to_glib_none().0,
-            ))
-        }
-    }
+impl<O: IsA<LanguageManager>> LanguageManagerExt for O
+{
+	fn get_language(&self, id: &str) -> Option<Language>
+	{
+		unsafe {
+			from_glib_none(gtk_source_sys::gtk_source_language_manager_get_language(
+				self.as_ref().to_glib_none().0,
+				id.to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_language_ids(&self) -> Vec<GString> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_none(
-                gtk_source_sys::gtk_source_language_manager_get_language_ids(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	fn get_language_ids(&self) -> Vec<GString>
+	{
+		unsafe {
+			FromGlibPtrContainer::from_glib_none(
+				gtk_source_sys::gtk_source_language_manager_get_language_ids(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    fn get_search_path(&self) -> Vec<GString> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_none(
-                gtk_source_sys::gtk_source_language_manager_get_search_path(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	fn get_search_path(&self) -> Vec<GString>
+	{
+		unsafe {
+			FromGlibPtrContainer::from_glib_none(
+				gtk_source_sys::gtk_source_language_manager_get_search_path(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    fn guess_language(
-        &self,
-        filename: Option<&str>,
-        content_type: Option<&str>,
-    ) -> Option<Language> {
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_language_manager_guess_language(
-                self.as_ref().to_glib_none().0,
-                filename.to_glib_none().0,
-                content_type.to_glib_none().0,
-            ))
-        }
-    }
+	fn guess_language(&self, filename: Option<&str>, content_type: Option<&str>)
+		-> Option<Language>
+	{
+		unsafe {
+			from_glib_none(gtk_source_sys::gtk_source_language_manager_guess_language(
+				self.as_ref().to_glib_none().0,
+				filename.to_glib_none().0,
+				content_type.to_glib_none().0,
+			))
+		}
+	}
 
-    fn set_search_path(&self, dirs: &[&str]) {
-        unsafe {
-            gtk_source_sys::gtk_source_language_manager_set_search_path(
-                self.as_ref().to_glib_none().0,
-                dirs.to_glib_none().0,
-            );
-        }
-    }
+	fn set_search_path(&self, dirs: &[&str])
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_language_manager_set_search_path(
+				self.as_ref().to_glib_none().0,
+				dirs.to_glib_none().0,
+			);
+		}
+	}
 
-    fn connect_property_language_ids_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe extern "C" fn notify_language_ids_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceLanguageManager,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<LanguageManager>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&LanguageManager::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::language-ids\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_language_ids_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	fn connect_property_language_ids_notify<F: Fn(&Self) + 'static>(&self, f: F)
+		-> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_language_ids_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceLanguageManager,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<LanguageManager>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&LanguageManager::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::language-ids\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_language_ids_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceLanguageManager,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<LanguageManager>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&LanguageManager::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::search-path\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_search_path_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceLanguageManager,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<LanguageManager>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&LanguageManager::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::search-path\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_search_path_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 }
 
-impl fmt::Display for LanguageManager {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "LanguageManager")
-    }
+impl fmt::Display for LanguageManager
+{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
+	{
+		write!(f, "LanguageManager")
+	}
 }

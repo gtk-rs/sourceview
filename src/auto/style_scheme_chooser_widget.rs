@@ -11,34 +11,40 @@ use std::fmt;
 use StyleSchemeChooser;
 
 glib_wrapper! {
-    pub struct StyleSchemeChooserWidget(Object<gtk_source_sys::GtkSourceStyleSchemeChooserWidget, gtk_source_sys::GtkSourceStyleSchemeChooserWidgetClass, StyleSchemeChooserWidgetClass>) @extends gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, StyleSchemeChooser;
+	pub struct StyleSchemeChooserWidget(Object<gtk_source_sys::GtkSourceStyleSchemeChooserWidget, gtk_source_sys::GtkSourceStyleSchemeChooserWidgetClass, StyleSchemeChooserWidgetClass>) @extends gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, StyleSchemeChooser;
 
-    match fn {
-        get_type => || gtk_source_sys::gtk_source_style_scheme_chooser_widget_get_type(),
-    }
+	match fn {
+		get_type => || gtk_source_sys::gtk_source_style_scheme_chooser_widget_get_type(),
+	}
 }
 
-impl StyleSchemeChooserWidget {
-    #[cfg(any(feature = "v3_16", feature = "dox"))]
-    pub fn new() -> StyleSchemeChooserWidget {
-        assert_initialized_main_thread!();
-        unsafe {
-            gtk::Widget::from_glib_none(gtk_source_sys::gtk_source_style_scheme_chooser_widget_new()).unsafe_cast()
-        }
-    }
+impl StyleSchemeChooserWidget
+{
+	#[cfg(any(feature = "v3_16", feature = "dox"))]
+	pub fn new() -> StyleSchemeChooserWidget
+	{
+		assert_initialized_main_thread!();
+		unsafe {
+			gtk::Widget::from_glib_none(gtk_source_sys::gtk_source_style_scheme_chooser_widget_new()).unsafe_cast()
+		}
+	}
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-impl Default for StyleSchemeChooserWidget {
-    fn default() -> Self {
-        Self::new()
-    }
+impl Default for StyleSchemeChooserWidget
+{
+	fn default() -> Self
+	{
+		Self::new()
+	}
 }
 
 pub const NONE_STYLE_SCHEME_CHOOSER_WIDGET: Option<&StyleSchemeChooserWidget> = None;
 
-impl fmt::Display for StyleSchemeChooserWidget {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "StyleSchemeChooserWidget")
-    }
+impl fmt::Display for StyleSchemeChooserWidget
+{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
+	{
+		write!(f, "StyleSchemeChooserWidget")
+	}
 }

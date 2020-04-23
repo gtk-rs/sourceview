@@ -40,15 +40,17 @@ pub use style::*;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use view::*;
 
-pub mod signal {
-    pub use glib::signal::Inhibit;
+pub mod signal
+{
+	pub use glib::signal::Inhibit;
 }
 
-pub mod prelude {
-    #[doc(hidden)]
-    pub use gtk::prelude::*;
+pub mod prelude
+{
+	#[doc(hidden)]
+	pub use gtk::prelude::*;
 
-    pub use auto::traits::*;
+	pub use auto::traits::*;
 }
 
 #[macro_use]

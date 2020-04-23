@@ -22,369 +22,419 @@ use GutterRenderer;
 use GutterRendererAlignmentMode;
 
 glib_wrapper! {
-    pub struct GutterRendererPixbuf(Object<gtk_source_sys::GtkSourceGutterRendererPixbuf, gtk_source_sys::GtkSourceGutterRendererPixbufClass, GutterRendererPixbufClass>) @extends GutterRenderer;
+	pub struct GutterRendererPixbuf(Object<gtk_source_sys::GtkSourceGutterRendererPixbuf, gtk_source_sys::GtkSourceGutterRendererPixbufClass, GutterRendererPixbufClass>) @extends GutterRenderer;
 
-    match fn {
-        get_type => || gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_type(),
-    }
+	match fn {
+		get_type => || gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_type(),
+	}
 }
 
-impl GutterRendererPixbuf {
-    pub fn new() -> GutterRendererPixbuf {
-        assert_initialized_main_thread!();
-        unsafe {
-            GutterRenderer::from_glib_full(gtk_source_sys::gtk_source_gutter_renderer_pixbuf_new())
-                .unsafe_cast()
-        }
-    }
+impl GutterRendererPixbuf
+{
+	pub fn new() -> GutterRendererPixbuf
+	{
+		assert_initialized_main_thread!();
+		unsafe {
+			GutterRenderer::from_glib_full(gtk_source_sys::gtk_source_gutter_renderer_pixbuf_new())
+				.unsafe_cast()
+		}
+	}
 }
 
-impl Default for GutterRendererPixbuf {
-    fn default() -> Self {
-        Self::new()
-    }
+impl Default for GutterRendererPixbuf
+{
+	fn default() -> Self
+	{
+		Self::new()
+	}
 }
 
 #[derive(Clone, Default)]
-pub struct GutterRendererPixbufBuilder {
-    gicon: Option<gio::Icon>,
-    icon_name: Option<String>,
-    pixbuf: Option<gdk_pixbuf::Pixbuf>,
-    stock_id: Option<String>,
-    alignment_mode: Option<GutterRendererAlignmentMode>,
-    background_rgba: Option<gdk::RGBA>,
-    background_set: Option<bool>,
-    size: Option<i32>,
-    visible: Option<bool>,
-    xalign: Option<f32>,
-    xpad: Option<i32>,
-    yalign: Option<f32>,
-    ypad: Option<i32>,
+pub struct GutterRendererPixbufBuilder
+{
+	gicon: Option<gio::Icon>,
+	icon_name: Option<String>,
+	pixbuf: Option<gdk_pixbuf::Pixbuf>,
+	stock_id: Option<String>,
+	alignment_mode: Option<GutterRendererAlignmentMode>,
+	background_rgba: Option<gdk::RGBA>,
+	background_set: Option<bool>,
+	size: Option<i32>,
+	visible: Option<bool>,
+	xalign: Option<f32>,
+	xpad: Option<i32>,
+	yalign: Option<f32>,
+	ypad: Option<i32>,
 }
 
-impl GutterRendererPixbufBuilder {
-    pub fn new() -> Self {
-        Self::default()
-    }
+impl GutterRendererPixbufBuilder
+{
+	pub fn new() -> Self
+	{
+		Self::default()
+	}
 
-    pub fn build(self) -> GutterRendererPixbuf {
-        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref gicon) = self.gicon {
-            properties.push(("gicon", gicon));
-        }
-        if let Some(ref icon_name) = self.icon_name {
-            properties.push(("icon-name", icon_name));
-        }
-        if let Some(ref pixbuf) = self.pixbuf {
-            properties.push(("pixbuf", pixbuf));
-        }
-        if let Some(ref stock_id) = self.stock_id {
-            properties.push(("stock-id", stock_id));
-        }
-        if let Some(ref alignment_mode) = self.alignment_mode {
-            properties.push(("alignment-mode", alignment_mode));
-        }
-        if let Some(ref background_rgba) = self.background_rgba {
-            properties.push(("background-rgba", background_rgba));
-        }
-        if let Some(ref background_set) = self.background_set {
-            properties.push(("background-set", background_set));
-        }
-        if let Some(ref size) = self.size {
-            properties.push(("size", size));
-        }
-        if let Some(ref visible) = self.visible {
-            properties.push(("visible", visible));
-        }
-        if let Some(ref xalign) = self.xalign {
-            properties.push(("xalign", xalign));
-        }
-        if let Some(ref xpad) = self.xpad {
-            properties.push(("xpad", xpad));
-        }
-        if let Some(ref yalign) = self.yalign {
-            properties.push(("yalign", yalign));
-        }
-        if let Some(ref ypad) = self.ypad {
-            properties.push(("ypad", ypad));
-        }
-        glib::Object::new(GutterRendererPixbuf::static_type(), &properties)
-            .expect("object new")
-            .downcast()
-            .expect("downcast")
-    }
+	pub fn build(self) -> GutterRendererPixbuf
+	{
+		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+		if let Some(ref gicon) = self.gicon
+		{
+			properties.push(("gicon", gicon));
+		}
+		if let Some(ref icon_name) = self.icon_name
+		{
+			properties.push(("icon-name", icon_name));
+		}
+		if let Some(ref pixbuf) = self.pixbuf
+		{
+			properties.push(("pixbuf", pixbuf));
+		}
+		if let Some(ref stock_id) = self.stock_id
+		{
+			properties.push(("stock-id", stock_id));
+		}
+		if let Some(ref alignment_mode) = self.alignment_mode
+		{
+			properties.push(("alignment-mode", alignment_mode));
+		}
+		if let Some(ref background_rgba) = self.background_rgba
+		{
+			properties.push(("background-rgba", background_rgba));
+		}
+		if let Some(ref background_set) = self.background_set
+		{
+			properties.push(("background-set", background_set));
+		}
+		if let Some(ref size) = self.size
+		{
+			properties.push(("size", size));
+		}
+		if let Some(ref visible) = self.visible
+		{
+			properties.push(("visible", visible));
+		}
+		if let Some(ref xalign) = self.xalign
+		{
+			properties.push(("xalign", xalign));
+		}
+		if let Some(ref xpad) = self.xpad
+		{
+			properties.push(("xpad", xpad));
+		}
+		if let Some(ref yalign) = self.yalign
+		{
+			properties.push(("yalign", yalign));
+		}
+		if let Some(ref ypad) = self.ypad
+		{
+			properties.push(("ypad", ypad));
+		}
+		glib::Object::new(GutterRendererPixbuf::static_type(), &properties)
+			.expect("object new")
+			.downcast()
+			.expect("downcast")
+	}
 
-    pub fn gicon<P: IsA<gio::Icon>>(mut self, gicon: &P) -> Self {
-        self.gicon = Some(gicon.clone().upcast());
-        self
-    }
+	pub fn gicon<P: IsA<gio::Icon>>(mut self, gicon: &P) -> Self
+	{
+		self.gicon = Some(gicon.clone().upcast());
+		self
+	}
 
-    pub fn icon_name(mut self, icon_name: &str) -> Self {
-        self.icon_name = Some(icon_name.to_string());
-        self
-    }
+	pub fn icon_name(mut self, icon_name: &str) -> Self
+	{
+		self.icon_name = Some(icon_name.to_string());
+		self
+	}
 
-    pub fn pixbuf(mut self, pixbuf: &gdk_pixbuf::Pixbuf) -> Self {
-        self.pixbuf = Some(pixbuf.clone());
-        self
-    }
+	pub fn pixbuf(mut self, pixbuf: &gdk_pixbuf::Pixbuf) -> Self
+	{
+		self.pixbuf = Some(pixbuf.clone());
+		self
+	}
 
-    pub fn stock_id(mut self, stock_id: &str) -> Self {
-        self.stock_id = Some(stock_id.to_string());
-        self
-    }
+	pub fn stock_id(mut self, stock_id: &str) -> Self
+	{
+		self.stock_id = Some(stock_id.to_string());
+		self
+	}
 
-    pub fn alignment_mode(mut self, alignment_mode: GutterRendererAlignmentMode) -> Self {
-        self.alignment_mode = Some(alignment_mode);
-        self
-    }
+	pub fn alignment_mode(mut self, alignment_mode: GutterRendererAlignmentMode) -> Self
+	{
+		self.alignment_mode = Some(alignment_mode);
+		self
+	}
 
-    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(background_rgba.clone());
-        self
-    }
+	pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self
+	{
+		self.background_rgba = Some(background_rgba.clone());
+		self
+	}
 
-    pub fn background_set(mut self, background_set: bool) -> Self {
-        self.background_set = Some(background_set);
-        self
-    }
+	pub fn background_set(mut self, background_set: bool) -> Self
+	{
+		self.background_set = Some(background_set);
+		self
+	}
 
-    pub fn size(mut self, size: i32) -> Self {
-        self.size = Some(size);
-        self
-    }
+	pub fn size(mut self, size: i32) -> Self
+	{
+		self.size = Some(size);
+		self
+	}
 
-    pub fn visible(mut self, visible: bool) -> Self {
-        self.visible = Some(visible);
-        self
-    }
+	pub fn visible(mut self, visible: bool) -> Self
+	{
+		self.visible = Some(visible);
+		self
+	}
 
-    pub fn xalign(mut self, xalign: f32) -> Self {
-        self.xalign = Some(xalign);
-        self
-    }
+	pub fn xalign(mut self, xalign: f32) -> Self
+	{
+		self.xalign = Some(xalign);
+		self
+	}
 
-    pub fn xpad(mut self, xpad: i32) -> Self {
-        self.xpad = Some(xpad);
-        self
-    }
+	pub fn xpad(mut self, xpad: i32) -> Self
+	{
+		self.xpad = Some(xpad);
+		self
+	}
 
-    pub fn yalign(mut self, yalign: f32) -> Self {
-        self.yalign = Some(yalign);
-        self
-    }
+	pub fn yalign(mut self, yalign: f32) -> Self
+	{
+		self.yalign = Some(yalign);
+		self
+	}
 
-    pub fn ypad(mut self, ypad: i32) -> Self {
-        self.ypad = Some(ypad);
-        self
-    }
+	pub fn ypad(mut self, ypad: i32) -> Self
+	{
+		self.ypad = Some(ypad);
+		self
+	}
 }
 
 pub const NONE_GUTTER_RENDERER_PIXBUF: Option<&GutterRendererPixbuf> = None;
 
-pub trait GutterRendererPixbufExt: 'static {
-    fn get_gicon(&self) -> Option<gio::Icon>;
+pub trait GutterRendererPixbufExt: 'static
+{
+	fn get_gicon(&self) -> Option<gio::Icon>;
 
-    fn get_icon_name(&self) -> Option<GString>;
+	fn get_icon_name(&self) -> Option<GString>;
 
-    fn get_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf>;
+	fn get_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf>;
 
-    #[cfg_attr(feature = "v3_10", deprecated)]
-    fn get_stock_id(&self) -> Option<GString>;
+	#[cfg_attr(feature = "v3_10", deprecated)]
+	fn get_stock_id(&self) -> Option<GString>;
 
-    fn set_gicon<P: IsA<gio::Icon>>(&self, icon: Option<&P>);
+	fn set_gicon<P: IsA<gio::Icon>>(&self, icon: Option<&P>);
 
-    fn set_icon_name(&self, icon_name: Option<&str>);
+	fn set_icon_name(&self, icon_name: Option<&str>);
 
-    fn set_pixbuf(&self, pixbuf: Option<&gdk_pixbuf::Pixbuf>);
+	fn set_pixbuf(&self, pixbuf: Option<&gdk_pixbuf::Pixbuf>);
 
-    #[cfg_attr(feature = "v3_10", deprecated)]
-    fn set_stock_id(&self, stock_id: Option<&str>);
+	#[cfg_attr(feature = "v3_10", deprecated)]
+	fn set_stock_id(&self, stock_id: Option<&str>);
 
-    fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_property_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	fn connect_property_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_property_pixbuf_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	fn connect_property_pixbuf_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    #[cfg_attr(feature = "v3_10", deprecated)]
-    fn connect_property_stock_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	#[cfg_attr(feature = "v3_10", deprecated)]
+	fn connect_property_stock_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O {
-    fn get_gicon(&self) -> Option<gio::Icon> {
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_gicon(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
+impl<O: IsA<GutterRendererPixbuf>> GutterRendererPixbufExt for O
+{
+	fn get_gicon(&self) -> Option<gio::Icon>
+	{
+		unsafe {
+			from_glib_none(gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_gicon(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_icon_name(&self) -> Option<GString> {
-        unsafe {
-            from_glib_none(
-                gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_icon_name(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	fn get_icon_name(&self) -> Option<GString>
+	{
+		unsafe {
+			from_glib_none(
+				gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_icon_name(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    fn get_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf> {
-        unsafe {
-            from_glib_none(
-                gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_pixbuf(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	fn get_pixbuf(&self) -> Option<gdk_pixbuf::Pixbuf>
+	{
+		unsafe {
+			from_glib_none(
+				gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_pixbuf(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    fn get_stock_id(&self) -> Option<GString> {
-        unsafe {
-            from_glib_none(
-                gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_stock_id(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	fn get_stock_id(&self) -> Option<GString>
+	{
+		unsafe {
+			from_glib_none(
+				gtk_source_sys::gtk_source_gutter_renderer_pixbuf_get_stock_id(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    fn set_gicon<P: IsA<gio::Icon>>(&self, icon: Option<&P>) {
-        unsafe {
-            gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_gicon(
-                self.as_ref().to_glib_none().0,
-                icon.map(|p| p.as_ref()).to_glib_none().0,
-            );
-        }
-    }
+	fn set_gicon<P: IsA<gio::Icon>>(&self, icon: Option<&P>)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_gicon(
+				self.as_ref().to_glib_none().0,
+				icon.map(|p| p.as_ref()).to_glib_none().0,
+			);
+		}
+	}
 
-    fn set_icon_name(&self, icon_name: Option<&str>) {
-        unsafe {
-            gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_icon_name(
-                self.as_ref().to_glib_none().0,
-                icon_name.to_glib_none().0,
-            );
-        }
-    }
+	fn set_icon_name(&self, icon_name: Option<&str>)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_icon_name(
+				self.as_ref().to_glib_none().0,
+				icon_name.to_glib_none().0,
+			);
+		}
+	}
 
-    fn set_pixbuf(&self, pixbuf: Option<&gdk_pixbuf::Pixbuf>) {
-        unsafe {
-            gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_pixbuf(
-                self.as_ref().to_glib_none().0,
-                pixbuf.to_glib_none().0,
-            );
-        }
-    }
+	fn set_pixbuf(&self, pixbuf: Option<&gdk_pixbuf::Pixbuf>)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_pixbuf(
+				self.as_ref().to_glib_none().0,
+				pixbuf.to_glib_none().0,
+			);
+		}
+	}
 
-    fn set_stock_id(&self, stock_id: Option<&str>) {
-        unsafe {
-            gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_stock_id(
-                self.as_ref().to_glib_none().0,
-                stock_id.to_glib_none().0,
-            );
-        }
-    }
+	fn set_stock_id(&self, stock_id: Option<&str>)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_gutter_renderer_pixbuf_set_stock_id(
+				self.as_ref().to_glib_none().0,
+				stock_id.to_glib_none().0,
+			);
+		}
+	}
 
-    fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<GutterRendererPixbuf>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::gicon\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_gicon_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	fn connect_property_gicon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_gicon_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<GutterRendererPixbuf>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::gicon\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_gicon_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    fn connect_property_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<GutterRendererPixbuf>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::icon-name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_icon_name_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	fn connect_property_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_icon_name_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<GutterRendererPixbuf>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::icon-name\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_icon_name_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    fn connect_property_pixbuf_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_pixbuf_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<GutterRendererPixbuf>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::pixbuf\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_pixbuf_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	fn connect_property_pixbuf_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_pixbuf_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<GutterRendererPixbuf>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::pixbuf\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_pixbuf_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    fn connect_property_stock_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_stock_id_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<GutterRendererPixbuf>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::stock-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_stock_id_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	fn connect_property_stock_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_stock_id_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceGutterRendererPixbuf,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<GutterRendererPixbuf>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&GutterRendererPixbuf::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::stock-id\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_stock_id_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 }
 
-impl fmt::Display for GutterRendererPixbuf {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GutterRendererPixbuf")
-    }
+impl fmt::Display for GutterRendererPixbuf
+{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
+	{
+		write!(f, "GutterRendererPixbuf")
+	}
 }

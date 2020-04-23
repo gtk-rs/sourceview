@@ -27,413 +27,448 @@ use std::fmt;
 use std::mem::transmute;
 
 glib_wrapper! {
-    pub struct SearchSettings(Object<gtk_source_sys::GtkSourceSearchSettings, gtk_source_sys::GtkSourceSearchSettingsClass, SearchSettingsClass>);
+	pub struct SearchSettings(Object<gtk_source_sys::GtkSourceSearchSettings, gtk_source_sys::GtkSourceSearchSettingsClass, SearchSettingsClass>);
 
-    match fn {
-        get_type => || gtk_source_sys::gtk_source_search_settings_get_type(),
-    }
+	match fn {
+		get_type => || gtk_source_sys::gtk_source_search_settings_get_type(),
+	}
 }
 
-impl SearchSettings {
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn new() -> SearchSettings {
-        assert_initialized_main_thread!();
-        unsafe { from_glib_full(gtk_source_sys::gtk_source_search_settings_new()) }
-    }
+impl SearchSettings
+{
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	pub fn new() -> SearchSettings
+	{
+		assert_initialized_main_thread!();
+		unsafe { from_glib_full(gtk_source_sys::gtk_source_search_settings_new()) }
+	}
 }
 
 #[cfg(any(feature = "v3_10", feature = "dox"))]
-impl Default for SearchSettings {
-    fn default() -> Self {
-        Self::new()
-    }
+impl Default for SearchSettings
+{
+	fn default() -> Self
+	{
+		Self::new()
+	}
 }
 
 #[derive(Clone, Default)]
-pub struct SearchSettingsBuilder {
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    at_word_boundaries: Option<bool>,
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    case_sensitive: Option<bool>,
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    regex_enabled: Option<bool>,
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    search_text: Option<String>,
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    wrap_around: Option<bool>,
+pub struct SearchSettingsBuilder
+{
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	at_word_boundaries: Option<bool>,
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	case_sensitive: Option<bool>,
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	regex_enabled: Option<bool>,
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	search_text: Option<String>,
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	wrap_around: Option<bool>,
 }
 
-impl SearchSettingsBuilder {
-    pub fn new() -> Self {
-        Self::default()
-    }
+impl SearchSettingsBuilder
+{
+	pub fn new() -> Self
+	{
+		Self::default()
+	}
 
-    pub fn build(self) -> SearchSettings {
-        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        #[cfg(any(feature = "v3_10", feature = "dox"))]
-        {
-            if let Some(ref at_word_boundaries) = self.at_word_boundaries {
-                properties.push(("at-word-boundaries", at_word_boundaries));
-            }
-        }
-        #[cfg(any(feature = "v3_10", feature = "dox"))]
-        {
-            if let Some(ref case_sensitive) = self.case_sensitive {
-                properties.push(("case-sensitive", case_sensitive));
-            }
-        }
-        #[cfg(any(feature = "v3_10", feature = "dox"))]
-        {
-            if let Some(ref regex_enabled) = self.regex_enabled {
-                properties.push(("regex-enabled", regex_enabled));
-            }
-        }
-        #[cfg(any(feature = "v3_10", feature = "dox"))]
-        {
-            if let Some(ref search_text) = self.search_text {
-                properties.push(("search-text", search_text));
-            }
-        }
-        #[cfg(any(feature = "v3_10", feature = "dox"))]
-        {
-            if let Some(ref wrap_around) = self.wrap_around {
-                properties.push(("wrap-around", wrap_around));
-            }
-        }
-        glib::Object::new(SearchSettings::static_type(), &properties)
-            .expect("object new")
-            .downcast()
-            .expect("downcast")
-    }
+	pub fn build(self) -> SearchSettings
+	{
+		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+		#[cfg(any(feature = "v3_10", feature = "dox"))]
+		{
+			if let Some(ref at_word_boundaries) = self.at_word_boundaries
+			{
+				properties.push(("at-word-boundaries", at_word_boundaries));
+			}
+		}
+		#[cfg(any(feature = "v3_10", feature = "dox"))]
+		{
+			if let Some(ref case_sensitive) = self.case_sensitive
+			{
+				properties.push(("case-sensitive", case_sensitive));
+			}
+		}
+		#[cfg(any(feature = "v3_10", feature = "dox"))]
+		{
+			if let Some(ref regex_enabled) = self.regex_enabled
+			{
+				properties.push(("regex-enabled", regex_enabled));
+			}
+		}
+		#[cfg(any(feature = "v3_10", feature = "dox"))]
+		{
+			if let Some(ref search_text) = self.search_text
+			{
+				properties.push(("search-text", search_text));
+			}
+		}
+		#[cfg(any(feature = "v3_10", feature = "dox"))]
+		{
+			if let Some(ref wrap_around) = self.wrap_around
+			{
+				properties.push(("wrap-around", wrap_around));
+			}
+		}
+		glib::Object::new(SearchSettings::static_type(), &properties)
+			.expect("object new")
+			.downcast()
+			.expect("downcast")
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn at_word_boundaries(mut self, at_word_boundaries: bool) -> Self {
-        self.at_word_boundaries = Some(at_word_boundaries);
-        self
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	pub fn at_word_boundaries(mut self, at_word_boundaries: bool) -> Self
+	{
+		self.at_word_boundaries = Some(at_word_boundaries);
+		self
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn case_sensitive(mut self, case_sensitive: bool) -> Self {
-        self.case_sensitive = Some(case_sensitive);
-        self
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	pub fn case_sensitive(mut self, case_sensitive: bool) -> Self
+	{
+		self.case_sensitive = Some(case_sensitive);
+		self
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn regex_enabled(mut self, regex_enabled: bool) -> Self {
-        self.regex_enabled = Some(regex_enabled);
-        self
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	pub fn regex_enabled(mut self, regex_enabled: bool) -> Self
+	{
+		self.regex_enabled = Some(regex_enabled);
+		self
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn search_text(mut self, search_text: &str) -> Self {
-        self.search_text = Some(search_text.to_string());
-        self
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	pub fn search_text(mut self, search_text: &str) -> Self
+	{
+		self.search_text = Some(search_text.to_string());
+		self
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    pub fn wrap_around(mut self, wrap_around: bool) -> Self {
-        self.wrap_around = Some(wrap_around);
-        self
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	pub fn wrap_around(mut self, wrap_around: bool) -> Self
+	{
+		self.wrap_around = Some(wrap_around);
+		self
+	}
 }
 
 pub const NONE_SEARCH_SETTINGS: Option<&SearchSettings> = None;
 
-pub trait SearchSettingsExt: 'static {
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_at_word_boundaries(&self) -> bool;
+pub trait SearchSettingsExt: 'static
+{
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_at_word_boundaries(&self) -> bool;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_case_sensitive(&self) -> bool;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_case_sensitive(&self) -> bool;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_regex_enabled(&self) -> bool;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_regex_enabled(&self) -> bool;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_search_text(&self) -> Option<GString>;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_search_text(&self) -> Option<GString>;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_wrap_around(&self) -> bool;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_wrap_around(&self) -> bool;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_at_word_boundaries(&self, at_word_boundaries: bool);
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_at_word_boundaries(&self, at_word_boundaries: bool);
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_case_sensitive(&self, case_sensitive: bool);
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_case_sensitive(&self, case_sensitive: bool);
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_regex_enabled(&self, regex_enabled: bool);
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_regex_enabled(&self, regex_enabled: bool);
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_search_text(&self, search_text: Option<&str>);
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_search_text(&self, search_text: Option<&str>);
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_wrap_around(&self, wrap_around: bool);
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_wrap_around(&self, wrap_around: bool);
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_at_word_boundaries_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_at_word_boundaries_notify<F: Fn(&Self) + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_case_sensitive_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_case_sensitive_notify<F: Fn(&Self) + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_regex_enabled_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_regex_enabled_notify<F: Fn(&Self) + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_search_text_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_search_text_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_wrap_around_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_wrap_around_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_at_word_boundaries(&self) -> bool {
-        unsafe {
-            from_glib(
-                gtk_source_sys::gtk_source_search_settings_get_at_word_boundaries(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+impl<O: IsA<SearchSettings>> SearchSettingsExt for O
+{
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_at_word_boundaries(&self) -> bool
+	{
+		unsafe {
+			from_glib(
+				gtk_source_sys::gtk_source_search_settings_get_at_word_boundaries(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_case_sensitive(&self) -> bool {
-        unsafe {
-            from_glib(
-                gtk_source_sys::gtk_source_search_settings_get_case_sensitive(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_case_sensitive(&self) -> bool
+	{
+		unsafe {
+			from_glib(
+				gtk_source_sys::gtk_source_search_settings_get_case_sensitive(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_regex_enabled(&self) -> bool {
-        unsafe {
-            from_glib(
-                gtk_source_sys::gtk_source_search_settings_get_regex_enabled(
-                    self.as_ref().to_glib_none().0,
-                ),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_regex_enabled(&self) -> bool
+	{
+		unsafe {
+			from_glib(
+				gtk_source_sys::gtk_source_search_settings_get_regex_enabled(
+					self.as_ref().to_glib_none().0,
+				),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_search_text(&self) -> Option<GString> {
-        unsafe {
-            from_glib_none(gtk_source_sys::gtk_source_search_settings_get_search_text(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_search_text(&self) -> Option<GString>
+	{
+		unsafe {
+			from_glib_none(gtk_source_sys::gtk_source_search_settings_get_search_text(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn get_wrap_around(&self) -> bool {
-        unsafe {
-            from_glib(gtk_source_sys::gtk_source_search_settings_get_wrap_around(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn get_wrap_around(&self) -> bool
+	{
+		unsafe {
+			from_glib(gtk_source_sys::gtk_source_search_settings_get_wrap_around(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_at_word_boundaries(&self, at_word_boundaries: bool) {
-        unsafe {
-            gtk_source_sys::gtk_source_search_settings_set_at_word_boundaries(
-                self.as_ref().to_glib_none().0,
-                at_word_boundaries.to_glib(),
-            );
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_at_word_boundaries(&self, at_word_boundaries: bool)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_search_settings_set_at_word_boundaries(
+				self.as_ref().to_glib_none().0,
+				at_word_boundaries.to_glib(),
+			);
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_case_sensitive(&self, case_sensitive: bool) {
-        unsafe {
-            gtk_source_sys::gtk_source_search_settings_set_case_sensitive(
-                self.as_ref().to_glib_none().0,
-                case_sensitive.to_glib(),
-            );
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_case_sensitive(&self, case_sensitive: bool)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_search_settings_set_case_sensitive(
+				self.as_ref().to_glib_none().0,
+				case_sensitive.to_glib(),
+			);
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_regex_enabled(&self, regex_enabled: bool) {
-        unsafe {
-            gtk_source_sys::gtk_source_search_settings_set_regex_enabled(
-                self.as_ref().to_glib_none().0,
-                regex_enabled.to_glib(),
-            );
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_regex_enabled(&self, regex_enabled: bool)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_search_settings_set_regex_enabled(
+				self.as_ref().to_glib_none().0,
+				regex_enabled.to_glib(),
+			);
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_search_text(&self, search_text: Option<&str>) {
-        unsafe {
-            gtk_source_sys::gtk_source_search_settings_set_search_text(
-                self.as_ref().to_glib_none().0,
-                search_text.to_glib_none().0,
-            );
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_search_text(&self, search_text: Option<&str>)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_search_settings_set_search_text(
+				self.as_ref().to_glib_none().0,
+				search_text.to_glib_none().0,
+			);
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn set_wrap_around(&self, wrap_around: bool) {
-        unsafe {
-            gtk_source_sys::gtk_source_search_settings_set_wrap_around(
-                self.as_ref().to_glib_none().0,
-                wrap_around.to_glib(),
-            );
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn set_wrap_around(&self, wrap_around: bool)
+	{
+		unsafe {
+			gtk_source_sys::gtk_source_search_settings_set_wrap_around(
+				self.as_ref().to_glib_none().0,
+				wrap_around.to_glib(),
+			);
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_at_word_boundaries_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe extern "C" fn notify_at_word_boundaries_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceSearchSettings,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<SearchSettings>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::at-word-boundaries\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_at_word_boundaries_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_at_word_boundaries_notify<F: Fn(&Self) + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_at_word_boundaries_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceSearchSettings,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<SearchSettings>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::at-word-boundaries\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_at_word_boundaries_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_case_sensitive_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe extern "C" fn notify_case_sensitive_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceSearchSettings,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<SearchSettings>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::case-sensitive\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_case_sensitive_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_case_sensitive_notify<F: Fn(&Self) + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_case_sensitive_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceSearchSettings,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<SearchSettings>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::case-sensitive\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_case_sensitive_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_regex_enabled_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe extern "C" fn notify_regex_enabled_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceSearchSettings,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<SearchSettings>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::regex-enabled\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_regex_enabled_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_regex_enabled_notify<F: Fn(&Self) + 'static>(&self, f: F)
+		-> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_regex_enabled_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceSearchSettings,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<SearchSettings>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::regex-enabled\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_regex_enabled_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_search_text_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_search_text_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceSearchSettings,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<SearchSettings>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::search-text\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_search_text_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_search_text_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_search_text_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceSearchSettings,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<SearchSettings>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::search-text\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_search_text_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn connect_property_wrap_around_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_wrap_around_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut gtk_source_sys::GtkSourceSearchSettings,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<SearchSettings>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::wrap-around\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_wrap_around_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
+	#[cfg(any(feature = "v3_10", feature = "dox"))]
+	fn connect_property_wrap_around_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
+	{
+		unsafe extern "C" fn notify_wrap_around_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut gtk_source_sys::GtkSourceSearchSettings,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<SearchSettings>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::wrap-around\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_wrap_around_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 }
 
-impl fmt::Display for SearchSettings {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SearchSettings")
-    }
+impl fmt::Display for SearchSettings
+{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
+	{
+		write!(f, "SearchSettings")
+	}
 }

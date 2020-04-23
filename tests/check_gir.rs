@@ -5,13 +5,14 @@
 extern crate gir_format_check;
 
 #[test]
-fn check_gir_file() {
-    let res = gir_format_check::check_gir_file("Gir.toml");
-    println!("{}", res.to_string());
-    assert_eq!(res.nb_errors, 0);
+fn check_gir_file()
+{
+	let res = gir_format_check::check_gir_file("Gir.toml");
+	println!("{}", res.to_string());
+	assert_eq!(res.nb_errors, 0);
 
-    let res = gir_format_check::check_gir_file("sourceview-sys/Gir.toml");
-    println!("|||||> sourceview-sys/Gir.toml <|||||\n");
-    println!("{}", res.to_string());
-    assert_eq!(res.nb_errors, 0);
+	let res = gir_format_check::check_gir_file("sourceview-sys/Gir.toml");
+	println!("|||||> sourceview-sys/Gir.toml <|||||\n");
+	println!("{}", res.to_string());
+	assert_eq!(res.nb_errors, 0);
 }
