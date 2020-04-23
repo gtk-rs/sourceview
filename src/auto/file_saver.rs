@@ -39,462 +39,424 @@ use FileSaverFlags;
 use NewlineType;
 
 glib_wrapper! {
-	pub struct FileSaver(Object<gtk_source_sys::GtkSourceFileSaver, gtk_source_sys::GtkSourceFileSaverClass, FileSaverClass>);
+    pub struct FileSaver(Object<gtk_source_sys::GtkSourceFileSaver, gtk_source_sys::GtkSourceFileSaverClass, FileSaverClass>);
 
-	match fn {
-		get_type => || gtk_source_sys::gtk_source_file_saver_get_type(),
-	}
+    match fn {
+        get_type => || gtk_source_sys::gtk_source_file_saver_get_type(),
+    }
 }
 
-impl FileSaver
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileSaver
-	{
-		skip_assert_initialized!();
-		unsafe {
-			from_glib_full(gtk_source_sys::gtk_source_file_saver_new(
-				buffer.as_ref().to_glib_none().0,
-				file.as_ref().to_glib_none().0,
-			))
-		}
-	}
+impl FileSaver {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileSaver {
+        skip_assert_initialized!();
+        unsafe {
+            from_glib_full(gtk_source_sys::gtk_source_file_saver_new(
+                buffer.as_ref().to_glib_none().0,
+                file.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn new_with_target<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::File>>(
-		buffer: &P,
-		file: &Q,
-		target_location: &R,
-	) -> FileSaver
-	{
-		skip_assert_initialized!();
-		unsafe {
-			from_glib_full(gtk_source_sys::gtk_source_file_saver_new_with_target(
-				buffer.as_ref().to_glib_none().0,
-				file.as_ref().to_glib_none().0,
-				target_location.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn new_with_target<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::File>>(
+        buffer: &P,
+        file: &Q,
+        target_location: &R,
+    ) -> FileSaver {
+        skip_assert_initialized!();
+        unsafe {
+            from_glib_full(gtk_source_sys::gtk_source_file_saver_new_with_target(
+                buffer.as_ref().to_glib_none().0,
+                file.as_ref().to_glib_none().0,
+                target_location.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 }
 
 #[derive(Clone, Default)]
-pub struct FileSaverBuilder
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	buffer: Option<Buffer>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	compression_type: Option<CompressionType>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	encoding: Option<Encoding>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	file: Option<File>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	flags: Option<FileSaverFlags>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	location: Option<gio::File>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	newline_type: Option<NewlineType>,
+pub struct FileSaverBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    buffer: Option<Buffer>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    compression_type: Option<CompressionType>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    encoding: Option<Encoding>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    file: Option<File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    flags: Option<FileSaverFlags>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    newline_type: Option<NewlineType>,
 }
 
-impl FileSaverBuilder
-{
-	pub fn new() -> Self
-	{
-		Self::default()
-	}
+impl FileSaverBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
 
-	pub fn build(self) -> FileSaver
-	{
-		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref buffer) = self.buffer
-			{
-				properties.push(("buffer", buffer));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref compression_type) = self.compression_type
-			{
-				properties.push(("compression-type", compression_type));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref encoding) = self.encoding
-			{
-				properties.push(("encoding", encoding));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref file) = self.file
-			{
-				properties.push(("file", file));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref flags) = self.flags
-			{
-				properties.push(("flags", flags));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref location) = self.location
-			{
-				properties.push(("location", location));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref newline_type) = self.newline_type
-			{
-				properties.push(("newline-type", newline_type));
-			}
-		}
-		glib::Object::new(FileSaver::static_type(), &properties)
-			.expect("object new")
-			.downcast()
-			.expect("downcast")
-	}
+    pub fn build(self) -> FileSaver {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref compression_type) = self.compression_type {
+                properties.push(("compression-type", compression_type));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref encoding) = self.encoding {
+                properties.push(("encoding", encoding));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref file) = self.file {
+                properties.push(("file", file));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref flags) = self.flags {
+                properties.push(("flags", flags));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref newline_type) = self.newline_type {
+                properties.push(("newline-type", newline_type));
+            }
+        }
+        glib::Object::new(FileSaver::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self
-	{
-		self.buffer = Some(buffer.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn compression_type(mut self, compression_type: CompressionType) -> Self
-	{
-		self.compression_type = Some(compression_type);
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn compression_type(mut self, compression_type: CompressionType) -> Self {
+        self.compression_type = Some(compression_type);
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn encoding(mut self, encoding: &Encoding) -> Self
-	{
-		self.encoding = Some(encoding.clone());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn encoding(mut self, encoding: &Encoding) -> Self {
+        self.encoding = Some(encoding.clone());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn file<P: IsA<File>>(mut self, file: &P) -> Self
-	{
-		self.file = Some(file.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn file<P: IsA<File>>(mut self, file: &P) -> Self {
+        self.file = Some(file.clone().upcast());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn flags(mut self, flags: FileSaverFlags) -> Self
-	{
-		self.flags = Some(flags);
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn flags(mut self, flags: FileSaverFlags) -> Self {
+        self.flags = Some(flags);
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self
-	{
-		self.location = Some(location.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self {
+        self.location = Some(location.clone().upcast());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn newline_type(mut self, newline_type: NewlineType) -> Self
-	{
-		self.newline_type = Some(newline_type);
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn newline_type(mut self, newline_type: NewlineType) -> Self {
+        self.newline_type = Some(newline_type);
+        self
+    }
 }
 
 pub const NONE_FILE_SAVER: Option<&FileSaver> = None;
 
-pub trait FileSaverExt: 'static
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_buffer(&self) -> Option<Buffer>;
+pub trait FileSaverExt: 'static {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_buffer(&self) -> Option<Buffer>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_compression_type(&self) -> CompressionType;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_compression_type(&self) -> CompressionType;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_encoding(&self) -> Option<Encoding>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_encoding(&self) -> Option<Encoding>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_file(&self) -> Option<File>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_file(&self) -> Option<File>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_flags(&self) -> FileSaverFlags;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_flags(&self) -> FileSaverFlags;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_location(&self) -> Option<gio::File>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_location(&self) -> Option<gio::File>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_newline_type(&self) -> NewlineType;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_newline_type(&self) -> NewlineType;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_compression_type(&self, compression_type: CompressionType);
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_compression_type(&self, compression_type: CompressionType);
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_encoding(&self, encoding: Option<&Encoding>);
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_encoding(&self, encoding: Option<&Encoding>);
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_flags(&self, flags: FileSaverFlags);
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_flags(&self, flags: FileSaverFlags);
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_newline_type(&self, newline_type: NewlineType);
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_newline_type(&self, newline_type: NewlineType);
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_compression_type_notify<F: Fn(&Self) + 'static>(
-		&self,
-		f: F,
-	) -> SignalHandlerId;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_compression_type_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_encoding_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_encoding_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_newline_type_notify<F: Fn(&Self) + 'static>(&self, f: F)
-		-> SignalHandlerId;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_newline_type_notify<F: Fn(&Self) + 'static>(&self, f: F)
+        -> SignalHandlerId;
 }
 
-impl<O: IsA<FileSaver>> FileSaverExt for O
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_buffer(&self) -> Option<Buffer>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_saver_get_buffer(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+impl<O: IsA<FileSaver>> FileSaverExt for O {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_buffer(&self) -> Option<Buffer> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_buffer(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_compression_type(&self) -> CompressionType
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_file_saver_get_compression_type(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_compression_type(&self) -> CompressionType {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_file_saver_get_compression_type(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_encoding(&self) -> Option<Encoding>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_saver_get_encoding(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_encoding(&self) -> Option<Encoding> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_encoding(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_file(&self) -> Option<File>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_saver_get_file(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_file(&self) -> Option<File> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_file(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_flags(&self) -> FileSaverFlags
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_file_saver_get_flags(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_flags(&self) -> FileSaverFlags {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_file_saver_get_flags(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_location(&self) -> Option<gio::File>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_saver_get_location(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_location(&self) -> Option<gio::File> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_saver_get_location(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_newline_type(&self) -> NewlineType
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_file_saver_get_newline_type(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_newline_type(&self) -> NewlineType {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_file_saver_get_newline_type(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_compression_type(&self, compression_type: CompressionType)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_file_saver_set_compression_type(
-				self.as_ref().to_glib_none().0,
-				compression_type.to_glib(),
-			);
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_compression_type(&self, compression_type: CompressionType) {
+        unsafe {
+            gtk_source_sys::gtk_source_file_saver_set_compression_type(
+                self.as_ref().to_glib_none().0,
+                compression_type.to_glib(),
+            );
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_encoding(&self, encoding: Option<&Encoding>)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_file_saver_set_encoding(
-				self.as_ref().to_glib_none().0,
-				encoding.to_glib_none().0,
-			);
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_encoding(&self, encoding: Option<&Encoding>) {
+        unsafe {
+            gtk_source_sys::gtk_source_file_saver_set_encoding(
+                self.as_ref().to_glib_none().0,
+                encoding.to_glib_none().0,
+            );
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_flags(&self, flags: FileSaverFlags)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_file_saver_set_flags(
-				self.as_ref().to_glib_none().0,
-				flags.to_glib(),
-			);
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_flags(&self, flags: FileSaverFlags) {
+        unsafe {
+            gtk_source_sys::gtk_source_file_saver_set_flags(
+                self.as_ref().to_glib_none().0,
+                flags.to_glib(),
+            );
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn set_newline_type(&self, newline_type: NewlineType)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_file_saver_set_newline_type(
-				self.as_ref().to_glib_none().0,
-				newline_type.to_glib(),
-			);
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn set_newline_type(&self, newline_type: NewlineType) {
+        unsafe {
+            gtk_source_sys::gtk_source_file_saver_set_newline_type(
+                self.as_ref().to_glib_none().0,
+                newline_type.to_glib(),
+            );
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_compression_type_notify<F: Fn(&Self) + 'static>(
-		&self,
-		f: F,
-	) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceFileSaver,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<FileSaver>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::compression-type\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_compression_type_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_compression_type_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_compression_type_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceFileSaver,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<FileSaver>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::compression-type\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_compression_type_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_encoding_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceFileSaver,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<FileSaver>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::encoding\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_encoding_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_encoding_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_encoding_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceFileSaver,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<FileSaver>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::encoding\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encoding_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceFileSaver,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<FileSaver>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::flags\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_flags_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceFileSaver,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<FileSaver>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::flags\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn connect_property_newline_type_notify<F: Fn(&Self) + 'static>(&self, f: F)
-		-> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceFileSaver,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<FileSaver>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::newline-type\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_newline_type_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn connect_property_newline_type_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_newline_type_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceFileSaver,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<FileSaver>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::newline-type\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_newline_type_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 }
 
-impl fmt::Display for FileSaver
-{
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
-	{
-		write!(f, "FileSaver")
-	}
+impl fmt::Display for FileSaver {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "FileSaver")
+    }
 }

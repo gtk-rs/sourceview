@@ -18,220 +18,196 @@ use std::mem::transmute;
 use StyleScheme;
 
 glib_wrapper! {
-	pub struct StyleSchemeManager(Object<gtk_source_sys::GtkSourceStyleSchemeManager, gtk_source_sys::GtkSourceStyleSchemeManagerClass, StyleSchemeManagerClass>);
+    pub struct StyleSchemeManager(Object<gtk_source_sys::GtkSourceStyleSchemeManager, gtk_source_sys::GtkSourceStyleSchemeManagerClass, StyleSchemeManagerClass>);
 
-	match fn {
-		get_type => || gtk_source_sys::gtk_source_style_scheme_manager_get_type(),
-	}
+    match fn {
+        get_type => || gtk_source_sys::gtk_source_style_scheme_manager_get_type(),
+    }
 }
 
-impl StyleSchemeManager
-{
-	pub fn new() -> StyleSchemeManager
-	{
-		assert_initialized_main_thread!();
-		unsafe { from_glib_full(gtk_source_sys::gtk_source_style_scheme_manager_new()) }
-	}
+impl StyleSchemeManager {
+    pub fn new() -> StyleSchemeManager {
+        assert_initialized_main_thread!();
+        unsafe { from_glib_full(gtk_source_sys::gtk_source_style_scheme_manager_new()) }
+    }
 
-	pub fn get_default() -> Option<StyleSchemeManager>
-	{
-		assert_initialized_main_thread!();
-		unsafe { from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_default()) }
-	}
+    pub fn get_default() -> Option<StyleSchemeManager> {
+        assert_initialized_main_thread!();
+        unsafe { from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_default()) }
+    }
 }
 
-impl Default for StyleSchemeManager
-{
-	fn default() -> Self
-	{
-		Self::new()
-	}
+impl Default for StyleSchemeManager {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 #[derive(Clone, Default)]
-pub struct StyleSchemeManagerBuilder
-{
-	search_path: Option<Vec<String>>,
+pub struct StyleSchemeManagerBuilder {
+    search_path: Option<Vec<String>>,
 }
 
-impl StyleSchemeManagerBuilder
-{
-	pub fn new() -> Self
-	{
-		Self::default()
-	}
+impl StyleSchemeManagerBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
 
-	pub fn build(self) -> StyleSchemeManager
-	{
-		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-		if let Some(ref search_path) = self.search_path
-		{
-			properties.push(("search-path", search_path));
-		}
-		glib::Object::new(StyleSchemeManager::static_type(), &properties)
-			.expect("object new")
-			.downcast()
-			.expect("downcast")
-	}
+    pub fn build(self) -> StyleSchemeManager {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref search_path) = self.search_path {
+            properties.push(("search-path", search_path));
+        }
+        glib::Object::new(StyleSchemeManager::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
 
-	pub fn search_path(mut self, search_path: Vec<String>) -> Self
-	{
-		self.search_path = Some(search_path);
-		self
-	}
+    pub fn search_path(mut self, search_path: Vec<String>) -> Self {
+        self.search_path = Some(search_path);
+        self
+    }
 }
 
 pub const NONE_STYLE_SCHEME_MANAGER: Option<&StyleSchemeManager> = None;
 
-pub trait StyleSchemeManagerExt: 'static
-{
-	fn append_search_path(&self, path: &str);
+pub trait StyleSchemeManagerExt: 'static {
+    fn append_search_path(&self, path: &str);
 
-	fn force_rescan(&self);
+    fn force_rescan(&self);
 
-	fn get_scheme(&self, scheme_id: &str) -> Option<StyleScheme>;
+    fn get_scheme(&self, scheme_id: &str) -> Option<StyleScheme>;
 
-	fn get_scheme_ids(&self) -> Vec<GString>;
+    fn get_scheme_ids(&self) -> Vec<GString>;
 
-	fn get_search_path(&self) -> Vec<GString>;
+    fn get_search_path(&self) -> Vec<GString>;
 
-	fn prepend_search_path(&self, path: &str);
+    fn prepend_search_path(&self, path: &str);
 
-	fn set_search_path(&self, path: &[&str]);
+    fn set_search_path(&self, path: &[&str]);
 
-	fn connect_property_scheme_ids_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_scheme_ids_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-	fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<StyleSchemeManager>> StyleSchemeManagerExt for O
-{
-	fn append_search_path(&self, path: &str)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_style_scheme_manager_append_search_path(
-				self.as_ref().to_glib_none().0,
-				path.to_glib_none().0,
-			);
-		}
-	}
+impl<O: IsA<StyleSchemeManager>> StyleSchemeManagerExt for O {
+    fn append_search_path(&self, path: &str) {
+        unsafe {
+            gtk_source_sys::gtk_source_style_scheme_manager_append_search_path(
+                self.as_ref().to_glib_none().0,
+                path.to_glib_none().0,
+            );
+        }
+    }
 
-	fn force_rescan(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_style_scheme_manager_force_rescan(
-				self.as_ref().to_glib_none().0,
-			);
-		}
-	}
+    fn force_rescan(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_style_scheme_manager_force_rescan(
+                self.as_ref().to_glib_none().0,
+            );
+        }
+    }
 
-	fn get_scheme(&self, scheme_id: &str) -> Option<StyleScheme>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_scheme(
-				self.as_ref().to_glib_none().0,
-				scheme_id.to_glib_none().0,
-			))
-		}
-	}
+    fn get_scheme(&self, scheme_id: &str) -> Option<StyleScheme> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_style_scheme_manager_get_scheme(
+                self.as_ref().to_glib_none().0,
+                scheme_id.to_glib_none().0,
+            ))
+        }
+    }
 
-	fn get_scheme_ids(&self) -> Vec<GString>
-	{
-		unsafe {
-			FromGlibPtrContainer::from_glib_none(
-				gtk_source_sys::gtk_source_style_scheme_manager_get_scheme_ids(
-					self.as_ref().to_glib_none().0,
-				),
-			)
-		}
-	}
+    fn get_scheme_ids(&self) -> Vec<GString> {
+        unsafe {
+            FromGlibPtrContainer::from_glib_none(
+                gtk_source_sys::gtk_source_style_scheme_manager_get_scheme_ids(
+                    self.as_ref().to_glib_none().0,
+                ),
+            )
+        }
+    }
 
-	fn get_search_path(&self) -> Vec<GString>
-	{
-		unsafe {
-			FromGlibPtrContainer::from_glib_none(
-				gtk_source_sys::gtk_source_style_scheme_manager_get_search_path(
-					self.as_ref().to_glib_none().0,
-				),
-			)
-		}
-	}
+    fn get_search_path(&self) -> Vec<GString> {
+        unsafe {
+            FromGlibPtrContainer::from_glib_none(
+                gtk_source_sys::gtk_source_style_scheme_manager_get_search_path(
+                    self.as_ref().to_glib_none().0,
+                ),
+            )
+        }
+    }
 
-	fn prepend_search_path(&self, path: &str)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_style_scheme_manager_prepend_search_path(
-				self.as_ref().to_glib_none().0,
-				path.to_glib_none().0,
-			);
-		}
-	}
+    fn prepend_search_path(&self, path: &str) {
+        unsafe {
+            gtk_source_sys::gtk_source_style_scheme_manager_prepend_search_path(
+                self.as_ref().to_glib_none().0,
+                path.to_glib_none().0,
+            );
+        }
+    }
 
-	fn set_search_path(&self, path: &[&str])
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_style_scheme_manager_set_search_path(
-				self.as_ref().to_glib_none().0,
-				path.to_glib_none().0,
-			);
-		}
-	}
+    fn set_search_path(&self, path: &[&str]) {
+        unsafe {
+            gtk_source_sys::gtk_source_style_scheme_manager_set_search_path(
+                self.as_ref().to_glib_none().0,
+                path.to_glib_none().0,
+            );
+        }
+    }
 
-	fn connect_property_scheme_ids_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_scheme_ids_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceStyleSchemeManager,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<StyleSchemeManager>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&StyleSchemeManager::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::scheme-ids\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_scheme_ids_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    fn connect_property_scheme_ids_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_scheme_ids_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceStyleSchemeManager,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<StyleSchemeManager>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&StyleSchemeManager::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::scheme-ids\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_scheme_ids_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceStyleSchemeManager,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<StyleSchemeManager>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&StyleSchemeManager::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::search-path\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_search_path_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    fn connect_property_search_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_search_path_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceStyleSchemeManager,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<StyleSchemeManager>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&StyleSchemeManager::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::search-path\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_search_path_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 }
 
-impl fmt::Display for StyleSchemeManager
-{
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
-	{
-		write!(f, "StyleSchemeManager")
-	}
+impl fmt::Display for StyleSchemeManager {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "StyleSchemeManager")
+    }
 }

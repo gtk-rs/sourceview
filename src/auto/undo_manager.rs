@@ -17,183 +17,167 @@ use std::fmt;
 use std::mem::transmute;
 
 glib_wrapper! {
-	pub struct UndoManager(Interface<gtk_source_sys::GtkSourceUndoManager>);
+    pub struct UndoManager(Interface<gtk_source_sys::GtkSourceUndoManager>);
 
-	match fn {
-		get_type => || gtk_source_sys::gtk_source_undo_manager_get_type(),
-	}
+    match fn {
+        get_type => || gtk_source_sys::gtk_source_undo_manager_get_type(),
+    }
 }
 
 pub const NONE_UNDO_MANAGER: Option<&UndoManager> = None;
 
-pub trait UndoManagerExt: 'static
-{
-	fn begin_not_undoable_action(&self);
+pub trait UndoManagerExt: 'static {
+    fn begin_not_undoable_action(&self);
 
-	fn can_redo(&self) -> bool;
+    fn can_redo(&self) -> bool;
 
-	fn can_redo_changed(&self);
+    fn can_redo_changed(&self);
 
-	fn can_undo(&self) -> bool;
+    fn can_undo(&self) -> bool;
 
-	fn can_undo_changed(&self);
+    fn can_undo_changed(&self);
 
-	fn end_not_undoable_action(&self);
+    fn end_not_undoable_action(&self);
 
-	fn redo(&self);
+    fn redo(&self);
 
-	fn undo(&self);
+    fn undo(&self);
 
-	fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-	fn emit_can_redo_changed(&self);
+    fn emit_can_redo_changed(&self);
 
-	fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-	fn emit_can_undo_changed(&self);
+    fn emit_can_undo_changed(&self);
 }
 
-impl<O: IsA<UndoManager>> UndoManagerExt for O
-{
-	fn begin_not_undoable_action(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_undo_manager_begin_not_undoable_action(
-				self.as_ref().to_glib_none().0,
-			);
-		}
-	}
+impl<O: IsA<UndoManager>> UndoManagerExt for O {
+    fn begin_not_undoable_action(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_undo_manager_begin_not_undoable_action(
+                self.as_ref().to_glib_none().0,
+            );
+        }
+    }
 
-	fn can_redo(&self) -> bool
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_undo_manager_can_redo(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    fn can_redo(&self) -> bool {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_undo_manager_can_redo(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	fn can_redo_changed(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_undo_manager_can_redo_changed(
-				self.as_ref().to_glib_none().0,
-			);
-		}
-	}
+    fn can_redo_changed(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_undo_manager_can_redo_changed(
+                self.as_ref().to_glib_none().0,
+            );
+        }
+    }
 
-	fn can_undo(&self) -> bool
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_undo_manager_can_undo(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    fn can_undo(&self) -> bool {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_undo_manager_can_undo(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	fn can_undo_changed(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_undo_manager_can_undo_changed(
-				self.as_ref().to_glib_none().0,
-			);
-		}
-	}
+    fn can_undo_changed(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_undo_manager_can_undo_changed(
+                self.as_ref().to_glib_none().0,
+            );
+        }
+    }
 
-	fn end_not_undoable_action(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_undo_manager_end_not_undoable_action(
-				self.as_ref().to_glib_none().0,
-			);
-		}
-	}
+    fn end_not_undoable_action(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_undo_manager_end_not_undoable_action(
+                self.as_ref().to_glib_none().0,
+            );
+        }
+    }
 
-	fn redo(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_undo_manager_redo(self.as_ref().to_glib_none().0);
-		}
-	}
+    fn redo(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_undo_manager_redo(self.as_ref().to_glib_none().0);
+        }
+    }
 
-	fn undo(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_undo_manager_undo(self.as_ref().to_glib_none().0);
-		}
-	}
+    fn undo(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_undo_manager_undo(self.as_ref().to_glib_none().0);
+        }
+    }
 
-	fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn can_redo_changed_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceUndoManager,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<UndoManager>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&UndoManager::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"can-redo-changed\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					can_redo_changed_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    fn connect_can_redo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn can_redo_changed_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceUndoManager,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<UndoManager>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&UndoManager::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"can-redo-changed\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    can_redo_changed_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	fn emit_can_redo_changed(&self)
-	{
-		let _ = unsafe {
-			glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
-				.emit("can-redo-changed", &[])
-				.unwrap()
-		};
-	}
+    fn emit_can_redo_changed(&self) {
+        let _ = unsafe {
+            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+                .emit("can-redo-changed", &[])
+                .unwrap()
+        };
+    }
 
-	fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn can_undo_changed_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceUndoManager,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<UndoManager>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&UndoManager::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"can-undo-changed\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					can_undo_changed_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    fn connect_can_undo_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn can_undo_changed_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceUndoManager,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<UndoManager>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&UndoManager::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"can-undo-changed\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    can_undo_changed_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	fn emit_can_undo_changed(&self)
-	{
-		let _ = unsafe {
-			glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
-				.emit("can-undo-changed", &[])
-				.unwrap()
-		};
-	}
+    fn emit_can_undo_changed(&self) {
+        let _ = unsafe {
+            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+                .emit("can-undo-changed", &[])
+                .unwrap()
+        };
+    }
 }
 
-impl fmt::Display for UndoManager
-{
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
-	{
-		write!(f, "UndoManager")
-	}
+impl fmt::Display for UndoManager {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "UndoManager")
+    }
 }

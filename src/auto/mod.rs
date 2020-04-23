@@ -16,7 +16,7 @@ mod completion_context;
 pub use self::completion_context::CompletionContextBuilder;
 pub use self::completion_context::CompletionContextExt;
 pub use self::completion_context::{
-	CompletionContext, CompletionContextClass, NONE_COMPLETION_CONTEXT,
+    CompletionContext, CompletionContextClass, NONE_COMPLETION_CONTEXT,
 };
 
 mod completion_info;
@@ -82,14 +82,14 @@ mod gutter_renderer_pixbuf;
 pub use self::gutter_renderer_pixbuf::GutterRendererPixbufBuilder;
 pub use self::gutter_renderer_pixbuf::GutterRendererPixbufExt;
 pub use self::gutter_renderer_pixbuf::{
-	GutterRendererPixbuf, GutterRendererPixbufClass, NONE_GUTTER_RENDERER_PIXBUF,
+    GutterRendererPixbuf, GutterRendererPixbufClass, NONE_GUTTER_RENDERER_PIXBUF,
 };
 
 mod gutter_renderer_text;
 pub use self::gutter_renderer_text::GutterRendererTextBuilder;
 pub use self::gutter_renderer_text::GutterRendererTextExt;
 pub use self::gutter_renderer_text::{
-	GutterRendererText, GutterRendererTextClass, NONE_GUTTER_RENDERER_TEXT,
+    GutterRendererText, GutterRendererTextClass, NONE_GUTTER_RENDERER_TEXT,
 };
 
 mod language;
@@ -181,21 +181,21 @@ pub use self::style_scheme_chooser::{StyleSchemeChooser, NONE_STYLE_SCHEME_CHOOS
 mod style_scheme_chooser_button;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 pub use self::style_scheme_chooser_button::{
-	StyleSchemeChooserButton, StyleSchemeChooserButtonClass, NONE_STYLE_SCHEME_CHOOSER_BUTTON,
+    StyleSchemeChooserButton, StyleSchemeChooserButtonClass, NONE_STYLE_SCHEME_CHOOSER_BUTTON,
 };
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 mod style_scheme_chooser_widget;
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 pub use self::style_scheme_chooser_widget::{
-	StyleSchemeChooserWidget, StyleSchemeChooserWidgetClass, NONE_STYLE_SCHEME_CHOOSER_WIDGET,
+    StyleSchemeChooserWidget, StyleSchemeChooserWidgetClass, NONE_STYLE_SCHEME_CHOOSER_WIDGET,
 };
 
 mod style_scheme_manager;
 pub use self::style_scheme_manager::StyleSchemeManagerBuilder;
 pub use self::style_scheme_manager::StyleSchemeManagerExt;
 pub use self::style_scheme_manager::{
-	StyleSchemeManager, StyleSchemeManagerClass, NONE_STYLE_SCHEME_MANAGER,
+    StyleSchemeManager, StyleSchemeManagerClass, NONE_STYLE_SCHEME_MANAGER,
 };
 
 #[cfg(any(feature = "v3_20", feature = "dox"))]
@@ -247,47 +247,46 @@ pub use self::flags::SpaceLocationFlags;
 pub use self::flags::SpaceTypeFlags;
 
 #[doc(hidden)]
-pub mod traits
-{
-	pub use super::BufferExt;
-	pub use super::CompletionContextExt;
-	pub use super::CompletionExt;
-	pub use super::CompletionInfoExt;
-	pub use super::CompletionItemExt;
-	pub use super::CompletionProposalExt;
-	pub use super::CompletionProviderExt;
-	pub use super::CompletionWordsExt;
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub use super::FileExt;
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub use super::FileLoaderExt;
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub use super::FileSaverExt;
-	pub use super::GutterExt;
-	pub use super::GutterRendererExt;
-	pub use super::GutterRendererPixbufExt;
-	pub use super::GutterRendererTextExt;
-	pub use super::LanguageExt;
-	pub use super::LanguageManagerExt;
-	#[cfg(any(feature = "v3_18", feature = "dox"))]
-	pub use super::MapExt;
-	pub use super::MarkAttributesExt;
-	pub use super::MarkExt;
-	pub use super::PrintCompositorExt;
-	#[cfg(any(feature = "v3_22", feature = "dox"))]
-	pub use super::RegionExt;
-	#[cfg(any(feature = "v3_10", feature = "dox"))]
-	pub use super::SearchContextExt;
-	#[cfg(any(feature = "v3_10", feature = "dox"))]
-	pub use super::SearchSettingsExt;
-	#[cfg(any(feature = "v3_24", feature = "dox"))]
-	pub use super::SpaceDrawerExt;
-	#[cfg(any(feature = "v3_16", feature = "dox"))]
-	pub use super::StyleSchemeChooserExt;
-	pub use super::StyleSchemeExt;
-	pub use super::StyleSchemeManagerExt;
-	#[cfg(any(feature = "v3_20", feature = "dox"))]
-	pub use super::TagExt;
-	pub use super::UndoManagerExt;
-	pub use super::ViewExt;
+pub mod traits {
+    pub use super::BufferExt;
+    pub use super::CompletionContextExt;
+    pub use super::CompletionExt;
+    pub use super::CompletionInfoExt;
+    pub use super::CompletionItemExt;
+    pub use super::CompletionProposalExt;
+    pub use super::CompletionProviderExt;
+    pub use super::CompletionWordsExt;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use super::FileExt;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use super::FileLoaderExt;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use super::FileSaverExt;
+    pub use super::GutterExt;
+    pub use super::GutterRendererExt;
+    pub use super::GutterRendererPixbufExt;
+    pub use super::GutterRendererTextExt;
+    pub use super::LanguageExt;
+    pub use super::LanguageManagerExt;
+    #[cfg(any(feature = "v3_18", feature = "dox"))]
+    pub use super::MapExt;
+    pub use super::MarkAttributesExt;
+    pub use super::MarkExt;
+    pub use super::PrintCompositorExt;
+    #[cfg(any(feature = "v3_22", feature = "dox"))]
+    pub use super::RegionExt;
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub use super::SearchContextExt;
+    #[cfg(any(feature = "v3_10", feature = "dox"))]
+    pub use super::SearchSettingsExt;
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    pub use super::SpaceDrawerExt;
+    #[cfg(any(feature = "v3_16", feature = "dox"))]
+    pub use super::StyleSchemeChooserExt;
+    pub use super::StyleSchemeExt;
+    pub use super::StyleSchemeManagerExt;
+    #[cfg(any(feature = "v3_20", feature = "dox"))]
+    pub use super::TagExt;
+    pub use super::UndoManagerExt;
+    pub use super::ViewExt;
 }

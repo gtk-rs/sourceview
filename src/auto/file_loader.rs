@@ -27,234 +27,208 @@ use File;
 use NewlineType;
 
 glib_wrapper! {
-	pub struct FileLoader(Object<gtk_source_sys::GtkSourceFileLoader, gtk_source_sys::GtkSourceFileLoaderClass, FileLoaderClass>);
+    pub struct FileLoader(Object<gtk_source_sys::GtkSourceFileLoader, gtk_source_sys::GtkSourceFileLoaderClass, FileLoaderClass>);
 
-	match fn {
-		get_type => || gtk_source_sys::gtk_source_file_loader_get_type(),
-	}
+    match fn {
+        get_type => || gtk_source_sys::gtk_source_file_loader_get_type(),
+    }
 }
 
-impl FileLoader
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileLoader
-	{
-		skip_assert_initialized!();
-		unsafe {
-			from_glib_full(gtk_source_sys::gtk_source_file_loader_new(
-				buffer.as_ref().to_glib_none().0,
-				file.as_ref().to_glib_none().0,
-			))
-		}
-	}
+impl FileLoader {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn new<P: IsA<Buffer>, Q: IsA<File>>(buffer: &P, file: &Q) -> FileLoader {
+        skip_assert_initialized!();
+        unsafe {
+            from_glib_full(gtk_source_sys::gtk_source_file_loader_new(
+                buffer.as_ref().to_glib_none().0,
+                file.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn new_from_stream<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::InputStream>>(
-		buffer: &P,
-		file: &Q,
-		stream: &R,
-	) -> FileLoader
-	{
-		skip_assert_initialized!();
-		unsafe {
-			from_glib_full(gtk_source_sys::gtk_source_file_loader_new_from_stream(
-				buffer.as_ref().to_glib_none().0,
-				file.as_ref().to_glib_none().0,
-				stream.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn new_from_stream<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::InputStream>>(
+        buffer: &P,
+        file: &Q,
+        stream: &R,
+    ) -> FileLoader {
+        skip_assert_initialized!();
+        unsafe {
+            from_glib_full(gtk_source_sys::gtk_source_file_loader_new_from_stream(
+                buffer.as_ref().to_glib_none().0,
+                file.as_ref().to_glib_none().0,
+                stream.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 }
 
 #[derive(Clone, Default)]
-pub struct FileLoaderBuilder
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	buffer: Option<Buffer>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	file: Option<File>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	input_stream: Option<gio::InputStream>,
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	location: Option<gio::File>,
+pub struct FileLoaderBuilder {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    buffer: Option<Buffer>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    file: Option<File>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    input_stream: Option<gio::InputStream>,
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    location: Option<gio::File>,
 }
 
-impl FileLoaderBuilder
-{
-	pub fn new() -> Self
-	{
-		Self::default()
-	}
+impl FileLoaderBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
 
-	pub fn build(self) -> FileLoader
-	{
-		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref buffer) = self.buffer
-			{
-				properties.push(("buffer", buffer));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref file) = self.file
-			{
-				properties.push(("file", file));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref input_stream) = self.input_stream
-			{
-				properties.push(("input-stream", input_stream));
-			}
-		}
-		#[cfg(any(feature = "v3_14", feature = "dox"))]
-		{
-			if let Some(ref location) = self.location
-			{
-				properties.push(("location", location));
-			}
-		}
-		glib::Object::new(FileLoader::static_type(), &properties)
-			.expect("object new")
-			.downcast()
-			.expect("downcast")
-	}
+    pub fn build(self) -> FileLoader {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref buffer) = self.buffer {
+                properties.push(("buffer", buffer));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref file) = self.file {
+                properties.push(("file", file));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref input_stream) = self.input_stream {
+                properties.push(("input-stream", input_stream));
+            }
+        }
+        #[cfg(any(feature = "v3_14", feature = "dox"))]
+        {
+            if let Some(ref location) = self.location {
+                properties.push(("location", location));
+            }
+        }
+        glib::Object::new(FileLoader::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self
-	{
-		self.buffer = Some(buffer.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn buffer<P: IsA<Buffer>>(mut self, buffer: &P) -> Self {
+        self.buffer = Some(buffer.clone().upcast());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn file<P: IsA<File>>(mut self, file: &P) -> Self
-	{
-		self.file = Some(file.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn file<P: IsA<File>>(mut self, file: &P) -> Self {
+        self.file = Some(file.clone().upcast());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn input_stream<P: IsA<gio::InputStream>>(mut self, input_stream: &P) -> Self
-	{
-		self.input_stream = Some(input_stream.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn input_stream<P: IsA<gio::InputStream>>(mut self, input_stream: &P) -> Self {
+        self.input_stream = Some(input_stream.clone().upcast());
+        self
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self
-	{
-		self.location = Some(location.clone().upcast());
-		self
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub fn location<P: IsA<gio::File>>(mut self, location: &P) -> Self {
+        self.location = Some(location.clone().upcast());
+        self
+    }
 }
 
 pub const NONE_FILE_LOADER: Option<&FileLoader> = None;
 
-pub trait FileLoaderExt: 'static
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_buffer(&self) -> Option<Buffer>;
+pub trait FileLoaderExt: 'static {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_buffer(&self) -> Option<Buffer>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_compression_type(&self) -> CompressionType;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_compression_type(&self) -> CompressionType;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_encoding(&self) -> Option<Encoding>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_encoding(&self) -> Option<Encoding>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_file(&self) -> Option<File>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_file(&self) -> Option<File>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_input_stream(&self) -> Option<gio::InputStream>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_input_stream(&self) -> Option<gio::InputStream>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_location(&self) -> Option<gio::File>;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_location(&self) -> Option<gio::File>;
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_newline_type(&self) -> NewlineType;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_newline_type(&self) -> NewlineType;
 }
 
-impl<O: IsA<FileLoader>> FileLoaderExt for O
-{
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_buffer(&self) -> Option<Buffer>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_loader_get_buffer(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+impl<O: IsA<FileLoader>> FileLoaderExt for O {
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_buffer(&self) -> Option<Buffer> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_buffer(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_compression_type(&self) -> CompressionType
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_file_loader_get_compression_type(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_compression_type(&self) -> CompressionType {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_file_loader_get_compression_type(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_encoding(&self) -> Option<Encoding>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_loader_get_encoding(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_encoding(&self) -> Option<Encoding> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_encoding(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_file(&self) -> Option<File>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_loader_get_file(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_file(&self) -> Option<File> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_file(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_input_stream(&self) -> Option<gio::InputStream>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_loader_get_input_stream(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_input_stream(&self) -> Option<gio::InputStream> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_input_stream(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_location(&self) -> Option<gio::File>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_file_loader_get_location(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_location(&self) -> Option<gio::File> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_file_loader_get_location(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_14", feature = "dox"))]
-	fn get_newline_type(&self) -> NewlineType
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_file_loader_get_newline_type(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    fn get_newline_type(&self) -> NewlineType {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_file_loader_get_newline_type(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 }
 
-impl fmt::Display for FileLoader
-{
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
-	{
-		write!(f, "FileLoader")
-	}
+impl fmt::Display for FileLoader {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "FileLoader")
+    }
 }

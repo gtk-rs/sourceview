@@ -11,40 +11,34 @@ use std::fmt;
 use StyleSchemeChooser;
 
 glib_wrapper! {
-	pub struct StyleSchemeChooserButton(Object<gtk_source_sys::GtkSourceStyleSchemeChooserButton, gtk_source_sys::GtkSourceStyleSchemeChooserButtonClass, StyleSchemeChooserButtonClass>) @extends gtk::Button, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, gtk::Actionable, StyleSchemeChooser;
+    pub struct StyleSchemeChooserButton(Object<gtk_source_sys::GtkSourceStyleSchemeChooserButton, gtk_source_sys::GtkSourceStyleSchemeChooserButtonClass, StyleSchemeChooserButtonClass>) @extends gtk::Button, gtk::Bin, gtk::Container, gtk::Widget, @implements gtk::Buildable, gtk::Actionable, StyleSchemeChooser;
 
-	match fn {
-		get_type => || gtk_source_sys::gtk_source_style_scheme_chooser_button_get_type(),
-	}
+    match fn {
+        get_type => || gtk_source_sys::gtk_source_style_scheme_chooser_button_get_type(),
+    }
 }
 
-impl StyleSchemeChooserButton
-{
-	#[cfg(any(feature = "v3_16", feature = "dox"))]
-	pub fn new() -> StyleSchemeChooserButton
-	{
-		assert_initialized_main_thread!();
-		unsafe {
-			gtk::Widget::from_glib_none(gtk_source_sys::gtk_source_style_scheme_chooser_button_new()).unsafe_cast()
-		}
-	}
+impl StyleSchemeChooserButton {
+    #[cfg(any(feature = "v3_16", feature = "dox"))]
+    pub fn new() -> StyleSchemeChooserButton {
+        assert_initialized_main_thread!();
+        unsafe {
+            gtk::Widget::from_glib_none(gtk_source_sys::gtk_source_style_scheme_chooser_button_new()).unsafe_cast()
+        }
+    }
 }
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
-impl Default for StyleSchemeChooserButton
-{
-	fn default() -> Self
-	{
-		Self::new()
-	}
+impl Default for StyleSchemeChooserButton {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 pub const NONE_STYLE_SCHEME_CHOOSER_BUTTON: Option<&StyleSchemeChooserButton> = None;
 
-impl fmt::Display for StyleSchemeChooserButton
-{
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
-	{
-		write!(f, "StyleSchemeChooserButton")
-	}
+impl fmt::Display for StyleSchemeChooserButton {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "StyleSchemeChooserButton")
+    }
 }

@@ -6,19 +6,17 @@ use glib::translate::ToGlibPtr;
 use gtk_source_sys;
 use Gutter;
 
-impl Gutter
-{
-	pub fn get_padding(&self) -> (i32, i32)
-	{
-		let mut xpad = 0;
-		let mut ypad = 0;
-		unsafe {
-			gtk_source_sys::gtk_source_gutter_get_padding(
-				self.to_glib_none().0,
-				&mut xpad,
-				&mut ypad,
-			);
-		}
-		(xpad, ypad)
-	}
+impl Gutter {
+    pub fn get_padding(&self) -> (i32, i32) {
+        let mut xpad = 0;
+        let mut ypad = 0;
+        unsafe {
+            gtk_source_sys::gtk_source_gutter_get_padding(
+                self.to_glib_none().0,
+                &mut xpad,
+                &mut ypad,
+            );
+        }
+        (xpad, ypad)
+    }
 }

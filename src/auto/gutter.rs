@@ -22,360 +22,327 @@ use GutterRenderer;
 use View;
 
 glib_wrapper! {
-	pub struct Gutter(Object<gtk_source_sys::GtkSourceGutter, gtk_source_sys::GtkSourceGutterClass, GutterClass>);
+    pub struct Gutter(Object<gtk_source_sys::GtkSourceGutter, gtk_source_sys::GtkSourceGutterClass, GutterClass>);
 
-	match fn {
-		get_type => || gtk_source_sys::gtk_source_gutter_get_type(),
-	}
+    match fn {
+        get_type => || gtk_source_sys::gtk_source_gutter_get_type(),
+    }
 }
 
 #[derive(Clone, Default)]
-pub struct GutterBuilder
-{
-	view: Option<View>,
-	window_type: Option<gtk::TextWindowType>,
-	xpad: Option<i32>,
-	ypad: Option<i32>,
+pub struct GutterBuilder {
+    view: Option<View>,
+    window_type: Option<gtk::TextWindowType>,
+    xpad: Option<i32>,
+    ypad: Option<i32>,
 }
 
-impl GutterBuilder
-{
-	pub fn new() -> Self
-	{
-		Self::default()
-	}
+impl GutterBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
 
-	pub fn build(self) -> Gutter
-	{
-		let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-		if let Some(ref view) = self.view
-		{
-			properties.push(("view", view));
-		}
-		if let Some(ref window_type) = self.window_type
-		{
-			properties.push(("window-type", window_type));
-		}
-		if let Some(ref xpad) = self.xpad
-		{
-			properties.push(("xpad", xpad));
-		}
-		if let Some(ref ypad) = self.ypad
-		{
-			properties.push(("ypad", ypad));
-		}
-		glib::Object::new(Gutter::static_type(), &properties)
-			.expect("object new")
-			.downcast()
-			.expect("downcast")
-	}
+    pub fn build(self) -> Gutter {
+        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref view) = self.view {
+            properties.push(("view", view));
+        }
+        if let Some(ref window_type) = self.window_type {
+            properties.push(("window-type", window_type));
+        }
+        if let Some(ref xpad) = self.xpad {
+            properties.push(("xpad", xpad));
+        }
+        if let Some(ref ypad) = self.ypad {
+            properties.push(("ypad", ypad));
+        }
+        glib::Object::new(Gutter::static_type(), &properties)
+            .expect("object new")
+            .downcast()
+            .expect("downcast")
+    }
 
-	pub fn view<P: IsA<View>>(mut self, view: &P) -> Self
-	{
-		self.view = Some(view.clone().upcast());
-		self
-	}
+    pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {
+        self.view = Some(view.clone().upcast());
+        self
+    }
 
-	pub fn window_type(mut self, window_type: gtk::TextWindowType) -> Self
-	{
-		self.window_type = Some(window_type);
-		self
-	}
+    pub fn window_type(mut self, window_type: gtk::TextWindowType) -> Self {
+        self.window_type = Some(window_type);
+        self
+    }
 
-	pub fn xpad(mut self, xpad: i32) -> Self
-	{
-		self.xpad = Some(xpad);
-		self
-	}
+    pub fn xpad(mut self, xpad: i32) -> Self {
+        self.xpad = Some(xpad);
+        self
+    }
 
-	pub fn ypad(mut self, ypad: i32) -> Self
-	{
-		self.ypad = Some(ypad);
-		self
-	}
+    pub fn ypad(mut self, ypad: i32) -> Self {
+        self.ypad = Some(ypad);
+        self
+    }
 }
 
 pub const NONE_GUTTER: Option<&Gutter> = None;
 
-pub trait GutterExt: 'static
-{
-	fn get_renderer_at_pos(&self, x: i32, y: i32) -> Option<GutterRenderer>;
+pub trait GutterExt: 'static {
+    fn get_renderer_at_pos(&self, x: i32, y: i32) -> Option<GutterRenderer>;
 
-	#[cfg(any(feature = "v3_24", feature = "dox"))]
-	fn get_view(&self) -> Option<View>;
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    fn get_view(&self) -> Option<View>;
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn get_window(&self) -> Option<gdk::Window>;
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn get_window(&self) -> Option<gdk::Window>;
 
-	#[cfg(any(feature = "v3_24", feature = "dox"))]
-	fn get_window_type(&self) -> gtk::TextWindowType;
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    fn get_window_type(&self) -> gtk::TextWindowType;
 
-	fn insert<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) -> bool;
+    fn insert<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) -> bool;
 
-	fn queue_draw(&self);
+    fn queue_draw(&self);
 
-	fn remove<P: IsA<GutterRenderer>>(&self, renderer: &P);
+    fn remove<P: IsA<GutterRenderer>>(&self, renderer: &P);
 
-	fn reorder<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32);
+    fn reorder<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32);
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn set_padding(&self, xpad: i32, ypad: i32);
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn set_padding(&self, xpad: i32, ypad: i32);
 
-	fn get_property_view(&self) -> Option<View>;
+    fn get_property_view(&self) -> Option<View>;
 
-	fn get_property_window_type(&self) -> gtk::TextWindowType;
+    fn get_property_window_type(&self) -> gtk::TextWindowType;
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn get_property_xpad(&self) -> i32;
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn get_property_xpad(&self) -> i32;
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn set_property_xpad(&self, xpad: i32);
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn set_property_xpad(&self, xpad: i32);
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn get_property_ypad(&self) -> i32;
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn get_property_ypad(&self) -> i32;
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn set_property_ypad(&self, ypad: i32);
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn set_property_ypad(&self, ypad: i32);
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-	#[cfg_attr(feature = "v3_12", deprecated)]
-	fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    #[cfg_attr(feature = "v3_12", deprecated)]
+    fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Gutter>> GutterExt for O
-{
-	fn get_renderer_at_pos(&self, x: i32, y: i32) -> Option<GutterRenderer>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_gutter_get_renderer_at_pos(
-				self.as_ref().to_glib_none().0,
-				x,
-				y,
-			))
-		}
-	}
+impl<O: IsA<Gutter>> GutterExt for O {
+    fn get_renderer_at_pos(&self, x: i32, y: i32) -> Option<GutterRenderer> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_gutter_get_renderer_at_pos(
+                self.as_ref().to_glib_none().0,
+                x,
+                y,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_24", feature = "dox"))]
-	fn get_view(&self) -> Option<View>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_gutter_get_view(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    fn get_view(&self) -> Option<View> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_gutter_get_view(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	fn get_window(&self) -> Option<gdk::Window>
-	{
-		unsafe {
-			from_glib_none(gtk_source_sys::gtk_source_gutter_get_window(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    fn get_window(&self) -> Option<gdk::Window> {
+        unsafe {
+            from_glib_none(gtk_source_sys::gtk_source_gutter_get_window(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	#[cfg(any(feature = "v3_24", feature = "dox"))]
-	fn get_window_type(&self) -> gtk::TextWindowType
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_gutter_get_window_type(
-				self.as_ref().to_glib_none().0,
-			))
-		}
-	}
+    #[cfg(any(feature = "v3_24", feature = "dox"))]
+    fn get_window_type(&self) -> gtk::TextWindowType {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_gutter_get_window_type(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
 
-	fn insert<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) -> bool
-	{
-		unsafe {
-			from_glib(gtk_source_sys::gtk_source_gutter_insert(
-				self.as_ref().to_glib_none().0,
-				renderer.as_ref().to_glib_none().0,
-				position,
-			))
-		}
-	}
+    fn insert<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) -> bool {
+        unsafe {
+            from_glib(gtk_source_sys::gtk_source_gutter_insert(
+                self.as_ref().to_glib_none().0,
+                renderer.as_ref().to_glib_none().0,
+                position,
+            ))
+        }
+    }
 
-	fn queue_draw(&self)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_gutter_queue_draw(self.as_ref().to_glib_none().0);
-		}
-	}
+    fn queue_draw(&self) {
+        unsafe {
+            gtk_source_sys::gtk_source_gutter_queue_draw(self.as_ref().to_glib_none().0);
+        }
+    }
 
-	fn remove<P: IsA<GutterRenderer>>(&self, renderer: &P)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_gutter_remove(
-				self.as_ref().to_glib_none().0,
-				renderer.as_ref().to_glib_none().0,
-			);
-		}
-	}
+    fn remove<P: IsA<GutterRenderer>>(&self, renderer: &P) {
+        unsafe {
+            gtk_source_sys::gtk_source_gutter_remove(
+                self.as_ref().to_glib_none().0,
+                renderer.as_ref().to_glib_none().0,
+            );
+        }
+    }
 
-	fn reorder<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_gutter_reorder(
-				self.as_ref().to_glib_none().0,
-				renderer.as_ref().to_glib_none().0,
-				position,
-			);
-		}
-	}
+    fn reorder<P: IsA<GutterRenderer>>(&self, renderer: &P, position: i32) {
+        unsafe {
+            gtk_source_sys::gtk_source_gutter_reorder(
+                self.as_ref().to_glib_none().0,
+                renderer.as_ref().to_glib_none().0,
+                position,
+            );
+        }
+    }
 
-	fn set_padding(&self, xpad: i32, ypad: i32)
-	{
-		unsafe {
-			gtk_source_sys::gtk_source_gutter_set_padding(
-				self.as_ref().to_glib_none().0,
-				xpad,
-				ypad,
-			);
-		}
-	}
+    fn set_padding(&self, xpad: i32, ypad: i32) {
+        unsafe {
+            gtk_source_sys::gtk_source_gutter_set_padding(
+                self.as_ref().to_glib_none().0,
+                xpad,
+                ypad,
+            );
+        }
+    }
 
-	fn get_property_view(&self) -> Option<View>
-	{
-		unsafe {
-			let mut value = Value::from_type(<View as StaticType>::static_type());
-			gobject_sys::g_object_get_property(
-				self.to_glib_none().0 as *mut gobject_sys::GObject,
-				b"view\0".as_ptr() as *const _,
-				value.to_glib_none_mut().0,
-			);
-			value
-				.get()
-				.expect("Return Value for property `view` getter")
-		}
-	}
+    fn get_property_view(&self) -> Option<View> {
+        unsafe {
+            let mut value = Value::from_type(<View as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"view\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `view` getter")
+        }
+    }
 
-	fn get_property_window_type(&self) -> gtk::TextWindowType
-	{
-		unsafe {
-			let mut value = Value::from_type(<gtk::TextWindowType as StaticType>::static_type());
-			gobject_sys::g_object_get_property(
-				self.to_glib_none().0 as *mut gobject_sys::GObject,
-				b"window-type\0".as_ptr() as *const _,
-				value.to_glib_none_mut().0,
-			);
-			value
-				.get()
-				.expect("Return Value for property `window-type` getter")
-				.unwrap()
-		}
-	}
+    fn get_property_window_type(&self) -> gtk::TextWindowType {
+        unsafe {
+            let mut value = Value::from_type(<gtk::TextWindowType as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"window-type\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `window-type` getter")
+                .unwrap()
+        }
+    }
 
-	fn get_property_xpad(&self) -> i32
-	{
-		unsafe {
-			let mut value = Value::from_type(<i32 as StaticType>::static_type());
-			gobject_sys::g_object_get_property(
-				self.to_glib_none().0 as *mut gobject_sys::GObject,
-				b"xpad\0".as_ptr() as *const _,
-				value.to_glib_none_mut().0,
-			);
-			value
-				.get()
-				.expect("Return Value for property `xpad` getter")
-				.unwrap()
-		}
-	}
+    fn get_property_xpad(&self) -> i32 {
+        unsafe {
+            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"xpad\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `xpad` getter")
+                .unwrap()
+        }
+    }
 
-	fn set_property_xpad(&self, xpad: i32)
-	{
-		unsafe {
-			gobject_sys::g_object_set_property(
-				self.to_glib_none().0 as *mut gobject_sys::GObject,
-				b"xpad\0".as_ptr() as *const _,
-				Value::from(&xpad).to_glib_none().0,
-			);
-		}
-	}
+    fn set_property_xpad(&self, xpad: i32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"xpad\0".as_ptr() as *const _,
+                Value::from(&xpad).to_glib_none().0,
+            );
+        }
+    }
 
-	fn get_property_ypad(&self) -> i32
-	{
-		unsafe {
-			let mut value = Value::from_type(<i32 as StaticType>::static_type());
-			gobject_sys::g_object_get_property(
-				self.to_glib_none().0 as *mut gobject_sys::GObject,
-				b"ypad\0".as_ptr() as *const _,
-				value.to_glib_none_mut().0,
-			);
-			value
-				.get()
-				.expect("Return Value for property `ypad` getter")
-				.unwrap()
-		}
-	}
+    fn get_property_ypad(&self) -> i32 {
+        unsafe {
+            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"ypad\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `ypad` getter")
+                .unwrap()
+        }
+    }
 
-	fn set_property_ypad(&self, ypad: i32)
-	{
-		unsafe {
-			gobject_sys::g_object_set_property(
-				self.to_glib_none().0 as *mut gobject_sys::GObject,
-				b"ypad\0".as_ptr() as *const _,
-				Value::from(&ypad).to_glib_none().0,
-			);
-		}
-	}
+    fn set_property_ypad(&self, ypad: i32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"ypad\0".as_ptr() as *const _,
+                Value::from(&ypad).to_glib_none().0,
+            );
+        }
+    }
 
-	fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceGutter,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<Gutter>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&Gutter::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::xpad\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_xpad_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    fn connect_property_xpad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_xpad_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceGutter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Gutter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&Gutter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::xpad\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_xpad_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 
-	fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
-	{
-		unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(
-			this: *mut gtk_source_sys::GtkSourceGutter,
-			_param_spec: glib_sys::gpointer,
-			f: glib_sys::gpointer,
-		) where
-			P: IsA<Gutter>,
-		{
-			let f: &F = &*(f as *const F);
-			f(&Gutter::from_glib_borrow(this).unsafe_cast_ref())
-		}
-		unsafe {
-			let f: Box_<F> = Box_::new(f);
-			connect_raw(
-				self.as_ptr() as *mut _,
-				b"notify::ypad\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
-					notify_ypad_trampoline::<Self, F> as *const (),
-				)),
-				Box_::into_raw(f),
-			)
-		}
-	}
+    fn connect_property_ypad_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_ypad_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut gtk_source_sys::GtkSourceGutter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Gutter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&Gutter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::ypad\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ypad_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
 }
 
-impl fmt::Display for Gutter
-{
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result
-	{
-		write!(f, "Gutter")
-	}
+impl fmt::Display for Gutter {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Gutter")
+    }
 }
