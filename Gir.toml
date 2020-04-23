@@ -21,7 +21,6 @@ generate = [
     "GtkSource.DrawSpacesFlags",
     "GtkSource.Encoding",
     "GtkSource.File",
-    "GtkSource.FileSaver",
     "GtkSource.FileSaverFlags",
     "GtkSource.GutterRendererAlignmentMode",
     "GtkSource.GutterRendererPixbuf",
@@ -159,6 +158,20 @@ status = "generate"
     [[object.function]]
     name = "set_candidate_encodings"
     #array of boxed to GSList
+    ignore = true
+    [[object.function]]
+    version = "3.14"
+    name = "load_async"
+    #callbacks and async parameters at the same time
+    ignore = true
+
+[[object]]
+name = "GtkSource.FileSaver"
+status = "generate"
+version = "3.14"
+    [[object.function]]
+    name = "save_async"
+    #callbacks and async parameters at the same time
     ignore = true
 
 [[object]]
