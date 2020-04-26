@@ -9,8 +9,22 @@ use std::boxed::Box;
 use std::ptr;
 use FileSaver;
 
-impl FileSaver {
-    pub fn save_async<
+pub trait FileSaverExtManual {
+    fn save_async<
+        P: IsA<gio::Cancellable>,
+        Q: 'static + Fn(i64, i64) + Send,
+        R: 'static + Fn(Result<bool, glib::Error>) + Send,
+    >(
+        &self,
+        io_priority: glib::Priority,
+        cancellable: Option<&P>,
+        progress_callback: Q,
+        ready_callback: R,
+    );
+}
+
+impl<O: IsA<FileSaver>> FileSaverExtManual for O {
+    fn save_async<
         P: IsA<gio::Cancellable>,
         Q: 'static + Fn(i64, i64) + Send,
         R: 'static + Fn(Result<bool, glib::Error>) + Send,
@@ -69,7 +83,7 @@ impl FileSaver {
         let user_data = Box::into_raw(callbacks) as *mut _;
         unsafe {
             gtk_source_sys::gtk_source_file_saver_save_async(
-                self.to_glib_none().0,
+                self.as_ref().to_glib_none().0,
                 io_priority.to_glib(),
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 Some(save_async_progress_trampoline::<Q, R>),
