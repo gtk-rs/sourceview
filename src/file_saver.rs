@@ -13,34 +13,29 @@ impl FileSaver {
     pub fn save_async<
         P: IsA<gio::Cancellable>,
         Q: 'static + Fn(i64, i64) + Send,
-        R: 'static + FnOnce(Result<bool, glib::Error>) + Send,
-        S: 'static + FnOnce() + Send,
+        R: 'static + Fn(Result<bool, glib::Error>) + Send,
     >(
         &self,
         io_priority: glib::Priority,
         cancellable: Option<&P>,
         progress_callback: Q,
         ready_callback: R,
-        notify_callback: S,
     ) {
-        let progress_user_data: Box<(Q, S)> = Box::new((progress_callback, notify_callback));
         unsafe extern "C" fn save_async_progress_trampoline<
             Q: 'static + Fn(i64, i64) + Send,
-            S: 'static + FnOnce() + Send,
+            R: 'static + Fn(Result<bool, glib::Error>) + Send,
         >(
             current_num_bytes: i64,
             total_num_bytes: i64,
             user_data: glib_sys::gpointer,
         ) {
-            let callbacks: Box<(Q, S)> = Box::from_raw(user_data as *mut _);
+            let callbacks = &*(user_data as *mut (Q, R));
             callbacks.0(current_num_bytes, total_num_bytes);
-            Box::into_raw(callbacks); // Don't drop until 'notify'
         }
-        let progress_callback = save_async_progress_trampoline::<Q, S>;
 
-        let ready_user_data: Box<R> = Box::new(ready_callback);
         unsafe extern "C" fn save_async_ready_trampoline<
-            R: 'static + FnOnce(Result<bool, glib::Error>) + Send,
+            Q: 'static + Fn(i64, i64) + Send,
+            R: 'static + Fn(Result<bool, glib::Error>) + Send,
         >(
             source_object: *mut gobject_sys::GObject,
             res: *mut gio_sys::GAsyncResult,
@@ -57,32 +52,31 @@ impl FileSaver {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box<R> = Box::from_raw(user_data as *mut _);
-            callback(result);
+            let callbacks = &*(user_data as *mut (Q, R));
+            callbacks.1(result);
         }
-        let ready_callback = save_async_ready_trampoline::<R>;
 
         unsafe extern "C" fn save_async_notify_trampoline<
             Q: 'static + Fn(i64, i64) + Send,
-            S: 'static + FnOnce() + Send,
+            R: 'static + Fn(Result<bool, glib::Error>) + Send,
         >(
             user_data: glib_sys::gpointer,
         ) {
-            let callbacks: Box<(Q, S)> = Box::from_raw(user_data as *mut _);
-            callbacks.1();
+            Box::from_raw(user_data as *mut _);
         }
-        let notify_callback = save_async_notify_trampoline::<Q, S>;
 
+        let callbacks = Box::new((progress_callback, ready_callback));
+        let user_data = Box::into_raw(callbacks) as *mut _;
         unsafe {
             gtk_source_sys::gtk_source_file_saver_save_async(
                 self.to_glib_none().0,
                 io_priority.to_glib(),
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
-                Some(progress_callback),
-                Box::into_raw(progress_user_data) as *mut _,
-                Some(notify_callback),
-                Some(ready_callback),
-                Box::into_raw(ready_user_data) as *mut _,
+                Some(save_async_progress_trampoline::<Q, R>),
+                user_data,
+                Some(save_async_notify_trampoline::<Q, R>),
+                Some(save_async_ready_trampoline::<Q, R>),
+                user_data,
             );
         }
     }
