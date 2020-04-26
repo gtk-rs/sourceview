@@ -13,7 +13,7 @@ pub trait FileLoaderExtManual {
     fn load_async<
         P: IsA<gio::Cancellable>,
         Q: 'static + Fn(i64, i64) + Send,
-        R: 'static + Fn(Result<bool, glib::Error>) + Send,
+        R: 'static + Fn(Result<(), glib::Error>) + Send,
     >(
         &self,
         io_priority: glib::Priority,
@@ -27,7 +27,7 @@ impl<O: IsA<FileLoader>> FileLoaderExtManual for O {
     fn load_async<
         P: IsA<gio::Cancellable>,
         Q: 'static + Fn(i64, i64) + Send,
-        R: 'static + Fn(Result<bool, glib::Error>) + Send,
+        R: 'static + Fn(Result<(), glib::Error>) + Send,
     >(
         &self,
         io_priority: glib::Priority,
@@ -37,7 +37,7 @@ impl<O: IsA<FileLoader>> FileLoaderExtManual for O {
     ) {
         unsafe extern "C" fn load_async_progress_trampoline<
             Q: 'static + Fn(i64, i64) + Send,
-            R: 'static + Fn(Result<bool, glib::Error>) + Send,
+            R: 'static + Fn(Result<(), glib::Error>) + Send,
         >(
             current_num_bytes: i64,
             total_num_bytes: i64,
@@ -49,7 +49,7 @@ impl<O: IsA<FileLoader>> FileLoaderExtManual for O {
 
         unsafe extern "C" fn load_async_ready_trampoline<
             Q: 'static + Fn(i64, i64) + Send,
-            R: 'static + Fn(Result<bool, glib::Error>) + Send,
+            R: 'static + Fn(Result<(), glib::Error>) + Send,
         >(
             source_object: *mut gobject_sys::GObject,
             res: *mut gio_sys::GAsyncResult,
@@ -61,10 +61,15 @@ impl<O: IsA<FileLoader>> FileLoaderExtManual for O {
                 res,
                 &mut error,
             );
-            let result = if error.is_null() {
-                Ok(ret != 0)
-            } else {
+            let result = if !error.is_null() {
                 Err(from_glib_full(error))
+            } else if ret == 0 {
+                Err(glib::Error::new(
+                    glib::FileError::Failed,
+                    "Unexpected failure",
+                ))
+            } else {
+                Ok(())
             };
             let callbacks = &*(user_data as *mut (Q, R));
             callbacks.1(result);
@@ -72,7 +77,7 @@ impl<O: IsA<FileLoader>> FileLoaderExtManual for O {
 
         unsafe extern "C" fn load_async_notify_trampoline<
             Q: 'static + Fn(i64, i64) + Send,
-            R: 'static + Fn(Result<bool, glib::Error>) + Send,
+            R: 'static + Fn(Result<(), glib::Error>) + Send,
         >(
             user_data: glib_sys::gpointer,
         ) {
