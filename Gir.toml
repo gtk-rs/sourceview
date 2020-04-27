@@ -155,24 +155,28 @@ status = "generate"
 [[object]]
 name = "GtkSource.FileLoader"
 status = "generate"
+version = "3.14"
+manual_traits = ["FileLoaderExtManual"]
     [[object.function]]
     name = "set_candidate_encodings"
     #array of boxed to GSList
     ignore = true
     [[object.function]]
-    version = "3.14"
     name = "load_async"
     #callbacks and async parameters at the same time
     ignore = true
+    doc_trait_name = "FileLoaderExtManual"
 
 [[object]]
 name = "GtkSource.FileSaver"
 status = "generate"
 version = "3.14"
+manual_traits = ["FileSaverExtManual"]
     [[object.function]]
     name = "save_async"
     #callbacks and async parameters at the same time
     ignore = true
+    doc_trait_name = "FileSaverExtManual"
 
 [[object]]
 name = "GtkSource.Gutter"
