@@ -13,7 +13,7 @@ pub trait FileSaverExtManual {
     fn save_async<
         P: IsA<gio::Cancellable>,
         Q: 'static + Fn(i64, i64) + Send,
-        R: 'static + Fn(Result<(), glib::Error>) + Send,
+        R: 'static + FnOnce(Result<(), glib::Error>) + Send,
     >(
         &self,
         io_priority: glib::Priority,
@@ -27,7 +27,7 @@ impl<O: IsA<FileSaver>> FileSaverExtManual for O {
     fn save_async<
         P: IsA<gio::Cancellable>,
         Q: 'static + Fn(i64, i64) + Send,
-        R: 'static + Fn(Result<(), glib::Error>) + Send,
+        R: 'static + FnOnce(Result<(), glib::Error>) + Send,
     >(
         &self,
         io_priority: glib::Priority,
@@ -35,21 +35,17 @@ impl<O: IsA<FileSaver>> FileSaverExtManual for O {
         progress_callback: Q,
         ready_callback: R,
     ) {
-        unsafe extern "C" fn save_async_progress_trampoline<
-            Q: 'static + Fn(i64, i64) + Send,
-            R: 'static + Fn(Result<(), glib::Error>) + Send,
-        >(
+        unsafe extern "C" fn save_async_progress_trampoline<Q: 'static + Fn(i64, i64) + Send>(
             current_num_bytes: i64,
             total_num_bytes: i64,
             user_data: glib_sys::gpointer,
         ) {
-            let callbacks = &*(user_data as *mut (Q, R));
-            callbacks.0(current_num_bytes, total_num_bytes);
+            let callback = &*(user_data as *const Q);
+            callback(current_num_bytes, total_num_bytes);
         }
 
         unsafe extern "C" fn save_async_ready_trampoline<
-            Q: 'static + Fn(i64, i64) + Send,
-            R: 'static + Fn(Result<(), glib::Error>) + Send,
+            R: 'static + FnOnce(Result<(), glib::Error>) + Send,
         >(
             source_object: *mut gobject_sys::GObject,
             res: *mut gio_sys::GAsyncResult,
@@ -63,7 +59,7 @@ impl<O: IsA<FileSaver>> FileSaverExtManual for O {
             );
             let result = if !error.is_null() {
                 Err(from_glib_full(error))
-            } else if ret == 0 {
+            } else if ret == glib_sys::GFALSE {
                 Err(glib::Error::new(
                     glib::FileError::Failed,
                     "Unexpected failure",
@@ -71,31 +67,26 @@ impl<O: IsA<FileSaver>> FileSaverExtManual for O {
             } else {
                 Ok(())
             };
-            let callbacks = &*(user_data as *mut (Q, R));
-            callbacks.1(result);
+            let callback = Box::from_raw(user_data as *mut R);
+            callback(result);
         }
 
-        unsafe extern "C" fn save_async_notify_trampoline<
-            Q: 'static + Fn(i64, i64) + Send,
-            R: 'static + Fn(Result<(), glib::Error>) + Send,
-        >(
+        unsafe extern "C" fn save_async_notify_trampoline<Q: 'static + Fn(i64, i64) + Send>(
             user_data: glib_sys::gpointer,
         ) {
-            Box::from_raw(user_data as *mut _);
+            Box::from_raw(user_data as *mut Q);
         }
 
-        let callbacks = Box::new((progress_callback, ready_callback));
-        let user_data = Box::into_raw(callbacks) as *mut _;
         unsafe {
             gtk_source_sys::gtk_source_file_saver_save_async(
                 self.as_ref().to_glib_none().0,
                 io_priority.to_glib(),
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
-                Some(save_async_progress_trampoline::<Q, R>),
-                user_data,
-                Some(save_async_notify_trampoline::<Q, R>),
-                Some(save_async_ready_trampoline::<Q, R>),
-                user_data,
+                Some(save_async_progress_trampoline::<Q>),
+                Box::into_raw(Box::new(progress_callback)) as *mut _,
+                Some(save_async_notify_trampoline::<Q>),
+                Some(save_async_ready_trampoline::<R>),
+                Box::into_raw(Box::new(ready_callback)) as *mut _,
             );
         }
     }
