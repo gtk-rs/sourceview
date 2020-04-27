@@ -155,7 +155,6 @@ status = "generate"
 [[object]]
 name = "GtkSource.FileLoader"
 status = "generate"
-version = "3.14"
 manual_traits = ["FileLoaderExtManual"]
     [[object.function]]
     name = "set_candidate_encodings"
@@ -170,7 +169,6 @@ manual_traits = ["FileLoaderExtManual"]
 [[object]]
 name = "GtkSource.FileSaver"
 status = "generate"
-version = "3.14"
 manual_traits = ["FileSaverExtManual"]
     [[object.function]]
     name = "save_async"
