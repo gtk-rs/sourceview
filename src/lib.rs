@@ -49,6 +49,11 @@ pub mod prelude {
     pub use gtk::prelude::*;
 
     pub use auto::traits::*;
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use file_loader::FileLoaderExtManual;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use file_saver::FileSaverExtManual;
 }
 
 #[macro_use]
