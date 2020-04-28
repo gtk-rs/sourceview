@@ -215,13 +215,6 @@ pub trait FileSaverExt: 'static {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_newline_type(&self) -> NewlineType;
 
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
-
-    //
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
-
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType);
 
@@ -314,33 +307,6 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             ))
         }
     }
-
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
-    //    unsafe { TODO: call gtk_source_sys:gtk_source_file_saver_save_async() }
-    //}
-
-    //
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-
-    //let progress_callback = progress_callback.map(ToOwned::to_owned);
-    //let progress_callback_notify = progress_callback_notify.map(ToOwned::to_owned);
-    //Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-    //    let cancellable = gio::Cancellable::new();
-    //    obj.save_async(
-    //        io_priority,
-    //        Some(&cancellable),
-    //        progress_callback.as_ref().map(::std::borrow::Borrow::borrow),
-    //        progress_callback_notify.as_ref().map(::std::borrow::Borrow::borrow),
-    //        move |res| {
-    //            send.resolve(res);
-    //        },
-    //    );
-
-    //    cancellable
-    //}))
-    //}
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType) {

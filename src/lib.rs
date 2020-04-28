@@ -26,6 +26,10 @@ extern crate bitflags;
 pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+pub use file_loader::*;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+pub use file_saver::*;
 pub use gutter::*;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
 pub use mark_attributes::*;
@@ -45,6 +49,11 @@ pub mod prelude {
     pub use gtk::prelude::*;
 
     pub use auto::traits::*;
+
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use file_loader::FileLoaderExtManual;
+    #[cfg(any(feature = "v3_14", feature = "dox"))]
+    pub use file_saver::FileSaverExtManual;
 }
 
 #[macro_use]
@@ -53,6 +62,10 @@ mod rt;
 mod auto;
 mod completion;
 mod completion_info;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+mod file_loader;
+#[cfg(any(feature = "v3_14", feature = "dox"))]
+mod file_saver;
 mod gutter;
 #[cfg(any(feature = "v2_2", feature = "dox"))]
 mod mark_attributes;
