@@ -4,8 +4,9 @@ use crate::CompletionInfo;
 use crate::CompletionProposal;
 use crate::CompletionProvider;
 use glib::subclass::prelude::*;
+use gtk_source_sys::gtk_source_completion_provider_get_name;
 
-pub trait CompletionImpl: ObjectImpl + Send + 'static {
+pub trait CompletionProviderImpl: ObjectImpl + Send + 'static {
     fn get_name(&self, obj: &CompletionProvider) -> glib::GString;
     fn get_icon(&self, obj: &CompletionProvider) -> Option<gdk_pixbuf::Pixbuf>;
     fn get_icon_name(&self, obj: &CompletionProvider) -> Option<glib::GString>;
