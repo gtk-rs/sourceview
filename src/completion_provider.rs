@@ -3,8 +3,9 @@ use crate::CompletionContext;
 use crate::CompletionInfo;
 use crate::CompletionProposal;
 use crate::CompletionProvider;
+use glib::prelude::*;
+use glib::translate::*;
 use glib::subclass::prelude::*;
-use gtk_source_sys::gtk_source_completion_provider_get_name;
 
 pub trait CompletionProviderImpl: ObjectImpl + Send + 'static {
     fn get_name(&self, obj: &CompletionProvider) -> glib::GString;
@@ -42,3 +43,15 @@ pub trait CompletionProviderImpl: ObjectImpl + Send + 'static {
     fn get_priority(&self, obg: &CompletionProvider) -> i32;
 }
 
+unsafe impl<T: ObjectSubclass + CompletionProviderImpl> IsImplementable<T> for CompletionProvider {
+    unsafe extern "C" fn interface_init(iface: glib::glib_sys::gpointer, _iface_data: glib::glib_sys::gpointer) {
+        let iface = &mut *(iface as *mut gtk_source_sys::GtkSourceCompletionProviderIface);
+        iface.get_name = Some(completion_provider_get_name::<T>);
+    }
+}
+
+unsafe extern "C" fn completion_provider_get_name<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> *const libc::c_char{
+    let instance = &*(completion_provider as *mut T::Instance);
+    let imp = instance.get_impl();
+    imp.get_name(&from_glib_borrow(completion_provider)).to_glib_full()
+}
