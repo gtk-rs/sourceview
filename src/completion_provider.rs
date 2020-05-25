@@ -4,8 +4,8 @@ use crate::CompletionInfo;
 use crate::CompletionProposal;
 use crate::CompletionProvider;
 use glib::prelude::*;
-use glib::translate::*;
 use glib::subclass::prelude::*;
+use glib::translate::*;
 use once_cell::sync::Lazy;
 
 pub trait CompletionProviderImpl: ObjectImpl + Send + 'static {
@@ -45,7 +45,10 @@ pub trait CompletionProviderImpl: ObjectImpl + Send + 'static {
 }
 
 unsafe impl<T: ObjectSubclass + CompletionProviderImpl> IsImplementable<T> for CompletionProvider {
-    unsafe extern "C" fn interface_init(iface: glib::glib_sys::gpointer, _iface_data: glib::glib_sys::gpointer) {
+    unsafe extern "C" fn interface_init(
+        iface: glib::glib_sys::gpointer,
+        _iface_data: glib::glib_sys::gpointer,
+    ) {
         let iface = &mut *(iface as *mut gtk_source_sys::GtkSourceCompletionProviderIface);
         iface.get_name = Some(completion_provider_get_name::<T>);
         iface.get_icon = Some(completion_provider_get_icon::<T>);
@@ -63,31 +66,36 @@ unsafe impl<T: ObjectSubclass + CompletionProviderImpl> IsImplementable<T> for C
     }
 }
 
-unsafe extern "C" fn completion_provider_get_name<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> *const libc::c_char{
+unsafe extern "C" fn completion_provider_get_name<T: ObjectSubclass + CompletionProviderImpl>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> *const libc::c_char {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.get_name(&from_glib_borrow(completion_provider)).to_glib_full()
+    imp.get_name(&from_glib_borrow(completion_provider))
+        .to_glib_full()
 }
 
-static COMPLETION_PROVIDER_ICON_QUARK: Lazy<glib::Quark> = Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-icon"));
+static COMPLETION_PROVIDER_ICON_QUARK: Lazy<glib::Quark> =
+    Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-icon"));
 
-unsafe extern "C" fn completion_provider_get_icon<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> *mut gdk_pixbuf_sys::GdkPixbuf{
+unsafe extern "C" fn completion_provider_get_icon<T: ObjectSubclass + CompletionProviderImpl>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> *mut gdk_pixbuf_sys::GdkPixbuf {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
 
     let ret = imp.get_icon(&from_glib_borrow(completion_provider));
-    let ret_ptr = match ret{
+    let ret_ptr = match ret {
         Some(ref ret) => ret.as_ptr(),
-        None => std::ptr::null_mut()
+        None => std::ptr::null_mut(),
     };
 
-    let old_ptr = gobject_sys::g_object_get_qdata(completion_provider as *mut _, COMPLETION_PROVIDER_ICON_QUARK.to_glib());
+    let old_ptr = gobject_sys::g_object_get_qdata(
+        completion_provider as *mut _,
+        COMPLETION_PROVIDER_ICON_QUARK.to_glib(),
+    );
     if !old_ptr.is_null() {
-        assert_eq!(
-            old_ptr as *mut _,
-            ret_ptr,
-            "Did not return same icon again"
-        );
+        assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same icon again");
     }
 
     gobject_sys::g_object_set_qdata_full(
@@ -100,23 +108,30 @@ unsafe extern "C" fn completion_provider_get_icon<T: ObjectSubclass + Completion
     ret.to_glib_none().0
 }
 
-static COMPLETION_PROVIDER_ICON_NAME_QUARK: Lazy<glib::Quark> = Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-icon-name"));
+static COMPLETION_PROVIDER_ICON_NAME_QUARK: Lazy<glib::Quark> =
+    Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-icon-name"));
 
-unsafe extern "C" fn completion_provider_get_icon_name<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> *const libc::c_char{
+unsafe extern "C" fn completion_provider_get_icon_name<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> *const libc::c_char {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
 
     let ret = imp.get_icon_name(&from_glib_borrow(completion_provider));
-    let ret_ptr = match ret{
+    let ret_ptr = match ret {
         Some(ref ret) => ret.as_ptr(),
-        None => std::ptr::null()
+        None => std::ptr::null(),
     };
 
-    let old_ptr = gobject_sys::g_object_get_qdata(completion_provider as *mut _, COMPLETION_PROVIDER_ICON_NAME_QUARK.to_glib());
+    let old_ptr = gobject_sys::g_object_get_qdata(
+        completion_provider as *mut _,
+        COMPLETION_PROVIDER_ICON_NAME_QUARK.to_glib(),
+    );
     if !old_ptr.is_null() {
         assert_eq!(
-            old_ptr as *const _,
-            ret_ptr,
+            old_ptr as *const _, ret_ptr,
             "Did not return same icon again"
         );
     }
@@ -131,25 +146,27 @@ unsafe extern "C" fn completion_provider_get_icon_name<T: ObjectSubclass + Compl
     ret.to_glib_none().0
 }
 
-static COMPLETION_PROVIDER_GICON_QUARK: Lazy<glib::Quark> = Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-gicon"));
+static COMPLETION_PROVIDER_GICON_QUARK: Lazy<glib::Quark> =
+    Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-gicon"));
 
-unsafe extern "C" fn completion_provider_get_gicon<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> *mut gio_sys::GIcon{
+unsafe extern "C" fn completion_provider_get_gicon<T: ObjectSubclass + CompletionProviderImpl>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> *mut gio_sys::GIcon {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
 
     let ret = imp.get_gicon(&from_glib_borrow(completion_provider));
-    let ret_ptr = match ret{
+    let ret_ptr = match ret {
         Some(ref ret) => ret.as_ptr(),
-        None => std::ptr::null_mut()
+        None => std::ptr::null_mut(),
     };
 
-    let old_ptr = gobject_sys::g_object_get_qdata(completion_provider as *mut _, COMPLETION_PROVIDER_GICON_QUARK.to_glib());
+    let old_ptr = gobject_sys::g_object_get_qdata(
+        completion_provider as *mut _,
+        COMPLETION_PROVIDER_GICON_QUARK.to_glib(),
+    );
     if !old_ptr.is_null() {
-        assert_eq!(
-            old_ptr as *mut _,
-            ret_ptr,
-            "Did not return same icon again"
-        );
+        assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same icon again");
     }
 
     gobject_sys::g_object_set_qdata_full(
@@ -162,43 +179,71 @@ unsafe extern "C" fn completion_provider_get_gicon<T: ObjectSubclass + Completio
     ret.to_glib_none().0
 }
 
-unsafe extern "C" fn completion_provider_populate<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider, context: *mut gtk_source_sys::GtkSourceCompletionContext){
+unsafe extern "C" fn completion_provider_populate<T: ObjectSubclass + CompletionProviderImpl>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+    context: *mut gtk_source_sys::GtkSourceCompletionContext,
+) {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.populate(&from_glib_borrow(completion_provider), &from_glib_borrow(context))
+    imp.populate(
+        &from_glib_borrow(completion_provider),
+        &from_glib_borrow(context),
+    )
 }
 
-unsafe extern "C" fn completion_provider_get_activation<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> gtk_source_sys::GtkSourceCompletionActivation{
+unsafe extern "C" fn completion_provider_get_activation<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> gtk_source_sys::GtkSourceCompletionActivation {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.get_activation(&from_glib_borrow(completion_provider)).to_glib()
+    imp.get_activation(&from_glib_borrow(completion_provider))
+        .to_glib()
 }
 
-unsafe extern "C" fn completion_provider_provide_match<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider, context: *mut gtk_source_sys::GtkSourceCompletionContext) -> glib_sys::gboolean{
+unsafe extern "C" fn completion_provider_provide_match<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+    context: *mut gtk_source_sys::GtkSourceCompletionContext,
+) -> glib_sys::gboolean {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.provide_match(&from_glib_borrow(completion_provider), &from_glib_borrow(context)).to_glib()
+    imp.provide_match(
+        &from_glib_borrow(completion_provider),
+        &from_glib_borrow(context),
+    )
+    .to_glib()
 }
 
-static COMPLETION_PROVIDER_INFO_WIDGET: Lazy<glib::Quark> = Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-info-widget"));
+static COMPLETION_PROVIDER_INFO_WIDGET: Lazy<glib::Quark> =
+    Lazy::new(|| glib::Quark::from_string("gtk-sourceview-subclass-info-widget"));
 
-unsafe extern "C" fn completion_provider_get_info_widget<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider, proposal: *mut gtk_source_sys::GtkSourceCompletionProposal) -> *mut gtk_sys::GtkWidget{
+unsafe extern "C" fn completion_provider_get_info_widget<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+    proposal: *mut gtk_source_sys::GtkSourceCompletionProposal,
+) -> *mut gtk_sys::GtkWidget {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
 
-    let ret = imp.get_info_widget(&from_glib_borrow(completion_provider), &from_glib_borrow(proposal));
-    let ret_ptr = match ret{
+    let ret = imp.get_info_widget(
+        &from_glib_borrow(completion_provider),
+        &from_glib_borrow(proposal),
+    );
+    let ret_ptr = match ret {
         Some(ref ret) => ret.as_ptr(),
-        None => std::ptr::null_mut()
+        None => std::ptr::null_mut(),
     };
 
-    let old_ptr = gobject_sys::g_object_get_qdata(completion_provider as *mut _, COMPLETION_PROVIDER_INFO_WIDGET.to_glib());
+    let old_ptr = gobject_sys::g_object_get_qdata(
+        completion_provider as *mut _,
+        COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
+    );
     if !old_ptr.is_null() {
-        assert_eq!(
-            old_ptr as *mut _,
-            ret_ptr,
-            "Did not return same icon again"
-        );
+        assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same icon again");
     }
 
     gobject_sys::g_object_set_qdata_full(
@@ -209,34 +254,73 @@ unsafe extern "C" fn completion_provider_get_info_widget<T: ObjectSubclass + Com
     );
 
     ret.to_glib_none().0
-
 }
 
-unsafe extern "C" fn completion_provider_update_info<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider, proposal: *mut gtk_source_sys::GtkSourceCompletionProposal, completion_info: *mut gtk_source_sys::GtkSourceCompletionInfo) {
+unsafe extern "C" fn completion_provider_update_info<T: ObjectSubclass + CompletionProviderImpl>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+    proposal: *mut gtk_source_sys::GtkSourceCompletionProposal,
+    completion_info: *mut gtk_source_sys::GtkSourceCompletionInfo,
+) {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.update_info(&from_glib_borrow(completion_provider), &from_glib_borrow(proposal), &from_glib_borrow(completion_info))
+    imp.update_info(
+        &from_glib_borrow(completion_provider),
+        &from_glib_borrow(proposal),
+        &from_glib_borrow(completion_info),
+    )
 }
 
-unsafe extern "C" fn completion_provider_get_start_iter<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider, context: *mut gtk_source_sys::GtkSourceCompletionContext, proposal: *mut gtk_source_sys::GtkSourceCompletionProposal, iter: *mut gtk_sys::GtkTextIter) -> glib_sys::gboolean{
+unsafe extern "C" fn completion_provider_get_start_iter<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+    context: *mut gtk_source_sys::GtkSourceCompletionContext,
+    proposal: *mut gtk_source_sys::GtkSourceCompletionProposal,
+    iter: *mut gtk_sys::GtkTextIter,
+) -> glib_sys::gboolean {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.get_start_iter(&from_glib_borrow(completion_provider), &from_glib_borrow(context), &from_glib_borrow(proposal), &from_glib_borrow(iter)).to_glib()
+    imp.get_start_iter(
+        &from_glib_borrow(completion_provider),
+        &from_glib_borrow(context),
+        &from_glib_borrow(proposal),
+        &from_glib_borrow(iter),
+    )
+    .to_glib()
 }
 
-unsafe extern "C" fn completion_provider_activate_proposal<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider, proposal: *mut gtk_source_sys::GtkSourceCompletionProposal, iter: *mut gtk_sys::GtkTextIter) -> glib_sys::gboolean{
+unsafe extern "C" fn completion_provider_activate_proposal<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+    proposal: *mut gtk_source_sys::GtkSourceCompletionProposal,
+    iter: *mut gtk_sys::GtkTextIter,
+) -> glib_sys::gboolean {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
-    imp.activate_proposal(&from_glib_borrow(completion_provider), &from_glib_borrow(proposal), &from_glib_borrow(iter)).to_glib()
+    imp.activate_proposal(
+        &from_glib_borrow(completion_provider),
+        &from_glib_borrow(proposal),
+        &from_glib_borrow(iter),
+    )
+    .to_glib()
 }
 
-unsafe extern "C" fn completion_provider_get_interactive_delay<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> libc::c_int{
+unsafe extern "C" fn completion_provider_get_interactive_delay<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> libc::c_int {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
     imp.get_interactive_delay(&from_glib_borrow(completion_provider))
 }
 
-unsafe extern "C" fn completion_provider_get_priority<T: ObjectSubclass + CompletionProviderImpl>(completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider) -> libc::c_int{
+unsafe extern "C" fn completion_provider_get_priority<
+    T: ObjectSubclass + CompletionProviderImpl,
+>(
+    completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
+) -> libc::c_int {
     let instance = &*(completion_provider as *mut T::Instance);
     let imp = instance.get_impl();
     imp.get_priority(&from_glib_borrow(completion_provider))
