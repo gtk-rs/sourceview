@@ -18,6 +18,7 @@ extern crate gtk;
 extern crate gtk_source_sys;
 extern crate gtk_sys;
 extern crate pango;
+extern crate once_cell;
 
 extern crate libc;
 #[macro_use]
