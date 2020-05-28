@@ -56,7 +56,7 @@ unsafe impl<T: ObjectSubclass + CompletionProviderImpl> IsImplementable<T> for C
         iface.get_gicon = Some(completion_provider_get_gicon::<T>);
         iface.populate = Some(completion_provider_populate::<T>);
         iface.get_activation = Some(completion_provider_get_activation::<T>);
-        iface.match_ = Some(completion_provider_provide_match::<T>);
+        iface.match_ = Some(completion_provider_match::<T>);
         iface.get_info_widget = Some(completion_provider_get_info_widget::<T>);
         iface.update_info = Some(completion_provider_update_info::<T>);
         iface.get_start_iter = Some(completion_provider_get_start_iter::<T>);
@@ -205,7 +205,7 @@ unsafe extern "C" fn completion_provider_get_activation<
         .to_glib()
 }
 
-unsafe extern "C" fn completion_provider_provide_match<
+unsafe extern "C" fn completion_provider_match<
     T: ObjectSubclass + CompletionProviderImpl,
 >(
     completion_provider: *mut gtk_source_sys::GtkSourceCompletionProvider,
