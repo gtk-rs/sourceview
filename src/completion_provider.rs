@@ -132,7 +132,7 @@ unsafe extern "C" fn completion_provider_get_icon_name<
     if !old_ptr.is_null() {
         assert_eq!(
             old_ptr as *const _, ret_ptr,
-            "Did not return same icon again"
+            "Did not return same icon name again"
         );
     }
 
@@ -166,7 +166,10 @@ unsafe extern "C" fn completion_provider_get_gicon<T: ObjectSubclass + Completio
         COMPLETION_PROVIDER_GICON_QUARK.to_glib(),
     );
     if !old_ptr.is_null() {
-        assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same icon again");
+        assert_eq!(
+            old_ptr as *mut _, ret_ptr,
+            "Did not return same gicon again"
+        );
     }
 
     gobject_sys::g_object_set_qdata_full(
@@ -243,7 +246,7 @@ unsafe extern "C" fn completion_provider_get_info_widget<
         COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
     );
     if !old_ptr.is_null() {
-        assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same icon again");
+        //assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same info widget again");
     }
 
     gobject_sys::g_object_set_qdata_full(

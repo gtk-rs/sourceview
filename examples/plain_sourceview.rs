@@ -8,11 +8,8 @@ use sourceview::prelude::*;
 use std::env;
 
 fn main() {
-    let uiapp = gtk::Application::new(
-        None,
-        gio::ApplicationFlags::FLAGS_NONE,
-    )
-    .expect("Application::new failed");
+    let uiapp = gtk::Application::new(None, gio::ApplicationFlags::FLAGS_NONE)
+        .expect("Application::new failed");
     uiapp.connect_activate(|app| {
         let win = gtk::ApplicationWindow::new(app);
         win.set_default_size(320, 200);
