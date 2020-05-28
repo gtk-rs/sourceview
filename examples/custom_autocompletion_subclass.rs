@@ -25,7 +25,7 @@ fn main() {
 
         let sourceview = sourceview::View::new();
         let completion = CustomAutocomplete::new();
-        sourceview
+        let _ = sourceview
             .get_completion()
             .expect("Sourceview has no completion")
             .add_provider(&completion);
@@ -81,19 +81,19 @@ mod imp {
     }
 
     impl sourceview::CompletionProviderImpl for CustomAutocomplete {
-        fn get_name(&self, obj: &CompletionProvider) -> GString {
+        fn get_name(&self, _obj: &CompletionProvider) -> GString {
             GString::from("CustomAutocomplete")
         }
 
-        fn get_icon(&self, obj: &CompletionProvider) -> Option<gdk_pixbuf::Pixbuf> {
+        fn get_icon(&self, _obj: &CompletionProvider) -> Option<gdk_pixbuf::Pixbuf> {
             None
         }
 
-        fn get_icon_name(&self, obj: &CompletionProvider) -> Option<GString> {
+        fn get_icon_name(&self, _obj: &CompletionProvider) -> Option<GString> {
             None
         }
 
-        fn get_gicon(&self, obg: &CompletionProvider) -> Option<gio::Icon> {
+        fn get_gicon(&self, _obg: &CompletionProvider) -> Option<gio::Icon> {
             None
         }
 
@@ -109,58 +109,58 @@ mod imp {
             }
         }
 
-        fn get_activation(&self, obg: &CompletionProvider) -> sourceview::CompletionActivation {
+        fn get_activation(&self, _obg: &CompletionProvider) -> sourceview::CompletionActivation {
             sourceview::CompletionActivation::all()
         }
 
         fn provide_match(
             &self,
-            obg: &CompletionProvider,
-            context: &sourceview::CompletionContext,
+            _obg: &CompletionProvider,
+            _context: &sourceview::CompletionContext,
         ) -> bool {
             true
         }
 
         fn get_info_widget(
             &self,
-            obg: &CompletionProvider,
-            proposal: &sourceview::CompletionProposal,
+            _obg: &CompletionProvider,
+            _proposal: &sourceview::CompletionProposal,
         ) -> Option<gtk::Widget> {
             None
         }
 
         fn update_info(
             &self,
-            obg: &CompletionProvider,
-            proposal: &sourceview::CompletionProposal,
-            info: &CompletionInfo,
+            _obg: &CompletionProvider,
+            _proposal: &sourceview::CompletionProposal,
+            _info: &CompletionInfo,
         ) {
         }
 
         fn get_start_iter(
             &self,
-            obg: &CompletionProvider,
-            context: &sourceview::CompletionContext,
-            proposal: &sourceview::CompletionProposal,
-            iter: &gtk::TextIter,
+            _obg: &CompletionProvider,
+            _context: &sourceview::CompletionContext,
+            _proposal: &sourceview::CompletionProposal,
+            _iter: &gtk::TextIter,
         ) -> bool {
             false
         }
 
         fn activate_proposal(
             &self,
-            obg: &CompletionProvider,
-            proposal: &sourceview::CompletionProposal,
-            iter: &gtk::TextIter,
+            _obg: &CompletionProvider,
+            _proposal: &sourceview::CompletionProposal,
+            _iter: &gtk::TextIter,
         ) -> bool {
             false
         }
 
-        fn get_interactive_delay(&self, obj: &CompletionProvider) -> i32 {
+        fn get_interactive_delay(&self, _obj: &CompletionProvider) -> i32 {
             0
         }
 
-        fn get_priority(&self, obg: &CompletionProvider) -> i32 {
+        fn get_priority(&self, _obg: &CompletionProvider) -> i32 {
             1
         }
     }
