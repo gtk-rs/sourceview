@@ -126,12 +126,7 @@ mod imp {
             obg: &CompletionProvider,
             proposal: &sourceview::CompletionProposal,
         ) -> Option<gtk::Widget> {
-            let label = gtk::Label::new(Some(match proposal.get_label() {
-                Some(ref label_text_gstring) => label_text_gstring.as_str(),
-                None => "",
-            }));
-
-            Some(label.upcast::<gtk::Widget>())
+            None
         }
 
         fn update_info(

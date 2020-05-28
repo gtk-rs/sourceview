@@ -246,7 +246,7 @@ unsafe extern "C" fn completion_provider_get_info_widget<
         COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
     );
     if !old_ptr.is_null() {
-        //assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same info widget again");
+        assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same info widget again");
     }
 
     gobject_sys::g_object_set_qdata_full(
