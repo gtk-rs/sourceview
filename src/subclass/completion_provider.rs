@@ -98,12 +98,14 @@ unsafe extern "C" fn completion_provider_get_icon<T: ObjectSubclass + Completion
         assert_eq!(old_ptr as *mut _, ret_ptr, "Did not return same icon again");
     }
 
-    gobject_sys::g_object_set_qdata_full(
-        completion_provider as *mut _,
-        COMPLETION_PROVIDER_ICON_QUARK.to_glib(),
-        ret_ptr as *mut libc::c_void,
-        Some(unref),
-    );
+    if let Some(_) = ret {
+        gobject_sys::g_object_set_qdata_full(
+            completion_provider as *mut _,
+            COMPLETION_PROVIDER_ICON_QUARK.to_glib(),
+            ret.to_glib_full() as *mut libc::c_void,
+            Some(unref),
+        );
+    }
 
     ret.to_glib_none().0
 }
@@ -136,12 +138,14 @@ unsafe extern "C" fn completion_provider_get_icon_name<
         );
     }
 
-    gobject_sys::g_object_set_qdata_full(
-        completion_provider as *mut _,
-        COMPLETION_PROVIDER_ICON_NAME_QUARK.to_glib(),
-        ret_ptr as *mut libc::c_void,
-        Some(unref),
-    );
+    if let Some(_) = ret {
+        gobject_sys::g_object_set_qdata_full(
+            completion_provider as *mut _,
+            COMPLETION_PROVIDER_ICON_NAME_QUARK.to_glib(),
+            ret.to_glib_full() as *mut libc::c_void,
+            Some(unref),
+        );
+    }
 
     ret.to_glib_none().0
 }
@@ -172,12 +176,14 @@ unsafe extern "C" fn completion_provider_get_gicon<T: ObjectSubclass + Completio
         );
     }
 
-    gobject_sys::g_object_set_qdata_full(
-        completion_provider as *mut _,
-        COMPLETION_PROVIDER_GICON_QUARK.to_glib(),
-        ret_ptr as *mut libc::c_void,
-        Some(unref),
-    );
+    if let Some(_) = ret {
+        gobject_sys::g_object_set_qdata_full(
+            completion_provider as *mut _,
+            COMPLETION_PROVIDER_GICON_QUARK.to_glib(),
+            ret.to_glib_full() as *mut libc::c_void,
+            Some(unref),
+        );
+    }
 
     ret.to_glib_none().0
 }
@@ -250,12 +256,14 @@ unsafe extern "C" fn completion_provider_get_info_widget<
         );
     }
 
-    gobject_sys::g_object_set_qdata_full(
-        proposal as *mut _,
-        COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
-        ret_ptr as *mut libc::c_void,
-        Some(unref),
-    );
+    if let Some(_) = ret {
+        gobject_sys::g_object_set_qdata_full(
+            proposal as *mut _,
+            COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
+            ret.to_glib_full() as *mut libc::c_void,
+            Some(unref),
+        );
+    }
 
     ret.to_glib_none().0
 }
