@@ -240,7 +240,7 @@ unsafe extern "C" fn completion_provider_get_info_widget<
     };
 
     let old_ptr = gobject_sys::g_object_get_qdata(
-        completion_provider as *mut _,
+        proposal as *mut _,
         COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
     );
     if !old_ptr.is_null() {
@@ -251,7 +251,7 @@ unsafe extern "C" fn completion_provider_get_info_widget<
     }
 
     gobject_sys::g_object_set_qdata_full(
-        completion_provider as *mut _,
+        proposal as *mut _,
         COMPLETION_PROVIDER_INFO_WIDGET.to_glib(),
         ret_ptr as *mut libc::c_void,
         Some(unref),
