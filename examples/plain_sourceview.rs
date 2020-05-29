@@ -3,7 +3,6 @@ extern crate gtk;
 extern crate sourceview;
 use gio::prelude::*;
 use gtk::prelude::*;
-use sourceview::prelude::*;
 
 use std::env;
 

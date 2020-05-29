@@ -27,7 +27,6 @@ extern crate bitflags;
 pub use auto::*;
 pub use completion::*;
 pub use completion_info::*;
-pub use completion_provider::*;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 pub use file_loader::*;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
@@ -58,13 +57,14 @@ pub mod prelude {
     pub use file_saver::FileSaverExtManual;
 }
 
+pub mod subclass;
+
 #[macro_use]
 mod rt;
 
 mod auto;
 mod completion;
 mod completion_info;
-mod completion_provider;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 mod file_loader;
 #[cfg(any(feature = "v3_14", feature = "dox"))]

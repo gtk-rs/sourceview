@@ -9,6 +9,7 @@ use glib::subclass::types::ObjectSubclass;
 use glib::translate::*;
 use gtk::prelude::*;
 use sourceview::prelude::*;
+use sourceview::subclass::CompletionProviderImpl;
 
 use glib::subclass::object::ObjectImpl;
 use glib::GString;
@@ -80,7 +81,7 @@ mod imp {
         glib::glib_object_impl!();
     }
 
-    impl sourceview::CompletionProviderImpl for CustomAutocomplete {
+    impl CompletionProviderImpl for CustomAutocomplete {
         fn get_name(&self, _obj: &CompletionProvider) -> GString {
             GString::from("CustomAutocomplete")
         }
