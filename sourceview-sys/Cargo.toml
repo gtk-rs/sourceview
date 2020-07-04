@@ -19,7 +19,7 @@ git = "https://github.com/gtk-rs/sys"
 
 [dependencies.glib-sys]
 git = "https://github.com/gtk-rs/sys"
-version = "0.9.1"
+version = "0.10.0"
 
 [dependencies.gobject-sys]
 git = "https://github.com/gtk-rs/sys"
@@ -57,6 +57,7 @@ license = "MIT"
 links = "gtk_source"
 name = "gtk-source-sys"
 repository = "https://github.com/gtk-rs/sourceview"
-version = "0.9.1"
+version = "0.10.0"
+
 [package.metadata.docs.rs]
 features = ["dox"]
