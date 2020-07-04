@@ -310,15 +310,15 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             P: IsA<SearchSettings>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
+            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::at-word-boundaries\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_at_word_boundaries_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_at_word_boundaries_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -338,15 +338,15 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             P: IsA<SearchSettings>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
+            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::case-sensitive\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_case_sensitive_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_case_sensitive_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -366,15 +366,15 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             P: IsA<SearchSettings>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
+            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::regex-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_regex_enabled_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_regex_enabled_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -391,14 +391,16 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             P: IsA<SearchSettings>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
+            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::search-text\0".as_ptr() as *const _,
-                Some(transmute(notify_search_text_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_search_text_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -414,14 +416,16 @@ impl<O: IsA<SearchSettings>> SearchSettingsExt for O {
             P: IsA<SearchSettings>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchSettings::from_glib_borrow(this).unsafe_cast())
+            f(&SearchSettings::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wrap-around\0".as_ptr() as *const _,
-                Some(transmute(notify_wrap_around_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wrap_around_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

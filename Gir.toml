@@ -21,7 +21,6 @@ generate = [
     "GtkSource.DrawSpacesFlags",
     "GtkSource.Encoding",
     "GtkSource.File",
-    "GtkSource.FileSaver",
     "GtkSource.FileSaverFlags",
     "GtkSource.GutterRendererAlignmentMode",
     "GtkSource.GutterRendererPixbuf",
@@ -34,7 +33,6 @@ generate = [
     "GtkSource.NewlineType",
     "GtkSource.PrintCompositor",
     "GtkSource.Region",
-    "GtkSource.SearchContext",
     "GtkSource.SearchSettings",
     "GtkSource.SmartHomeEndType",
     "GtkSource.SortFlags",
@@ -157,10 +155,26 @@ status = "generate"
 [[object]]
 name = "GtkSource.FileLoader"
 status = "generate"
+manual_traits = ["FileLoaderExtManual"]
     [[object.function]]
     name = "set_candidate_encodings"
     #array of boxed to GSList
     ignore = true
+    [[object.function]]
+    name = "load_async"
+    #callbacks and async parameters at the same time
+    ignore = true
+    doc_trait_name = "FileLoaderExtManual"
+
+[[object]]
+name = "GtkSource.FileSaver"
+status = "generate"
+manual_traits = ["FileSaverExtManual"]
+    [[object.function]]
+    name = "save_async"
+    #callbacks and async parameters at the same time
+    ignore = true
+    doc_trait_name = "FileSaverExtManual"
 
 [[object]]
 name = "GtkSource.Gutter"
@@ -203,6 +217,14 @@ version = "2.2"
     [[object.property]]
     pattern = ".+"
     version = "2.2"
+
+[[object]]
+name = "GtkSource.SearchContext"
+status = "generate"
+    [[object.function]]
+    name = "replace_all"
+        [object.function.return]
+        use_return_for_result = true
 
 [[object]]
 name = "GtkSource.Style"

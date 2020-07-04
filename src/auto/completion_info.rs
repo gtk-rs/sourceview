@@ -80,14 +80,16 @@ impl<O: IsA<CompletionInfo>> CompletionInfoExt for O {
             P: IsA<CompletionInfo>,
         {
             let f: &F = &*(f as *const F);
-            f(&CompletionInfo::from_glib_borrow(this).unsafe_cast())
+            f(&CompletionInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"before-show\0".as_ptr() as *const _,
-                Some(transmute(before_show_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    before_show_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

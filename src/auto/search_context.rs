@@ -254,7 +254,7 @@ pub trait SearchContextExt: 'static {
     ) -> Result<(), glib::Error>;
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn replace_all(&self, replace: &str) -> Result<(), glib::Error>;
+    fn replace_all(&self, replace: &str) -> Result<u32, glib::Error>;
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
     fn set_highlight(&self, highlight: bool);
@@ -638,18 +638,18 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]
-    fn replace_all(&self, replace: &str) -> Result<(), glib::Error> {
+    fn replace_all(&self, replace: &str) -> Result<u32, glib::Error> {
         let replace_length = replace.len() as i32;
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = gtk_source_sys::gtk_source_search_context_replace_all(
+            let ret = gtk_source_sys::gtk_source_search_context_replace_all(
                 self.as_ref().to_glib_none().0,
                 replace.to_glib_none().0,
                 replace_length,
                 &mut error,
             );
             if error.is_null() {
-                Ok(())
+                Ok(ret)
             } else {
                 Err(from_glib_full(error))
             }
@@ -696,14 +696,16 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight\0".as_ptr() as *const _,
-                Some(transmute(notify_highlight_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_highlight_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -719,14 +721,16 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::match-style\0".as_ptr() as *const _,
-                Some(transmute(notify_match_style_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_match_style_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -745,15 +749,15 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::occurrences-count\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_occurrences_count_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_occurrences_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -770,14 +774,16 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::regex-error\0".as_ptr() as *const _,
-                Some(transmute(notify_regex_error_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_regex_error_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -793,14 +799,16 @@ impl<O: IsA<SearchContext>> SearchContextExt for O {
             P: IsA<SearchContext>,
         {
             let f: &F = &*(f as *const F);
-            f(&SearchContext::from_glib_borrow(this).unsafe_cast())
+            f(&SearchContext::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::settings\0".as_ptr() as *const _,
-                Some(transmute(notify_settings_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_settings_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

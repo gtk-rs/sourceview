@@ -232,15 +232,15 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
             P: IsA<SpaceDrawer>,
         {
             let f: &F = &*(f as *const F);
-            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
+            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::enable-matrix\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_enable_matrix_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_enable_matrix_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -257,14 +257,16 @@ impl<O: IsA<SpaceDrawer>> SpaceDrawerExt for O {
             P: IsA<SpaceDrawer>,
         {
             let f: &F = &*(f as *const F);
-            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast())
+            f(&SpaceDrawer::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::matrix\0".as_ptr() as *const _,
-                Some(transmute(notify_matrix_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_matrix_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

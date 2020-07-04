@@ -15,6 +15,7 @@ use std::fmt;
 
 #[cfg(any(feature = "v3_16", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum BackgroundPatternType {
     None,
     Grid,
@@ -94,6 +95,7 @@ impl SetValue for BackgroundPatternType {
 
 #[cfg(any(feature = "v3_12", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ChangeCaseType {
     Lower,
     Upper,
@@ -181,6 +183,7 @@ impl SetValue for ChangeCaseType {
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum CompressionType {
     None,
     Gzip,
@@ -259,6 +262,7 @@ impl SetValue for CompressionType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GutterRendererAlignmentMode {
     Cell,
     First,
@@ -343,6 +347,7 @@ impl SetValue for GutterRendererAlignmentMode {
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum NewlineType {
     Lf,
     Cr,
@@ -425,6 +430,7 @@ impl SetValue for NewlineType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SmartHomeEndType {
     Disabled,
     Before,
@@ -504,6 +510,7 @@ impl SetValue for SmartHomeEndType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ViewGutterPosition {
     Lines,
     Marks,

@@ -149,14 +149,16 @@ impl<O: IsA<Language>> LanguageExt for O {
             P: IsA<Language>,
         {
             let f: &F = &*(f as *const F);
-            f(&Language::from_glib_borrow(this).unsafe_cast())
+            f(&Language::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hidden\0".as_ptr() as *const _,
-                Some(transmute(notify_hidden_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hidden_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -171,14 +173,16 @@ impl<O: IsA<Language>> LanguageExt for O {
             P: IsA<Language>,
         {
             let f: &F = &*(f as *const F);
-            f(&Language::from_glib_borrow(this).unsafe_cast())
+            f(&Language::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute(notify_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -193,14 +197,16 @@ impl<O: IsA<Language>> LanguageExt for O {
             P: IsA<Language>,
         {
             let f: &F = &*(f as *const F);
-            f(&Language::from_glib_borrow(this).unsafe_cast())
+            f(&Language::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute(notify_name_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -215,14 +221,16 @@ impl<O: IsA<Language>> LanguageExt for O {
             P: IsA<Language>,
         {
             let f: &F = &*(f as *const F);
-            f(&Language::from_glib_borrow(this).unsafe_cast())
+            f(&Language::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::section\0".as_ptr() as *const _,
-                Some(transmute(notify_section_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_section_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -642,15 +642,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::body-font-name\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_body_font_name_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_body_font_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -669,15 +669,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::footer-font-name\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_footer_font_name_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_footer_font_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -696,15 +696,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::header-font-name\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_header_font_name_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_header_font_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -723,15 +723,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::highlight-syntax\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_highlight_syntax_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_highlight_syntax_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -750,15 +750,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::line-numbers-font-name\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_line_numbers_font_name_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_line_numbers_font_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -774,14 +774,16 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::n-pages\0".as_ptr() as *const _,
-                Some(transmute(notify_n_pages_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_n_pages_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -799,15 +801,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::print-footer\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_print_footer_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_print_footer_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -826,15 +828,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::print-header\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_print_header_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_print_header_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -853,15 +855,15 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::print-line-numbers\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_print_line_numbers_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_print_line_numbers_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -877,14 +879,16 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tab-width\0".as_ptr() as *const _,
-                Some(transmute(notify_tab_width_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tab_width_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -899,14 +903,16 @@ impl<O: IsA<PrintCompositor>> PrintCompositorExt for O {
             P: IsA<PrintCompositor>,
         {
             let f: &F = &*(f as *const F);
-            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast())
+            f(&PrintCompositor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wrap-mode\0".as_ptr() as *const _,
-                Some(transmute(notify_wrap_mode_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wrap_mode_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

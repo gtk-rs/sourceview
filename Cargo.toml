@@ -61,8 +61,5 @@ gio-sys = "0.9.1"
 gtk = "0.8.0"
 gtk-sys = "0.9.1"
 
-[dependencies.fragile]
-version = "0.3"
-
 [dev-dependencies]
 gir-format-check = "^0.1"
