@@ -3,13 +3,13 @@ pkg-config = "0.3.7"
 
 [dependencies]
 bitflags = "1.0"
-cairo-sys-rs = "0.9.1"
-gdk-pixbuf-sys = "0.9.1"
-gdk-sys = "0.9.1"
-gio-sys = "0.9.1"
-glib-sys = "0.9.1"
-gobject-sys = "0.9.1"
-gtk-sys = "0.9.1"
+cairo-sys-rs = "0.10.0"
+gdk-pixbuf-sys = "0.10.0"
+gdk-sys = "0.10.0"
+gio-sys = "0.10.0"
+glib-sys = "0.10.0"
+gobject-sys = "0.10.0"
+gtk-sys = "0.10.0"
 libc = "0.2"
 
 [dev-dependencies]
@@ -42,7 +42,7 @@ license = "MIT"
 links = "gtk_source"
 name = "gtk-source-sys"
 repository = "https://github.com/gtk-rs/sourceview"
-version = "0.9.1"
+version = "0.10.0"
 
 [package.metadata.docs.rs]
 features = ["dox"]

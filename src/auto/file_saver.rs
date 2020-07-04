@@ -215,13 +215,6 @@ pub trait FileSaverExt: 'static {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn get_newline_type(&self) -> NewlineType;
 
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R);
-
-    //
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
-
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType);
 
@@ -315,33 +308,6 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
         }
     }
 
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static, R: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, cancellable: Option<&P>, progress_callback: Q, progress_callback_notify: Fn() + 'static, callback: R) {
-    //    unsafe { TODO: call gtk_source_sys:gtk_source_file_saver_save_async() }
-    //}
-
-    //
-    //#[cfg(any(feature = "v3_14", feature = "dox"))]
-    //fn save_async_future<Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(&self, io_priority: glib::Priority, progress_callback: Q, progress_callback_notify: Fn() + 'static) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-
-    //let progress_callback = progress_callback.map(ToOwned::to_owned);
-    //let progress_callback_notify = progress_callback_notify.map(ToOwned::to_owned);
-    //Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-    //    let cancellable = gio::Cancellable::new();
-    //    obj.save_async(
-    //        io_priority,
-    //        Some(&cancellable),
-    //        progress_callback.as_ref().map(::std::borrow::Borrow::borrow),
-    //        progress_callback_notify.as_ref().map(::std::borrow::Borrow::borrow),
-    //        move |res| {
-    //            send.resolve(res);
-    //        },
-    //    );
-
-    //    cancellable
-    //}))
-    //}
-
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     fn set_compression_type(&self, compression_type: CompressionType) {
         unsafe {
@@ -395,15 +361,15 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             P: IsA<FileSaver>,
         {
             let f: &F = &*(f as *const F);
-            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::compression-type\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_compression_type_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_compression_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -420,14 +386,16 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             P: IsA<FileSaver>,
         {
             let f: &F = &*(f as *const F);
-            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encoding\0".as_ptr() as *const _,
-                Some(transmute(notify_encoding_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encoding_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -443,14 +411,16 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             P: IsA<FileSaver>,
         {
             let f: &F = &*(f as *const F);
-            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute(notify_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -469,15 +439,15 @@ impl<O: IsA<FileSaver>> FileSaverExt for O {
             P: IsA<FileSaver>,
         {
             let f: &F = &*(f as *const F);
-            f(&FileSaver::from_glib_borrow(this).unsafe_cast())
+            f(&FileSaver::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::newline-type\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_newline_type_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_newline_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
