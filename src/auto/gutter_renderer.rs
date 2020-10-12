@@ -11,7 +11,6 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
-use glib::ToValue;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -31,105 +30,6 @@ glib_wrapper! {
 
     match fn {
         get_type => || gtk_source_sys::gtk_source_gutter_renderer_get_type(),
-    }
-}
-
-#[derive(Clone, Default)]
-pub struct GutterRendererBuilder {
-    alignment_mode: Option<GutterRendererAlignmentMode>,
-    background_rgba: Option<gdk::RGBA>,
-    background_set: Option<bool>,
-    size: Option<i32>,
-    visible: Option<bool>,
-    xalign: Option<f32>,
-    xpad: Option<i32>,
-    yalign: Option<f32>,
-    ypad: Option<i32>,
-}
-
-impl GutterRendererBuilder {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    pub fn build(self) -> GutterRenderer {
-        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref alignment_mode) = self.alignment_mode {
-            properties.push(("alignment-mode", alignment_mode));
-        }
-        if let Some(ref background_rgba) = self.background_rgba {
-            properties.push(("background-rgba", background_rgba));
-        }
-        if let Some(ref background_set) = self.background_set {
-            properties.push(("background-set", background_set));
-        }
-        if let Some(ref size) = self.size {
-            properties.push(("size", size));
-        }
-        if let Some(ref visible) = self.visible {
-            properties.push(("visible", visible));
-        }
-        if let Some(ref xalign) = self.xalign {
-            properties.push(("xalign", xalign));
-        }
-        if let Some(ref xpad) = self.xpad {
-            properties.push(("xpad", xpad));
-        }
-        if let Some(ref yalign) = self.yalign {
-            properties.push(("yalign", yalign));
-        }
-        if let Some(ref ypad) = self.ypad {
-            properties.push(("ypad", ypad));
-        }
-        glib::Object::new(GutterRenderer::static_type(), &properties)
-            .expect("object new")
-            .downcast()
-            .expect("downcast")
-    }
-
-    pub fn alignment_mode(mut self, alignment_mode: GutterRendererAlignmentMode) -> Self {
-        self.alignment_mode = Some(alignment_mode);
-        self
-    }
-
-    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(background_rgba.clone());
-        self
-    }
-
-    pub fn background_set(mut self, background_set: bool) -> Self {
-        self.background_set = Some(background_set);
-        self
-    }
-
-    pub fn size(mut self, size: i32) -> Self {
-        self.size = Some(size);
-        self
-    }
-
-    pub fn visible(mut self, visible: bool) -> Self {
-        self.visible = Some(visible);
-        self
-    }
-
-    pub fn xalign(mut self, xalign: f32) -> Self {
-        self.xalign = Some(xalign);
-        self
-    }
-
-    pub fn xpad(mut self, xpad: i32) -> Self {
-        self.xpad = Some(xpad);
-        self
-    }
-
-    pub fn yalign(mut self, yalign: f32) -> Self {
-        self.yalign = Some(yalign);
-        self
-    }
-
-    pub fn ypad(mut self, ypad: i32) -> Self {
-        self.ypad = Some(ypad);
-        self
     }
 }
 

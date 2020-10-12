@@ -101,10 +101,11 @@ impl GutterRendererTextBuilder {
         if let Some(ref ypad) = self.ypad {
             properties.push(("ypad", ypad));
         }
-        glib::Object::new(GutterRendererText::static_type(), &properties)
+        let ret = glib::Object::new(GutterRendererText::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<GutterRendererText>()
+            .expect("downcast");
+        ret
     }
 
     pub fn markup(mut self, markup: &str) -> Self {

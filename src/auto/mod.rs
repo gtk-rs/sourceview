@@ -74,7 +74,6 @@ pub use self::gutter::GutterExt;
 pub use self::gutter::{Gutter, GutterClass, NONE_GUTTER};
 
 mod gutter_renderer;
-pub use self::gutter_renderer::GutterRendererBuilder;
 pub use self::gutter_renderer::GutterRendererExt;
 pub use self::gutter_renderer::{GutterRenderer, GutterRendererClass, NONE_GUTTER_RENDERER};
 

@@ -8,18 +8,14 @@ use gio;
 use gio_sys;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib;
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::Cast;
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::StaticType;
-#[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib::ToValue;
 #[cfg(any(feature = "v3_10", feature = "dox"))]
 use glib_sys;
@@ -113,10 +109,11 @@ impl SearchContextBuilder {
                 properties.push(("settings", settings));
             }
         }
-        glib::Object::new(SearchContext::static_type(), &properties)
+        let ret = glib::Object::new(SearchContext::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<SearchContext>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]

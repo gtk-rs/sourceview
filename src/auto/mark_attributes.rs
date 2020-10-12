@@ -75,10 +75,11 @@ impl MarkAttributesBuilder {
         if let Some(ref stock_id) = self.stock_id {
             properties.push(("stock-id", stock_id));
         }
-        glib::Object::new(MarkAttributes::static_type(), &properties)
+        let ret = glib::Object::new(MarkAttributes::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<MarkAttributes>()
+            .expect("downcast");
+        ret
     }
 
     pub fn background(mut self, background: &gdk::RGBA) -> Self {

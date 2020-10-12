@@ -58,10 +58,11 @@ impl LanguageManagerBuilder {
         if let Some(ref search_path) = self.search_path {
             properties.push(("search-path", search_path));
         }
-        glib::Object::new(LanguageManager::static_type(), &properties)
+        let ret = glib::Object::new(LanguageManager::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<LanguageManager>()
+            .expect("downcast");
+        ret
     }
 
     pub fn search_path(mut self, search_path: Vec<String>) -> Self {

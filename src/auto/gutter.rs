@@ -56,10 +56,11 @@ impl GutterBuilder {
         if let Some(ref ypad) = self.ypad {
             properties.push(("ypad", ypad));
         }
-        glib::Object::new(Gutter::static_type(), &properties)
+        let ret = glib::Object::new(Gutter::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<Gutter>()
+            .expect("downcast");
+        ret
     }
 
     pub fn view<P: IsA<View>>(mut self, view: &P) -> Self {

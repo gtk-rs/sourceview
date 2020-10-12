@@ -55,10 +55,11 @@ impl MarkBuilder {
         if let Some(ref name) = self.name {
             properties.push(("name", name));
         }
-        glib::Object::new(Mark::static_type(), &properties)
+        let ret = glib::Object::new(Mark::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<Mark>()
+            .expect("downcast");
+        ret
     }
 
     pub fn category(mut self, category: &str) -> Self {

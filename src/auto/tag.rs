@@ -383,10 +383,11 @@ impl TagBuilder {
         if let Some(ref wrap_mode_set) = self.wrap_mode_set {
             properties.push(("wrap-mode-set", wrap_mode_set));
         }
-        glib::Object::new(Tag::static_type(), &properties)
+        let ret = glib::Object::new(Tag::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<Tag>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_20", feature = "dox"))]
