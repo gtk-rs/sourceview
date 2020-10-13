@@ -89,10 +89,11 @@ impl CompletionWordsBuilder {
         if let Some(ref scan_batch_size) = self.scan_batch_size {
             properties.push(("scan-batch-size", scan_batch_size));
         }
-        glib::Object::new(CompletionWords::static_type(), &properties)
+        let ret = glib::Object::new(CompletionWords::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<CompletionWords>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_10", feature = "dox"))]

@@ -51,7 +51,7 @@ impl CompletionItem {
     }
 
     #[cfg_attr(feature = "v3_10", deprecated)]
-    pub fn new_from_stock(
+    pub fn from_stock(
         label: Option<&str>,
         text: &str,
         stock: &str,
@@ -69,7 +69,7 @@ impl CompletionItem {
     }
 
     #[cfg_attr(feature = "v3_24", deprecated)]
-    pub fn new_with_markup(
+    pub fn with_markup(
         markup: &str,
         text: &str,
         icon: Option<&gdk_pixbuf::Pixbuf>,
@@ -140,10 +140,11 @@ impl CompletionItemBuilder {
         if let Some(ref text) = self.text {
             properties.push(("text", text));
         }
-        glib::Object::new(CompletionItem::static_type(), &properties)
+        let ret = glib::Object::new(CompletionItem::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<CompletionItem>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_18", feature = "dox"))]

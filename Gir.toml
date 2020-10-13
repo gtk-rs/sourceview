@@ -13,66 +13,24 @@ generate = [
     "GtkSource.BackgroundPatternType",
     "GtkSource.ChangeCaseType",
     "GtkSource.CompletionActivation",
-    "GtkSource.CompletionItem",
     "GtkSource.CompletionProposal",
     "GtkSource.CompletionProvider",
-    "GtkSource.CompletionWords",
     "GtkSource.CompressionType",
     "GtkSource.DrawSpacesFlags",
     "GtkSource.Encoding",
-    "GtkSource.File",
     "GtkSource.FileSaverFlags",
     "GtkSource.GutterRendererAlignmentMode",
-    "GtkSource.GutterRendererPixbuf",
     "GtkSource.GutterRendererState",
-    "GtkSource.GutterRendererText",
     "GtkSource.Language",
-    "GtkSource.LanguageManager",
-    "GtkSource.Mark",
     "GtkSource.MountOperationFactory",
     "GtkSource.NewlineType",
-    "GtkSource.PrintCompositor",
-    "GtkSource.Region",
-    "GtkSource.SearchSettings",
     "GtkSource.SmartHomeEndType",
     "GtkSource.SortFlags",
-    "GtkSource.SpaceDrawer",
     "GtkSource.SpaceLocationFlags",
     "GtkSource.SpaceTypeFlags",
-    "GtkSource.StyleScheme",
     "GtkSource.StyleSchemeChooser",
-    "GtkSource.StyleSchemeManager",
-    "GtkSource.Tag",
     "GtkSource.UndoManager",
     "GtkSource.ViewGutterPosition",
-]
-
-builders = [
-    "GtkSource.BufferBuilder",
-    "GtkSource.CompletionBuilder",
-    "GtkSource.CompletionContextBuilder",
-    "GtkSource.CompletionItemBuilder",
-    "GtkSource.CompletionWordsBuilder",
-    "GtkSource.FileBuilder",
-    "GtkSource.FileLoaderBuilder",
-    "GtkSource.FileSaverBuilder",
-    "GtkSource.GutterBuilder",
-    "GtkSource.GutterRendererBuilder",
-    "GtkSource.GutterRendererPixbufBuilder",
-    "GtkSource.GutterRendererTextBuilder",
-    "GtkSource.LanguageManagerBuilder",
-    "GtkSource.MapBuilder",
-    "GtkSource.MarkAttributesBuilder",
-    "GtkSource.MarkBuilder",
-    "GtkSource.PrintCompositorBuilder",
-    "GtkSource.RegionBuilder",
-    "GtkSource.SearchContextBuilder",
-    "GtkSource.SearchSettingsBuilder",
-    "GtkSource.SpaceDrawerBuilder",
-    "GtkSource.StyleBuilder",
-    "GtkSource.StyleSchemeBuilder",
-    "GtkSource.StyleSchemeManagerBuilder",
-    "GtkSource.TagBuilder",
 ]
 
 ignore = [
@@ -124,6 +82,7 @@ manual = [
 [[object]]
 name = "GtkSource.Buffer"
 status = "generate"
+generate_builder = true
     [[object.function]]
     name = "set_undo_manager"
     version = "2.10"
@@ -134,6 +93,7 @@ status = "generate"
 [[object]]
 name = "GtkSource.Completion"
 status = "generate"
+generate_builder = true
     [[object.function]]
     name = "create_context"
     ignore = true
@@ -141,6 +101,7 @@ status = "generate"
 [[object]]
 name = "GtkSource.CompletionContext"
 status = "generate"
+generate_builder = true
     [[object.property]]
     name = "iter"
     ignore = true
@@ -153,8 +114,24 @@ status = "generate"
     ignore = true
 
 [[object]]
+name = "GtkSource.CompletionItem"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.CompletionWords"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.File"
+status = "generate"
+generate_builder = true
+
+[[object]]
 name = "GtkSource.FileLoader"
 status = "generate"
+generate_builder = true
 manual_traits = ["FileLoaderExtManual"]
     [[object.function]]
     name = "set_candidate_encodings"
@@ -169,6 +146,7 @@ manual_traits = ["FileLoaderExtManual"]
 [[object]]
 name = "GtkSource.FileSaver"
 status = "generate"
+generate_builder = true
 manual_traits = ["FileSaverExtManual"]
     [[object.function]]
     name = "save_async"
@@ -179,6 +157,7 @@ manual_traits = ["FileSaverExtManual"]
 [[object]]
 name = "GtkSource.Gutter"
 status = "generate"
+generate_builder = true
     [[object.function]]
     name = "get_padding"
     ignore = true
@@ -198,15 +177,37 @@ status = "generate"
         const = true
 
 [[object]]
+name = "GtkSource.GutterRendererPixbuf"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.GutterRendererText"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.LanguageManager"
+status = "generate"
+generate_builder = true
+
+[[object]]
 name = "GtkSource.Map"
 status = "generate"
+generate_builder = true
     [[object.property]]
     name = "font-desc"
     ignore = true
 
 [[object]]
+name = "GtkSource.Mark"
+status = "generate"
+generate_builder = true
+
+[[object]]
 name = "GtkSource.MarkAttributes"
 status = "generate"
+generate_builder = true
 version = "2.2"
     [[object.function]]
     name = "get_pixbuf"
@@ -219,23 +220,50 @@ version = "2.2"
     version = "2.2"
 
 [[object]]
+name = "GtkSource.PrintCompositor"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.Region"
+status = "generate"
+generate_builder = true
+
+[[object]]
 name = "GtkSource.SearchContext"
 status = "generate"
+generate_builder = true
     [[object.function]]
     name = "replace_all"
         [object.function.return]
         use_return_for_result = true
 
 [[object]]
+name = "GtkSource.SearchSettings"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.SpaceDrawer"
+status = "generate"
+generate_builder = true
+
+[[object]]
 name = "GtkSource.Style"
 status = "generate"
 version = "2.0"
+generate_builder = true
     [[object.function]]
     name = "copy"
     ignore = true
     [[object.function]]
     name = "apply"
     ignore = true
+
+[[object]]
+name = "GtkSource.StyleScheme"
+status = "generate"
+generate_builder = true
 
 [[object]]
 name = "GtkSource.StyleSchemeChooserButton"
@@ -246,6 +274,16 @@ version = "3.16"
 name = "GtkSource.StyleSchemeChooserWidget"
 status = "generate"
 version = "3.16"
+
+[[object]]
+name = "GtkSource.StyleSchemeManager"
+status = "generate"
+generate_builder = true
+
+[[object]]
+name = "GtkSource.Tag"
+status = "generate"
+generate_builder = true
 
 [[object]]
 name = "GtkSource.View"

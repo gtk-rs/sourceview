@@ -6,18 +6,14 @@
 use gio;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib;
-#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::object::Cast;
-#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
-#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::StaticType;
-#[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib::ToValue;
 #[cfg(any(feature = "v3_24", feature = "dox"))]
 use glib_sys;
@@ -82,10 +78,11 @@ impl SpaceDrawerBuilder {
                 properties.push(("matrix", matrix));
             }
         }
-        glib::Object::new(SpaceDrawer::static_type(), &properties)
+        let ret = glib::Object::new(SpaceDrawer::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<SpaceDrawer>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_24", feature = "dox"))]

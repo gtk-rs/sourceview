@@ -4,18 +4,14 @@
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::IsA;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::connect_raw;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::StaticType;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::ToValue;
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib_sys;
@@ -59,7 +55,7 @@ impl FileSaver {
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn new_with_target<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::File>>(
+    pub fn with_target<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::File>>(
         buffer: &P,
         file: &Q,
         target_location: &R,
@@ -142,10 +138,11 @@ impl FileSaverBuilder {
                 properties.push(("newline-type", newline_type));
             }
         }
-        glib::Object::new(FileSaver::static_type(), &properties)
+        let ret = glib::Object::new(FileSaver::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<FileSaver>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]

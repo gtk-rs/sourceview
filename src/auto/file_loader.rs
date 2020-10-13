@@ -4,14 +4,10 @@
 
 #[cfg(any(feature = "v3_14", feature = "dox"))]
 use gio;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::Cast;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::object::IsA;
 use glib::translate::*;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::StaticType;
-#[cfg(any(feature = "v3_14", feature = "dox"))]
 use glib::ToValue;
 use gtk_source_sys;
 use std::fmt;
@@ -47,7 +43,7 @@ impl FileLoader {
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]
-    pub fn new_from_stream<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::InputStream>>(
+    pub fn from_stream<P: IsA<Buffer>, Q: IsA<File>, R: IsA<gio::InputStream>>(
         buffer: &P,
         file: &Q,
         stream: &R,
@@ -106,10 +102,11 @@ impl FileLoaderBuilder {
                 properties.push(("location", location));
             }
         }
-        glib::Object::new(FileLoader::static_type(), &properties)
+        let ret = glib::Object::new(FileLoader::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<FileLoader>()
+            .expect("downcast");
+        ret
     }
 
     #[cfg(any(feature = "v3_14", feature = "dox"))]

@@ -392,10 +392,11 @@ impl StyleBuilder {
         if let Some(ref underline_set) = self.underline_set {
             properties.push(("underline-set", underline_set));
         }
-        glib::Object::new(Style::static_type(), &properties)
+        let ret = glib::Object::new(Style::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<Style>()
+            .expect("downcast");
+        ret
     }
 
     pub fn background(mut self, background: &str) -> Self {

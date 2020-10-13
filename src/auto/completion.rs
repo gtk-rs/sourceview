@@ -82,10 +82,11 @@ impl CompletionBuilder {
         if let Some(ref view) = self.view {
             properties.push(("view", view));
         }
-        glib::Object::new(Completion::static_type(), &properties)
+        let ret = glib::Object::new(Completion::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<Completion>()
+            .expect("downcast");
+        ret
     }
 
     pub fn accelerators(mut self, accelerators: u32) -> Self {
@@ -586,7 +587,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn emit_activate_proposal(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("activate-proposal", &[])
                 .unwrap()
         };
@@ -617,7 +618,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn emit_hide(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("hide", &[])
                 .unwrap()
         };
@@ -657,7 +658,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn emit_move_cursor(&self, step: gtk::ScrollStep, num: i32) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("move-cursor", &[&step, &num])
                 .unwrap()
         };
@@ -697,7 +698,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn emit_move_page(&self, step: gtk::ScrollStep, num: i32) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("move-page", &[&step, &num])
                 .unwrap()
         };
@@ -738,7 +739,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn emit_populate_context(&self, context: &CompletionContext) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("populate-context", &[&context])
                 .unwrap()
         };
@@ -769,7 +770,7 @@ impl<O: IsA<Completion>> CompletionExt for O {
 
     fn emit_show(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("show", &[])
                 .unwrap()
         };

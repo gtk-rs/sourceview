@@ -47,7 +47,7 @@ impl View {
         unsafe { gtk::Widget::from_glib_none(gtk_source_sys::gtk_source_view_new()).unsafe_cast() }
     }
 
-    pub fn new_with_buffer<P: IsA<Buffer>>(buffer: &P) -> View {
+    pub fn with_buffer<P: IsA<Buffer>>(buffer: &P) -> View {
         skip_assert_initialized!();
         unsafe {
             gtk::Widget::from_glib_none(gtk_source_sys::gtk_source_view_new_with_buffer(
@@ -612,7 +612,7 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn emit_change_case(&self, case_type: ChangeCaseType) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("change-case", &[&case_type])
                 .unwrap()
         };
@@ -646,7 +646,7 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn emit_change_number(&self, count: i32) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("change-number", &[&count])
                 .unwrap()
         };
@@ -679,7 +679,7 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn emit_join_lines(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("join-lines", &[])
                 .unwrap()
         };
@@ -751,7 +751,7 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn emit_move_lines(&self, copy: bool, count: i32) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("move-lines", &[&copy, &count])
                 .unwrap()
         };
@@ -791,7 +791,7 @@ impl<O: IsA<View>> ViewExt for O {
     #[cfg(any(feature = "v3_16", feature = "dox"))]
     fn emit_move_to_matching_bracket(&self, extend_selection: bool) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("move-to-matching-bracket", &[&extend_selection])
                 .unwrap()
         };
@@ -823,7 +823,7 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn emit_move_words(&self, count: i32) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("move-words", &[&count])
                 .unwrap()
         };
@@ -854,7 +854,7 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn emit_redo(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("redo", &[])
                 .unwrap()
         };
@@ -885,7 +885,7 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn emit_show_completion(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("show-completion", &[])
                 .unwrap()
         };
@@ -951,7 +951,7 @@ impl<O: IsA<View>> ViewExt for O {
 
     fn emit_undo(&self) {
         let _ = unsafe {
-            glib::Object::from_glib_borrow(self.to_glib_none().0 as *mut gobject_sys::GObject)
+            glib::Object::from_glib_borrow(self.as_ptr() as *mut gobject_sys::GObject)
                 .emit("undo", &[])
                 .unwrap()
         };

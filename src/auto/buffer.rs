@@ -46,7 +46,7 @@ impl Buffer {
         }
     }
 
-    pub fn new_with_language<P: IsA<Language>>(language: &P) -> Buffer {
+    pub fn with_language<P: IsA<Language>>(language: &P) -> Buffer {
         skip_assert_initialized!();
         unsafe {
             from_glib_full(gtk_source_sys::gtk_source_buffer_new_with_language(
@@ -107,10 +107,11 @@ impl BufferBuilder {
         if let Some(ref text) = self.text {
             properties.push(("text", text));
         }
-        glib::Object::new(Buffer::static_type(), &properties)
+        let ret = glib::Object::new(Buffer::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<Buffer>()
+            .expect("downcast");
+        ret
     }
 
     pub fn highlight_matching_brackets(mut self, highlight_matching_brackets: bool) -> Self {

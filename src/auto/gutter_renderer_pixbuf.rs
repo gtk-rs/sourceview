@@ -108,10 +108,11 @@ impl GutterRendererPixbufBuilder {
         if let Some(ref ypad) = self.ypad {
             properties.push(("ypad", ypad));
         }
-        glib::Object::new(GutterRendererPixbuf::static_type(), &properties)
+        let ret = glib::Object::new(GutterRendererPixbuf::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<GutterRendererPixbuf>()
+            .expect("downcast");
+        ret
     }
 
     pub fn gicon<P: IsA<gio::Icon>>(mut self, gicon: &P) -> Self {

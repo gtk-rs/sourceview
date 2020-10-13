@@ -37,7 +37,7 @@ impl PrintCompositor {
         }
     }
 
-    pub fn new_from_view<P: IsA<View>>(view: &P) -> PrintCompositor {
+    pub fn from_view<P: IsA<View>>(view: &P) -> PrintCompositor {
         skip_assert_initialized!();
         unsafe {
             from_glib_full(gtk_source_sys::gtk_source_print_compositor_new_from_view(
@@ -102,10 +102,11 @@ impl PrintCompositorBuilder {
         if let Some(ref wrap_mode) = self.wrap_mode {
             properties.push(("wrap-mode", wrap_mode));
         }
-        glib::Object::new(PrintCompositor::static_type(), &properties)
+        let ret = glib::Object::new(PrintCompositor::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<PrintCompositor>()
+            .expect("downcast");
+        ret
     }
 
     pub fn body_font_name(mut self, body_font_name: &str) -> Self {

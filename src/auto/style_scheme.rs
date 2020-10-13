@@ -40,10 +40,11 @@ impl StyleSchemeBuilder {
         if let Some(ref id) = self.id {
             properties.push(("id", id));
         }
-        glib::Object::new(StyleScheme::static_type(), &properties)
+        let ret = glib::Object::new(StyleScheme::static_type(), &properties)
             .expect("object new")
-            .downcast()
-            .expect("downcast")
+            .downcast::<StyleScheme>()
+            .expect("downcast");
+        ret
     }
 
     pub fn id(mut self, id: &str) -> Self {
