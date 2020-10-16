@@ -4,9 +4,9 @@ GtkSourceView bindings for Rust.
 
 - [GtkSourceView project's wiki](https://wiki.gnome.org/Projects/GtkSourceView)
 
-- [Gtk-rs project site](http://gtk-rs.org/)
+- [Gtk-rs project site](https://gtk-rs.org/)
 
-- [Online documentation](http://gtk-rs.org/docs/)
+- [Online documentation](https://gtk-rs.org/docs-src/)
 
 - [Readme](https://github.com/gtk-rs/gtk/blob/master/README.md) in our
   [main repo](https://github.com/gtk-rs/gtk)
