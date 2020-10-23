@@ -1,4 +1,4 @@
-# sourceview [![Build Status](https://travis-ci.org/gtk-rs/sourceview.png?branch=master)](https://travis-ci.org/gtk-rs/sourceview) [![Build status](https://ci.appveyor.com/api/projects/status/d2ibj4soirbbjbdt?svg=true)](https://ci.appveyor.com/project/GuillaumeGomez/sourceview) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gtk-rs/gtk)
+# sourceview ![CI](https://github.com/gtk-rs/sourceview/workflows/CI/badge.svg) [![Build status](https://ci.appveyor.com/api/projects/status/d2ibj4soirbbjbdt?svg=true)](https://ci.appveyor.com/project/GuillaumeGomez/sourceview) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gtk-rs/gtk)
 
 GtkSourceView bindings for Rust.
 
