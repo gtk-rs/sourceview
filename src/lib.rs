@@ -17,6 +17,7 @@ extern crate gobject_sys;
 extern crate gtk;
 extern crate gtk_source_sys;
 extern crate gtk_sys;
+extern crate once_cell;
 extern crate pango;
 
 extern crate libc;
@@ -55,6 +56,8 @@ pub mod prelude {
     #[cfg(any(feature = "v3_14", feature = "dox"))]
     pub use file_saver::FileSaverExtManual;
 }
+
+pub mod subclass;
 
 #[macro_use]
 mod rt;
